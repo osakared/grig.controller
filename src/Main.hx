@@ -11,6 +11,7 @@ class Main
 {
     public static function main() : Void
     {
+        haxe.macro.Compiler.includeFile("src/fire/util.lua");
 		var device = Midi.available_input_devices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {

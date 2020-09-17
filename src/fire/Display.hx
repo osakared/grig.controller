@@ -2,6 +2,7 @@ package fire;
 
 import renoise.Midi.MidiOutputDevice;
 import fire.Text;
+import fire.LuaArray;
 
 class Display
 {
@@ -12,7 +13,7 @@ class Display
 
     public function new() : Void
     {
-        _bitmap = [];
+        _bitmap = new LuaArray();
         this.clear();
     }
 
@@ -53,7 +54,7 @@ class Display
         drawBitmap(output, data);
     }
 
-    private static function drawString(bitmap :Array<Int>, letter :Array<Array<Int>>, x :Int, y :Int) : Void
+    private static function drawString(bitmap :LuaArray<Int>, letter :Array<Array<Int>>, x :Int, y :Int) : Void
     {
         var yIndex = 0;
         for(line in letter) {
@@ -67,7 +68,7 @@ class Display
         }
     }
 
-    private static function drawBitmap(output :MidiOutputDevice, data :Array<Int>) : Void
+    private static function drawBitmap(output :MidiOutputDevice, data :LuaArray<Int>) : Void
     {
         var hh = (data.length + 4) >> 7;
         var ll = (data.length + 4) & 0x7F;
@@ -79,9 +80,9 @@ class Display
         output.send(lua.Table.fromArray(msg));
     }
 
-    private static function bitsToInt(byteArray :Array<Int>) : Array<Int>
+    private static function bitsToInt(byteArray :LuaArray<Int>) : LuaArray<Int>
     {
-        var bytes = [];
+        var bytes = new LuaArray<Int>();
         for(i in 0...byteArray.length) {
             var arrayIndex = Math.floor(i / 7);
             if(bytes[arrayIndex] == null) {
@@ -93,11 +94,11 @@ class Display
         return bytes;
     };
 
-    private static function convertBitmap(bitmap :Array<Int>) : Array<Int>
+    private static function convertBitmap(bitmap :LuaArray<Int>) : LuaArray<Int>
     {
         var L = 8;
         var screenWidth = DISPLAY_WIDTH;
-        var data = [];
+        var data = new LuaArray<Int>();
 
         for(y in 0...DISPLAY_HEIGHT) {
             for(x in 0...DISPLAY_WIDTH) {
@@ -113,5 +114,5 @@ class Display
         return data;
     }
 
-    private var _bitmap :Array<Int>;
+    private var _bitmap :LuaArray<Int>;
 }
