@@ -10,8 +10,6 @@ class Display
     private static var DISPLAY_WIDTH = 128;
     private static var DISPLAY_HEIGHT = 64;
 
-    private var _y :Int = 0;
-
     public function new() : Void
     {
         _bitmap = new LuaArray([]);
@@ -36,23 +34,11 @@ class Display
     public function drawTest(output :MidiOutputDevice, isUp :Bool) : Void
     {
         clear();
-        if(isUp) {
-            _y--;
-            if(_y < 0) {
-                _y = 0;
-            }
-        }
-        else {
-            _y++;
-            if(_y > 7) {
-                _y = 7;
-            }
-        }
         drawString(_bitmap, Text.make("abcdefgh"), 0, 0);
         drawString(_bitmap, Text.make("ijklmnopq"), 0, 8);
         drawString(_bitmap, Text.make("rstuvwxy"), 0, 16);
         drawString(_bitmap, Text.make("z"), 0, 24);
-        drawString(_bitmap, Text.make("Renoise Fire"), 56, 8 * _y);
+        drawString(_bitmap, Text.make("Renoise Fire"), 56, 8 * 4);
         var binaryData = convertBitmap(_bitmap);
         var data = bitsToInt(binaryData);
         drawBitmap(output, data);

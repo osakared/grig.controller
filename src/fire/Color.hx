@@ -14,9 +14,7 @@ abstract Color(Int) from Int to Int
 
     function get_red() : Int
     {
-        var v = (this >> 16) & 0xff;
-        var f = v/255;
-        return Math.floor(f * 127);
+        return 0;
     }
 
     inline function set_red(r : Int) : Int
