@@ -1,5 +1,6 @@
 package fire;
 
+import lua.Lua;
 import renoise.Midi.MidiOutputDevice;
 import fire.Text;
 import fire.LuaArray;
@@ -15,6 +16,8 @@ class Display
     {
         _bitmap = new LuaArray([]);
         _data = new LuaArray([]);
+        _msg = new LuaArray([]);
+        _bytes = new LuaArray([]);
         this.clear();
     }
 
@@ -45,14 +48,15 @@ class Display
                 _y = 7;
             }
         }
-        // drawString(_bitmap, Text.make("abcdefgh"), 0, 0);
-        // drawString(_bitmap, Text.make("ijklmnopq"), 0, 8);
-        // drawString(_bitmap, Text.make("rstuvwxy"), 0, 16);
-        // drawString(_bitmap, Text.make("z"), 0, 24);
+        drawString(_bitmap, Text.make("abcdefgh"), 0, 0);
+        drawString(_bitmap, Text.make("ijklmnopq"), 0, 8);
+        drawString(_bitmap, Text.make("rstuvwxy"), 0, 16);
+        drawString(_bitmap, Text.make("z"), 0, 24);
         drawString(_bitmap, Text.make("Renoise Fire"), 56, 8 * _y);
         var binaryData = convertBitmap(_bitmap);
         var data = bitsToInt(binaryData);
         drawBitmap(output, data);
+        Lua.collectgarbage(Stop);
     }
 
     private static function drawString(bitmap :LuaArray<Int>, letter :Array<Array<Int>>, x :Int, y :Int) : Void
@@ -69,30 +73,41 @@ class Display
         }
     }
 
-    private static function drawBitmap(output :MidiOutputDevice, data :LuaArray<Int>) : Void
+    private function drawBitmap(output :MidiOutputDevice, data :LuaArray<Int>) : Void
     {
-        // var hh = (data.length + 4) >> 7;
-        // var ll = (data.length + 4) & 0x7F;
-        // var msg = [0xF0,0x47,0x7F,0x43,0x0E, hh, ll, 0x00, 0x07, 0x00, 0x7F];
-        // for(pixel in data) {
-        //     msg.push(pixel);
-        // }
-        // msg.push(0xF7);
-        // output.send(lua.Table.fromArray(msg));
+        _msg.clear();
+        var hh = (data.length + 4) >> 7;
+        var ll = (data.length + 4) & 0x7F;
+        _msg.push(0xF0);
+        _msg.push(0x47);
+        _msg.push(0x7F);
+        _msg.push(0x43);
+        _msg.push(0x0E);
+        _msg.push(hh);
+        _msg.push(ll);
+        _msg.push(0x00);
+        _msg.push(0x07);
+        _msg.push(0x00);
+        _msg.push(0x7F);
+        for(pixel in data) {
+            _msg.push(pixel);
+        }
+        _msg.push(0xF7);
+        output.send(_msg);
     }
 
-    private static function bitsToInt(byteArray :LuaArray<Int>) : LuaArray<Int>
+    private function bitsToInt(byteArray :LuaArray<Int>) : LuaArray<Int>
     {
-        var bytes = new LuaArray<Int>([]);
+        _bytes.clear();
         for(i in 0...byteArray.length) {
             var arrayIndex = Math.floor(i / 7);
-            if(bytes[arrayIndex] == null) {
-                bytes[arrayIndex] = 0;
+            if(_bytes[arrayIndex] == null) {
+                _bytes[arrayIndex] = 0;
             }
-            bytes[arrayIndex] = (bytes[arrayIndex] << 1) | byteArray[i];
+            _bytes[arrayIndex] = (_bytes[arrayIndex] << 1) | byteArray[i];
         }
 
-        return bytes;
+        return _bytes;
     };
 
     private function convertBitmap(bitmap :LuaArray<Int>) : LuaArray<Int>
@@ -116,4 +131,6 @@ class Display
 
     private var _bitmap :LuaArray<Int>; 
     private var _data :LuaArray<Int>; 
+    private var _bytes :LuaArray<Int>; 
+    private var _msg :LuaArray<Int>; 
 }

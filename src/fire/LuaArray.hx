@@ -24,6 +24,16 @@ abstract LuaArray<T>(Table<Int, T>) to Table<Int, T>
         return v;
     }
 
+    public inline function push(item :T) : Void
+    {
+        untyped _hx_table_push(this, item);
+    }
+
+    public inline function clear() : Void
+    {
+        untyped _hx_table_clear(this);
+    }
+
     private inline function get_length() : Int
     {
         return untyped _hx_length(this);
