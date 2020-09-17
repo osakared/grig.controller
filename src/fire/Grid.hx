@@ -37,9 +37,9 @@ class Grid
         for(i in 0...steps) {
             var index = i + row * 16;
             msg.push(index);
-            msg.push(color.ri);
-            msg.push(color.bi);
-            msg.push(color.gi);
+            msg.push(color.red);
+            msg.push(color.blue);
+            msg.push(color.green);
         }
         msg.push(0xF7);
         output.send(msg);

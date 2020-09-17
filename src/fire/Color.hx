@@ -3,69 +3,45 @@ package fire;
 
 abstract Color(Int) from Int to Int 
 {
-    public static inline function fromARGBi(a : Int, r : Int, g : Int, b : Int) : Color 
-    {
-        return new Color((a << 24) | (r << 16) | (g << 8) | b);
-    }
-
-    public var ai(get, set) : Int;
-    public var ri(get, set) : Int;
-    public var gi(get, set) : Int;
-    public var bi(get, set) : Int;
+    public var red(get, set) : Int;
+    public var blue(get, set) : Int;
+    public var green(get, set) : Int;
 
     public inline function new(argb : Int) : Voidargb
     {
         this = argb;
     }
 
-    inline function get_ai() : Int
-    {
-        return (this >> 24) & 0xff;
-    }
-
-    inline function set_ai(ai : Int) : Int
-    {   
-        this = fromARGBi(ai, ri, gi, bi); 
-        return ai;
-    }
-
-    function get_ri() : Int
+    function get_red() : Int
     {
         var v = (this >> 16) & 0xff;
         var f = v/255;
         return Math.floor(f * 127);
     }
 
-    inline function set_ri(ri : Int) : Int
+    inline function set_red(r : Int) : Int
     {
-        this = fromARGBi(ai, ri, gi, bi); 
-        return ri;
+        return r;
     }
 
-    function get_gi() : Int
+    function get_blue() : Int
     {
-        var v = (this >> 8) & 0xff;
-        var f = v/255;
-        return Math.floor(f * 127);
+        return 0;
     }
 
-    inline function set_gi(gi : Int) : Int
+    inline function set_blue(b : Int) : Int
     {
-        this = fromARGBi(ai, ri, gi, bi); 
-        return gi;
+        return b;
     }
 
-    function get_bi() : Int
+    function get_green() : Int
     {
-        var v =  this & 0xff;
-        var f = v/255;
-        return Math.floor(f * 127);
+        return 0;
     }
 
-    inline function set_bi(bi : Int) : Int 
+    inline function set_green(g : Int) : Int 
     {
-        this = fromARGBi(ai, ri, gi, bi); 
-        return bi;
+        return g;
     }
 }
 
