@@ -13,7 +13,8 @@ class Display
 
     public function new() : Void
     {
-        _bitmap = new LuaArray();
+        _bitmap = new LuaArray([]);
+        _data = new LuaArray([]);
         this.clear();
     }
 
@@ -70,19 +71,19 @@ class Display
 
     private static function drawBitmap(output :MidiOutputDevice, data :LuaArray<Int>) : Void
     {
-        var hh = (data.length + 4) >> 7;
-        var ll = (data.length + 4) & 0x7F;
-        var msg = [0xF0,0x47,0x7F,0x43,0x0E, hh, ll, 0x00, 0x07, 0x00, 0x7F];
-        for(pixel in data) {
-            msg.push(pixel);
-        }
-        msg.push(0xF7);
-        output.send(lua.Table.fromArray(msg));
+        // var hh = (data.length + 4) >> 7;
+        // var ll = (data.length + 4) & 0x7F;
+        // var msg = [0xF0,0x47,0x7F,0x43,0x0E, hh, ll, 0x00, 0x07, 0x00, 0x7F];
+        // for(pixel in data) {
+        //     msg.push(pixel);
+        // }
+        // msg.push(0xF7);
+        // output.send(lua.Table.fromArray(msg));
     }
 
     private static function bitsToInt(byteArray :LuaArray<Int>) : LuaArray<Int>
     {
-        var bytes = new LuaArray<Int>();
+        var bytes = new LuaArray<Int>([]);
         for(i in 0...byteArray.length) {
             var arrayIndex = Math.floor(i / 7);
             if(bytes[arrayIndex] == null) {
@@ -94,11 +95,10 @@ class Display
         return bytes;
     };
 
-    private static function convertBitmap(bitmap :LuaArray<Int>) : LuaArray<Int>
+    private function convertBitmap(bitmap :LuaArray<Int>) : LuaArray<Int>
     {
         var L = 8;
         var screenWidth = DISPLAY_WIDTH;
-        var data = new LuaArray<Int>();
 
         for(y in 0...DISPLAY_HEIGHT) {
             for(x in 0...DISPLAY_WIDTH) {
@@ -107,12 +107,13 @@ class Display
                 var rY = 7 - (y % 8) + (8 * Std.int(y/8));
                 var displayIndex :Int = nX + nY;
                 var pos = rY*DISPLAY_WIDTH + x;
-                data[displayIndex] = bitmap[pos];
+                _data[displayIndex] = bitmap[pos];
             }  
         }
 
-        return data;
+        return _data;
     }
 
-    private var _bitmap :LuaArray<Int>;
+    private var _bitmap :LuaArray<Int>; 
+    private var _data :LuaArray<Int>; 
 }

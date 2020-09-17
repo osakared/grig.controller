@@ -3,13 +3,13 @@ package fire;
 import lua.Lua;
 import lua.Table;
 
-abstract LuaArray<T>(Table<Int, T>) 
+abstract LuaArray<T>(Table<Int, T>) to Table<Int, T>
 {
     public var length (get, never) : Int;
 
-    inline public function new() : Void
+    inline public function new(array :Array<T>) : Void
     {
-        this = Table.create();
+        this = Table.create(array);
     }
 
     @:arrayAccess

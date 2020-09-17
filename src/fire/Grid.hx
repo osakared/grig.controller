@@ -2,6 +2,7 @@ package fire;
 
 import renoise.Midi.MidiOutputDevice;
 import fire.Color;
+import fire.LuaArray;
 
 //54-117
 class Grid
@@ -32,21 +33,21 @@ class Grid
         var steps = 16;
         var byteLength = steps * 4;
 
-        var msg = [0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, byteLength];
-        for(i in 0...steps) {
-            var index = i + row * 16;
-            msg.push(index);
-            msg.push(color.ri);
-            msg.push(color.bi);
-            msg.push(color.gi);
-        }
-        msg.push(0xF7);
-        output.send(lua.Table.fromArray(msg));
+        // var msg = [0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, byteLength];
+        // for(i in 0...steps) {
+        //     var index = i + row * 16;
+        //     msg.push(index);
+        //     msg.push(color.ri);
+        //     msg.push(color.bi);
+        //     msg.push(color.gi);
+        // }
+        // msg.push(0xF7);
+        // output.send(lua.Table.fromArray(msg));
     }
 
     public function step(output :MidiOutputDevice) : Void
     {
         this.color++;
-        output.send(lua.Table.fromArray([0xB0, 0x54, this.color]));
+        output.send(new LuaArray([0xB0, 0x54, this.color]));
     }
 }

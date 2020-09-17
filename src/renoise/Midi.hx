@@ -1,5 +1,7 @@
 package renoise;
 
+import fire.LuaArray;
+
 extern class Midi
 {
     extern public static function available_input_devices() : Array<Null<String>>;
@@ -21,5 +23,5 @@ class MidiOutputDevice
     extern public var is_open (default , null) : Bool;
     extern public var name (default , null) : String;
     extern public function close() : Void;
-    extern public function send(msg :lua.Table<Int,Int>) : Void;
+    extern public function send(msg :LuaArray<Int>) : Void;
 }

@@ -2,6 +2,7 @@ package fire.button;
 
 import renoise.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
+import fire.LuaArray;
 
 class Browser implements Button
 {
@@ -16,12 +17,12 @@ class Browser implements Button
 
     public function initialize(output :MidiOutputDevice) : Void
     {
-        output.send(lua.Table.fromArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, this.color]));
     }
 
     public function step(output :MidiOutputDevice) : Void
     {
         this.color++;
-        output.send(lua.Table.fromArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, this.color]));
     }
 }
