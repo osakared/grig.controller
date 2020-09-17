@@ -31,14 +31,28 @@ class Display
         }
     }
 
-    public function drawTest(output :MidiOutputDevice, isUp :Bool) : Void
+    public function drawUp(output :MidiOutputDevice) : Void
     {
         clear();
         drawString(_bitmap, Text.make("abcdefgh"), 0, 0);
         drawString(_bitmap, Text.make("ijklmnopq"), 0, 8);
         drawString(_bitmap, Text.make("rstuvwxy"), 0, 16);
         drawString(_bitmap, Text.make("z"), 0, 24);
-        drawString(_bitmap, Text.make("Renoise Fire"), 56, 8 * 4);
+        drawString(_bitmap, Text.make("Up"), 56, 8 * 4);
+        var binaryData = convertBitmap(_bitmap);
+        var data = bitsToInt(binaryData);
+        drawBitmap(output, data);
+        Lua.collectgarbage(Stop);
+    }
+
+    public function drawDown(output :MidiOutputDevice) : Void
+    {
+        clear();
+        drawString(_bitmap, Text.make("abcdefgh"), 0, 0);
+        drawString(_bitmap, Text.make("ijklmnopq"), 0, 8);
+        drawString(_bitmap, Text.make("rstuvwxy"), 0, 16);
+        drawString(_bitmap, Text.make("z"), 0, 24);
+        drawString(_bitmap, Text.make("Down"), 56, 8 * 4);
         var binaryData = convertBitmap(_bitmap);
         var data = bitsToInt(binaryData);
         drawBitmap(output, data);

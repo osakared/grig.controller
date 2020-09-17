@@ -45,11 +45,9 @@ class Main
             case RESONANCE:
                 trace("down: RESONANCE");
             case PATTERN_UP:
-                trace("up");
-                state.display.drawTest(output, true);
+                state.display.drawUp(output);
             case PATTERN_DOWN:
-                trace("down");
-                state.display.drawTest(output, false);
+                state.display.drawDown(output);
             case BROWSER:
                 trace("down: BROWSER");
             case SELECT:
