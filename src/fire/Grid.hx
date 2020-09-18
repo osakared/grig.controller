@@ -21,7 +21,7 @@
 
 package fire;
 
-import renoise.Midi.MidiOutputDevice;
+import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
 
 //54-117

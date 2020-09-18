@@ -22,7 +22,7 @@
 package fire.button;
 
 import renoise.Renoise;
-import renoise.Midi.MidiOutputDevice;
+import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;
 import fire.Color;

@@ -22,12 +22,10 @@
 import fire.Grid;
 import fire.Display;
 import fire.button.*;
-import renoise.Midi;
+import renoise.midi.Midi;
 import fire.button.Buttons;
 import fire.Text;
 import renoise.Renoise;
-import fire.button.Play;
-import fire.button.Stop;
 
 class Main
 {
@@ -38,7 +36,6 @@ class Main
 
     public static function main() : Void
     {
-        haxe.macro.Compiler.includeFile("src/fire/position-observer.lua");
         haxe.macro.Compiler.includeFile("src/fire/util.lua");
 		var device = Midi.available_input_devices()[1];
 

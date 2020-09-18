@@ -1,4 +1,4 @@
-package renoise;
+package renoise.tool;
 
 class Tool
 {

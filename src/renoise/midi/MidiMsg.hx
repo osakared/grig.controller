@@ -19,30 +19,22 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise;
+package renoise.midi;
 
-import fire.LuaArray;
-
-extern class Midi
+abstract MidiMsg(Array<Int>) 
 {
-    extern public static function available_input_devices() : Array<Null<String>>;
-    extern public static function available_output_devices() : Array<Null<String>>;
-    extern public static function devices_changed_observable() : Dynamic;
-    extern public static function create_input_device(device_name :String, callback :MidiMsg -> Void, sysex_callback :Dynamic -> Void) : MidiInputDevice;
-    extern public static function create_output_device(device_name :String) : MidiOutputDevice;
-}
+    public inline function isOn() : Int
+    {
+        return this[1];
+    }
 
-extern class MidiInputDevice
-{
-    extern public var is_open (default , null) : Bool;
-    extern public var name (default , null) : String;
-    extern public function close() : Void;
-}
+    public inline function note() : Int
+    {
+        return this[2];
+    }
 
-class MidiOutputDevice
-{
-    extern public var is_open (default , null) : Bool;
-    extern public var name (default , null) : String;
-    extern public function close() : Void;
-    extern public function send(msg :LuaArray<Int>) : Void;
+    public inline function velocity() : Int
+    {
+        return this[3];
+    }
 }

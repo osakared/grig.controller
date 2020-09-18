@@ -22,7 +22,7 @@
 package fire;
 
 import lua.Lua;
-import renoise.Midi.MidiOutputDevice;
+import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
 
 class Display

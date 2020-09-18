@@ -21,7 +21,7 @@
 
 package fire.button;
 
-import renoise.Midi.MidiOutputDevice;
+import renoise.midi.Midi.MidiOutputDevice;
 
 interface Button
 {
