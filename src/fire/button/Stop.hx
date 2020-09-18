@@ -21,7 +21,7 @@
 
 package fire.button;
 
-import renoise.Song.Renoise;
+import renoise.Renoise;
 import renoise.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;

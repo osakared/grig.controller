@@ -25,7 +25,7 @@ import fire.button.*;
 import renoise.Midi;
 import fire.button.Buttons;
 import fire.Text;
-import renoise.Song;
+import renoise.Renoise;
 import fire.button.Play;
 import fire.button.Stop;
 
@@ -38,6 +38,7 @@ class Main
 
     public static function main() : Void
     {
+        haxe.macro.Compiler.includeFile("src/fire/position-observer.lua");
         haxe.macro.Compiler.includeFile("src/fire/util.lua");
 		var device = Midi.available_input_devices()[1];
 
@@ -58,11 +59,14 @@ class Main
 			}, (b) -> {
 
             });
+
+            // var playbackObserver = new PlaybackPositionObserver();
+            // playbackObserver.register(0, () -> {
+            //     trace(Renoise.song().transport.playbackPos.line);
+            // });
             
-            // Renoise.song().transport.playingObservable.addNotifier(() -> {
-            //     for(button in buttons) {
-            //         button.update(output, display);
-            //     }
+            // Renoise.song().selectedSequenceIndexObservable.addNotifier(() -> {
+            //     trace(Renoise.song().transport.playbackPos.line);
             // });
 		}
     }
