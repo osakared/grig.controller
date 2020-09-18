@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import renoise.tool.Tool.MenuEntry;
 import fire.Grid;
 import fire.Display;
 import fire.button.*;
@@ -37,7 +38,14 @@ class Main
     public static function main() : Void
     {
         haxe.macro.Compiler.includeFile("src/fire/util.lua");
-		var device = Midi.available_input_devices()[1];
+
+        Renoise.tool().addMenuEntry(new MenuEntry("Main Menu:Tools:Lady Fire", Main.init));
+		
+    }
+
+    public static function init() : Void
+    {
+        var device = Midi.available_input_devices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
 			var output :MidiOutputDevice = Midi.create_output_device(device);
@@ -56,15 +64,6 @@ class Main
 			}, (b) -> {
 
             });
-
-            // var playbackObserver = new PlaybackPositionObserver();
-            // playbackObserver.register(0, () -> {
-            //     trace(Renoise.song().transport.playbackPos.line);
-            // });
-            
-            // Renoise.song().selectedSequenceIndexObservable.addNotifier(() -> {
-            //     trace(Renoise.song().transport.playbackPos.line);
-            // });
 		}
     }
 
