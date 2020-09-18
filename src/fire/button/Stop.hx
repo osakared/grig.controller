@@ -34,13 +34,12 @@ class Stop implements Button
 
     public function new(type :ButtonType) : Void
     {
-        this.color = StopState.STOPPED;
         this.type = type;
     }
 
     public function initialize(output :MidiOutputDevice) : Void
     {
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
     public function down(output :MidiOutputDevice, display :Display) : Void
@@ -54,15 +53,13 @@ class Stop implements Button
 
     public function update(output :MidiOutputDevice, display :Display) : Void
     {
-        // this.color = state;
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
-}
 
-
-@:enum
-abstract StopState(Int) to Int
-{
-    var PLAYING = Yellow.DULL_YELLOW;
-    var STOPPED = Yellow.HIGH_YELLOW;
+    public function getColor() : Int
+    {
+        return Renoise.song().transport.playing
+            ? Yellow.DULL_YELLOW
+            : Yellow.HIGH_YELLOW;
+    }
 }

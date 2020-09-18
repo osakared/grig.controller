@@ -30,4 +30,5 @@ interface Button
     function down(output :MidiOutputDevice, display :Display) : Void;
     function up(output :MidiOutputDevice, display :Display) : Void;
     function update(output :MidiOutputDevice, display :Display) : Void;
+    function getColor() : Int;
 }

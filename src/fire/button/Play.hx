@@ -29,18 +29,16 @@ import fire.Color;
 
 class Play implements Button
 {
-    public var color : Int;
     public var type : ButtonType;
 
     public function new(type :ButtonType) : Void
     {
-        this.color = PlayState.STOPPED;
         this.type = type;
     }
 
     public function initialize(output :MidiOutputDevice) : Void
     {
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
     public function down(output :MidiOutputDevice, display :Display) : Void
@@ -54,14 +52,13 @@ class Play implements Button
 
     public function update(output :MidiOutputDevice, display :Display) : Void
     {
-        // this.color = state;
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
-}
 
-@:enum
-abstract PlayState(Int) to Int
-{
-    var PLAYING = YellowGreen.HIGH_GREEN;
-    var STOPPED = YellowGreen.DULL_YELLOW;
+    public function getColor() : Int
+    {
+        return Renoise.song().transport.playing
+            ? YellowGreen.HIGH_GREEN
+            : YellowGreen.DULL_YELLOW;
+    }
 }
