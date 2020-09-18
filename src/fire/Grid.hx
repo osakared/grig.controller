@@ -22,7 +22,6 @@
 package fire;
 
 import renoise.Midi.MidiOutputDevice;
-import fire.Color;
 import fire.LuaArray;
 
 //54-117
@@ -43,13 +42,13 @@ class Grid
 
     public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
-        colorRow(output, 0, new Color(0xFF110000));
-        colorRow(output, 1, new Color(0xFF110000));
-        colorRow(output, 2, new Color(0xFF110000));
-        colorRow(output, 3, new Color(0xFF110000));
+        colorRow(output, 0, 0);
+        colorRow(output, 1, 0);
+        colorRow(output, 2, 0);
+        colorRow(output, 3, 0);
     }
 
-    public function colorRow(output :MidiOutputDevice, row :Int, color :Color) : Void
+    public function colorRow(output :MidiOutputDevice, row :Int, color :Int) : Void
     {
         var steps = 16;
         var byteLength = steps * 4;
@@ -58,9 +57,9 @@ class Grid
         for(i in 0...steps) {
             var index = i + row * 16;
             msg.push(index);
-            msg.push(color.red);
-            msg.push(color.blue);
-            msg.push(color.green);
+            msg.push(0);
+            msg.push(0);
+            msg.push(0);
         }
         msg.push(0xF7);
         output.send(msg);

@@ -21,48 +21,6 @@
 
 package fire;
 
-abstract Color(Int) from Int to Int 
-{
-    public var red(get, set) : Int;
-    public var blue(get, set) : Int;
-    public var green(get, set) : Int;
-
-    public inline function new(argb : Int) : Voidargb
-    {
-        this = argb;
-    }
-
-    function get_red() : Int
-    {
-        return 0;
-    }
-
-    inline function set_red(r : Int) : Int
-    {
-        return r;
-    }
-
-    function get_blue() : Int
-    {
-        return 0;
-    }
-
-    inline function set_blue(b : Int) : Int
-    {
-        return b;
-    }
-
-    function get_green() : Int
-    {
-        return 0;
-    }
-
-    inline function set_green(g : Int) : Int 
-    {
-        return g;
-    }
-}
-
 @:enum
 abstract RedYellow(Int) from Int to Int
 {

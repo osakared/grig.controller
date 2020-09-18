@@ -21,7 +21,6 @@
 
 package fire;
 
-import lua.Lua;
 import lua.Table;
 
 abstract LuaArray<T>(Table<Int, T>) to Table<Int, T>
