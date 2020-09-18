@@ -27,6 +27,7 @@ interface Button
 {
     var type :ButtonType;
     function initialize(output :MidiOutputDevice) : Void;
-    function down(output :MidiOutputDevice) : Void;
-    function up(output :MidiOutputDevice) : Void;
+    function down(output :MidiOutputDevice, display :Display) : Void;
+    function up(output :MidiOutputDevice, display :Display) : Void;
+    function setState(state :Int, output :MidiOutputDevice, display :Display) : Void;
 }

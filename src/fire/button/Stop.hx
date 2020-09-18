@@ -21,6 +21,7 @@
 
 package fire.button;
 
+import renoise.Song.Renoise;
 import renoise.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;
@@ -41,11 +42,16 @@ class Stop implements Button
         output.send(new LuaArray([0xB0, this.type, this.color]));
     }
 
-    public function down(output :MidiOutputDevice) : Void
+    public function down(output :MidiOutputDevice, display :Display) : Void
+    {
+        Renoise.song().transport.playing = false;
+    }
+
+    public function up(output :MidiOutputDevice, display :Display) : Void
     {
     }
 
-    public function up(output :MidiOutputDevice) : Void
+    public function setState(state :Int, output :MidiOutputDevice, display :Display) : Void
     {
     }
 }

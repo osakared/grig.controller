@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import fire.Display;
 import fire.button.*;
 import renoise.Midi;
 import fire.State;
@@ -59,99 +60,27 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(state :State, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function drawMsg(display :Display, output :MidiOutputDevice, msg :String) : Void
     {
-        switch button {
-            case KNOB_TYPE:
-                drawMsg(state, output, "down KNOB TYPE");
-            case VOLUME:
-                drawMsg(state, output, "down VOLUME");
-            case PAN:
-                drawMsg(state, output, "down PAN");
-            case FILTER:
-                drawMsg(state, output, "down FILTER");
-            case RESONANCE:
-                drawMsg(state, output, "down RESONANCE");
-            case PATTERN_UP:
-                drawMsg(state, output, "down PATTERN UP");
-            case PATTERN_DOWN:
-                drawMsg(state, output, "down PATTERN DOWN");
-            case BROWSER:
-                drawMsg(state, output, "down BROWSER");
-            case SELECT:
-                drawMsg(state, output, "down SELECT");
-            case GRID_LEFT:
-                drawMsg(state, output, "down GRID LEFT");
-            case GRID_RIGHT:
-                drawMsg(state, output, "down GRID RIGHT");
-            case MUTE_SOLO_1:
-                drawMsg(state, output, "down MUTE SOLO");
-            case MUTE_SOLO_2:
-                drawMsg(state, output, "down MUTE SOLO");
-            case MUTE_SOLO_3:
-                drawMsg(state, output, "down MUTE SOLO");
-            case MUTE_SOLO_4:
-                drawMsg(state, output, "down MUTE SOLO");
-            case STEP:
-                drawMsg(state, output, "down STEP");
-            case NOTE:
-                drawMsg(state, output, "down NOTE");
-            case DRUM:
-                drawMsg(state, output, "down DRUM");
-            case PERFORM:
-                drawMsg(state, output, "down PERFORM");
-            case SHIFT:
-                drawMsg(state, output, "down SHIFT");
-            case ALT:
-                drawMsg(state, output, "down ALT");
-            case PATTERN_SONG:
-                drawMsg(state, output, "down PATTERN SONG");
-            case PLAY:
-                drawMsg(state, output, "down PLAY");
-            case STOP:
-                drawMsg(state, output, "down STOP");
-            case RECORD:
-                drawMsg(state, output, "down RECORD");
-            case _:
-                state.grid.step(output);
-        }
+        display.clear(output, 0);
+        display.drawString(Text.make(msg));
+        display.render(output, 0, 0, 127);
     }
 
-    private static function drawMsg(state :State, output :MidiOutputDevice, msg :String) : Void
+    public static function handleButtonDown(state :State, output :MidiOutputDevice, button :ButtonType) : Void
     {
-        state.display.clear(output, 0);
-        state.display.drawString(Text.make(msg));
-        state.display.render(output, 0, 0, 127);
+        if(state.buttons.exists(button)) {
+            state.buttons.get(button).down(output, state.display);
+        }
+        else {
+            state.grid.step(output);
+        }
     }
 
     public static function handleButtonUp(state :State, output :MidiOutputDevice, button :ButtonType) : Void
     {
-        switch button {
-            case KNOB_TYPE:
-            case VOLUME:
-            case PAN:
-            case FILTER:
-            case RESONANCE:
-            case PATTERN_UP:
-            case PATTERN_DOWN:
-            case BROWSER:
-            case SELECT:
-            case GRID_LEFT:
-            case GRID_RIGHT:
-            case MUTE_SOLO_1:
-            case MUTE_SOLO_2:
-            case MUTE_SOLO_3:
-            case MUTE_SOLO_4:
-            case STEP:
-            case NOTE:
-            case DRUM:
-            case PERFORM:
-            case SHIFT:
-            case ALT:
-            case PATTERN_SONG:
-            case PLAY:
-            case STOP:
-            case RECORD:
+        if(state.buttons.exists(button)) {
+            state.buttons.get(button).up(output, state.display);
         }
     }
 }
