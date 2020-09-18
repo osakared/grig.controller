@@ -19,12 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import fire.Grid;
 import fire.Display;
 import fire.button.*;
 import renoise.Midi;
-import fire.State;
+import fire.button.Buttons;
 import fire.Text;
 import renoise.Song;
+import fire.button.Play;
+import fire.button.Stop;
 
 class Main
 {
@@ -40,22 +43,26 @@ class Main
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
 			var output :MidiOutputDevice = Midi.create_output_device(device);
-			var state = new State();
-			state.initialize(output);
+            var buttons = new Buttons();
+            var display = new Display();
+            var grid = new Grid();
+			buttons.initialize(output);
 			Midi.create_input_device(device, (a) -> {
 				var inputState :InputState = a.isOn();
 				switch inputState {
 					case BUTTON_DOWN:
-						handleButtonDown(state, output, a.note());
+						handleButtonDown(buttons, grid, display, output, a.note());
 					case BUTTON_UP:
-						handleButtonUp(state, output, a.note());
+						handleButtonUp(buttons, grid, display, output, a.note());
 				}
 			}, (b) -> {
 
             });
             
             Renoise.song().transport.playingObservable.addNotifier(() -> {
-                // trace(Renoise.song().transport.playing);
+                for(button in buttons) {
+                    button.update(output, display);
+                }
             });
 		}
     }
@@ -67,20 +74,20 @@ class Main
         display.render(output, 0, 0, 127);
     }
 
-    public static function handleButtonDown(state :State, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
     {
-        if(state.buttons.exists(button)) {
-            state.buttons.get(button).down(output, state.display);
+        if(buttons.exists(button)) {
+            buttons.get(button).down(output, display);
         }
         else {
-            state.grid.step(output);
+            grid.step(output);
         }
     }
 
-    public static function handleButtonUp(state :State, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
     {
-        if(state.buttons.exists(button)) {
-            state.buttons.get(button).up(output, state.display);
+        if(buttons.exists(button)) {
+            buttons.get(button).up(output, display);
         }
     }
 }

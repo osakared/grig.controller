@@ -49,7 +49,7 @@ class Record implements Button
     {
     }
 
-    public function setState(state :Int, output :MidiOutputDevice, display :Display) : Void
+    public function update(output :MidiOutputDevice, display :Display) : Void
     {
     }
 }

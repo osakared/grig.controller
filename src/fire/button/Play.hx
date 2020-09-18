@@ -27,8 +27,6 @@ import fire.button.ButtonType;
 import fire.LuaArray;
 import fire.Color;
 
-// YellowGreen
-
 class Play implements Button
 {
     public var color : Int;
@@ -36,7 +34,7 @@ class Play implements Button
 
     public function new(type :ButtonType) : Void
     {
-        this.color = 0;
+        this.color = PlayState.STOPPED;
         this.type = type;
     }
 
@@ -54,7 +52,16 @@ class Play implements Button
     {
     }
 
-    public function setState(state :Int, output :MidiOutputDevice, display :Display) : Void
+    public function update(output :MidiOutputDevice, display :Display) : Void
     {
+        // this.color = state;
+        output.send(new LuaArray([0xB0, this.type, this.color]));
     }
+}
+
+@:enum
+abstract PlayState(Int) to Int
+{
+    var PLAYING = YellowGreen.HIGH_GREEN;
+    var STOPPED = YellowGreen.DULL_YELLOW;
 }

@@ -25,6 +25,7 @@ import renoise.Song.Renoise;
 import renoise.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;
+import fire.Color;
 
 class Stop implements Button
 {
@@ -33,7 +34,7 @@ class Stop implements Button
 
     public function new(type :ButtonType) : Void
     {
-        this.color = 0;
+        this.color = StopState.STOPPED;
         this.type = type;
     }
 
@@ -51,7 +52,17 @@ class Stop implements Button
     {
     }
 
-    public function setState(state :Int, output :MidiOutputDevice, display :Display) : Void
+    public function update(output :MidiOutputDevice, display :Display) : Void
     {
+        // this.color = state;
+        output.send(new LuaArray([0xB0, this.type, this.color]));
     }
+}
+
+
+@:enum
+abstract StopState(Int) to Int
+{
+    var PLAYING = Yellow.DULL_YELLOW;
+    var STOPPED = Yellow.HIGH_YELLOW;
 }

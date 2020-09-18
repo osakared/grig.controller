@@ -19,20 +19,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire;
+package fire.button;
 
-import fire.button.*;
 import renoise.Midi.MidiOutputDevice;
 
-class State
+class Buttons
 {
-    public var buttons : Map<ButtonType, Button>;
-    public var grid = new Grid();
-    public var display = new Display();
 
     public function new() : Void
     {
-        this.buttons = [
+        _buttons = [
             KNOB_TYPE => new KnobType(KNOB_TYPE),
             VOLUME => new Volume(VOLUME),
             PAN => new Pan(PAN),
@@ -61,12 +57,27 @@ class State
         ];
     }
 
-    public function initialize(output :MidiOutputDevice) : Void
+    public inline function iterator() : Iterator<Button>
     {
-        for(button in this.buttons) {
+        return _buttons.iterator();
+    }
+
+    public inline function exists(type :ButtonType) : Bool
+    {
+        return _buttons.exists(type);
+    }
+
+    public inline function get(type :ButtonType) : Button
+    {
+        return _buttons.get(type);
+    }
+
+    public inline function initialize(output :MidiOutputDevice) : Void
+    {
+        for(button in _buttons) {
             button.initialize(output);
         }
-        this.grid.initialize(output);
-        this.display.initialize(output);
     }
+
+    private var _buttons : Map<ButtonType, Button>;
 }
