@@ -72,10 +72,10 @@ class Buttons
         return _buttons.get(type);
     }
 
-    public inline function initialize(output :MidiOutputDevice) : Void
+    public inline function initialize(output :MidiOutputDevice, display :Display) : Void
     {
         for(button in _buttons) {
-            button.initialize(output);
+            button.initialize(output, display);
         }
     }
 

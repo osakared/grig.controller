@@ -34,7 +34,7 @@ class Resonance implements Button
         this.type = type;
     }
 
-    public function initialize(output :MidiOutputDevice) : Void
+    public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
         output.send(new LuaArray([0xB0, this.type, getColor()]));
     }

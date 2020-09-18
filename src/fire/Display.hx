@@ -38,7 +38,7 @@ class Display
         _bytes = new LuaArray([]);
     }
 
-    public function initialize(output :MidiOutputDevice) : Void
+    public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
     }
 

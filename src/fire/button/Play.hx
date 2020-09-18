@@ -36,8 +36,11 @@ class Play implements Button
         this.type = type;
     }
 
-    public function initialize(output :MidiOutputDevice) : Void
+    public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
+        Renoise.song().transport.playingObservable.addNotifier(() -> {
+            this.update(output, display);
+        });
         output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 

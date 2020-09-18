@@ -41,7 +41,7 @@ class Grid
     {
     }
 
-    public function initialize(output :MidiOutputDevice) : Void
+    public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
         colorRow(output, 0, new Color(0xFF110000));
         colorRow(output, 1, new Color(0xFF110000));

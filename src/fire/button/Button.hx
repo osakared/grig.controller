@@ -26,7 +26,7 @@ import renoise.Midi.MidiOutputDevice;
 interface Button
 {
     var type :ButtonType;
-    function initialize(output :MidiOutputDevice) : Void;
+    function initialize(output :MidiOutputDevice, display :Display) : Void;
     function down(output :MidiOutputDevice, display :Display) : Void;
     function up(output :MidiOutputDevice, display :Display) : Void;
     function update(output :MidiOutputDevice, display :Display) : Void;

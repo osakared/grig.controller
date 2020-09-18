@@ -46,7 +46,7 @@ class Main
             var buttons = new Buttons();
             var display = new Display();
             var grid = new Grid();
-			buttons.initialize(output);
+			buttons.initialize(output, display);
 			Midi.create_input_device(device, (a) -> {
 				var inputState :InputState = a.isOn();
 				switch inputState {
@@ -59,11 +59,11 @@ class Main
 
             });
             
-            Renoise.song().transport.playingObservable.addNotifier(() -> {
-                for(button in buttons) {
-                    button.update(output, display);
-                }
-            });
+            // Renoise.song().transport.playingObservable.addNotifier(() -> {
+            //     for(button in buttons) {
+            //         button.update(output, display);
+            //     }
+            // });
 		}
     }
 
