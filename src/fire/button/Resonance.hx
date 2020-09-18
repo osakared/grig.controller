@@ -41,9 +41,11 @@ class Resonance implements Button
         output.send(new LuaArray([0xB0, this.type, this.color]));
     }
 
-    public function step(output :MidiOutputDevice) : Void
+    public function down(output :MidiOutputDevice) : Void
     {
-        this.color++;
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+    }
+
+    public function up(output :MidiOutputDevice) : Void
+    {
     }
 }

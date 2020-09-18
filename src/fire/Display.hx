@@ -42,15 +42,14 @@ class Display
     {
     }
 
-    public function clear(output :MidiOutputDevice, row :Int, columnStart :Int, columnEnd :Int = 0x7F) : Void
+    public function clear(output :MidiOutputDevice, row :Int) : Void
     {
-        var columnLength = columnEnd - columnStart;
-        var length = 8 * columnLength;
+        var length = 8 * 128;
         _bitmap.clear();
         for(i in 0...length) {
             _bitmap[i] = 0;
         }
-        render(output, row, columnStart, columnEnd);
+        render(output, row, 0x00, 0x7F);
     }
 
     public function render(output :MidiOutputDevice, row :Int, columnStart :Int, columnEnd :Int = 0x7F) : Void

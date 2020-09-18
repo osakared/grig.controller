@@ -20,14 +20,18 @@
  */
 
 import fire.button.*;
-import renoise.Midi.MidiInputDevice;
-import renoise.Midi.MidiOutputDevice;
 import renoise.Midi;
 import fire.State;
 import fire.Text;
+import renoise.Song;
 
 class Main
 {
+    public static inline function getType(value :Dynamic) : String
+    {
+        return lua.Lua.type(value);
+    }
+
     public static function main() : Void
     {
         haxe.macro.Compiler.includeFile("src/fire/util.lua");
@@ -46,7 +50,12 @@ class Main
 						handleButtonUp(state, output, a.note());
 				}
 			}, (b) -> {
-			});
+
+            });
+            
+            Renoise.song().transport.playingObservable.addNotifier(() -> {
+                // trace(Renoise.song().transport.playing);
+            });
 		}
     }
 
@@ -54,119 +63,95 @@ class Main
     {
         switch button {
             case KNOB_TYPE:
-                trace("down: KNOB_TYPE");
+                drawMsg(state, output, "down KNOB TYPE");
             case VOLUME:
-                trace("down: VOLUME");
+                drawMsg(state, output, "down VOLUME");
             case PAN:
-                trace("down: PAN");
+                drawMsg(state, output, "down PAN");
             case FILTER:
-                trace("down: FILTER");
+                drawMsg(state, output, "down FILTER");
             case RESONANCE:
-                trace("down: RESONANCE");
+                drawMsg(state, output, "down RESONANCE");
             case PATTERN_UP:
-                state.display.clear(output, 0, 0, 127);
-                state.display.drawString(Text.make("Up"));
-                state.display.render(output, 0, 0, 127);
-                state.display.drawString(Text.make("Line Two cool"));
-                state.display.render(output, 1, 0, 127);
+                drawMsg(state, output, "down PATTERN UP");
             case PATTERN_DOWN:
-                state.display.clear(output, 0, 0, 127);
-                state.display.drawString(Text.make("Down"));
-                state.display.render(output, 0, 0, 127);
+                drawMsg(state, output, "down PATTERN DOWN");
             case BROWSER:
-                trace("down: BROWSER");
+                drawMsg(state, output, "down BROWSER");
             case SELECT:
-                trace("down: SELECT");
+                drawMsg(state, output, "down SELECT");
             case GRID_LEFT:
-                trace("down: GRID_LEFT");
+                drawMsg(state, output, "down GRID LEFT");
             case GRID_RIGHT:
-                trace("down: GRID_RIGHT");
+                drawMsg(state, output, "down GRID RIGHT");
             case MUTE_SOLO_1:
-                trace("down: MUTE_SOLO_1");
+                drawMsg(state, output, "down MUTE SOLO");
             case MUTE_SOLO_2:
-                trace("down: MUTE_SOLO_2");
+                drawMsg(state, output, "down MUTE SOLO");
             case MUTE_SOLO_3:
-                trace("down: MUTE_SOLO_3");
+                drawMsg(state, output, "down MUTE SOLO");
             case MUTE_SOLO_4:
-                trace("down: MUTE_SOLO_4");
+                drawMsg(state, output, "down MUTE SOLO");
             case STEP:
-                trace("down: STEP");
+                drawMsg(state, output, "down STEP");
             case NOTE:
-                trace("down: NOTE");
+                drawMsg(state, output, "down NOTE");
             case DRUM:
-                trace("down: DRUM");
+                drawMsg(state, output, "down DRUM");
             case PERFORM:
-                trace("down: PERFORM");
+                drawMsg(state, output, "down PERFORM");
             case SHIFT:
-                trace("down: SHIFT");
+                drawMsg(state, output, "down SHIFT");
             case ALT:
-                trace("down: ALT");
+                drawMsg(state, output, "down ALT");
             case PATTERN_SONG:
-                trace("down: PATTERN_SONG");
+                drawMsg(state, output, "down PATTERN SONG");
             case PLAY:
-                trace("down: PLAY");
+                drawMsg(state, output, "down PLAY");
             case STOP:
-                trace("down: STOP");
+                drawMsg(state, output, "down STOP");
             case RECORD:
-                trace("down: RECORD");
+                drawMsg(state, output, "down RECORD");
             case _:
                 state.grid.step(output);
         }
+    }
+
+    private static function drawMsg(state :State, output :MidiOutputDevice, msg :String) : Void
+    {
+        state.display.clear(output, 0);
+        state.display.drawString(Text.make(msg));
+        state.display.render(output, 0, 0, 127);
     }
 
     public static function handleButtonUp(state :State, output :MidiOutputDevice, button :ButtonType) : Void
     {
         switch button {
             case KNOB_TYPE:
-                state.knobType.step(output);
             case VOLUME:
-                state.volume.step(output);
             case PAN:
-                state.pan.step(output);
             case FILTER:
-                state.filter.step(output);
             case RESONANCE:
-                state.resonance.step(output);
             case PATTERN_UP:
-                state.patternUp.step(output);
             case PATTERN_DOWN:
-                state.patternDown.step(output);
             case BROWSER:
-                state.browser.step(output);
             case SELECT:
-                state.select.step(output);
             case GRID_LEFT:
-                state.gridLeft.step(output);
             case GRID_RIGHT:
-                state.gridRight.step(output);
             case MUTE_SOLO_1:
-                state.muteSolo1.step(output);
             case MUTE_SOLO_2:
-                state.muteSolo2.step(output);
             case MUTE_SOLO_3:
-                state.muteSolo3.step(output);
             case MUTE_SOLO_4:
-                state.muteSolo4.step(output);
             case STEP:
-                state.step.step(output);
             case NOTE:
-                state.note.step(output);
             case DRUM:
-                state.drum.step(output);
             case PERFORM:
-                state.perform.step(output);
             case SHIFT:
-                state.shift.step(output);
             case ALT:
-                state.alt.step(output);
             case PATTERN_SONG:
-                state.patternSong.step(output);
             case PLAY:
-                state.play.step(output);
             case STOP:
-                state.stop.step(output);
             case RECORD:
-                state.record.step(output);
         }
     }
 }

@@ -24,6 +24,9 @@ package fire.button;
 import renoise.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;
+import fire.Color;
+
+// YellowGreen
 
 class Play implements Button
 {
@@ -41,9 +44,11 @@ class Play implements Button
         output.send(new LuaArray([0xB0, this.type, this.color]));
     }
 
-    public function step(output :MidiOutputDevice) : Void
+    public function down(output :MidiOutputDevice) : Void
     {
-        this.color++;
-        output.send(new LuaArray([0xB0, this.type, this.color]));
+    }
+
+    public function up(output :MidiOutputDevice) : Void
+    {
     }
 }
