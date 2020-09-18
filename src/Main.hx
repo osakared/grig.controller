@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
 import fire.Grid;
 import fire.Display;
@@ -30,6 +31,10 @@ import renoise.Renoise;
 
 class Main
 {
+    // Main.
+    private static var MIDI_IN :MidiInputDevice;
+    private static var MIDI_OUT :MidiOutputDevice;
+
     public static inline function getType(value :Dynamic) : String
     {
         return lua.Lua.type(value);
@@ -48,21 +53,27 @@ class Main
         var device = Midi.available_input_devices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
-			var output :MidiOutputDevice = Midi.create_output_device(device);
+			MIDI_OUT = Midi.create_output_device(device);
             var buttons = new Buttons();
             var display = new Display();
             var grid = new Grid();
-			buttons.initialize(output, display);
-			Midi.create_input_device(device, (a) -> {
+			buttons.initialize(MIDI_OUT, display);
+			MIDI_IN = Midi.create_input_device(device, (a) -> {
 				var inputState :InputState = a.isOn();
 				switch inputState {
 					case BUTTON_DOWN:
-						handleButtonDown(buttons, grid, display, output, a.note());
+						handleButtonDown(buttons, grid, display, MIDI_OUT, a.note());
 					case BUTTON_UP:
-						handleButtonUp(buttons, grid, display, output, a.note());
+						handleButtonUp(buttons, grid, display, MIDI_OUT, a.note());
 				}
 			}, (b) -> {
 
+            });
+
+            var playbackObserver = new PlaybackPositionObserver();
+            var transport = Renoise.song().transport;
+            playbackObserver.register(0, () -> {
+                grid.colorIndex(MIDI_OUT, transport.playbackPos.line - 1);
             });
 		}
     }
@@ -78,9 +89,6 @@ class Main
     {
         if(buttons.exists(button)) {
             buttons.get(button).down(output, display);
-        }
-        else {
-            grid.step(output);
         }
     }
 

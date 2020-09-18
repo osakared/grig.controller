@@ -24,20 +24,12 @@ package fire;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
 
-//54-117
 class Grid
 {
-    public var color : Int;
-    public var stepIndex : Int;
-
     public function new() : Void
     {
-        this.color = 0;
-        this.stepIndex = 0;
-    }
-
-    public function update(output :MidiOutputDevice) : Void
-    {
+        _lastIndex = -1;
+        _scratchItem = lua.Table.create();
     }
 
     public function initialize(output :MidiOutputDevice, display :Display) : Void
@@ -65,9 +57,34 @@ class Grid
         output.send(msg);
     }
 
-    public function step(output :MidiOutputDevice) : Void
+    public function colorIndex(output :MidiOutputDevice, index :Int) : Void
     {
-        this.color++;
-        output.send(new LuaArray([0xB0, 0x54, this.color]));
+        sendColor(output, index, 0x7F);
+
+        if(_lastIndex != -1) {
+            sendColor(output, _lastIndex, 0);
+        }
+
+        _lastIndex = index;
     }
+
+    private inline function sendColor(output :MidiOutputDevice, index :Int, color :Int) : Void
+    {
+        _scratchItem[1] = 0xF0;
+        _scratchItem[2] = 0x47;
+        _scratchItem[3] = 0x7F;
+        _scratchItem[4] = 0x43;
+        _scratchItem[5] = 0x65;
+        _scratchItem[6] = 0x00;
+        _scratchItem[7] = 0x04;
+        _scratchItem[8] = index;
+        _scratchItem[9] = color;
+        _scratchItem[10] = color;
+        _scratchItem[11] = color;
+        _scratchItem[12] = 0xF7;
+        output.send(cast _scratchItem);
+    }
+
+    private var _lastIndex :Int;
+    private var _scratchItem :lua.Table<Int, Int>;
 }
