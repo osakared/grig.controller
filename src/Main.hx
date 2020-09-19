@@ -73,8 +73,8 @@ class Main
 					case BUTTON_UP:
                         handleButtonUp(buttons, grid, display, MIDI_OUT, a.note());
                     case ROTARY:
-                        var isForwards = a.velocity() < 64;
-                        handleRotary(dials, grid, display, MIDI_OUT, a.note(), isForwards);
+                        var isRight = a.velocity() < 64;
+                        handleRotary(dials, grid, display, MIDI_OUT, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -114,10 +114,15 @@ class Main
         }
     }
 
-    public static function handleRotary(dials :Dials, grid :Grid, display :Display, output :MidiOutputDevice, type :DialType, isForwards :Bool) : Void
+    public static function handleRotary(dials :Dials, grid :Grid, display :Display, output :MidiOutputDevice, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
-            // rotarys.get(rotary).up(output, display);
+            if(isRight) {
+                dials.get(type).right(output,display);
+            }
+            else {
+                dials.get(type).left(output,display);
+            }
         }
     }
 }

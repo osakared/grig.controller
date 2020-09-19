@@ -19,15 +19,13 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
- package fire.dial;
+package fire.dial;
 
- import renoise.midi.Midi.MidiOutputDevice;
- 
- interface Dial extends Initializable
- {
-     var type :DialType;
-     function down(output :MidiOutputDevice, display :Display) : Void;
-     function up(output :MidiOutputDevice, display :Display) : Void;
-     function update(output :MidiOutputDevice, display :Display) : Void;
-     function getColor() : Int;
- }
+import renoise.midi.Midi.MidiOutputDevice;
+
+interface Dial extends Initializable
+{
+    var type :DialType;
+    function left(output :MidiOutputDevice, display :Display) : Void;
+    function right(output :MidiOutputDevice, display :Display) : Void;
+}

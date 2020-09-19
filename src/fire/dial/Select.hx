@@ -22,7 +22,6 @@
 package fire.dial;
 
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
 import fire.LuaArray;
 
 class Select implements Dial
@@ -36,23 +35,13 @@ class Select implements Dial
 
     public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
-        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
-    public function down(output :MidiOutputDevice, display :Display) : Void
+    public function left(output :MidiOutputDevice, display :Display) : Void
     {
     }
 
-    public function up(output :MidiOutputDevice, display :Display) : Void
+    public function right(output :MidiOutputDevice, display :Display) : Void
     {
-    }
-
-    public function update(output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
-    public function getColor() : Int
-    {
-        return 0;
     }
 }
