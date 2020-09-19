@@ -19,5 +19,5 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.document;
+ package renoise.song;
 

@@ -23,6 +23,8 @@ package fire.button;
 
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
+import renoise.Renoise;
+import renoise.RenoiseUtil;
 import fire.LuaArray;
 
 class Step implements Button
@@ -45,6 +47,7 @@ class Step implements Button
 
     public function up(output :MidiOutputDevice, display :Display) : Void
     {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 
     public function update(output :MidiOutputDevice, display :Display) : Void

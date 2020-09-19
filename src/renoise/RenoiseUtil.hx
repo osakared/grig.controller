@@ -19,5 +19,21 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.document;
+package renoise;
 
+class RenoiseUtil
+{
+    public static function setLine(line :Int, modVal :Int) : Void
+    {
+        var playbackPos = Renoise.song().transport.playbackPos;
+        playbackPos.line = mod(line, modVal);
+        Renoise.app().showStatus(Std.string(playbackPos.line));
+        Renoise.song().transport.playbackPos = playbackPos;
+    }
+
+    public static function mod(number :Int, amount :Int) : Int 
+    {
+        var mod = ((number % amount) + amount) % amount;
+        return mod == 0 ? amount : mod;
+    };
+}

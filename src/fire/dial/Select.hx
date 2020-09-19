@@ -21,8 +21,9 @@
 
 package fire.dial;
 
+import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.LuaArray;
+import renoise.RenoiseUtil;
 
 class Select implements Dial
 {
@@ -39,9 +40,12 @@ class Select implements Dial
 
     public function left(output :MidiOutputDevice, display :Display) : Void
     {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line - 1, 64);
     }
 
     public function right(output :MidiOutputDevice, display :Display) : Void
     {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }
+
