@@ -21,3 +21,7 @@
 
 package renoise.song;
 
+extern class CHANGE_ME
+{
+    
+}

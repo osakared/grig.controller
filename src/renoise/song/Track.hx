@@ -19,5 +19,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
- package renoise.song;
+package renoise.song;
 
+extern class Track
+{
+    
+}
