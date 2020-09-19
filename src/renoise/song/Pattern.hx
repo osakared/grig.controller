@@ -21,7 +21,62 @@
 
 package renoise.song;
 
+import lua.Table;
+
+typedef LineNotifier = {pattern :Dynamic, track :Dynamic, line :Dynamic} -> Void;
+
 extern class Pattern
 {
-    
+    @:native("is_empty")
+    public var isEmpty : Bool;
+
+    public var name :String;
+    @:native("name_observable")
+    public var nameObservable :Observable;
+
+    public var number_of_lines :Int;
+    @:native("number_of_lines_observable")
+    public var numberOfLinesObservable :Observable;
+
+    public var tracks :Table<Int, PatternTrack>;
+
+    /**
+     * Deletes all lines & automation.
+     */
+    public function clear() : Void;
+
+    /**
+     * Copy contents from other patterns, including automation, 
+     * when possible.
+     * @param pattern 
+     */
+    @:native("copy_from")
+    public function copy_from(pattern :Pattern) : Void;
+
+    /**
+     * Access to a single pattern track by index. Use properties 
+     * 'tracks' to iterate over all tracks and to query the track 
+     * count.
+     * @param index 
+     * @return PatternTrack
+     */
+    public function track(index :Int) : PatternTrack;
+
+    @:native("has_line_notifier")
+    public function hasLineNotifier(notifier :LineNotifier) : Void;
+
+    @:native("add_line_notifier")
+    public function addLineNotifier(notifier :LineNotifier) : Void;
+
+    @:native("remove_line_notifier")
+    public function removeLineNotifier(notifier :LineNotifier) : Void;
+
+    @:native("has_line_edited_notifier")
+    public function hasLineEditedNotifier(notifier :LineNotifier) : Void;
+
+    @:native("add_line_edited_notifier")
+    public function addLineEditedNotifier(notifier :LineNotifier) : Void;
+
+    @:native("remove_line_edited_notifier")
+    public function removeLineEditedNotifier(notifier :LineNotifier) : Void;
 }

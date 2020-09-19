@@ -24,6 +24,7 @@ package fire;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
 import renoise.Renoise;
+import renoise.RenoiseUtil;
 
 class Grid implements Initializable
 {
@@ -78,7 +79,7 @@ class Grid implements Initializable
     public function handleButtonIndex(output :MidiOutputDevice, button :Int) : Void
     {
         var line = button - 54 + 1;
-        Renoise.song().transport.startAtLine(line);
+        RenoiseUtil.setLine(line, 64);
     }
 
     private inline function sendColor(output :MidiOutputDevice, index :Int, color :Int) : Void
