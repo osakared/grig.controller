@@ -35,15 +35,15 @@ extern class Midi
 
 extern class MidiInputDevice
 {
-    extern public var is_open (default , null) : Bool;
-    extern public var name (default , null) : String;
-    extern public function close() : Void;
+    public var is_open (default , null) : Bool;
+    public var name (default , null) : String;
+    public function close() : Void;
 }
 
-class MidiOutputDevice
+extern class MidiOutputDevice
 {
-    extern public var is_open (default , null) : Bool;
-    extern public var name (default , null) : String;
-    extern public function close() : Void;
-    extern public function send(msg :LuaArray<Int>) : Void;
+    public var is_open (default , null) : Bool;
+    public var name (default , null) : String;
+    public function close() : Void;
+    public function send(msg :LuaArray<Int>) : Void;
 }
