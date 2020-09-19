@@ -23,8 +23,9 @@ package fire;
 
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
+import renoise.Renoise;
 
-class Grid
+class Grid implements Initializable
 {
     public function new() : Void
     {
@@ -38,6 +39,12 @@ class Grid
         colorRow(output, 1, 0);
         colorRow(output, 2, 0);
         colorRow(output, 3, 0);
+
+        Renoise.song().transport.playingObservable.addNotifier(() -> {
+            var transport = Renoise.song().transport;
+            var index = transport.playbackPos.line - 1;
+            sendColor(output, index, 0x7F);
+        });
     }
 
     public function colorRow(output :MidiOutputDevice, row :Int, color :Int) : Void
@@ -66,6 +73,12 @@ class Grid
         }
 
         _lastIndex = index;
+    }
+
+    public function handleButtonIndex(output :MidiOutputDevice, button :Int) : Void
+    {
+        var line = button - 54 + 1;
+        Renoise.song().transport.startAtLine(line);
     }
 
     private inline function sendColor(output :MidiOutputDevice, index :Int, color :Int) : Void

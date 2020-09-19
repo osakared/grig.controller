@@ -6,6 +6,7 @@ extern class Song
     public function canUndo() :Bool;
     public var tracks :Array<Dynamic>;
     public var transport :Transport;
+
     @:native("selected_pattern_track")
     public var selectedPatternTrack : Dynamic;
     @:native("selected_pattern_track_observable")

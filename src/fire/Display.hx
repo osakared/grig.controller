@@ -21,11 +21,10 @@
 
 package fire;
 
-import lua.Lua;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.LuaArray;
 
-class Display
+class Display implements Initializable
 {
     private static var DISPLAY_WIDTH = 128;
     private static var DISPLAY_HEIGHT = 64;
@@ -58,7 +57,6 @@ class Display
         var data = bitsToInt(binaryData);
         drawBitmap(output, data, row, row, columnStart, columnEnd);
         _bitmap.clear();
-        Lua.collectgarbage(Stop);
     }
 
     public function drawString(letter :Array<Array<Int>>) : Void

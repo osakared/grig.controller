@@ -23,10 +23,9 @@ package fire.button;
 
 import renoise.midi.Midi.MidiOutputDevice;
 
-interface Button
+interface Button extends Initializable
 {
     var type :ButtonType;
-    function initialize(output :MidiOutputDevice, display :Display) : Void;
     function down(output :MidiOutputDevice, display :Display) : Void;
     function up(output :MidiOutputDevice, display :Display) : Void;
     function update(output :MidiOutputDevice, display :Display) : Void;

@@ -19,30 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.midi;
+package fire.rotary;
 
-abstract MidiMsg(Array<Int>) 
+import renoise.midi.Midi.MidiOutputDevice;
+
+interface Rotary extends Initializable
 {
-    public inline function type() : InputState
-    {
-        return this[1];
-    }
-
-    public inline function note() : Int
-    {
-        return this[2];
-    }
-
-    public inline function velocity() : Int
-    {
-        return this[3];
-    }
-}
-
-@:enum
-abstract InputState(Int) from Int to Int
-{
-    var BUTTON_DOWN = 144;
-    var BUTTON_UP = 128;
-    var ROTARY = 176;
+    var type :RotaryType;
+    function down(output :MidiOutputDevice, display :Display) : Void;
+    function up(output :MidiOutputDevice, display :Display) : Void;
+    function update(output :MidiOutputDevice, display :Display) : Void;
+    function getColor() : Int;
 }

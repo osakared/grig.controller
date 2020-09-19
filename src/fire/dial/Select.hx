@@ -19,30 +19,40 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.midi;
+package fire.dial;
 
-abstract MidiMsg(Array<Int>) 
+import renoise.midi.Midi.MidiOutputDevice;
+import fire.button.ButtonType;
+import fire.LuaArray;
+
+class Select implements Dial
 {
-    public inline function type() : InputState
+    public var type : DialType;
+
+    public function new(type :DialType) : Void
     {
-        return this[1];
+        this.type = type;
     }
 
-    public inline function note() : Int
+    public function initialize(output :MidiOutputDevice, display :Display) : Void
     {
-        return this[2];
+        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
-    public inline function velocity() : Int
+    public function down(output :MidiOutputDevice, display :Display) : Void
     {
-        return this[3];
     }
-}
 
-@:enum
-abstract InputState(Int) from Int to Int
-{
-    var BUTTON_DOWN = 144;
-    var BUTTON_UP = 128;
-    var ROTARY = 176;
+    public function up(output :MidiOutputDevice, display :Display) : Void
+    {
+    }
+
+    public function update(output :MidiOutputDevice, display :Display) : Void
+    {
+    }
+
+    public function getColor() : Int
+    {
+        return 0;
+    }
 }

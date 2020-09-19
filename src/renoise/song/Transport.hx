@@ -13,4 +13,7 @@ extern class Transport
 
     @:native("playback_pos")
     public var playbackPos : SongPos;
+
+    @:native("start_at")
+    public function startAtLine(line :Int) : Void;
 }

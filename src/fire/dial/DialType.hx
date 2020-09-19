@@ -19,30 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.midi;
-
-abstract MidiMsg(Array<Int>) 
-{
-    public inline function type() : InputState
-    {
-        return this[1];
-    }
-
-    public inline function note() : Int
-    {
-        return this[2];
-    }
-
-    public inline function velocity() : Int
-    {
-        return this[3];
-    }
-}
+package fire.dial;
 
 @:enum
-abstract InputState(Int) from Int to Int
+abstract DialType(Int) from Int to Int
 {
-    var BUTTON_DOWN = 144;
-    var BUTTON_UP = 128;
-    var ROTARY = 176;
+    var VOLUME = 16;
+    var PAN = 17;
+    var FILTER = 18;
+    var RESONANCE = 19;
+    var SELECT = 118;
 }

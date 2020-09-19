@@ -23,15 +23,16 @@ import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
 import fire.Grid;
 import fire.Display;
-import fire.button.*;
+import fire.button.ButtonType;
 import renoise.midi.Midi;
 import fire.button.Buttons;
+import fire.dial.DialType;
+import fire.dial.Dials;
 import fire.Text;
 import renoise.Renoise;
 
 class Main
 {
-    // Main.
     private static var MIDI_IN :MidiInputDevice;
     private static var MIDI_OUT :MidiOutputDevice;
 
@@ -55,16 +56,27 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
 			MIDI_OUT = Midi.create_output_device(device);
             var buttons = new Buttons();
+            var dials = new Dials();
             var display = new Display();
             var grid = new Grid();
-			buttons.initialize(MIDI_OUT, display);
+            
+            buttons.initialize(MIDI_OUT, display);
+            dials.initialize(MIDI_OUT, display);
+            display.initialize(MIDI_OUT, display);
+            grid.initialize(MIDI_OUT, display);
+
 			MIDI_IN = Midi.create_input_device(device, (a) -> {
-				var inputState :InputState = a.isOn();
+				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
 						handleButtonDown(buttons, grid, display, MIDI_OUT, a.note());
 					case BUTTON_UP:
-						handleButtonUp(buttons, grid, display, MIDI_OUT, a.note());
+                        handleButtonUp(buttons, grid, display, MIDI_OUT, a.note());
+                    case ROTARY:
+                        var isForwards = a.velocity() < 64;
+                        handleRotary(dials, grid, display, MIDI_OUT, a.note(), isForwards);
+                    case _:
+                        Renoise.app().showStatus(Std.string(a.type()));
 				}
 			}, (b) -> {
 
@@ -97,12 +109,15 @@ class Main
         if(buttons.exists(button)) {
             buttons.get(button).up(output, display);
         }
+        else {
+            grid.handleButtonIndex(output, button);
+        }
     }
-}
 
-@:enum
-abstract InputState(Int) from Int to Int
-{
-    var BUTTON_DOWN = 144;
-    var BUTTON_UP = 128;
+    public static function handleRotary(dials :Dials, grid :Grid, display :Display, output :MidiOutputDevice, type :DialType, isForwards :Bool) : Void
+    {
+        if(dials.exists(type)) {
+            // rotarys.get(rotary).up(output, display);
+        }
+    }
 }

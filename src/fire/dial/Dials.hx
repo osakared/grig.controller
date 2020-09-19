@@ -19,30 +19,40 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.midi;
+ package fire.dial;
 
-abstract MidiMsg(Array<Int>) 
-{
-    public inline function type() : InputState
-    {
-        return this[1];
-    }
-
-    public inline function note() : Int
-    {
-        return this[2];
-    }
-
-    public inline function velocity() : Int
-    {
-        return this[3];
-    }
-}
-
-@:enum
-abstract InputState(Int) from Int to Int
-{
-    var BUTTON_DOWN = 144;
-    var BUTTON_UP = 128;
-    var ROTARY = 176;
-}
+ import renoise.midi.Midi.MidiOutputDevice;
+ 
+ class Dials
+ {
+     public function new() : Void
+     {
+         _dials = [
+            SELECT => new Select(SELECT),
+         ];
+     }
+ 
+     public inline function iterator() : Iterator<Dial>
+     {
+         return _dials.iterator();
+     }
+ 
+     public inline function exists(type :DialType) : Bool
+     {
+         return _dials.exists(type);
+     }
+ 
+     public inline function get(type :DialType) : Dial
+     {
+         return _dials.get(type);
+     }
+ 
+     public inline function initialize(output :MidiOutputDevice, display :Display) : Void
+     {
+         for(button in _dials) {
+             button.initialize(output, display);
+         }
+     }
+ 
+     private var _dials : Map<DialType, Dial>;
+ }
