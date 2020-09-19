@@ -34,7 +34,7 @@ class Grid implements Initializable
         _scratchItem = lua.Table.create();
     }
 
-    public function initialize(output :MidiOutputDevice, display :Display) : Void
+    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         colorRow(output, 0, 0);
         colorRow(output, 1, 0);

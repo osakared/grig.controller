@@ -26,8 +26,8 @@ import renoise.midi.Midi.MidiOutputDevice;
 interface Button extends Initializable
 {
     var type :ButtonType;
-    function down(output :MidiOutputDevice, display :Display) : Void;
-    function up(output :MidiOutputDevice, display :Display) : Void;
-    function update(output :MidiOutputDevice, display :Display) : Void;
+    function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
     function getColor() : Int;
 }

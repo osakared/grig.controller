@@ -26,6 +26,6 @@ import renoise.midi.Midi.MidiOutputDevice;
 interface Dial extends Initializable
 {
     var type :DialType;
-    function left(output :MidiOutputDevice, display :Display) : Void;
-    function right(output :MidiOutputDevice, display :Display) : Void;
+    function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
 }

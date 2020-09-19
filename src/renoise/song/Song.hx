@@ -21,11 +21,14 @@
 
 package renoise.song;
 
+import lua.Table;
+
 extern class Song
 {
     @:native("can_undo")
     public function canUndo() :Bool;
     public var tracks :Array<Dynamic>;
+    public var patterns :Table<Int, Pattern>;
     public var transport :Transport;
 
     @:native("selected_pattern_track")

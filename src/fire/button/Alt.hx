@@ -34,20 +34,20 @@ class Alt implements Button
         this.type = type;
     }
 
-    public function initialize(output :MidiOutputDevice, display :Display) : Void
+    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
-    public function down(output :MidiOutputDevice, display :Display) : Void
+    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 
-    public function up(output :MidiOutputDevice, display :Display) : Void
+    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 
-    public function update(output :MidiOutputDevice, display :Display) : Void
+    public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 

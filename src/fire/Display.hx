@@ -37,7 +37,7 @@ class Display implements Initializable
         _bytes = new LuaArray([]);
     }
 
-    public function initialize(output :MidiOutputDevice, display :Display) : Void
+    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 

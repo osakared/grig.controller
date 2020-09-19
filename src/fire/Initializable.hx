@@ -25,5 +25,5 @@ import renoise.midi.Midi.MidiOutputDevice;
 
 interface Initializable
 {
-    function initialize(output :MidiOutputDevice, display :Display) : Void;
+    function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
 }

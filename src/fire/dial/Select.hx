@@ -34,16 +34,16 @@ class Select implements Dial
         this.type = type;
     }
 
-    public function initialize(output :MidiOutputDevice, display :Display) : Void
+    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 
-    public function left(output :MidiOutputDevice, display :Display) : Void
+    public function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line - 1, 64);
     }
 
-    public function right(output :MidiOutputDevice, display :Display) : Void
+    public function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
