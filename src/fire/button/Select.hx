@@ -26,6 +26,7 @@ import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.util.LuaArray;
 import renoise.Renoise;
+import fire.output.Display;
 
 class Select implements Button
 {

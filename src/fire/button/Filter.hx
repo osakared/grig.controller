@@ -25,6 +25,7 @@ import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.util.LuaArray;
+import fire.output.Display;
 
 class Filter implements Button
 {

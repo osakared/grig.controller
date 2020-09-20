@@ -25,6 +25,7 @@ import fire.util.Modifiers;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import renoise.RenoiseUtil;
+import fire.output.Display;
 
 class Select implements Dial
 {

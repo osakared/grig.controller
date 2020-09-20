@@ -21,15 +21,15 @@
 
 import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
-import fire.Grid;
-import fire.Display;
+import fire.output.Grid;
+import fire.output.Display;
 import fire.util.Modifiers;
 import fire.button.ButtonType;
 import renoise.midi.Midi;
 import fire.button.Buttons;
 import fire.dial.DialType;
 import fire.dial.Dials;
-import fire.Text;
+import fire.util.Text;
 import renoise.Renoise;
 
 class Main
@@ -44,7 +44,7 @@ class Main
 
     public static function main() : Void
     {
-        haxe.macro.Compiler.includeFile("src/fire/util.lua");
+        haxe.macro.Compiler.includeFile("src/fire/_lua/util.lua");
 
         Renoise.tool().addMenuEntry(new MenuEntry("Main Menu:Tools:Lady Fire", Main.init));
 		

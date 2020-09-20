@@ -19,8 +19,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire;
+package fire.output;
 
+import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;

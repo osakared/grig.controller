@@ -27,6 +27,7 @@ import fire.button.ButtonType;
 import renoise.Renoise;
 import renoise.RenoiseUtil;
 import fire.util.LuaArray;
+import fire.output.Display;
 
 class Step implements Button
 {

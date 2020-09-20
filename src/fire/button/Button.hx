@@ -21,8 +21,10 @@
 
 package fire.button;
 
+import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
 
 interface Button extends Initializable
 {

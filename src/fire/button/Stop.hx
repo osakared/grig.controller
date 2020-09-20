@@ -28,6 +28,7 @@ import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.util.LuaArray;
 import fire.util.Color;
+import fire.output.Display;
 
 class Stop implements Button
 {

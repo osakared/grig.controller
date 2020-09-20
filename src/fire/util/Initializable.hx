@@ -19,10 +19,11 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire;
+package fire.util;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
 
 interface Initializable
 {

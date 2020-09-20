@@ -21,8 +21,10 @@
 
 package fire.dial;
 
+import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
 
 interface Dial extends Initializable
 {

@@ -23,6 +23,7 @@ package fire.button;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
 
 class Buttons
 {
