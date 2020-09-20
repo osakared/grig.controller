@@ -21,6 +21,7 @@
 
 package fire;
 
+import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 
 interface Initializable

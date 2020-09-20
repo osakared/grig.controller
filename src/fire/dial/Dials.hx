@@ -21,6 +21,7 @@
 
  package fire.dial;
 
+ import fire.util.Modifiers;
  import renoise.midi.Midi.MidiOutputDevice;
  
  class Dials

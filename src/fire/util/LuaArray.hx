@@ -19,41 +19,43 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.util;
 
-import fire.util.Modifiers;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
-import fire.util.LuaArray;
+import lua.Table;
 
-class GridRight implements Button
+abstract LuaArray<T>(Table<Int, T>) to Table<Int, T>
 {
-    public var type : ButtonType;
+    public var length (get, never) : Int;
 
-    public function new(type :ButtonType) : Void
+    inline public function new(array :Array<T>) : Void
     {
-        this.type = type;
+        this = Table.create(array);
     }
 
-    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-        output.send(new LuaArray([0xB0, this.type, getColor()]));
+    @:arrayAccess
+    public inline function get(key :Int) {
+        return this[key];
     }
 
-    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    @:arrayAccess
+    public inline function arrayWrite(k :Int, v :T) : T 
     {
+        this[k] = v;
+        return v;
     }
 
-    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public inline function push(item :T) : Void
     {
+        untyped _hx_table_push(this, item);
     }
 
-    public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public inline function clear() : Void
     {
+        untyped _hx_table_clear(this);
     }
 
-    public function getColor() : Int
+    private inline function get_length() : Int
     {
-        return 0;
+        return untyped _hx_length(this);
     }
 }

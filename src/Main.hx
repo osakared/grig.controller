@@ -23,7 +23,7 @@ import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
 import fire.Grid;
 import fire.Display;
-import fire.Modifiers;
+import fire.util.Modifiers;
 import fire.button.ButtonType;
 import renoise.midi.Midi;
 import fire.button.Buttons;

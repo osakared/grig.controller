@@ -21,7 +21,7 @@
 
 package renoise.midi;
 
-import fire.LuaArray;
+import fire.util.LuaArray;
 
 @:native("renoise.Midi")
 extern class Midi

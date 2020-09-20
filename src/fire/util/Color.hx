@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire;
+package fire.util;
 
 @:enum
 abstract RedYellow(Int) from Int to Int

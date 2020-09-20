@@ -21,6 +21,7 @@
 
 package fire.button;
 
+import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 
 interface Button extends Initializable

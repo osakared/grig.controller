@@ -21,11 +21,12 @@
 
 package fire.button;
 
+import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import renoise.Renoise;
 import renoise.RenoiseUtil;
-import fire.LuaArray;
+import fire.util.LuaArray;
 
 class Step implements Button
 {

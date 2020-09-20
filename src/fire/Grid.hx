@@ -21,8 +21,9 @@
 
 package fire;
 
+import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.LuaArray;
+import fire.util.LuaArray;
 import renoise.Renoise;
 import renoise.RenoiseUtil;
 

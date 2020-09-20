@@ -21,9 +21,10 @@
 
 package fire.button;
 
+import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
-import fire.LuaArray;
+import fire.util.LuaArray;
 
 class Drum implements Button
 {

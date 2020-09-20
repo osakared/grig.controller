@@ -21,12 +21,13 @@
 
 package fire.button;
 
+import fire.util.Modifiers;
 import renoise.Renoise;
 import renoise.RenoiseUtil;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
-import fire.LuaArray;
-import fire.Color;
+import fire.util.LuaArray;
+import fire.util.Color;
 
 class Stop implements Button
 {
