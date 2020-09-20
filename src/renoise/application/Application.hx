@@ -23,15 +23,31 @@ package renoise.application;
 
 extern class Application
 {
+    /**
+     * Shows an info message dialog to the user.
+     * @param message 
+     */
     @:native("show_message")
     public function showMessage(message :String) : Void;
 
+    /**
+     * Shows an error dialog to the user.
+     * @param message 
+     */
     @:native("show_error")
     public function showError(message :String) : Void;
 
+    /**
+     * Shows a warning dialog to the user.
+     * @param message 
+     */
     @:native("show_warning")
     public function showWarning(message :String) : Void;
 
+    /**
+     * Shows a message in Renoise's status bar to the user.
+     * @param message 
+     */
     @:native("show_status")
     public function showStatus(message :String) : Void;
 }

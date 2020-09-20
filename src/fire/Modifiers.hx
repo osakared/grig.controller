@@ -2,10 +2,12 @@ package fire;
 
 class Modifiers
 {
-    public var isSelectDown :Bool;
+    public var selectDown :Bool;
+    public var altDown :Bool;
 
     public function new() : Void
     {
-        this.isSelectDown = false;
+        this.selectDown = false;
+        this.altDown = false;
     }
 }

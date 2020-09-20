@@ -40,12 +40,40 @@ class Select implements Dial
 
     public function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line - 1, 64);
+        if(modifiers.selectDown) {
+            if(modifiers.altDown) {
+
+            }
+            else {
+                var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue - 1;
+                if(noteValue < 0) {
+                    noteValue = 0;
+                }
+                Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+            }
+        }
+        else {
+            RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line - 1, 64);
+        }
     }
 
     public function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
+        if(modifiers.selectDown) {
+            if(modifiers.altDown) {
+
+            }
+            else {
+                var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue + 1;
+                if(noteValue > 119) {
+                    noteValue = 119;
+                }
+                Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+            }
+        }
+        else {
+            RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
+        }
     }
 }
 

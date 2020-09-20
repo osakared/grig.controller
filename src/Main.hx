@@ -52,10 +52,10 @@ class Main
 
     public static function init() : Void
     {
-        var device = Midi.available_input_devices()[1];
+        var device = Midi.availableInputDevices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
-			MIDI_OUT = Midi.create_output_device(device);
+			MIDI_OUT = Midi.createOutputDevice(device);
             var buttons = new Buttons();
             var dials = new Dials();
             var display = new Display();
@@ -67,7 +67,7 @@ class Main
             display.initialize(modifiers, MIDI_OUT, display);
             grid.initialize(modifiers, MIDI_OUT, display);
 
-			MIDI_IN = Midi.create_input_device(device, (a) -> {
+			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:

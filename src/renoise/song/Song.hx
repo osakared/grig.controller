@@ -25,6 +25,9 @@ import lua.Table;
 
 extern class Song
 {
+    @:native("selected_line")
+    public var selectedLine : PatternLine;
+
     @:native("can_undo")
     public function canUndo() :Bool;
     public var tracks :Array<Dynamic>;

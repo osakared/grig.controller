@@ -41,10 +41,12 @@ class Alt implements Button
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        modifiers.altDown = true;
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        modifiers.altDown = false;
     }
 
     public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void

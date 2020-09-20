@@ -26,23 +26,30 @@ import fire.LuaArray;
 @:native("renoise.Midi")
 extern class Midi
 {
-    extern public static function available_input_devices() : Array<Null<String>>;
-    extern public static function available_output_devices() : Array<Null<String>>;
-    extern public static function devices_changed_observable() : Dynamic;
-    extern public static function create_input_device(device_name :String, callback :MidiMsg -> Void, sysex_callback :Dynamic -> Void) : MidiInputDevice;
-    extern public static function create_output_device(device_name :String) : MidiOutputDevice;
+    @:native("available_input_devices")
+    public static function availableInputDevices() : Array<Null<String>>;
+    @:native("available_output_devices")
+    public static function availableOutputDevices() : Array<Null<String>>;
+    @:native("devices_changed_observable")
+    public static function devicesChangedObservable() : Dynamic;
+    @:native("create_input_device")
+    public static function createInputDevice(device_name :String, callback :MidiMsg -> Void, sysex_callback :Dynamic -> Void) : MidiInputDevice;
+    @:native("create_output_device")
+    public static function createOutputDevice(device_name :String) : MidiOutputDevice;
 }
 
 extern class MidiInputDevice
 {
-    public var is_open (default , null) : Bool;
+    @:native("is_open")
+    public var isOpen (default , null) : Bool;
     public var name (default , null) : String;
     public function close() : Void;
 }
 
 extern class MidiOutputDevice
 {
-    public var is_open (default , null) : Bool;
+    @:native("is_open")
+    public var isOpen (default , null) : Bool;
     public var name (default , null) : String;
     public function close() : Void;
     public function send(msg :LuaArray<Int>) : Void;

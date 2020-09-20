@@ -24,6 +24,7 @@ package fire.button;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.button.ButtonType;
 import fire.LuaArray;
+import renoise.Renoise;
 
 class Select implements Button
 {
@@ -41,10 +42,24 @@ class Select implements Button
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        modifiers.selectDown = true;
+        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+        if(modifiers.altDown) {
+            if(noteValue == 121) {
+                Renoise.song().selectedLine.noteColumn(1).noteValue = 120;
+            }
+            else {
+                Renoise.song().selectedLine.noteColumn(1).noteValue = 121;
+            }
+        }
+        else if(noteValue == 121) {
+            Renoise.song().selectedLine.noteColumn(1).noteValue = 60;
+        }
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        modifiers.selectDown = false;
     }
 
     public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
