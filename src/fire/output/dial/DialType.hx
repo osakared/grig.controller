@@ -19,42 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.dial;
+package fire.output.dial;
 
-import fire.util.Modifiers;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.output.Display;
-
-class Dials
+@:enum
+abstract DialType(Int) from Int to Int
 {
-    public function new() : Void
-    {
-        _dials = [
-        SELECT => new Select(SELECT),
-        ];
-    }
-
-    public inline function iterator() : Iterator<Dial>
-    {
-        return _dials.iterator();
-    }
-
-    public inline function exists(type :DialType) : Bool
-    {
-        return _dials.exists(type);
-    }
-
-    public inline function get(type :DialType) : Dial
-    {
-        return _dials.get(type);
-    }
-
-    public inline function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-        for(button in _dials) {
-            button.initialize(modifiers, output, display);
-        }
-    }
-
-    private var _dials : Map<DialType, Dial>;
+    var VOLUME = 16;
+    var PAN = 17;
+    var FILTER = 18;
+    var RESONANCE = 19;
+    var SELECT = 118;
 }

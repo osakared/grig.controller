@@ -27,10 +27,11 @@ import fire.util.Modifiers;
 import fire.button.ButtonType;
 import renoise.midi.Midi;
 import fire.button.Buttons;
-import fire.dial.DialType;
-import fire.dial.Dials;
+import fire.output.dial.DialType;
+import fire.output.dial.Dials;
 import fire.util.Text;
 import renoise.Renoise;
+import fire.output.button.ButtonLights;
 
 class Main
 {
@@ -52,6 +53,10 @@ class Main
 
     public static function init() : Void
     {
+        var fButtons = new ButtonLights();
+        fButtons.drum.send(null, 33);
+        fButtons.browser.send(null, 1);
+
         var device = Midi.availableInputDevices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
