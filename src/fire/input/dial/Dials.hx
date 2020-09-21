@@ -19,16 +19,42 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output.dial;
+package fire.input.dial;
 
-import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.Display;
 
-interface Dial extends Initializable
+class Dials
 {
-    var type :DialType;
-    function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
-    function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    public function new() : Void
+    {
+        _dials = [
+            SELECT => new Select(SELECT),
+        ];
+    }
+
+    public inline function iterator() : Iterator<Dial>
+    {
+        return _dials.iterator();
+    }
+
+    public inline function exists(type :DialType) : Bool
+    {
+        return _dials.exists(type);
+    }
+
+    public inline function get(type :DialType) : Dial
+    {
+        return _dials.get(type);
+    }
+
+    public inline function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    {
+        for(button in _dials) {
+            button.initialize(modifiers, output, display);
+        }
+    }
+
+    private var _dials : Map<DialType, Dial>;
 }

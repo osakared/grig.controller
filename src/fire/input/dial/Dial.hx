@@ -19,14 +19,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output.dial;
+package fire.input.dial;
 
-@:enum
-abstract DialType(Int) from Int to Int
+import fire.util.Initializable;
+import fire.util.Modifiers;
+import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
+
+interface Dial extends Initializable
 {
-    var VOLUME = 16;
-    var PAN = 17;
-    var FILTER = 18;
-    var RESONANCE = 19;
-    var SELECT = 118;
+    var type :DialType;
+    function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
 }

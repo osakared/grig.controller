@@ -11,6 +11,11 @@ abstract ButtonLight(ButtonType) from Int
         this = value;
     }
 
+    public inline function clear(output :MidiOutputDevice) : Void
+    {
+        send(output, 0);
+    }
+
     public function send(output :MidiOutputDevice, value :Int) : Void
     {
         lightMsg[2] = this;

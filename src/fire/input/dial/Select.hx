@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output.dial;
+package fire.input.dial;
 
 import fire.util.Modifiers;
 import renoise.Renoise;
