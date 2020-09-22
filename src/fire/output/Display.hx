@@ -29,6 +29,7 @@ class Display
 {
     private static inline var DISPLAY_WIDTH = 128;
     private static inline var DISPLAY_HEIGHT = 64;
+    private static inline var LINE_HEIGHT = 8;
     private static inline var DATA_LENGTH = 1171; //Math.ceil((128 * 64) / 7) 01111111
     private static inline var DATA_INDEX_START = 12;
 
@@ -51,7 +52,9 @@ class Display
 
     public function drawPixel(value :Int, x :Int, y :Int) : Void
     {
-        var pos = y * DISPLAY_WIDTH + x;
+        var nX = x * LINE_HEIGHT;
+        var nY = Math.floor(y / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (y % LINE_HEIGHT);
+        var pos = nX + nY;
         compactPixel(value, pos);
     }
 

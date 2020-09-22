@@ -63,20 +63,12 @@ class Main
             var modifiers = new Modifiers();
 
             display.clear();
-            // display.drawPixel(1, 0, 0);
-            // display.drawPixel(1, 1, 0);
-            // display.drawPixel(1, 2, 0);
-            // display.drawPixel(1, 3, 0);
-            // display.drawPixel(1, 4, 0);
-            // display.drawPixel(1, 5, 0);
-            // display.drawPixel(1, 6, 0);
-            // display.drawPixel(1, 7, 0);
-            // display.drawPixel(1, 8, 0);
-            // display.drawPixel(1, 9, 0);
-            // display.drawPixel(1, 10, 0);
-            // display.drawPixel(1, 10, 0);
-            for(i in 0...(8*3)) {
-                display.drawPixel(1, i, 0);
+
+            for(i in 0...128) {
+                display.drawPixel(1, i, 32);
+            }
+            for(i in 0...64) {
+                display.drawPixel(1, 64, i);
             }
             display.render(MIDI_OUT);
 
