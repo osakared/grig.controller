@@ -62,6 +62,25 @@ class Main
             var grid = new Grid();
             var modifiers = new Modifiers();
 
+            display.clear();
+            // display.drawPixel(1, 0, 0);
+            // display.drawPixel(1, 1, 0);
+            // display.drawPixel(1, 2, 0);
+            // display.drawPixel(1, 3, 0);
+            // display.drawPixel(1, 4, 0);
+            // display.drawPixel(1, 5, 0);
+            // display.drawPixel(1, 6, 0);
+            // display.drawPixel(1, 7, 0);
+            // display.drawPixel(1, 8, 0);
+            // display.drawPixel(1, 9, 0);
+            // display.drawPixel(1, 10, 0);
+            // display.drawPixel(1, 10, 0);
+            for(i in 0...(8*3)) {
+                display.drawPixel(1, i, 0);
+            }
+            display.render(MIDI_OUT);
+
+
             
             buttons.initialize(modifiers, MIDI_OUT, display);
             dials.initialize(modifiers, MIDI_OUT, display);
@@ -71,13 +90,7 @@ class Main
 				switch inputState {
 					case BUTTON_DOWN:
                         handleButtonDown(buttons, modifiers, grid, display, MIDI_OUT, a.note());
-                        display.clear(MIDI_OUT, 0);
-                        display.drawString(Text.make("button robot"));
-                        display.render(MIDI_OUT, 0, 0);
 					case BUTTON_UP:
-                        display.clear(MIDI_OUT, 0);
-                        display.drawString(Text.make("button sage"));
-                        display.render(MIDI_OUT, 0, 0);
                         handleButtonUp(buttons, modifiers, grid, display, MIDI_OUT, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;

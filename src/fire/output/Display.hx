@@ -21,108 +21,71 @@
 
 package fire.output;
 
+import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 
 class Display
 {
-    private static var DISPLAY_WIDTH = 128;
-    private static var DISPLAY_HEIGHT = 64;
+    private static inline var DISPLAY_WIDTH = 128;
+    private static inline var DISPLAY_HEIGHT = 64;
+    private static inline var DATA_LENGTH = 1171; //Math.ceil((128 * 64) / 7) 01111111
+    private static inline var DATA_INDEX_START = 12;
 
     public function new() : Void
     {
-        _bitmap = new LuaArray([]);
-        _data = new LuaArray([]);
-        _msg = new LuaArray([]);
-        _bytes = new LuaArray([]);
+        this.initializeData();
     }
 
-    public function clear(output :MidiOutputDevice, row :Int) : Void
+    public function clear() : Void
     {
-        var length = 8 * 128;
-        _bitmap.clear();
-        for(i in 0...length) {
-            _bitmap[i] = 0;
-        }
-        render(output, row, 0x00, 0x7F);
-    }
-
-    public function render(output :MidiOutputDevice, row :Int, columnStart :Int, columnEnd :Int = 0x7F) : Void
-    {
-        _bytes.clear();
-        convertBitmap();
-        bitsToInt();
-        drawBitmap(output, row, row, columnStart, columnEnd);
-        _bitmap.clear();
-    }
-
-    public function drawString(letter :Array<Array<Int>>) : Void
-    {
-        var yIndex = 0;
-        for(line in letter) {
-            var xIndex = 0;
-            for(value in line) {
-                var pos = (yIndex) * DISPLAY_WIDTH + xIndex;
-                _bitmap[pos] = value;
-                xIndex++;
-            }
-            yIndex++;
+        for(i in 0...DATA_LENGTH) {
+            _msg[i + DATA_INDEX_START] = 0;
         }
     }
 
-    private function drawBitmap(output :MidiOutputDevice, rowStart :Int, rowEnd :Int, columnStart :Int, columnEnd) : Void
+    public inline function render(output :MidiOutputDevice) : Void
     {
-        _msg.clear();
-        var hh = (_bytes.length + 4) >> 7;
-        var ll = (_bytes.length + 4) & 0x7F;
-        _msg.push(0xF0);
-        _msg.push(0x47);
-        _msg.push(0x7F);
-        _msg.push(0x43);
-        _msg.push(0x0E);
-        _msg.push(hh);
-        _msg.push(ll);
-        _msg.push(rowStart);
-        _msg.push(rowEnd);
-        _msg.push(columnStart);
-        _msg.push(columnEnd);
-        for(pixel in _bytes) {
-            _msg.push(pixel);
-        }
-        _msg.push(0xF7);
         output.send(_msg);
     }
 
-    private function bitsToInt() : Void
+    public function drawPixel(value :Int, x :Int, y :Int) : Void
     {
-        for(i in 0..._data.length) {
-            var arrayIndex = Math.floor(i / 7);
-            if(_bytes[arrayIndex] == null) {
-                _bytes[arrayIndex] = 0;
-            }
-            _bytes[arrayIndex] = (_bytes[arrayIndex] << 1) | _data[i];
-        }
-    };
-
-    private function convertBitmap() : Void
-    {
-        var L = 8;
-        var screenWidth = DISPLAY_WIDTH;
-
-        for(y in 0...DISPLAY_HEIGHT) {
-            for(x in 0...DISPLAY_WIDTH) {
-                var nX = x * L;
-                var nY = Math.floor(y / L) * L * screenWidth + (y % L);
-                var rY = 7 - (y % 8) + (8 * Std.int(y/8));
-                var displayIndex :Int = nX + nY;
-                var pos = rY*DISPLAY_WIDTH + x;
-                _data[displayIndex] = _bitmap[pos];
-            }  
-        }
+        var pos = y * DISPLAY_WIDTH + x;
+        compactPixel(value, pos);
     }
 
-    private var _bitmap :LuaArray<Int>; 
-    private var _data :LuaArray<Int>; 
-    private var _bytes :LuaArray<Int>; 
+    public function begin() : Void
+    {
+
+    }
+
+    public function end(output :MidiOutputDevice) : Void
+    {
+        
+    }
+
+    private inline function compactPixel(value :Int, position :Int) : Void
+    {
+        var arrayIndex = Math.floor(position / 7) + DATA_INDEX_START;
+        if(_msg[arrayIndex] == null) {
+            _msg[arrayIndex] = 0;
+        }
+        var shiftLoc = 6 - (position % 7);
+        var bitValue = value << shiftLoc;
+        _msg[arrayIndex] = _msg[arrayIndex] | bitValue;
+    };
+
+    private inline function initializeData() : Void
+    {
+        var hh = (DATA_LENGTH + 4) >> 7;
+        var ll = (DATA_LENGTH + 4) & 0x7F;
+        _msg = new LuaArray([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, 0x00, 0x07, 0x00, 0x7F]);
+        for(i in 0...DATA_LENGTH) {
+            _msg.push(0);
+        }
+        _msg.push(0xF7);
+    }
+
     private var _msg :LuaArray<Int>; 
 }
