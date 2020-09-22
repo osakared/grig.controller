@@ -72,7 +72,7 @@ class Main
 					case BUTTON_DOWN:
                         handleButtonDown(buttons, modifiers, grid, display, MIDI_OUT, a.note());
                         display.clear(MIDI_OUT, 0);
-                        display.drawString(Text.make("button cool"));
+                        display.drawString(Text.make("button robot"));
                         display.render(MIDI_OUT, 0, 0);
 					case BUTTON_UP:
                         display.clear(MIDI_OUT, 0);

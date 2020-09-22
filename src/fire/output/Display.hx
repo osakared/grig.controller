@@ -49,9 +49,10 @@ class Display
 
     public function render(output :MidiOutputDevice, row :Int, columnStart :Int, columnEnd :Int = 0x7F) : Void
     {
-        var binaryData = convertBitmap();
-        var data = bitsToInt(binaryData);
-        drawBitmap(output, data, row, row, columnStart, columnEnd);
+        _bytes.clear();
+        convertBitmap();
+        bitsToInt();
+        drawBitmap(output, row, row, columnStart, columnEnd);
         _bitmap.clear();
     }
 
@@ -69,11 +70,11 @@ class Display
         }
     }
 
-    private function drawBitmap(output :MidiOutputDevice, data :LuaArray<Int>, rowStart :Int, rowEnd :Int, columnStart :Int, columnEnd) : Void
+    private function drawBitmap(output :MidiOutputDevice, rowStart :Int, rowEnd :Int, columnStart :Int, columnEnd) : Void
     {
         _msg.clear();
-        var hh = (data.length + 4) >> 7;
-        var ll = (data.length + 4) & 0x7F;
+        var hh = (_bytes.length + 4) >> 7;
+        var ll = (_bytes.length + 4) & 0x7F;
         _msg.push(0xF0);
         _msg.push(0x47);
         _msg.push(0x7F);
@@ -85,28 +86,25 @@ class Display
         _msg.push(rowEnd);
         _msg.push(columnStart);
         _msg.push(columnEnd);
-        for(pixel in data) {
+        for(pixel in _bytes) {
             _msg.push(pixel);
         }
         _msg.push(0xF7);
         output.send(_msg);
     }
 
-    private function bitsToInt(byteArray :LuaArray<Int>) : LuaArray<Int>
+    private function bitsToInt() : Void
     {
-        _bytes.clear();
-        for(i in 0...byteArray.length) {
+        for(i in 0..._data.length) {
             var arrayIndex = Math.floor(i / 7);
             if(_bytes[arrayIndex] == null) {
                 _bytes[arrayIndex] = 0;
             }
-            _bytes[arrayIndex] = (_bytes[arrayIndex] << 1) | byteArray[i];
+            _bytes[arrayIndex] = (_bytes[arrayIndex] << 1) | _data[i];
         }
-
-        return _bytes;
     };
 
-    private function convertBitmap() : LuaArray<Int>
+    private function convertBitmap() : Void
     {
         var L = 8;
         var screenWidth = DISPLAY_WIDTH;
@@ -121,8 +119,6 @@ class Display
                 _data[displayIndex] = _bitmap[pos];
             }  
         }
-
-        return _data;
     }
 
     private var _bitmap :LuaArray<Int>; 
