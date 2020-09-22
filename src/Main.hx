@@ -47,9 +47,7 @@ class Main
     public static function main() : Void
     {
         haxe.macro.Compiler.includeFile("src/fire/_lua/util.lua");
-
         Renoise.tool().addMenuEntry(new MenuEntry("Main Menu:Tools:Lady Fire", Main.init));
-		
     }
 
     public static function init() : Void
@@ -63,18 +61,23 @@ class Main
             var display = new Display();
             var grid = new Grid();
             var modifiers = new Modifiers();
+
             
             buttons.initialize(modifiers, MIDI_OUT, display);
             dials.initialize(modifiers, MIDI_OUT, display);
-            display.initialize(modifiers, MIDI_OUT, display);
-            grid.initialize(modifiers, MIDI_OUT, display);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-						handleButtonDown(buttons, modifiers, grid, display, MIDI_OUT, a.note());
+                        handleButtonDown(buttons, modifiers, grid, display, MIDI_OUT, a.note());
+                        display.clear(MIDI_OUT, 0);
+                        display.drawString(Text.make("button cool"));
+                        display.render(MIDI_OUT, 0, 0);
 					case BUTTON_UP:
+                        display.clear(MIDI_OUT, 0);
+                        display.drawString(Text.make("button sage"));
+                        display.render(MIDI_OUT, 0, 0);
                         handleButtonUp(buttons, modifiers, grid, display, MIDI_OUT, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
@@ -89,16 +92,9 @@ class Main
             var playbackObserver = new PlaybackPositionObserver();
             var transport = Renoise.song().transport;
             playbackObserver.register(0, () -> {
-                grid.colorIndex(MIDI_OUT, transport.playbackPos.line - 1);
+                // grid.colorIndex(MIDI_OUT, transport.playbackPos.line - 1);
             });
 		}
-    }
-
-    public static function drawMsg(display :Display, output :MidiOutputDevice, msg :String) : Void
-    {
-        display.clear(output, 0);
-        display.drawString(Text.make(msg));
-        display.render(output, 0, 0, 127);
     }
 
     public static function handleButtonDown(buttons :Buttons, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
@@ -114,7 +110,6 @@ class Main
             buttons.get(button).up(modifiers, output, display);
         }
         else {
-            grid.handleButtonIndex(output, button);
         }
     }
 

@@ -21,12 +21,10 @@
 
 package fire.output;
 
-import fire.util.Initializable;
-import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 
-class Display implements Initializable
+class Display
 {
     private static var DISPLAY_WIDTH = 128;
     private static var DISPLAY_HEIGHT = 64;
@@ -37,10 +35,6 @@ class Display implements Initializable
         _data = new LuaArray([]);
         _msg = new LuaArray([]);
         _bytes = new LuaArray([]);
-    }
-
-    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
     }
 
     public function clear(output :MidiOutputDevice, row :Int) : Void
