@@ -62,17 +62,8 @@ class Main
             var grid = new Grid();
             var modifiers = new Modifiers();
 
-            display.clear();
-
-            for(i in 0...128) {
-                display.drawPixel(1, i, 32);
-            }
-            for(i in 0...64) {
-                display.drawPixel(1, 64, i);
-            }
-            display.render(MIDI_OUT);
-
-
+            
+            var x = 0;
             
             buttons.initialize(modifiers, MIDI_OUT, display);
             dials.initialize(modifiers, MIDI_OUT, display);
@@ -86,6 +77,21 @@ class Main
                         handleButtonUp(buttons, modifiers, grid, display, MIDI_OUT, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
+
+                        if(isRight) {
+                            x += 1;
+                            if(x > 127) {
+                                x = 127;
+                            }
+                        }
+                        else {
+                            x -= 1;
+                            if(x < 0) {
+                                x = 0;
+                            }
+                        }
+
+                        draw(display, x, 20);
                         handleRotary(dials, modifiers, grid, display, MIDI_OUT, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
@@ -100,6 +106,21 @@ class Main
                 // grid.colorIndex(MIDI_OUT, transport.playbackPos.line - 1);
             });
 		}
+    }
+
+    private static function draw(display :Display, x :Int, y :Int) : Void
+    {
+        display.clear();
+        for(i in 0...128) {
+            display.drawPixel(1, i, y);
+        }
+        for(i in 0...64) {
+            display.drawPixel(1, x, i);
+        }
+        // display.drawText("Haxe", 10, 10);
+        // display.drawText("With Lua Rocks", 10, 18);
+        // display.drawText("The WORLD", 10, 26);
+        display.render(MIDI_OUT);
     }
 
     public static function handleButtonDown(buttons :Buttons, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void

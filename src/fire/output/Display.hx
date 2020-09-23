@@ -21,7 +21,7 @@
 
 package fire.output;
 
-import renoise.Renoise;
+import fire.util.Text;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 
@@ -53,9 +53,25 @@ class Display
     public function drawPixel(value :Int, x :Int, y :Int) : Void
     {
         var nX = x * LINE_HEIGHT;
-        var nY = Math.floor(y / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (y % LINE_HEIGHT);
+        var row = Std.int(y/LINE_HEIGHT);
+        var rY = 7 - (y % LINE_HEIGHT) + (LINE_HEIGHT * row);
+        var nY = Math.floor(rY / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (rY % LINE_HEIGHT);
         var pos = nX + nY;
         compactPixel(value, pos);
+    }
+
+    public function drawText(text :String, x :Int, y :Int) : Void
+    {
+        var letters = Text.make(text);
+        var yIndex = 0;
+        for(line in letters) {
+            var xIndex = 0;
+            for(value in line) {
+                drawPixel(value, xIndex + x, yIndex + y);
+                xIndex++;
+            }
+            yIndex++;
+        }
     }
 
     public function begin() : Void
