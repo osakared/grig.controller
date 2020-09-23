@@ -40,7 +40,6 @@ class Step implements Button
 
     public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
@@ -54,10 +53,5 @@ class Step implements Button
 
     public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-    }
-
-    public function getColor() : Int
-    {
-        return 0;
     }
 }

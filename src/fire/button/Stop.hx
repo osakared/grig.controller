@@ -42,10 +42,6 @@ class Stop implements Button
 
     public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        Renoise.song().transport.playingObservable.addNotifier(() -> {
-            this.update(modifiers, output, display);
-        });
-        output.send(new LuaArray([0xB0, this.type, getColor()]));
     }
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
@@ -64,13 +60,5 @@ class Stop implements Button
 
     public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        output.send(new LuaArray([0xB0, this.type, getColor()]));
-    }
-
-    public function getColor() : Int
-    {
-        return Renoise.song().transport.playing
-            ? Yellow.DULL_YELLOW
-            : Yellow.HIGH_YELLOW;
     }
 }

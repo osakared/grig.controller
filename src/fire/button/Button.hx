@@ -21,16 +21,14 @@
 
 package fire.button;
 
-import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.Display;
 
-interface Button extends Initializable
+interface Button
 {
     var type :ButtonType;
     function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
     function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
     function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
-    function getColor() : Int;
 }

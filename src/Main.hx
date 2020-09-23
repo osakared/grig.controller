@@ -64,7 +64,6 @@ class Main
 
             var x = 0;
             
-            buttons.initialize(modifiers, MIDI_OUT, display);
             dials.initialize(modifiers, MIDI_OUT, display);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
