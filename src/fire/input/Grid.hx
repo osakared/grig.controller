@@ -21,23 +21,21 @@
 
 package fire.input;
 
-import renoise.Renoise;
+import renoise.RenoiseUtil;
 import fire.util.Modifiers;
 
 class Grid
 {
     public function new() : Void
     {
-
     }
 
     public function down(modifiers :Modifiers, pad :Int) : Void
     {
-        Renoise.app().showStatus(Std.string(pad) + "down");
+        RenoiseUtil.setLine(pad + 1, 64);
     }
 
     public function up(modifiers :Modifiers, pad :Int) : Void
     {
-        Renoise.app().showStatus(Std.string(pad) + "up");
     }
 }

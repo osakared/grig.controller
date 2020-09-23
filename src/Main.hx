@@ -19,18 +19,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import renoise.PlaybackPositionObserver;
-import renoise.tool.Tool.MenuEntry;
-import fire.output.Grid as OutputGrid;
-import fire.input.Grid as InputGrid;
-import fire.output.Display;
-import fire.util.Modifiers;
-import fire.input.button.ButtonType;
+import renoise.Renoise;
 import renoise.midi.Midi;
+import renoise.tool.Tool.MenuEntry;
+import fire.input.Grid as InputGrid;
 import fire.input.button.Buttons;
 import fire.input.dial.DialType;
 import fire.input.dial.Dials;
-import renoise.Renoise;
+import fire.input.button.ButtonType;
+import fire.output.Output;
+import fire.util.Modifiers;
 
 class Main
 {
@@ -56,10 +54,9 @@ class Main
 			MIDI_OUT = Midi.createOutputDevice(device);
             var buttons = new Buttons();
             var dials = new Dials();
-            // var display = new Display();
             var inputGrid = new InputGrid();
-            var outputGrid = new OutputGrid();
             var modifiers = new Modifiers();
+            new Output(MIDI_OUT);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
@@ -75,15 +72,6 @@ class Main
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
 			}, (b) -> {});
-
-            var playbackObserver = new PlaybackPositionObserver();
-            var transport = Renoise.song().transport;
-            playbackObserver.register(0, () -> {
-                var padIndex = transport.playbackPos.line - 1;
-                outputGrid.clear();
-                outputGrid.drawPixel(127, 0, 0, padIndex);
-                outputGrid.render(MIDI_OUT);
-            });
 		}
     }
 
@@ -93,6 +81,7 @@ class Main
             buttons.get(button).down(modifiers);
         }
         else {
+            grid.down(modifiers, button - 54);
         }
     }
 
@@ -102,6 +91,7 @@ class Main
             buttons.get(button).up(modifiers);
         }
         else {
+            grid.up(modifiers, button - 54);
         }
     }
 
