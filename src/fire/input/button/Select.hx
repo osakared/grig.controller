@@ -37,7 +37,7 @@ class Select implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function down(modifiers :Modifiers) : Void
     {
         modifiers.selectDown = true;
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
@@ -54,7 +54,7 @@ class Select implements Button
         }
     }
 
-    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function up(modifiers :Modifiers) : Void
     {
         modifiers.selectDown = false;
     }

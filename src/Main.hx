@@ -21,7 +21,8 @@
 
 import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
-import fire.output.Grid;
+import fire.output.Grid as OutputGrid;
+import fire.input.Grid as InputGrid;
 import fire.output.Display;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
@@ -55,20 +56,21 @@ class Main
 			MIDI_OUT = Midi.createOutputDevice(device);
             var buttons = new Buttons();
             var dials = new Dials();
-            var display = new Display();
-            var grid = new Grid();
+            // var display = new Display();
+            var inputGrid = new InputGrid();
+            var outputGrid = new OutputGrid();
             var modifiers = new Modifiers();
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, grid, modifiers, display, MIDI_OUT, a.note());
+                        handleButtonDown(buttons, inputGrid, modifiers, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, grid, modifiers, display, MIDI_OUT, a.note());
+                        handleButtonUp(buttons, inputGrid, modifiers, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(dials, modifiers, display, MIDI_OUT, a.note(), isRight);
+                        handleRotary(dials, modifiers, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -78,39 +80,39 @@ class Main
             var transport = Renoise.song().transport;
             playbackObserver.register(0, () -> {
                 var padIndex = transport.playbackPos.line - 1;
-                grid.clear();
-                grid.drawPixel(127, 0, 0, padIndex);
-                grid.render(MIDI_OUT);
+                outputGrid.clear();
+                outputGrid.drawPixel(127, 0, 0, padIndex);
+                outputGrid.render(MIDI_OUT);
             });
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :Grid, modifiers :Modifiers, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, modifiers :Modifiers, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).down(modifiers, output, display);
+            buttons.get(button).down(modifiers);
         }
         else {
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :Grid, modifiers :Modifiers, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, modifiers :Modifiers, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).up(modifiers, output, display);
+            buttons.get(button).up(modifiers);
         }
         else {
         }
     }
 
-    public static function handleRotary(dials :Dials, modifiers :Modifiers, display :Display, output :MidiOutputDevice, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(dials :Dials, modifiers :Modifiers, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {
-                dials.get(type).right(modifiers, output, display);
+                dials.get(type).right(modifiers);
             }
             else {
-                dials.get(type).left(modifiers, output, display);
+                dials.get(type).left(modifiers);
             }
         }
     }

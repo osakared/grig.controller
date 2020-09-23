@@ -19,28 +19,25 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.input;
 
+import renoise.Renoise;
 import fire.util.Modifiers;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.input.button.ButtonType;
-import fire.util.LuaArray;
-import fire.output.Display;
 
-class KnobType implements Button
+class Grid
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
+    public function new() : Void
     {
-        this.type = type;
+
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(modifiers :Modifiers, pad :Int) : Void
     {
+        Renoise.app().showStatus(Std.string(pad) + "down");
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(modifiers :Modifiers, pad :Int) : Void
     {
+        Renoise.app().showStatus(Std.string(pad) + "up");
     }
 }

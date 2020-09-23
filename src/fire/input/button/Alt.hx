@@ -36,12 +36,12 @@ class Alt implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function down(modifiers :Modifiers) : Void
     {
         modifiers.altDown = true;
     }
 
-    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function up(modifiers :Modifiers) : Void
     {
         modifiers.altDown = false;
     }

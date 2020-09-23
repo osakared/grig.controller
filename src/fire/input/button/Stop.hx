@@ -40,7 +40,7 @@ class Stop implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function down(modifiers :Modifiers) : Void
     {
         if(Renoise.song().transport.playing) {
             Renoise.song().transport.playing = false;
@@ -50,7 +50,7 @@ class Stop implements Button
         }
     }
 
-    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function up(modifiers :Modifiers) : Void
     {
     }
 }

@@ -28,6 +28,6 @@ import fire.output.Display;
 interface Dial
 {
     var type :DialType;
-    function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
-    function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function left(modifiers :Modifiers) : Void;
+    function right(modifiers :Modifiers) : Void;
 }

@@ -36,7 +36,7 @@ class Select implements Dial
         this.type = type;
     }
 
-    public function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function left(modifiers :Modifiers) : Void
     {
         if(modifiers.selectDown) {
             if(modifiers.altDown) {
@@ -55,7 +55,7 @@ class Select implements Dial
         }
     }
 
-    public function right(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
+    public function right(modifiers :Modifiers) : Void
     {
         if(modifiers.selectDown) {
             if(modifiers.altDown) {

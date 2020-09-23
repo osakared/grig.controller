@@ -22,12 +22,10 @@
 package fire.input.button;
 
 import fire.util.Modifiers;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.output.Display;
 
 interface Button
 {
     var type :ButtonType;
-    function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
-    function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function down(modifiers :Modifiers) : Void;
+    function up(modifiers :Modifiers) : Void;
 }
