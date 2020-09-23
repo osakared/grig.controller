@@ -36,10 +36,6 @@ class Select implements Dial
         this.type = type;
     }
 
-    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
     public function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         if(modifiers.selectDown) {

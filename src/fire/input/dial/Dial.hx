@@ -21,12 +21,11 @@
 
 package fire.input.dial;
 
-import fire.util.Initializable;
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.Display;
 
-interface Dial extends Initializable
+interface Dial
 {
     var type :DialType;
     function left(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;

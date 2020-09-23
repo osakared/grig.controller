@@ -49,12 +49,5 @@ class Dials
         return _dials.get(type);
     }
 
-    public inline function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-        for(button in _dials) {
-            button.initialize(modifiers, output, display);
-        }
-    }
-
     private var _dials : Map<DialType, Dial>;
 }

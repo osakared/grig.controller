@@ -30,5 +30,4 @@ interface Button
     var type :ButtonType;
     function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
     function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
-    function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
 }

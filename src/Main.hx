@@ -62,41 +62,20 @@ class Main
             var grid = new Grid();
             var modifiers = new Modifiers();
 
-            var x = 0;
-            
-            dials.initialize(modifiers, MIDI_OUT, display);
-
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, modifiers, grid, display, MIDI_OUT, a.note());
+                        handleButtonDown(buttons, grid, modifiers, display, MIDI_OUT, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, modifiers, grid, display, MIDI_OUT, a.note());
+                        handleButtonUp(buttons, grid, modifiers, display, MIDI_OUT, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-
-                        if(isRight) {
-                            x += 1;
-                            if(x > 127) {
-                                x = 127;
-                            }
-                        }
-                        else {
-                            x -= 1;
-                            if(x < 0) {
-                                x = 0;
-                            }
-                        }
-
-                        draw(display, grid, x, 20);
-                        handleRotary(dials, modifiers, grid, display, MIDI_OUT, a.note(), isRight);
+                        handleRotary(dials, modifiers, display, MIDI_OUT, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
-			}, (b) -> {
-
-            });
+			}, (b) -> {});
 
             var playbackObserver = new PlaybackPositionObserver();
             var transport = Renoise.song().transport;
@@ -109,29 +88,16 @@ class Main
 		}
     }
 
-    private static function draw(display :Display, grid :Grid, x :Int, y :Int) : Void
-    {
-        display.clear();
-        for(i in 0...128) {
-            display.drawPixel(1, i, y);
-        }
-        for(i in 0...64) {
-            display.drawPixel(1, x, i);
-        }
-        display.drawText("Haxe", 10, 10);
-        display.drawText("With Lua Rocks", 10, 18);
-        display.drawText("The WORLD", 10, 26);
-        display.renderRow(MIDI_OUT, 2);
-    }
-
-    public static function handleButtonDown(buttons :Buttons, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :Grid, modifiers :Modifiers, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).down(modifiers, output, display);
         }
+        else {
+        }
     }
 
-    public static function handleButtonUp(buttons :Buttons, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :Grid, modifiers :Modifiers, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).up(modifiers, output, display);
@@ -140,7 +106,7 @@ class Main
         }
     }
 
-    public static function handleRotary(dials :Dials, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(dials :Dials, modifiers :Modifiers, display :Display, output :MidiOutputDevice, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {

@@ -38,20 +38,12 @@ class Play implements Button
         this.type = type;
     }
 
-    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         Renoise.song().transport.playing = true;
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
-    public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
 }

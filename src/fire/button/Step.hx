@@ -38,10 +38,6 @@ class Step implements Button
         this.type = type;
     }
 
-    public function initialize(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
     }
@@ -49,9 +45,5 @@ class Step implements Button
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
-    }
-
-    public function update(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
     }
 }
