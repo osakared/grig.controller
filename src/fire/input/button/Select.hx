@@ -22,11 +22,8 @@
 package fire.input.button;
 
 import fire.util.Modifiers;
-import renoise.midi.Midi.MidiOutputDevice;
 import fire.input.button.ButtonType;
-import fire.util.LuaArray;
 import renoise.Renoise;
-import fire.output.Display;
 
 class Select implements Button
 {
