@@ -30,7 +30,7 @@ class Display
     private static inline var DISPLAY_WIDTH = 128;
     private static inline var DISPLAY_HEIGHT = 64;
     private static inline var LINE_HEIGHT = 8;
-    private static inline var DATA_LENGTH = 1171; //Math.ceil((128 * 64) / 7) 01111111
+    private static inline var ROW_LENGTH = 147; //Math.ceil((128 * 8) / 7) 01111111
     private static inline var DATA_INDEX_START = 12;
 
     public function new() : Void
@@ -40,24 +40,36 @@ class Display
 
     public function clear() : Void
     {
-        for(i in 0...DATA_LENGTH) {
-            _msg[i + DATA_INDEX_START] = 0;
+        for(row in _rows) {
+            for(i in 0...ROW_LENGTH) {
+                row[i + DATA_INDEX_START] = 0;
+            }
         }
     }
 
     public inline function render(output :MidiOutputDevice) : Void
     {
-        output.send(_msg);
+        for(row in _rows) {
+            output.send(row);
+        }
+    }
+
+    public inline function renderRow(output :MidiOutputDevice, index :Int) : Void
+    {
+        output.send(_rows[index]);
     }
 
     public function drawPixel(value :Int, x :Int, y :Int) : Void
     {
-        var nX = x * LINE_HEIGHT;
+        x %= DISPLAY_WIDTH;
+        y %= DISPLAY_HEIGHT;
         var row = Std.int(y/LINE_HEIGHT);
-        var rY = 7 - (y % LINE_HEIGHT) + (LINE_HEIGHT * row);
+        y = y % 8;
+        var nX = x * LINE_HEIGHT;
+        var rY = 7 - (y % LINE_HEIGHT);
         var nY = Math.floor(rY / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (rY % LINE_HEIGHT);
         var pos = nX + nY;
-        compactPixel(value, pos);
+        compactPixel(_rows[row], value, pos);
     }
 
     public function drawText(text :String, x :Int, y :Int) : Void
@@ -74,37 +86,30 @@ class Display
         }
     }
 
-    public function begin() : Void
-    {
-
-    }
-
-    public function end(output :MidiOutputDevice) : Void
-    {
-        
-    }
-
-    private inline function compactPixel(value :Int, position :Int) : Void
+    private inline function compactPixel(row :LuaArray<Int>, value :Int, position :Int) : Void
     {
         var arrayIndex = Math.floor(position / 7) + DATA_INDEX_START;
-        if(_msg[arrayIndex] == null) {
-            _msg[arrayIndex] = 0;
+        if(row[arrayIndex] == null) {
+            row[arrayIndex] = 0;
         }
         var shiftLoc = 6 - (position % 7);
         var bitValue = value << shiftLoc;
-        _msg[arrayIndex] = _msg[arrayIndex] | bitValue;
+        row[arrayIndex] = row[arrayIndex] | bitValue;
     };
 
     private inline function initializeData() : Void
     {
-        var hh = (DATA_LENGTH + 4) >> 7;
-        var ll = (DATA_LENGTH + 4) & 0x7F;
-        _msg = new LuaArray([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, 0x00, 0x07, 0x00, 0x7F]);
-        for(i in 0...DATA_LENGTH) {
-            _msg.push(0);
+        var hh = (ROW_LENGTH + 4) >> 7;
+        var ll = (ROW_LENGTH + 4) & 0x7F;
+        for(rowIndex in 0...8) {
+            var row = new LuaArray([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, rowIndex, 0x07, 0x00, 0x7F]);
+            for(_ in 0...ROW_LENGTH) {
+                row.push(0);
+            }
+            row.push(0xF7);
+            _rows.push(row);
         }
-        _msg.push(0xF7);
     }
 
-    private var _msg :LuaArray<Int>; 
+    private var _rows :Array<LuaArray<Int>> = [];
 }

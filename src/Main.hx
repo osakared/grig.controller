@@ -62,7 +62,6 @@ class Main
             var grid = new Grid();
             var modifiers = new Modifiers();
 
-            
             var x = 0;
             
             buttons.initialize(modifiers, MIDI_OUT, display);
@@ -91,7 +90,7 @@ class Main
                             }
                         }
 
-                        draw(display, x, 20);
+                        draw(display, grid, x, 20);
                         handleRotary(dials, modifiers, grid, display, MIDI_OUT, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
@@ -103,12 +102,15 @@ class Main
             var playbackObserver = new PlaybackPositionObserver();
             var transport = Renoise.song().transport;
             playbackObserver.register(0, () -> {
-                // grid.colorIndex(MIDI_OUT, transport.playbackPos.line - 1);
+                var padIndex = transport.playbackPos.line - 1;
+                grid.clear();
+                grid.drawPixel(127, 0, 0, padIndex);
+                grid.render(MIDI_OUT);
             });
 		}
     }
 
-    private static function draw(display :Display, x :Int, y :Int) : Void
+    private static function draw(display :Display, grid :Grid, x :Int, y :Int) : Void
     {
         display.clear();
         for(i in 0...128) {
@@ -117,10 +119,10 @@ class Main
         for(i in 0...64) {
             display.drawPixel(1, x, i);
         }
-        // display.drawText("Haxe", 10, 10);
-        // display.drawText("With Lua Rocks", 10, 18);
-        // display.drawText("The WORLD", 10, 26);
-        display.render(MIDI_OUT);
+        display.drawText("Haxe", 10, 10);
+        display.drawText("With Lua Rocks", 10, 18);
+        display.drawText("The WORLD", 10, 26);
+        display.renderRow(MIDI_OUT, 2);
     }
 
     public static function handleButtonDown(buttons :Buttons, modifiers :Modifiers, grid :Grid, display :Display, output :MidiOutputDevice, button :ButtonType) : Void
