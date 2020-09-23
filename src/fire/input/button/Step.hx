@@ -19,15 +19,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
+import renoise.Renoise;
+import renoise.RenoiseUtil;
 import fire.util.LuaArray;
 import fire.output.Display;
 
-class Browser implements Button
+class Step implements Button
 {
     public var type : ButtonType;
 
@@ -42,5 +44,6 @@ class Browser implements Button
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }

@@ -19,20 +19,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
-import renoise.Renoise;
-import renoise.RenoiseUtil;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
 import fire.util.LuaArray;
-import fire.util.Color;
 import fire.output.Display;
 
-class Stop implements Button
+class PatternDown implements Button
 {
-    public var color : Int;
     public var type : ButtonType;
 
     public function new(type :ButtonType) : Void
@@ -42,12 +38,6 @@ class Stop implements Button
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        if(Renoise.song().transport.playing) {
-            Renoise.song().transport.playing = false;
-        }
-        else {
-            RenoiseUtil.setLine(1, 64);
-        }
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void

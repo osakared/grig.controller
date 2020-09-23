@@ -19,15 +19,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
+import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
 import fire.util.LuaArray;
+import fire.util.Color;
 import fire.output.Display;
 
-class Pan implements Button
+class Play implements Button
 {
     public var type : ButtonType;
 
@@ -38,6 +40,7 @@ class Pan implements Button
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
+        Renoise.song().transport.playing = true;
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void

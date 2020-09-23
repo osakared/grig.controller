@@ -19,15 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
 import fire.util.LuaArray;
 import fire.output.Display;
 
-class Volume implements Button
+class Drum implements Button
 {
     public var type : ButtonType;
 

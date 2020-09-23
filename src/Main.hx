@@ -19,20 +19,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import haxe.io.Output;
 import renoise.PlaybackPositionObserver;
 import renoise.tool.Tool.MenuEntry;
 import fire.output.Grid;
 import fire.output.Display;
 import fire.util.Modifiers;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
 import renoise.midi.Midi;
-import fire.button.Buttons;
+import fire.input.button.Buttons;
 import fire.input.dial.DialType;
 import fire.input.dial.Dials;
-import fire.util.Text;
 import renoise.Renoise;
-import fire.output.button.ButtonLights;
 
 class Main
 {

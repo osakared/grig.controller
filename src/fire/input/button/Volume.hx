@@ -19,16 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
+import fire.input.button.ButtonType;
 import fire.util.LuaArray;
-import renoise.Renoise;
 import fire.output.Display;
 
-class Select implements Button
+class Volume implements Button
 {
     public var type : ButtonType;
 
@@ -39,23 +38,9 @@ class Select implements Button
 
     public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        modifiers.selectDown = true;
-        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        if(modifiers.altDown) {
-            if(noteValue == 121) {
-                Renoise.song().selectedLine.noteColumn(1).noteValue = 120;
-            }
-            else {
-                Renoise.song().selectedLine.noteColumn(1).noteValue = 121;
-            }
-        }
-        else if(noteValue == 121) {
-            Renoise.song().selectedLine.noteColumn(1).noteValue = 60;
-        }
     }
 
     public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
     {
-        modifiers.selectDown = false;
     }
 }

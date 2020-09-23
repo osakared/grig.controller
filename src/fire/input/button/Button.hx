@@ -19,28 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.button;
+package fire.input.button;
 
 import fire.util.Modifiers;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.button.ButtonType;
-import fire.util.LuaArray;
 import fire.output.Display;
 
-class Record implements Button
+interface Button
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
-
-    public function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void
-    {
-    }
+    var type :ButtonType;
+    function down(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
+    function up(modifiers :Modifiers, output :MidiOutputDevice, display :Display) : Void;
 }
