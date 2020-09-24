@@ -35,11 +35,11 @@ class Alt implements Button
 
     public function down(modifiers :Modifiers) : Void
     {
-        modifiers.altDown = true;
+        modifiers.alt = true;
     }
 
     public function up(modifiers :Modifiers) : Void
     {
-        modifiers.altDown = false;
+        modifiers.alt = false;
     }
 }

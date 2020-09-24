@@ -23,6 +23,10 @@ package renoise.song;
 
 extern class NoteColumn
 {
+    public static inline var NOTE_OFF = 120;
+    public static inline var NOTE_EMPTY = 121;
+    public static inline var MIDDLE_C = 60;
+
     /**
      * True, when all note column properties are empty.
      * @return Bool

@@ -21,14 +21,12 @@
 
 package fire.util;
 
-class Modifiers
+class Math
 {
-    public var select :Bool;
-    public var alt :Bool;
-
-    public function new() : Void
+    public static function clamp<T:Float> (value :T, min :T, max :T) :T
     {
-        this.select = false;
-        this.alt = false;
+        return if (value < min) min
+            else if (value > max) max
+            else value;
     }
 }

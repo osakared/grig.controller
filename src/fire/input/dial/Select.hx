@@ -21,11 +21,11 @@
 
 package fire.input.dial;
 
+import renoise.song.NoteColumn;
 import fire.util.Modifiers;
 import renoise.Renoise;
-import renoise.midi.Midi.MidiOutputDevice;
 import renoise.RenoiseUtil;
-import fire.output.Display;
+using fire.util.Math;
 
 class Select implements Dial
 {
@@ -38,45 +38,57 @@ class Select implements Dial
 
     public function left(modifiers :Modifiers) : Void
     {
-        if(modifiers.selectDown) {
-            if(modifiers.altDown) {
-
+        if(modifiers.select) {
+            if(modifiers.alt) {
+                handleAlt(true);
             }
             else {
-                var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue - 1;
-                if(noteValue < 0) {
-                    noteValue = 0;
-                }
-                Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+                moveNote(-1);
             }
         }
         else {
-            RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line - 1, 64);
+            moveLine(-1);
         }
     }
 
     public function right(modifiers :Modifiers) : Void
     {
-        if(modifiers.selectDown) {
-            if(modifiers.altDown) {
-
+        if(modifiers.select) {
+            if(modifiers.alt) {
+                handleAlt(false);
             }
             else {
-                var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue + 1;
-                if(noteValue > 119) {
-                    noteValue = 119;
-                }
-                Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+                moveNote(1);
             }
         }
         else {
-            RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
+            moveLine(1);
         }
     }
 
-    private function handleSelect() : Void
+    private function handleAlt(isLeft :Bool) : Void
     {
+        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+        Renoise.song().selectedLine.noteColumn(1).noteValue = switch [isLeft, noteValue] {
+            case [true, NoteColumn.NOTE_EMPTY]: NoteColumn.MIDDLE_C;
+            case [true, NoteColumn.NOTE_OFF]: NoteColumn.NOTE_EMPTY;
+            case [true, _]: NoteColumn.NOTE_OFF;
 
+            case [false, NoteColumn.NOTE_EMPTY]: NoteColumn.NOTE_OFF;
+            case [false, NoteColumn.NOTE_OFF]: NoteColumn.MIDDLE_C;
+            case [false, _]: NoteColumn.NOTE_EMPTY;
+        }
+    }
+
+    private function moveNote(amount :Int) : Void
+    {
+        var noteValue = (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
+        Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+    }
+
+    private function moveLine(amount :Int) : Void
+    {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }
 

@@ -21,6 +21,7 @@
 
 package fire.input.button;
 
+import renoise.song.NoteColumn;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 import renoise.Renoise;
@@ -36,23 +37,15 @@ class Select implements Button
 
     public function down(modifiers :Modifiers) : Void
     {
-        modifiers.selectDown = true;
+        modifiers.select = true;
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        if(modifiers.altDown) {
-            if(noteValue == 121) {
-                Renoise.song().selectedLine.noteColumn(1).noteValue = 120;
-            }
-            else {
-                Renoise.song().selectedLine.noteColumn(1).noteValue = 121;
-            }
-        }
-        else if(noteValue == 121) {
-            Renoise.song().selectedLine.noteColumn(1).noteValue = 60;
+        if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
+            Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
         }
     }
 
     public function up(modifiers :Modifiers) : Void
     {
-        modifiers.selectDown = false;
+        modifiers.select = false;
     }
 }
