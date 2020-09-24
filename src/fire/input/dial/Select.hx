@@ -73,5 +73,10 @@ class Select implements Dial
             RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
         }
     }
+
+    private function handleSelect() : Void
+    {
+
+    }
 }
 
