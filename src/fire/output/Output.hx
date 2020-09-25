@@ -50,7 +50,7 @@ class Output
     {
         var playbackObserver = new PlaybackPositionObserver();
 
-        _display.drawText(Renoise.song().track(1).name, 18, 0);
+        _display.drawText(Renoise.song().track(1).name, 18, 0, true);
         _display.renderRow(_outputDevice, 0);
 
         var transport = Renoise.song().transport;
