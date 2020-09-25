@@ -25,10 +25,12 @@ class Modifiers
 {
     public var select :Bool;
     public var alt :Bool;
+    public var gridIndex :Int;
 
     public function new() : Void
     {
         this.select = false;
         this.alt = false;
+        this.gridIndex = 0;
     }
 }

@@ -73,21 +73,27 @@ class Display
         compactPixel(_rows[row], value, pos);
     }
 
-    public function drawText(text :String, x :Int, y :Int, underline :Bool = false) : Void
+    public function drawText(text :String, x :Int, y :Int, underline :Bool, invert :Bool) : Int
     {
         var letters = Text.make(text);
         var yIndex = 0;
+        var maxUnderlines = 6 * text.length - 1;
         for(line in letters) {
             var xIndex = 0;
             for(value in line) {
-                if(underline && yIndex == 7) {
+                if(underline && yIndex == 7 && xIndex < maxUnderlines) {
                     value = 1;
+                }
+                if(invert) {
+                    value = (value == 0) ? 1 : 0;
                 }
                 drawPixel(value, xIndex + x, yIndex + y);
                 xIndex++;
             }
             yIndex++;
         }
+
+        return x + 6 * text.length;
     }
 
     private inline function compactPixel(row :LuaArray<Int>, value :Int, position :Int) : Void

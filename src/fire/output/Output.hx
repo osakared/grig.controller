@@ -1,5 +1,6 @@
 package fire.output;
 
+import fire.util.Modifiers;
 import renoise.RenoiseUtil;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
@@ -10,9 +11,10 @@ import renoise.PlaybackPositionObserver;
 
 class Output
 {
-    public function new(outputDevice :MidiOutputDevice) : Void
+    public function new(outputDevice :MidiOutputDevice, modifiers :Modifiers) : Void
     {
         _outputDevice = outputDevice;
+        _modifiers = modifiers;
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
@@ -32,17 +34,22 @@ class Output
     {
         index = RenoiseUtil.mod(index, 64);
         var line = lineString(index - 1);
+        var x = _display.drawText(line, 0, 8 * row, false, _modifiers.gridIndex == 0 && underline);
+        x = _display.drawText(" ", x, 8 * row, false, false);
+
         var noteColumn = Renoise.song().patterns[1].track(1).line(index).noteColumn(1);
-        var note = noteColumn.noteString;
-        var instrument = noteColumn.instrumentString;
-        var volume = noteColumn.volumeString;
-        var panning = noteColumn.panningString;
-
+        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, _modifiers.gridIndex == 1 && underline);
+        x = _display.drawText("|", x, 8 * row, false, false);
+        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, _modifiers.gridIndex == 2 && underline);
+        x = _display.drawText("|", x, 8 * row, false, false);
+        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, _modifiers.gridIndex == 3 && underline);
+        x = _display.drawText("|", x, 8 * row, false, false);
+        x = _display.drawText(noteColumn.panningString, x, 8 * row, false, _modifiers.gridIndex == 4 && underline);
+        x = _display.drawText("|", x, 8 * row, false, false);
         var effectColumn = Renoise.song().patterns[1].track(1).line(index).effectColumn(1);
-        var effectNumber = effectColumn.numberString;
-        var effectAmount = effectColumn.amountString;
-
-        _display.drawText('${line} ${note}|${instrument}|${volume}|${panning}|${effectNumber}|${effectAmount}', 0, 8 * row, underline);
+        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, _modifiers.gridIndex == 5 && underline);
+        x = _display.drawText("|", x, 8 * row, false, false);
+        _display.drawText(effectColumn.amountString, x, 8 * row, false, _modifiers.gridIndex == 6 && underline);
         _display.renderRow(_outputDevice, row);
     }
 
@@ -50,7 +57,7 @@ class Output
     {
         var playbackObserver = new PlaybackPositionObserver();
 
-        _display.drawText(Renoise.song().track(1).name, 18, 0, true);
+        _display.drawText(Renoise.song().track(1).name, 18, 0, false, false);
         _display.renderRow(_outputDevice, 0);
 
         var transport = Renoise.song().transport;
@@ -90,6 +97,7 @@ class Output
     private var _display :Display;
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
+    private var _modifiers :Modifiers;
 
     private var _cachedNotes :Array<Int>;
 }

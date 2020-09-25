@@ -21,6 +21,7 @@
 
 package fire.input.button;
 
+import fire.util.Math;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 
@@ -39,5 +40,6 @@ class GridLeft implements Button
 
     public function up(modifiers :Modifiers) : Void
     {
+        modifiers.gridIndex = Math.clamp(modifiers.gridIndex - 1, 0, 6);
     }
 }

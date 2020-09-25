@@ -51,12 +51,12 @@ class Main
         var device = Midi.availableInputDevices()[1];
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
-			MIDI_OUT = Midi.createOutputDevice(device);
+            MIDI_OUT = Midi.createOutputDevice(device);
             var buttons = new Buttons();
             var dials = new Dials();
             var inputGrid = new InputGrid();
             var modifiers = new Modifiers();
-            new Output(MIDI_OUT);
+            new Output(MIDI_OUT, modifiers);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
