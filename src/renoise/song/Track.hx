@@ -23,5 +23,5 @@ package renoise.song;
 
 extern class Track
 {
-    
+    public var name :String;
 }

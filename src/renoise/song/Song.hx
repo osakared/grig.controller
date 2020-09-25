@@ -25,7 +25,6 @@ import lua.Table;
 
 extern class Song
 {
-
     public var file_name :String;
 
     public var artist : String;
@@ -48,7 +47,20 @@ extern class Song
 
     public var send_track_count (default, null) : Int; //left off here!
 
+    public var instruments (default, null) : Table<Int, Instrument>;
+    public var instruments_observable (default, null) : Observable;
 
+    public var patterns (default, null) : Table<Int, Pattern>;
+    public var patterns_observable (default, null) : Observable;
+
+    public var tracks (default, null) : Table<Int, Track>;
+    public var tracks_observable (default, null) : Observable;
+
+    public var selected_instrument (default, null) : Instrument;
+    public var selected_instrument_observable (default, null) : Observable;
+
+    public var selected_instrument_index (default, null) : Int;
+    public var selected_instrument_index_observable (default, null) : Observable;
 
     @:native("selected_line")
     public var selectedLine : PatternLine;
@@ -146,7 +158,4 @@ extern class Song
     public function save_midi_mappings(filename :String) : Dynamic;
 
     public function clear_midi_mappings() : Void;
-
-
-
 }

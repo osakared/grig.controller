@@ -73,13 +73,16 @@ class Display
         compactPixel(_rows[row], value, pos);
     }
 
-    public function drawText(text :String, x :Int, y :Int) : Void
+    public function drawText(text :String, x :Int, y :Int, underline :Bool = false) : Void
     {
         var letters = Text.make(text);
         var yIndex = 0;
         for(line in letters) {
             var xIndex = 0;
             for(value in line) {
+                if(underline && yIndex == 7) {
+                    value = 1;
+                }
                 drawPixel(value, xIndex + x, yIndex + y);
                 xIndex++;
             }

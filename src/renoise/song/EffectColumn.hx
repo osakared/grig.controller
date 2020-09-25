@@ -23,5 +23,31 @@ package renoise.song;
 
 extern class EffectColumn
 {
-    
+    @:native("is_empty")
+    public var isEmpty (default, null) : Bool;
+
+    @:native("is_selected")
+    public var isSelected (default, null) : Bool;
+
+    @:native("number_value")
+    public var numberValue : Int;
+    @:native("number_string")
+    public var numberString : String;
+
+    @:native("amount_value")
+    public var amountValue : Int;
+    @:native("amount_string")
+    public var amountString : String;
+
+    /**
+     * Clear the effect column.
+     */
+    public function clear() : Void;
+
+    /**
+     * Copy the column's content from another column.
+     * @param other 
+     */
+    @:native("copy_from")
+    public function copyFrom(other :EffectColumn) : Void;
 }
