@@ -21,7 +21,8 @@
 
 package fire.output;
 
-import fire.util.Text;
+import lua.Table;
+import fire.output.Text;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 
@@ -102,7 +103,7 @@ class Display
         var hh = (ROW_LENGTH + 4) >> 7;
         var ll = (ROW_LENGTH + 4) & 0x7F;
         for(rowIndex in 0...8) {
-            var row = new LuaArray([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, rowIndex, 0x07, 0x00, 0x7F]);
+            var row :LuaArray<Int> = Table.create([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, rowIndex, 0x07, 0x00, 0x7F]);
             for(_ in 0...ROW_LENGTH) {
                 row.push(0);
             }

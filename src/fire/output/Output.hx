@@ -13,8 +13,9 @@ class Output
     {
         _outputDevice = outputDevice;
         _display = new Display();
-        _grid = new OutputGrid();
+        _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
+        _cachedNotes = [];
         this.init();
     }
 
@@ -24,15 +25,12 @@ class Output
         var transport = Renoise.song().transport;
         playbackObserver.register(0, () -> {
             var padIndex = transport.playbackPos.line - 1;
-            _grid.clear();
-            _grid.drawPad(127, 0, 0, padIndex);
-            _grid.drawPad(127, 127, 0, padIndex + 1);
-            _grid.drawPad(127, 0, 127, padIndex + 2);
-            _grid.render(_outputDevice);
+            _pads.clear();
+            _pads.drawPad(127, 0, 0, padIndex);
+            _pads.render(_outputDevice);
 
-            var isSage = padIndex % 2 == 0;
             _display.clear();
-            _display.drawText(isSage ? "sage" : "neptune", 0, 0);
+            _display.drawText('${transport.playbackPos.line} | hi', 0, 0);
             _display.render(_outputDevice);
         });
 
@@ -44,10 +42,18 @@ class Output
                 _buttons.play.send(_outputDevice, 0);
             }
         });
+
+
+        // renoise.song()
+        Renoise.song().selectedPatternTrackObservable.addNotifier(() -> {
+            // Renoise.app().showStatus("Selected Pattern Track Change!");
+        });
     }
 
     private var _outputDevice :MidiOutputDevice;
     private var _display :Display;
-    private var _grid :OutputGrid;
+    private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
+
+    private var _cachedNotes :Array<Int>;
 }

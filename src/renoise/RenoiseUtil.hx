@@ -27,7 +27,6 @@ class RenoiseUtil
     {
         var playbackPos = Renoise.song().transport.playbackPos;
         playbackPos.line = mod(line, modVal);
-        Renoise.app().showStatus(Std.string(playbackPos.line));
         Renoise.song().transport.playbackPos = playbackPos;
     }
 

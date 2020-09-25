@@ -88,7 +88,7 @@ class Select implements Dial
 
     private function moveLine(amount :Int) : Void
     {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + amount, 64);
     }
 }
 

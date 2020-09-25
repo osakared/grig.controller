@@ -21,6 +21,7 @@
 
 package fire.output;
 
+import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 
@@ -31,10 +32,10 @@ class Grid
     private static inline var BYTE_LENGTH = PADS * 4;
     private static inline var DATA_INDEX_START = 8;
 
-    public function new() : Void
+    public function new(output :MidiOutputDevice) : Void
     {
         _rows = [];
-        initializeData();
+        initializeData(output);
     }
 
     public function render(output :MidiOutputDevice) : Void
@@ -61,23 +62,23 @@ class Grid
         }
     }
 
-    private function initializeData() : Void
+    private function initializeData(output :MidiOutputDevice) : Void
     {
         for(rowIndex in 0...ROWS) {
-            var row = new LuaArray([0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, BYTE_LENGTH]);
+            var row :LuaArray<Int> = Table.create([0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, BYTE_LENGTH]);
             _rows.push(row);
-            for(step in 0...PADS) {
-                drawToPad(127, 127, 0, step, rowIndex);
+            for(pad in 0...PADS) {
+                drawToPad(0, 127, 0, pad, rowIndex);
             }
             row.push(0xF7);
         }
+        this.render(output);
     }
 
     private function drawToPad(r :Int, g :Int, b :Int, pad :Int, row :Int) : Void
     {
-        var padIndex = pad + row * PADS;
         var padIndex = pad * 4 + DATA_INDEX_START;
-        _rows[row][padIndex] = padIndex;
+        _rows[row][padIndex] = pad + PADS * row;
         _rows[row][padIndex + 1] = r;
         _rows[row][padIndex + 2] = g;
         _rows[row][padIndex + 3] = b;
