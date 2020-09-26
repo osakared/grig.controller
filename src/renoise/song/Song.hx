@@ -30,7 +30,7 @@ extern class Song
      * name to the XRNS file is returned. Otherwise, an empty string is returned.
      */
     @:native("file_name")
-    public var fileName :String;
+    public var fileName (default, null) : String;
 
     /**
      * Song Comments Note: All property tables of basic types in the API are 
@@ -41,7 +41,7 @@ extern class Song
     public var artist : String;
 
     @:native("artist_observable")
-    public var artistObservable : Observable;
+    public var artistObservable (default, null) : Observable;
 
     /**
      * Song Comments Note: All property tables of basic types in the API are 
@@ -52,7 +52,7 @@ extern class Song
     public var name : String;
 
     @:native("name_observable")
-    public var nameObservable : Observable;
+    public var nameObservable (default, null) : Observable;
 
     /**
      * See renoise.song():render(). Returns true while rendering is in progress.
@@ -127,7 +127,7 @@ extern class Song
     public var selectedInstrumentObservable (default, null) : Observable;
 
     @:native("selected_instrument_index")
-    public var selectedInstrumentIndex (default, null) : Int;
+    public var selectedInstrumentIndex : Int;
 
     @:native("selected_instrument_index_observable")
     public var selectedInstrumentIndexObservable (default, null) : Observable;
@@ -142,7 +142,7 @@ extern class Song
     public var selectedPhraseObservable (default, null) : Observable;
 
     @:native("selected_phrase_index")
-    public var selectedPhraseIndex (default, null) : Int;
+    public var selectedPhraseIndex : Int;
 
     /**
      * Selected in the instrument's sample list. Only nil when no samples are 
@@ -155,7 +155,7 @@ extern class Song
     public var selectedSampleObservable (default, null) : Observable;
 
     @:native("selected_sample_index")
-    public var selectedSampleIndex (default, null) : Int;
+    public var selectedSampleIndex : Int;
 
     /**
      * Selected in the instrument's modulation view. Can be nil.
@@ -167,7 +167,7 @@ extern class Song
     public var selectedSampleModulationSetObservable (default, null) : Observable;
 
     @:native("selected_sample_modulation_set_index")
-    public var selectedSampleModulationSetIndex (default, null) : Int;
+    public var selectedSampleModulationSetIndex : Int;
 
     /**
      * Selected in the instrument's effects view. Can be nil.
@@ -179,7 +179,7 @@ extern class Song
     public var selectedSampleDeviceChainObservable (default, null) : Observable;
 
     @:native("selected_sample_device_chain_index")
-    public var selectedSampleDeviceChainIndex (default, null) : Int;
+    public var selectedSampleDeviceChainIndex: Int;
 
     /**
      * Selected in the sample effect mixer. Can be nil.
@@ -191,7 +191,7 @@ extern class Song
     public var selectedSampleDeviceObservable (default, null) : Observable;
 
     @:native("selected_sample_device_index")
-    public var selectedSampleDeviceIndex (default, null) : Int;
+    public var selectedSampleDeviceIndex : Int;
 
     /**
      * Selected in the pattern editor or mixer. Never nil.
@@ -203,7 +203,7 @@ extern class Song
     public var selectedTrackObservable (default, null) : Observable;
 
     @:native("selected_track_index")
-    public var selectedTrackIndex (default, null) : Int;
+    public var selectedTrackIndex : Int;
 
     /**
      * Selected in the track DSP chain editor. Can be nil.
@@ -215,7 +215,7 @@ extern class Song
     public var selectedTrackDeviceObservable (default, null) : Observable;
 
     @:native("selected_track_device_index")
-    public var selectedTrackDeviceIndex (default, null) : Int;
+    public var selectedTrackDeviceIndex : Int;
 
     /**
      * Selected parameter in the automation editor. Can be nil. When setting a 
@@ -223,7 +223,7 @@ extern class Song
      * currently selected track device chain.
      */
     @:native("selected_automation_parameter")
-    public var selectedAutomationParameter (default, null) : DeviceParameter;
+    public var selectedAutomationParameter : DeviceParameter;
 
     @:native("selected_automation_parameter_observable")
     public var selectedAutomationParameterObservable (default, null) : Observable;
@@ -232,7 +232,7 @@ extern class Song
      * parent device of 'selected_automation_parameter'. not settable.
      */
     @:native("selected_automation_device")
-    public var selectedAutomationDevice (default, null) : AudioDevice;
+    public var selectedAutomationDevice : AudioDevice;
 
     @:native("selected_automation_device_observable")
     public var selectedAutomationDeviceObservable (default, null) : Observable;
@@ -247,7 +247,7 @@ extern class Song
     public var selectedPatternObservable (default, null) : Observable;
 
     @:native("selected_pattern_index")
-    public var selectedPatternIndex (default, null) : Int;
+    public var selectedPatternIndex : Int;
 
     @:native("selected_pattern_index_observable")
     public var selectedPatternIndexObservable (default, null) : Observable;
@@ -266,7 +266,7 @@ extern class Song
      * The currently edited sequence position.
      */
     @:native("selected_sequence_index")
-    public var selectedSequenceIndex (default, null) : Int;
+    public var selectedSequenceIndex : Int;
 
     @:native("selected_sequence_index_observable")
     public var selectedSequenceIndexObservable (default, null) : Observable;
@@ -278,7 +278,7 @@ extern class Song
     public var selectedLine (default, null) : PatternLine;
 
     @:native("selected_line_index")
-    public var selectedLineIndex (default, null) : Int;
+    public var selectedLineIndex : Int;
 
     /**
      * The currently edited column in the selected line in the edited 
@@ -288,7 +288,7 @@ extern class Song
     public var selectedNoteColumn (default, null) : NoteColumn;
 
     @:native("selected_note_column_index")
-    public var selectedNoteColumnIndex (default, null) : Int;
+    public var selectedNoteColumnIndex : Int;
 
     /**
      * The currently edited column in the selected line in the edited 
@@ -298,7 +298,7 @@ extern class Song
     public var selectedEffectColumn (default, null) : EffectColumn;
 
     @:native("selected_effect_column_index")
-    public var selectedEffectColumnIndex (default, null) : Int;
+    public var selectedEffectColumnIndex : Int;
 
     /**
      * The currently edited sub column type within the selected note/effect 

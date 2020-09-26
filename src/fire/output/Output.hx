@@ -30,26 +30,23 @@ class Output
             : lineStr;
     }
 
-    private function drawLine(index :Int, row :Int, underline :Bool = false) : Void
+    private function drawLine(index :Int, row :Int, highlight :Bool = false) : Void
     {
         index = RenoiseUtil.mod(index, 64);
         var line = lineString(index - 1);
-        var x = _display.drawText(line, 0, 8 * row, false, _modifiers.gridIndex == 0 && underline);
+        var x = _display.drawText(line, 0, 8 * row, false, false);
         x = _display.drawText(" ", x, 8 * row, false, false);
 
         var noteColumn = Renoise.song().patterns[1].track(1).line(index).noteColumn(1);
-        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, _modifiers.gridIndex == 1 && underline);
+        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, _modifiers.gridIndex == 0 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, _modifiers.gridIndex == 2 && underline);
+        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, _modifiers.gridIndex == 1 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, _modifiers.gridIndex == 3 && underline);
-        x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.panningString, x, 8 * row, false, _modifiers.gridIndex == 4 && underline);
+        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, _modifiers.gridIndex == 2 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
         var effectColumn = Renoise.song().patterns[1].track(1).line(index).effectColumn(1);
-        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, _modifiers.gridIndex == 5 && underline);
-        x = _display.drawText("|", x, 8 * row, false, false);
-        _display.drawText(effectColumn.amountString, x, 8 * row, false, _modifiers.gridIndex == 6 && underline);
+        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, _modifiers.gridIndex == 3 && highlight);
+        _display.drawText(effectColumn.amountString, x, 8 * row, false, _modifiers.gridIndex == 4 && highlight);
         _display.renderRow(_outputDevice, row);
     }
 
