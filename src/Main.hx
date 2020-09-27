@@ -20,7 +20,6 @@
  */
 
 import renoise.Renoise;
-import renoise.song.SubColumn;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
 import fire.input.Grid as InputGrid;
@@ -43,9 +42,6 @@ class Main
 
     public static function main() : Void
     {
-        // trace(Renoise.)
-        var x__ = SubColumn.NOTE;
-        trace(x__);
         haxe.macro.Compiler.includeFile("src/fire/_lua/util.lua");
         Renoise.tool().addMenuEntry(new MenuEntry("Main Menu:Tools:Lady Fire", Main.init));
     }
