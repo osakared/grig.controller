@@ -19,13 +19,28 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise;
+package renoise.song;
 
-@:native("PlaybackPositionObserver")
-extern class PlaybackPositionObserver
+@:native("renoise.Song")
+extern enum abstract SubColumn(Dynamic)
 {
-    @:selfCall
-    public function new() : Void;
-    public function register(id :Int, cb :Void -> Void) :Void;
-    public function unregister(id :Int) :Void;
+    @:native("SUB_COLUMN_NOTE")
+    var NOTE;
+    @:native("SUB_COLUMN_INSTRUMENT")
+    var INSTRUMENT;
+    @:native("SUB_COLUMN_VOLUME")
+    var VOLUME;
+    @:native("SUB_COLUMN_PANNING")
+    var PANNING;
+    @:native("SUB_COLUMN_DELAY")
+    var DELAY;
+    @:native("SUB_COLUMN_SAMPLE_EFFECT_NUMBER")
+    var SAMPLE_EFFECT_NUMBER;
+    @:native("SUB_COLUMN_SAMPLE_EFFECT_AMOUNT")
+    var SAMPLE_EFFECT_AMOUNT;
+
+    @:native("SUB_COLUMN_EFFECT_NUMBER")
+    var EFFECT_NUMBER;
+    @:native("SUB_COLUMN_EFFECT_AMOUNT")
+    var EFFECT_AMOUNT;
 }

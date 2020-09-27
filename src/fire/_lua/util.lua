@@ -13,47 +13,57 @@ _hx_table_clear = function(table)
 end
 
 --- ======================================================================================================
----
----                                                 [ Playback Position Observer ]
+--- https://github.com/mrVanDalo/stepp0r/blob/master/src/Layer/PlaybackPositionObserver.lua
+---                                                 [ Line Change Observer ]
 ---
 --- observes the playback position to make listeners on the playback position possible
 
-class "PlaybackPositionObserver"
+class "LineChaneObserver"
 
 --- ======================================================================================================
 ---
 ---                                                 [ INIT ]
 
-function PlaybackPositionObserver:__init()
+function LineChaneObserver:__init()
     self._hooks = {}
 end
 
 --- id : a key to find the hook later (to delete it)
 --- hook : a function called (with the updated value)
-function PlaybackPositionObserver:register(id,hook)
+function LineChaneObserver:register(id,hook)
 
     if self._hooks[id] then
         self:unregister(id)
     end
 
     local internal_hook_func = function()
-        local current_value = renoise.song().transport.playback_pos
-        if current_value ~= self._hooks[id].last_value then
-            self._hooks[id].last_value = current_value
-            self._hooks[id].external_hook(current_value)
+        local current_pos_value = renoise.song().transport.playback_pos
+        local current_effect_column_value = renoise.song().selected_effect_column_index
+        local current_note_column_value = renoise.song().selected_note_column_index
+        if current_pos_value ~= self._hooks[id].last_pos_value then
+            self._hooks[id].last_pos_value = current_pos_value
+            self._hooks[id].external_hook()
+        elseif current_effect_column_value ~= self._hooks[id].last_effect_column_value then
+            self._hooks[id].last_effect_column_value = current_effect_column_value
+            self._hooks[id].external_hook()
+        elseif current_note_column_value ~= self._hooks[id].last_note_column_value then
+            self._hooks[id].last_note_column_value = current_note_column_value
+            self._hooks[id].external_hook()
         end
     end
 
     self._hooks[id] = {
-        external_hook = hook,
-        internal_hook = internal_hook_func,
-        last_value    = renoise.song().transport.playback_pos,
+        external_hook  = hook,
+        internal_hook  = internal_hook_func,
+        last_pos_value = renoise.song().transport.playback_pos,
+        last_effect_column_value = renoise.song().selected_effect_column_index,
+        last_note_column_value = renoise.song().selected_note_column_index,
     }
 
     renoise.tool().app_idle_observable:add_notifier(internal_hook_func)
 end
 
-function PlaybackPositionObserver:unregister(id)
+function LineChaneObserver:unregister(id)
     if self._hooks[id] then
         if renoise.tool().app_idle_observable:has_notifier(self._hooks[id].internal_hook) then
             renoise.tool().app_idle_observable:remove_notifier(self._hooks[id].internal_hook)
@@ -62,7 +72,7 @@ function PlaybackPositionObserver:unregister(id)
     end
 end
 
-function PlaybackPositionObserver:has_notifier(id)
+function LineChaneObserver:has_notifier(id)
     if self._hooks[id] then
         return true
     else

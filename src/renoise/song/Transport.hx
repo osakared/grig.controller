@@ -159,7 +159,4 @@ extern class Transport
     public var songLength (default, null) : SongPos;
     @:native("song_length_beats")
     public var songLengthBeats (default, null) : Int;
-
-
-
 }

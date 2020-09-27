@@ -136,7 +136,7 @@ extern class Song
      * Currently selected phrase the instrument's phrase map piano view. Can be nil.
      */
     @:native("selected_phrase")
-    public var selectedPhrase (default, null) : InstrumentPhrase;
+    public var selectedPhrase (default, null) : Null<InstrumentPhrase>;
 
     @:native("selected_phrase_observable")
     public var selectedPhraseObservable (default, null) : Observable;
@@ -149,7 +149,7 @@ extern class Song
      * present in the selected instrument.
      */
     @:native("selected_sample")
-    public var selectedSample (default, null) : Sample;
+    public var selectedSample (default, null) : Null<Sample>;
     
     @:native("selected_sample_observable")
     public var selectedSampleObservable (default, null) : Observable;
@@ -161,7 +161,7 @@ extern class Song
      * Selected in the instrument's modulation view. Can be nil.
      */
     @:native("selected_sample_modulation_set")
-    public var selectedSampleModulationSet (default, null) : SampleModulationSet;
+    public var selectedSampleModulationSet (default, null) : Null<SampleModulationSet>;
 
     @:native("selected_sample_modulation_set_observable")
     public var selectedSampleModulationSetObservable (default, null) : Observable;
@@ -173,7 +173,7 @@ extern class Song
      * Selected in the instrument's effects view. Can be nil.
      */
     @:native("selected_sample_device_chain")
-    public var selectedSampleDeviceChain (default, null) : SampleDeviceChain;
+    public var selectedSampleDeviceChain (default, null) : Null<SampleDeviceChain>;
 
     @:native("selected_sample_device_chain_observable")
     public var selectedSampleDeviceChainObservable (default, null) : Observable;
@@ -185,7 +185,7 @@ extern class Song
      * Selected in the sample effect mixer. Can be nil.
      */
     @:native("selected_sample_device")
-    public var selectedSampleDevice (default, null) : AudioDevice;
+    public var selectedSampleDevice (default, null) : Null<AudioDevice>;
 
     @:native("selected_sample_device_observable")
     public var selectedSampleDeviceObservable (default, null) : Observable;
@@ -205,11 +205,14 @@ extern class Song
     @:native("selected_track_index")
     public var selectedTrackIndex : Int;
 
+    @:native("selected_track_index_observable")
+    public var selectedTrackIndexObservable : Observable;
+
     /**
      * Selected in the track DSP chain editor. Can be nil.
      */
     @:native("selected_track_device")
-    public var selectedTrackDevice (default, null) : AudioDevice;
+    public var selectedTrackDevice (default, null) : Null<AudioDevice>;
 
     @:native("selected_track_device_observable")
     public var selectedTrackDeviceObservable (default, null) : Observable;
@@ -223,7 +226,7 @@ extern class Song
      * currently selected track device chain.
      */
     @:native("selected_automation_parameter")
-    public var selectedAutomationParameter : DeviceParameter;
+    public var selectedAutomationParameter : Null<DeviceParameter>;
 
     @:native("selected_automation_parameter_observable")
     public var selectedAutomationParameterObservable (default, null) : Observable;
@@ -285,7 +288,7 @@ extern class Song
      * sequence/pattern. Nil when an effect column is selected.
      */
     @:native("selected_note_column")
-    public var selectedNoteColumn (default, null) : NoteColumn;
+    public var selectedNoteColumn (default, null) : Null<NoteColumn>;
 
     @:native("selected_note_column_index")
     public var selectedNoteColumnIndex : Int;
@@ -295,7 +298,7 @@ extern class Song
      * sequence/pattern. Nil when a note column is selected.
      */
     @:native("selected_effect_column")
-    public var selectedEffectColumn (default, null) : EffectColumn;
+    public var selectedEffectColumn (default, null) : Null<EffectColumn>;
 
     @:native("selected_effect_column_index")
     public var selectedEffectColumnIndex : Int;
@@ -305,7 +308,7 @@ extern class Song
      * column.
      */
     @:native("selected_sub_column_type")
-    public var selectedSubColumnType (default, null) : Dynamic;
+    public var selectedSubColumnType (default, null) : SubColumn;
 
     @:native("selection_in_pattern")
     public var selectionInPattern : Dynamic;
