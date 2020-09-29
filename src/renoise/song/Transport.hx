@@ -159,4 +159,36 @@ extern class Transport
     public var songLength (default, null) : SongPos;
     @:native("song_length_beats")
     public var songLengthBeats (default, null) : Int;
+
+    /**
+     * Loop.
+     */
+    @:native("loop_start")
+    public var loopStart (default, null) : SongPos;
+    @:native("loop_end")
+    public var loopEnd (default, null) : SongPos;
+    @:native("loop_range")
+    public var loopRange (default, null) : lua.Table<Int, SongPos>;
+    @:native("loop_start_beats")
+    public var loopStartBeats (default, null) : Int;
+    @:native("loop_end_beats")
+    public var loopEndBeats (default, null) : Int;
+    @:native("loop_range_beats")
+    public var loopRangeBeats (default, null) : lua.Table<Int, Int>;
+    @:native("loop_sequence_start")
+    public var loopSequenceStart (default, null) : Int;
+    @:native("loop_sequence_end")
+    public var loopSequenceEnd (default, null) : Int;
+    @:native("loop_sequence_range")
+    public var loopSequenceRange (default, null) : lua.Table<Int, Int>;
+    @:native("loop_pattern")
+    public var loopPattern : Bool;
+    @:native("loop_pattern_observable")
+    public var loopPatternObservable : Observable;
+    @:native("loop_block_enabled")
+    public var loopBlockEnabled : Bool;
+    @:native("loop_block_start_pos")
+    public var loopBlockStartPos (default, null) : SongPos;
+    @:native("loop_block_range_coeff")
+    public var loopBlockRangeCoeff : Int;
 }
