@@ -21,6 +21,7 @@
 
 package fire.input.button;
 
+import renoise.Renoise;
 import fire.util.Math;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
@@ -40,6 +41,15 @@ class GridRight implements Button
 
     public function up(modifiers :Modifiers) : Void
     {
-        modifiers.gridIndex = Math.clamp(modifiers.gridIndex + 1, 0, 6);
+        switch Renoise.song().selectedSubColumnType {
+            case NOTE:
+            case INSTRUMENT:
+            case VOLUME:
+            case EFFECT_NUMBER:
+            case EFFECT_AMOUNT:
+            case _:
+        }
+        // Renoise.app().showStatus(Std.string(Renoise.song().selectedNoteColumnIndex));
+        // modifiers.gridIndex = Math.clamp(modifiers.gridIndex + 1, 0, 6);
     }
 }

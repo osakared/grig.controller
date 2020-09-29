@@ -308,7 +308,7 @@ extern class Song
      * column.
      */
     @:native("selected_sub_column_type")
-    public var selectedSubColumnType (default, null) : SubColumn;
+    public var selectedSubColumnType : SubColumn;
 
     @:native("selection_in_pattern")
     public var selectionInPattern : Selection;

@@ -40,6 +40,7 @@ function LineChaneObserver:register(id,hook)
         local current_pos_value = renoise.song().transport.playback_pos
         local current_effect_column_value = renoise.song().selected_effect_column_index
         local current_note_column_value = renoise.song().selected_note_column_index
+        local current_sub_column_type = renoise.song().selected_sub_column_type
         if current_pos_value ~= self._hooks[id].last_pos_value then
             self._hooks[id].last_pos_value = current_pos_value
             self._hooks[id].external_hook()
@@ -48,6 +49,9 @@ function LineChaneObserver:register(id,hook)
             self._hooks[id].external_hook()
         elseif current_note_column_value ~= self._hooks[id].last_note_column_value then
             self._hooks[id].last_note_column_value = current_note_column_value
+            self._hooks[id].external_hook()
+        elseif current_sub_column_type ~= self._hooks[id].last_sub_column_value then
+            self._hooks[id].last_sub_column_value = current_sub_column_type
             self._hooks[id].external_hook()
         end
     end
@@ -58,6 +62,7 @@ function LineChaneObserver:register(id,hook)
         last_pos_value = renoise.song().transport.playback_pos,
         last_effect_column_value = renoise.song().selected_effect_column_index,
         last_note_column_value = renoise.song().selected_note_column_index,
+        last_sub_column_value = renoise.song().selected_sub_column_type,
     }
 
     renoise.tool().app_idle_observable:add_notifier(internal_hook_func)

@@ -33,9 +33,18 @@ class Output
     private function initializeListeners() : Void
     {
         var lineObserver = new LineChaneObserver();
-        lineObserver.register(0, makeDrawCalls);
+        lineObserver.register(0, () -> {
+            _modifiers.gridIndex = switch Renoise.song().selectedSubColumnType {
+                case NOTE: GridIndex.NOTE;
+                case INSTRUMENT: GridIndex.INSTRUMENT;
+                case VOLUME: GridIndex.VOLUME;
+                case EFFECT_NUMBER: GridIndex.EFFECT_NUMBER;
+                case EFFECT_AMOUNT: GridIndex.EFFECT_AMOUNT;
+                case _: GridIndex.NOTE;
+            }
+            makeDrawCalls();
+        });
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls);
-        // Renoise.song().selectedPatternIndexObservable.addNotifier(makeDrawCalls); ?? maybe this one too?
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             if(Renoise.song().transport.playing) {
@@ -85,16 +94,24 @@ class Output
         var x = _display.drawText(line, 0, 8 * row, false, isUnderlined);
         x = _display.drawText(" ", x, 8 * row, false, false);
 
+        var columnHighlight = switch _modifiers.gridIndex {
+            case NOTE: 0;
+            case INSTRUMENT: 1;
+            case VOLUME: 2;
+            case EFFECT_NUMBER: 3;
+            case EFFECT_AMOUNT: 4;
+        }
+
         var noteColumn = Renoise.song().selectedPatternTrack.line(index).noteColumn(noteColumn);
-        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, _modifiers.gridIndex == 0 && highlight);
+        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, columnHighlight == 0 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, _modifiers.gridIndex == 1 && highlight);
+        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, columnHighlight == 1 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, _modifiers.gridIndex == 2 && highlight);
+        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, columnHighlight == 2 && highlight);
         x = _display.drawText("|", x, 8 * row, false, false);
         var effectColumn = Renoise.song().selectedPatternTrack.line(index).effectColumn(effectColumn);
-        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, _modifiers.gridIndex == 3 && highlight);
-        _display.drawText(effectColumn.amountString, x, 8 * row, false, _modifiers.gridIndex == 4 && highlight);
+        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, columnHighlight == 3 && highlight);
+        _display.drawText(effectColumn.amountString, x, 8 * row, false, columnHighlight == 4 && highlight);
         _display.renderRow(_outputDevice, row);
     }
 

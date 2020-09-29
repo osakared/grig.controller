@@ -34,6 +34,7 @@ extern enum abstract SubColumn(Dynamic)
     var PANNING;
     @:native("SUB_COLUMN_DELAY")
     var DELAY;
+    
     @:native("SUB_COLUMN_SAMPLE_EFFECT_NUMBER")
     var SAMPLE_EFFECT_NUMBER;
     @:native("SUB_COLUMN_SAMPLE_EFFECT_AMOUNT")

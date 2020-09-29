@@ -40,6 +40,6 @@ class GridLeft implements Button
 
     public function up(modifiers :Modifiers) : Void
     {
-        modifiers.gridIndex = Math.clamp(modifiers.gridIndex - 1, 0, 6);
+        // modifiers.gridIndex = Math.clamp(modifiers.gridIndex - 1, 0, 6);
     }
 }
