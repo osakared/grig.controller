@@ -311,7 +311,7 @@ extern class Song
     public var selectedSubColumnType (default, null) : SubColumn;
 
     @:native("selection_in_pattern")
-    public var selectionInPattern : Dynamic;
+    public var selectionInPattern : Selection;
 
     /**
      * same as 'selection_in_pattern' but for the currently selected phrase 
@@ -319,7 +319,7 @@ extern class Song
      * fields are valid.
      */
     @:native("selection_in_phrase")
-    public var selectionInPhrase : Dynamic;
+    public var selectionInPhrase : Selection;
 
     /**
      * Test if something in the song can be undone.
@@ -551,31 +551,32 @@ extern class Song
      * 'rendering_done_callback' is ONLY called when rendering has succeeded. 
      * You can do something with the file you've passed to the renderer here, 
      * like for example loading the file into a sample buffer.
-     * 
-     * @param vals 
-     * @return Dynamic
+     *
+     * @param options 
+     * @param cb 
+     * @return Bool
      */
-    public function render(vals :Dynamic) : Dynamic;
+    public function render(options :RenderingOptions, cb : Void -> Void) : Bool;
 
     /**
      * Load/save all global MIDI mappings in the song into a XRNM file. Returns 
      * true when loading/saving succeeded, else false and the error_message.
      * 
      * @param filename 
-     * @return Dynamic
+     * @return Bool
      */
     @:native("load_midi_mappings")
-    public function loadMidiMappings(filename :String) : Dynamic;
+    public function loadMidiMappings(filename :String) : Bool;
 
     /**
      * Load/save all global MIDI mappings in the song into a XRNM file. Returns 
      * true when loading/saving succeeded, else false and the error_message.
      * 
      * @param filename 
-     * @return Dynamic
+     * @return Bool
      */
     @:native("save_midi_mappings")
-    public function saveMidiMappings(filename :String) : Dynamic;
+    public function saveMidiMappings(filename :String) : Bool;
 
     /**
      * clear all MIDI mappings in the song
