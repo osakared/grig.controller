@@ -19,34 +19,53 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
 
-import renoise.Renoise;
-import fire.util.Math;
-import fire.util.Modifiers;
-import fire.input.button.ButtonType;
+package fire.util;
 
-class GridRight implements Button
+class Signal<T>
 {
-    public var type : ButtonType;
+    public var value (get, set):T;
 
-    public function new(type :ButtonType) : Void
+    public function new(value :T) : Void
     {
-        this.type = type;
+        _value = value;
+        _listeners = [];
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function setValue(value :T) : Void
     {
+        _value = value;
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function addListener(fn :T -> Void) : Void -> Void
     {
-        switch modifiers.gridIndex.value {
-            case NOTE: modifiers.gridIndex.value = INSTRUMENT;
-            case INSTRUMENT: modifiers.gridIndex.value = VOLUME;
-            case VOLUME: modifiers.gridIndex.value = EFFECT_NUMBER;
-            case EFFECT_NUMBER: modifiers.gridIndex.value = EFFECT_AMOUNT;
-            case EFFECT_AMOUNT: modifiers.gridIndex.value = NOTE;
+        _listeners.push(fn);
+        return () -> {
+            _listeners.remove(fn);
+        };
+    }
+
+    public function dispose() : Void
+    {
+        while(_listeners.length > 0) {
+            _listeners.pop();
         }
     }
+
+    private function set_value(value :T) : T
+    {
+        _value = value;
+        for(listener in _listeners) {
+            listener(_value);
+        }
+        return _value;
+    }
+
+    private inline function get_value() : T
+    {
+        return _value;
+    }
+
+    private var _listeners :Array<T -> Void>;
+    private var _value :T;
 }

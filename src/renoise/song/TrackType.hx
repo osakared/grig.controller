@@ -19,34 +19,17 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package renoise.song;
 
-import renoise.Renoise;
-import fire.util.Math;
-import fire.util.Modifiers;
-import fire.input.button.ButtonType;
-
-class GridRight implements Button
+@:native("renoise.Track")
+extern enum abstract TrackType(Dynamic)
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(modifiers :Modifiers) : Void
-    {
-    }
-
-    public function up(modifiers :Modifiers) : Void
-    {
-        switch modifiers.gridIndex.value {
-            case NOTE: modifiers.gridIndex.value = INSTRUMENT;
-            case INSTRUMENT: modifiers.gridIndex.value = VOLUME;
-            case VOLUME: modifiers.gridIndex.value = EFFECT_NUMBER;
-            case EFFECT_NUMBER: modifiers.gridIndex.value = EFFECT_AMOUNT;
-            case EFFECT_AMOUNT: modifiers.gridIndex.value = NOTE;
-        }
-    }
+    @:native("TRACK_TYPE_SEQUENCER")
+    var SEQUENCER;
+    @:native("TRACK_TYPE_MASTER")
+    var MASTER;
+    @:native("TRACK_TYPE_SEND")
+    var SEND;
+    @:native("TRACK_TYPE_GROUP")
+    var GROUP;
 }

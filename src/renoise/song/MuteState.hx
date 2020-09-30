@@ -19,34 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package renoise.song;
 
-import renoise.Renoise;
-import fire.util.Math;
-import fire.util.Modifiers;
-import fire.input.button.ButtonType;
-
-class GridRight implements Button
+@:native("renoise.Track")
+extern enum abstract MuteState(Dynamic)
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(modifiers :Modifiers) : Void
-    {
-    }
-
-    public function up(modifiers :Modifiers) : Void
-    {
-        switch modifiers.gridIndex.value {
-            case NOTE: modifiers.gridIndex.value = INSTRUMENT;
-            case INSTRUMENT: modifiers.gridIndex.value = VOLUME;
-            case VOLUME: modifiers.gridIndex.value = EFFECT_NUMBER;
-            case EFFECT_NUMBER: modifiers.gridIndex.value = EFFECT_AMOUNT;
-            case EFFECT_AMOUNT: modifiers.gridIndex.value = NOTE;
-        }
-    }
+    @:native("MUTE_STATE_ACTIVE")
+    var ACTIVE;
+    @:native("MUTE_STATE_OFF")
+    var OFF;
+    @:native("MUTE_STATE_MUTED")
+    var MUTED;
 }
