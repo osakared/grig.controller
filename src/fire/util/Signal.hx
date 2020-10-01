@@ -32,11 +32,6 @@ class Signal<T>
         _listeners = [];
     }
 
-    public function setValue(value :T) : Void
-    {
-        _value = value;
-    }
-
     public function addListener(fn :T -> Void) : Void -> Void
     {
         _listeners.push(fn);

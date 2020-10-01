@@ -22,7 +22,7 @@
 package fire.input.button;
 
 import renoise.Renoise;
-import fire.util.Math;
+import renoise.RenoiseUtil;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 
@@ -42,11 +42,34 @@ class GridRight implements Button
     public function up(modifiers :Modifiers) : Void
     {
         switch modifiers.gridIndex.value {
-            case NOTE: modifiers.gridIndex.value = INSTRUMENT;
-            case INSTRUMENT: modifiers.gridIndex.value = VOLUME;
-            case VOLUME: modifiers.gridIndex.value = EFFECT_NUMBER;
-            case EFFECT_NUMBER: modifiers.gridIndex.value = EFFECT_AMOUNT;
-            case EFFECT_AMOUNT: modifiers.gridIndex.value = NOTE;
+            case Note:
+                modifiers.gridIndex.value = Inst;
+            case Inst:
+                modifiers.gridIndex.value = Vol;
+            case Vol:
+                if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
+                    Renoise.song().selectedNoteColumnIndex += 1;
+                    modifiers.gridIndex.value = Note;
+                }
+                else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
+                    Renoise.song().selectedEffectColumnIndex = 1;
+                    modifiers.gridIndex.value = FXNum;
+                }
+                else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
+                    Renoise.song().selectedTrackIndex += 1;
+                    modifiers.gridIndex.value = Note;
+                }
+            case FXNum:
+                modifiers.gridIndex.value = FXAmount;
+            case FXAmount:
+                if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
+                    Renoise.song().selectedEffectColumnIndex += 1;
+                    modifiers.gridIndex.value = FXNum;
+                }
+                else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
+                    Renoise.song().selectedTrackIndex += 1;
+                    modifiers.gridIndex.value = Note;
+                }
         }
     }
 }

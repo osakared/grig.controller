@@ -25,21 +25,21 @@ class Modifiers
 {
     public var select :Bool;
     public var alt :Bool;
-    public var gridIndex :Signal<GridIndex>;
+    public var gridIndex :Signal<Cursor>;
 
     public function new() : Void
     {
         this.select = false;
         this.alt = false;
-        this.gridIndex = new Signal(NOTE);
+        this.gridIndex = new Signal(Note);
     }
 }
 
-@:enum
-abstract GridIndex(Int) {
-    var NOTE = 0;
-    var INSTRUMENT = 1;
-    var VOLUME = 2;
-    var EFFECT_NUMBER = 3;
-    var EFFECT_AMOUNT = 4;
+enum Cursor
+{
+    Note;
+    Inst;
+    Vol;
+    FXNum;
+    FXAmount;
 }

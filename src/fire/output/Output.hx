@@ -1,8 +1,11 @@
 package fire.output;
 
+import renoise.song.EffectColumn;
+import haxe.zip.Reader;
 import fire.util.Modifiers;
 import renoise.RenoiseUtil;
 import renoise.Renoise;
+import renoise.song.NoteColumn;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.Display;
 import fire.output.button.ButtonLights;
@@ -18,8 +21,8 @@ class Output
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
-        _cachedNotes = [];
         this.initializeListeners();
+        makeDrawCalls();
     }
 
     private function lineString(line :Int) : String
@@ -51,54 +54,111 @@ class Output
 
     private function makeDrawCalls() : Void
     {
-        _display.drawText(Renoise.song().selectedTrack.name, 18, 0, false, false);
-        _display.renderRow(_outputDevice, 0);
+        
 
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex = transport.playbackPos.line;
-            _pads.clear();
-            _pads.drawPad(127, 0, 0, padIndex - 1);
-            _pads.render(_outputDevice);
-            _display.clear();
-
-            var noteColumn = Renoise.song().selectedNoteColumnIndex == 0
-                ? 1
-                : Renoise.song().selectedNoteColumnIndex;
-            var effectColumn = Renoise.song().selectedEffectColumnIndex == 0
-                ? 1
-                : Renoise.song().selectedEffectColumnIndex;
-
-            drawLine(padIndex - 3, 1, noteColumn, effectColumn);
-            drawLine(padIndex - 2, 2, noteColumn, effectColumn);
-            drawLine(padIndex - 1, 3, noteColumn, effectColumn);
-            drawLine(padIndex, 4, noteColumn, effectColumn, true);
-            drawLine(padIndex + 1, 5, noteColumn, effectColumn);
-            drawLine(padIndex + 2, 6, noteColumn, effectColumn);
-            drawLine(padIndex + 3, 7, noteColumn, effectColumn);
+            drawPads(padIndex);
+            drawDisplay(padIndex);
         }
     }
 
-    private function drawLine(index :Int, row :Int, noteColumn :Int, effectColumn :Int, highlight :Bool = false) : Void
+    private function drawPads(padIndex :Int) : Void
+    {
+        _pads.clear();
+        _pads.drawPad(127, 0, 0, padIndex - 1);
+        _pads.render(_outputDevice);
+    }
+
+    private function drawDisplay(padIndex :Int) : Void
+    {
+        _display.clear();
+        _display.drawText(Renoise.song().selectedTrack.name, 18, 0, false, false);
+        var visibleNoteColumns = Renoise.song().selectedTrack.visibleNoteColumns;
+        var visibleEffectColumns = Renoise.song().selectedTrack.visibleEffectColumns;
+
+        for(i in 0...7) {
+            var drawIndex = padIndex + i - 3;
+            var x = drawLineIndex(0, drawIndex, i + 1, false);
+            var highlight = i - 3 == 0;
+
+            for(columnIndex in 0...visibleNoteColumns) {
+                x = drawNoteColumn(x, drawIndex, i + 1, columnIndex + 1, highlight);
+            }
+
+            for(columnIndex in 0...visibleEffectColumns) {
+                x = drawEffectColumn(x, drawIndex, i + 1, columnIndex + 1, highlight);
+            }
+        }
+
+        _display.render(_outputDevice);
+    }
+
+    private function drawLineIndex(x :Int, index :Int, row :Int, highlight :Bool) : Int
     {
         index = RenoiseUtil.mod(index, 64);
         var line = lineString(index - 1);
         var isUnderlined = (index - 1) % Renoise.song().transport.lpb == 0;
-        var x = _display.drawText(line, 0, 8 * row, false, isUnderlined);
-        x = _display.drawText(" ", x, 8 * row, false, false);
+        x = _display.drawText(line, x, 8 * row, false, isUnderlined);
+        return _display.drawText(" ", x, 8 * row, false, false);
+    }
 
+    private function drawNoteColumn(x :Int, index :Int, row :Int, noteColumnIndex :Int, highlight :Bool) : Int
+    {
+        index = RenoiseUtil.mod(index, 64);
         var gi = _modifiers.gridIndex.value;
-        var noteColumn = Renoise.song().selectedPatternTrack.line(index).noteColumn(noteColumn);
-        x = _display.drawText(noteColumn.noteString, x, 8 * row, false, gi == NOTE && highlight);
-        x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.instrumentString, x, 8 * row, false, gi == INSTRUMENT && highlight);
-        x = _display.drawText("|", x, 8 * row, false, false);
-        x = _display.drawText(noteColumn.volumeString, x, 8 * row, false, gi == VOLUME && highlight);
-        x = _display.drawText("|", x, 8 * row, false, false);
-        var effectColumn = Renoise.song().selectedPatternTrack.line(index).effectColumn(effectColumn);
-        x = _display.drawText(effectColumn.numberString, x, 8 * row, false, gi == EFFECT_NUMBER && highlight);
-        _display.drawText(effectColumn.amountString, x, 8 * row, false, gi == EFFECT_AMOUNT && highlight);
-        _display.renderRow(_outputDevice, row);
+        var noteColumn = Renoise.song().selectedPatternTrack.line(index).noteColumn(noteColumnIndex);
+        x = drawNote(noteColumn, noteColumnIndex, x, row, gi, highlight);
+        x = drawInst(noteColumn, noteColumnIndex, x, row, gi, highlight);
+        x = drawSpacer(x, row);
+        x = drawVol(noteColumn, noteColumnIndex, x, row, gi, highlight);
+        return drawSpacer(x, row);
+    }
+
+    private function drawEffectColumn(x :Int, index :Int, row :Int, effectColumnIndex :Int, highlight :Bool) : Int
+    {
+        index = RenoiseUtil.mod(index, 64);
+        var gi = _modifiers.gridIndex.value;
+        var effectColumn = Renoise.song().selectedPatternTrack.line(index).effectColumn(effectColumnIndex);
+        x = drawFXNumber(effectColumn, effectColumnIndex, x, row, gi, highlight);
+        x = drawFXAmount(effectColumn, effectColumnIndex, x, row, gi, highlight);
+        return _display.drawText("|", x, 8 * row, false, false);
+    }
+
+    private inline function drawNote(noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
+    {
+        var willHighlight = cursor == Note && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        return _display.drawText(noteColumn.noteString, x, 8 * row, false, willHighlight);
+    }
+
+    private inline function drawInst(noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
+    {
+        var willHighlight = cursor == Inst && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        return _display.drawText(noteColumn.instrumentString, x, 8 * row, false, willHighlight);
+    }
+
+    private inline function drawVol(noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
+    {
+        var willHighlight = cursor == Vol && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        return _display.drawText(noteColumn.volumeString, x, 8 * row, false, willHighlight);
+    }
+
+    private inline function drawFXNumber(effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
+    {
+        var willHighlight = cursor == FXNum && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        return _display.drawText(effectColumn.numberString, x, 8 * row, false, willHighlight);
+    }
+
+    private inline function drawFXAmount(effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
+    {
+        var willHighlight = cursor == FXAmount && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        return _display.drawText(effectColumn.amountString, x, 8 * row, false, willHighlight);
+    }
+
+    private inline function drawSpacer(x :Int, row :Int) : Int
+    {
+        return _display.drawText("|", x, 8 * row, false, false);
     }
 
     private var _outputDevice :MidiOutputDevice;
@@ -106,14 +166,4 @@ class Output
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
     private var _modifiers :Modifiers;
-
-    private var _cachedNotes :Array<Int>;
-}
-
-class Line
-{
-    public function new() : Void
-    {
-        // Renoise.song().pattern(1).tracks(1).
-    }
 }

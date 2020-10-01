@@ -62,15 +62,15 @@ class Display
 
     public function drawPixel(value :Int, x :Int, y :Int) : Void
     {
-        x %= DISPLAY_WIDTH;
-        y %= DISPLAY_HEIGHT;
-        var row = Std.int(y/LINE_HEIGHT);
-        y = y % 8;
-        var nX = x * LINE_HEIGHT;
-        var rY = 7 - (y % LINE_HEIGHT);
-        var nY = Math.floor(rY / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (rY % LINE_HEIGHT);
-        var pos = nX + nY;
-        compactPixel(_rows[row], value, pos);
+        if(x >= 0 && x < DISPLAY_WIDTH && y >= 0 && y < DISPLAY_HEIGHT) {
+            var row = Std.int(y/LINE_HEIGHT);
+            y = y % 8;
+            var nX = x * LINE_HEIGHT;
+            var rY = 7 - (y % LINE_HEIGHT);
+            var nY = Math.floor(rY / LINE_HEIGHT) * LINE_HEIGHT * DISPLAY_WIDTH + (rY % LINE_HEIGHT);
+            var pos = nX + nY;
+            compactPixel(_rows[row], value, pos);
+        }
     }
 
     public function drawText(text :String, x :Int, y :Int, underline :Bool, invert :Bool) : Int

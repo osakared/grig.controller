@@ -21,7 +21,8 @@
 
 package fire.input.button;
 
-import fire.util.Math;
+import renoise.Renoise;
+import renoise.RenoiseUtil;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 
@@ -41,11 +42,38 @@ class GridLeft implements Button
     public function up(modifiers :Modifiers) : Void
     {
         switch modifiers.gridIndex.value {
-            case NOTE: modifiers.gridIndex.value = EFFECT_AMOUNT;
-            case INSTRUMENT: modifiers.gridIndex.value = NOTE;
-            case VOLUME: modifiers.gridIndex.value = INSTRUMENT;
-            case EFFECT_NUMBER: modifiers.gridIndex.value = VOLUME;
-            case EFFECT_AMOUNT: modifiers.gridIndex.value = EFFECT_NUMBER;
+            case Note: {
+                if(Renoise.song().selectedNoteColumnIndex > 1) {
+                    Renoise.song().selectedNoteColumnIndex -= 1;
+                    modifiers.gridIndex.value = Vol;
+                }
+                else if(Renoise.song().selectedTrackIndex > 1) {
+                    Renoise.song().selectedTrackIndex -= 1;
+                    if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
+                        Renoise.song().selectedEffectColumnIndex = Renoise.song().selectedTrack.visibleEffectColumns;
+                        modifiers.gridIndex.value = FXAmount;
+                    }
+                    else {
+                        Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+                        modifiers.gridIndex.value = Vol;
+                    }
+                }
+            }
+            case Inst:
+                modifiers.gridIndex.value = Note;
+            case Vol:
+                modifiers.gridIndex.value = Inst;
+            case FXNum:
+                if(Renoise.song().selectedEffectColumnIndex > 1) {
+                    Renoise.song().selectedEffectColumnIndex -= 1;
+                    modifiers.gridIndex.value = FXAmount;
+                }
+                else {
+                    Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+                    modifiers.gridIndex.value = Vol;
+                }
+            case FXAmount:
+                modifiers.gridIndex.value = FXNum;
         }
     }
 }
