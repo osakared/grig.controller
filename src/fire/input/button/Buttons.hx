@@ -20,6 +20,7 @@
  */
 
 package fire.input.button;
+import fire.util.ActiveKeys;
 
 abstract Buttons(Map<ButtonType, Button>) 
 {
@@ -49,33 +50,33 @@ abstract Buttons(Map<ButtonType, Button>)
     public var stop (get, never): Button;
     public var record (get, never): Button;
 
-    inline public function new() {
+    inline public function new(activeKeys :ActiveKeys) {
         this = [
-            KNOB_TYPE => new Button(KNOB_TYPE),
-            VOLUME => new Button(VOLUME),
-            PAN => new Button(PAN),
-            FILTER => new Button(FILTER),
-            RESONANCE => new Button(RESONANCE),
-            PATTERN_UP => new Button(PATTERN_UP),
-            PATTERN_DOWN => new Button(PATTERN_DOWN),
-            BROWSER => new Button(BROWSER),
-            SELECT => new Button(SELECT),
-            GRID_LEFT => new Button(GRID_LEFT),
-            GRID_RIGHT => new Button(GRID_RIGHT),
-            MUTE_SOLO_1 => new Button(MUTE_SOLO_1),
-            MUTE_SOLO_2 => new Button(MUTE_SOLO_2),
-            MUTE_SOLO_3 => new Button(MUTE_SOLO_3),
-            MUTE_SOLO_4 => new Button(MUTE_SOLO_4),
-            STEP => new Button(STEP),
-            NOTE => new Button(NOTE),
-            DRUM => new Button(DRUM),
-            PERFORM => new Button(PERFORM),
-            SHIFT => new Button(SHIFT),
-            ALT => new Button(ALT),
-            PATTERN_SONG => new Button(PATTERN_SONG),
-            PLAY => new Button(PLAY),
-            STOP => new Button(STOP),
-            RECORD => new Button(RECORD)
+            KNOB_TYPE => new Button(KNOB_TYPE, activeKeys),
+            VOLUME => new Button(VOLUME, activeKeys),
+            PAN => new Button(PAN, activeKeys),
+            FILTER => new Button(FILTER, activeKeys),
+            RESONANCE => new Button(RESONANCE, activeKeys),
+            PATTERN_UP => new Button(PATTERN_UP, activeKeys),
+            PATTERN_DOWN => new Button(PATTERN_DOWN, activeKeys),
+            BROWSER => new Button(BROWSER, activeKeys),
+            SELECT => new Select(SELECT, activeKeys),
+            GRID_LEFT => new GridLeft(GRID_LEFT, activeKeys),
+            GRID_RIGHT => new GridRight(GRID_RIGHT, activeKeys),
+            MUTE_SOLO_1 => new Button(MUTE_SOLO_1, activeKeys),
+            MUTE_SOLO_2 => new Button(MUTE_SOLO_2, activeKeys),
+            MUTE_SOLO_3 => new Button(MUTE_SOLO_3, activeKeys),
+            MUTE_SOLO_4 => new Button(MUTE_SOLO_4, activeKeys),
+            STEP => new Step(STEP, activeKeys),
+            NOTE => new Button(NOTE, activeKeys),
+            DRUM => new Button(DRUM, activeKeys),
+            PERFORM => new Button(PERFORM, activeKeys),
+            SHIFT => new Button(SHIFT, activeKeys),
+            ALT => new Button(ALT, activeKeys),
+            PATTERN_SONG => new Button(PATTERN_SONG, activeKeys),
+            PLAY => new Play(PLAY, activeKeys),
+            STOP => new Stop(STOP, activeKeys),
+            RECORD => new Button(RECORD, activeKeys)
         ];
     }
 

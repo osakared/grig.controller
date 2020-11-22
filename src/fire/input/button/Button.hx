@@ -28,20 +28,37 @@ class Button
 {
     public var type (default, null) : ButtonType;
     public var isDown (default, null) : Signal<Bool>;
+    public var activeKeys (default, null) : ActiveKeys;
 
-    public function new(type :ButtonType) : Void
+    public function new(type :ButtonType, activeKeys :ActiveKeys) : Void
     {
         this.type = type;
         this.isDown = new Signal(false);
+        this.isDown.addListener((_isDown) -> {
+            if(_isDown) {
+                this.onDown();
+            }
+            else {
+                this.onUp();
+            }
+        });
     }
 
-    public function down(button :Buttons) : Void
+    public function down(buttons :Buttons) : Void
     {
         this.isDown.value = false;
     }
 
-    public function up(button :Buttons) : Void
+    public function up(buttons :Buttons) : Void
     {
         this.isDown.value = true;
+    }
+
+    public function onUp() : Void
+    {
+    }
+
+    public function onDown() : Void
+    {
     }
 }

@@ -22,24 +22,10 @@
 package fire.input.button;
 
 import renoise.Renoise;
-import fire.util.RenoiseUtil;
-import fire.util.ActiveKeys;
-import fire.input.button.ButtonType;
 
-class GridLeft implements Button
+class GridLeft extends Button
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(activeKeys :ActiveKeys) : Void
-    {
-    }
-
-    public function up(activeKeys :ActiveKeys) : Void
+    override public function onUp() : Void
     {
         switch activeKeys.gridIndex.value {
             case Note: {

@@ -22,30 +22,15 @@
 package fire.input.button;
 
 import renoise.song.NoteColumn;
-import fire.util.ActiveKeys;
-import fire.input.button.ButtonType;
 import renoise.Renoise;
 
-class Select implements Button
+class Select extends Button
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
+    override public function onDown() : Void
     {
-        this.type = type;
-    }
-
-    public function down(activeKeys :ActiveKeys) : Void
-    {
-        activeKeys.select.value = true;
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
             Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
         }
-    }
-
-    public function up(activeKeys :ActiveKeys) : Void
-    {
-        activeKeys.select.value = false;
     }
 }

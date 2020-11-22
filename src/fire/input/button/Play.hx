@@ -21,25 +21,12 @@
 
 package fire.input.button;
 
-import fire.util.ActiveKeys;
 import renoise.Renoise;
-import fire.input.button.ButtonType;
 
-class Play implements Button
+class Play extends Button
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(activeKeys :ActiveKeys) : Void
+    override public function onDown() : Void
     {
         Renoise.song().transport.playing = true;
-    }
-
-    public function up(activeKeys :ActiveKeys) : Void
-    {
     }
 }

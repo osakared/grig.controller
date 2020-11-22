@@ -21,25 +21,12 @@
 
 package fire.input.button;
 
-import fire.util.ActiveKeys;
-import fire.input.button.ButtonType;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 
-class Step implements Button
+class Step extends Button
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(activeKeys :ActiveKeys) : Void
-    {
-    }
-
-    public function up(activeKeys :ActiveKeys) : Void
+    override public function onUp() : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }

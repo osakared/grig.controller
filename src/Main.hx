@@ -52,11 +52,11 @@ class Main
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
-            var buttons = new Buttons();
+            var activeKeys = new ActiveKeys();
+            var buttons = new Buttons(activeKeys);
             initButtons(buttons, null);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            var activeKeys = new ActiveKeys();
             new Output(MIDI_OUT, activeKeys);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
@@ -68,7 +68,7 @@ class Main
                         handleButtonUp(buttons, inputGrid, activeKeys, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(dials, activeKeys, a.note(), isRight);
+                        handleRotary(dials, buttons, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -96,14 +96,14 @@ class Main
         }
     }
 
-    public static function handleRotary(dials :Dials, activeKeys :ActiveKeys, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(dials :Dials, buttons :Buttons, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {
-                dials.get(type).right(activeKeys);
+                dials.get(type).right(buttons);
             }
             else {
-                dials.get(type).left(activeKeys);
+                dials.get(type).left(buttons);
             }
         }
     }

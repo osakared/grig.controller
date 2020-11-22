@@ -21,22 +21,12 @@
 
 package fire.input.button;
 
-import fire.util.ActiveKeys;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
-import fire.input.button.ButtonType;
 
-class Stop implements Button
+class Stop extends Button
 {
-    public var color : Int;
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
-    {
-        this.type = type;
-    }
-
-    public function down(activeKeys :ActiveKeys) : Void
+    override public function onDown() : Void
     {
         if(Renoise.song().transport.playing) {
             Renoise.song().transport.playing = false;
@@ -44,9 +34,5 @@ class Stop implements Button
         else {
             RenoiseUtil.setLine(1, 64);
         }
-    }
-
-    public function up(activeKeys :ActiveKeys) : Void
-    {
     }
 }

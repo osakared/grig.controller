@@ -23,14 +23,10 @@ package fire.util;
 
 class ActiveKeys
 {
-    public var select :Signal<Bool>;
-    public var alt :Signal<Bool>;
     public var gridIndex :Signal<Cursor>;
 
     public function new() : Void
     {
-        this.select = new Signal(false);
-        this.alt = new Signal(false);
         this.gridIndex = new Signal(Note);
     }
 }
