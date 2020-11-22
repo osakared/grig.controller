@@ -1,8 +1,8 @@
-package fire.output.button;
+package fire.toFire.button;
 
 import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.input.button.ButtonType;
+import fire.fromFire.button.ButtonType;
 
 abstract ButtonLight(ButtonType) from Int
 {

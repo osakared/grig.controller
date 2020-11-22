@@ -19,23 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input;
+package fire.fromFire.button;
 
+import renoise.Renoise;
 import fire.util.RenoiseUtil;
-import fire.util.ActiveKeys;
 
-class Grid
+class Step extends Button
 {
-    public function new() : Void
+    override public function onUp() : Void
     {
-    }
-
-    public function down(activeKeys :ActiveKeys, pad :Int) : Void
-    {
-        RenoiseUtil.setLine(pad + 1, 64);
-    }
-
-    public function up(activeKeys :ActiveKeys, pad :Int) : Void
-    {
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }

@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.fromFire.button;
 
 import renoise.Renoise;
 
@@ -27,34 +27,34 @@ class GridRight extends Button
 {
     override public function onUp() : Void
     {
-        switch activeKeys.gridIndex.value {
+        switch gridIndex.value {
             case Note:
-                activeKeys.gridIndex.value = Inst;
+                gridIndex.value = Inst;
             case Inst:
-                activeKeys.gridIndex.value = Vol;
+                gridIndex.value = Vol;
             case Vol:
                 if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
                     Renoise.song().selectedNoteColumnIndex += 1;
-                    activeKeys.gridIndex.value = Note;
+                    gridIndex.value = Note;
                 }
                 else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                     Renoise.song().selectedEffectColumnIndex = 1;
-                    activeKeys.gridIndex.value = FXNum;
+                    gridIndex.value = FXNum;
                 }
                 else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
                     Renoise.song().selectedTrackIndex += 1;
-                    activeKeys.gridIndex.value = Note;
+                    gridIndex.value = Note;
                 }
             case FXNum:
-                activeKeys.gridIndex.value = FXAmount;
+                gridIndex.value = FXAmount;
             case FXAmount:
                 if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
                     Renoise.song().selectedEffectColumnIndex += 1;
-                    activeKeys.gridIndex.value = FXNum;
+                    gridIndex.value = FXNum;
                 }
                 else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
                     Renoise.song().selectedTrackIndex += 1;
-                    activeKeys.gridIndex.value = Note;
+                    gridIndex.value = Note;
                 }
         }
     }

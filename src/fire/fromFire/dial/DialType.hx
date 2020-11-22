@@ -19,15 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.fromFire.dial;
 
-import renoise.Renoise;
-import fire.util.RenoiseUtil;
-
-class Step extends Button
+@:enum
+abstract DialType(Int) from Int to Int
 {
-    override public function onUp() : Void
-    {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
-    }
+    var VOLUME = 16;
+    var PAN = 17;
+    var FILTER = 18;
+    var RESONANCE = 19;
+    var SELECT = 118;
 }

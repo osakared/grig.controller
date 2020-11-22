@@ -19,23 +19,31 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package fire.fromFire.dial;
 
-class ActiveKeys
+class Dials
 {
-    public var gridIndex :Signal<Cursor>;
-
     public function new() : Void
     {
-        this.gridIndex = new Signal(Note);
+        _dials = [
+            SELECT => new Select(SELECT),
+        ];
     }
-}
 
-enum Cursor
-{
-    Note;
-    Inst;
-    Vol;
-    FXNum;
-    FXAmount;
+    public inline function iterator() : Iterator<Dial>
+    {
+        return _dials.iterator();
+    }
+
+    public inline function exists(type :DialType) : Bool
+    {
+        return _dials.exists(type);
+    }
+
+    public inline function get(type :DialType) : Dial
+    {
+        return _dials.get(type);
+    }
+
+    private var _dials : Map<DialType, Dial>;
 }

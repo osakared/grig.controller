@@ -19,10 +19,10 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.dial;
+package fire.fromFire.dial;
 
 import renoise.song.NoteColumn;
-import fire.input.button.Buttons;
+import fire.fromFire.button.ButtonsReadOnly;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
@@ -36,7 +36,7 @@ class Select implements Dial
         this.type = type;
     }
 
-    public function left(buttons :Buttons) : Void
+    public function left(buttons :ButtonsReadOnly) : Void
     {
         if(buttons.select.isDown.value) {
             if(buttons.alt.isDown.value) {
@@ -51,7 +51,7 @@ class Select implements Dial
         }
     }
 
-    public function right(buttons :Buttons) : Void
+    public function right(buttons :ButtonsReadOnly) : Void
     {
         if(buttons.select.isDown.value) {
             if(buttons.alt.isDown.value) {

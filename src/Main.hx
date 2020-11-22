@@ -22,13 +22,15 @@
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
-import fire.input.Grid as InputGrid;
-import fire.input.button.Buttons;
-import fire.input.dial.DialType;
-import fire.input.dial.Dials;
-import fire.input.button.ButtonType;
-import fire.output.Output;
-import fire.util.ActiveKeys;
+import fire.fromFire.Grid as InputGrid;
+import fire.fromFire.button.ButtonsReadOnly;
+import fire.fromFire.button.Buttons;
+import fire.fromFire.dial.DialType;
+import fire.fromFire.dial.Dials;
+import fire.fromFire.button.ButtonType;
+import fire.toFire.Output;
+import fire.util.Signal;
+import fire.util.Cursor;
 
 class Main
 {
@@ -52,23 +54,22 @@ class Main
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
-            var activeKeys = new ActiveKeys();
-            var buttons = new Buttons(activeKeys);
-            initButtons(buttons, null);
+            var gridIndex = new Signal(Note);
+            var buttons = new Buttons(gridIndex);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            new Output(MIDI_OUT, activeKeys);
+            new Output(MIDI_OUT, gridIndex);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, inputGrid, activeKeys, a.note());
+                        handleButtonDown(buttons, inputGrid, gridIndex, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, inputGrid, activeKeys, a.note());
+                        handleButtonUp(buttons, inputGrid, gridIndex, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(dials, buttons, a.note(), isRight);
+                        handleRotary(dials, cast buttons, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -76,23 +77,23 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, gridIndex :Signal<Cursor>, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).down(buttons);
         }
         else {
-            grid.down(activeKeys, button - 54);
+            grid.down(gridIndex, button - 54);
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, gridIndex :Signal<Cursor>, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).up(buttons);
         }
         else {
-            grid.up(activeKeys, button - 54);
+            grid.up(gridIndex, button - 54);
         }
     }
 
@@ -106,10 +107,5 @@ class Main
                 dials.get(type).left(buttons);
             }
         }
-    }
-
-    private static function initButtons(buttons :Buttons, state :Dynamic) : Void
-    {
-        // buttons.play.down()
     }
 }

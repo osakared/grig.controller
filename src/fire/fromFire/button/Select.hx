@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.fromFire.button;
 
 import renoise.song.NoteColumn;
 import renoise.Renoise;

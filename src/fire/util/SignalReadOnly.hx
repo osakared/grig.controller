@@ -19,46 +19,19 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.util;
 
-import fire.util.Signal;
-import fire.util.ActiveKeys;
-
-class Button
+abstract SignalReadOnly<T>(Signal<T>) from Signal<T>
 {
-    public var type (default, null) : ButtonType;
-    public var isDown (default, null) : Signal<Bool>;
-    public var activeKeys (default, null) : ActiveKeys;
+    public var value (get, never):T;
 
-    public function new(type :ButtonType, activeKeys :ActiveKeys) : Void
+    public inline function addListener(fn :T -> Void) : Void -> Void
     {
-        this.type = type;
-        this.isDown = new Signal(false);
-        this.isDown.addListener((_isDown) -> {
-            if(_isDown) {
-                this.onDown();
-            }
-            else {
-                this.onUp();
-            }
-        });
+        return this.addListener(fn);
     }
 
-    public function down(buttons :Buttons) : Void
+    private inline function get_value() : T
     {
-        this.isDown.value = false;
-    }
-
-    public function up(buttons :Buttons) : Void
-    {
-        this.isDown.value = true;
-    }
-
-    public function onUp() : Void
-    {
-    }
-
-    public function onDown() : Void
-    {
+        return this.value;
     }
 }

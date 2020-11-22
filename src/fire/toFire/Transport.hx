@@ -19,13 +19,44 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.dial;
+package fire.toFire;
 
-import fire.input.button.Buttons;
+import renoise.Renoise;
+import renoise.midi.Midi.MidiOutputDevice;
+import fire.toFire.button.ButtonLights;
 
-interface Dial
+class Transport
 {
-    var type :DialType;
-    function left(buttons :Buttons) : Void;
-    function right(buttons :Buttons) : Void;
+    public function new(buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    {
+        _buttons = buttons;
+        _outputDevice = outputDevice;
+        resetLights();
+        initializeListeners();
+    }
+
+    private function resetLights() : Void
+    {
+        handlePlaying();
+    }
+
+    private function handlePlaying() : Void
+    {
+        if(Renoise.song().transport.playing) {
+            _buttons.play.send(_outputDevice, 3);
+        }
+        else {
+            _buttons.play.send(_outputDevice, 0);
+        }
+    }
+
+    private function initializeListeners() : Void
+    {
+        Renoise.song().transport.playingObservable.addNotifier(() -> {
+            handlePlaying();
+        });
+    }
+
+    private var _buttons :ButtonLights;
+    private var _outputDevice :MidiOutputDevice;
 }

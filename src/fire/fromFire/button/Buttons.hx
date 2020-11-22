@@ -19,8 +19,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
-import fire.util.ActiveKeys;
+package fire.fromFire.button;
+import fire.util.Signal;
+import fire.util.Cursor;
 
 abstract Buttons(Map<ButtonType, Button>) 
 {
@@ -50,33 +51,33 @@ abstract Buttons(Map<ButtonType, Button>)
     public var stop (get, never): Button;
     public var record (get, never): Button;
 
-    inline public function new(activeKeys :ActiveKeys) {
+    inline public function new(gridIndex :Signal<Cursor>) {
         this = [
-            KNOB_TYPE => new Button(KNOB_TYPE, activeKeys),
-            VOLUME => new Button(VOLUME, activeKeys),
-            PAN => new Button(PAN, activeKeys),
-            FILTER => new Button(FILTER, activeKeys),
-            RESONANCE => new Button(RESONANCE, activeKeys),
-            PATTERN_UP => new Button(PATTERN_UP, activeKeys),
-            PATTERN_DOWN => new Button(PATTERN_DOWN, activeKeys),
-            BROWSER => new Button(BROWSER, activeKeys),
-            SELECT => new Select(SELECT, activeKeys),
-            GRID_LEFT => new GridLeft(GRID_LEFT, activeKeys),
-            GRID_RIGHT => new GridRight(GRID_RIGHT, activeKeys),
-            MUTE_SOLO_1 => new Button(MUTE_SOLO_1, activeKeys),
-            MUTE_SOLO_2 => new Button(MUTE_SOLO_2, activeKeys),
-            MUTE_SOLO_3 => new Button(MUTE_SOLO_3, activeKeys),
-            MUTE_SOLO_4 => new Button(MUTE_SOLO_4, activeKeys),
-            STEP => new Step(STEP, activeKeys),
-            NOTE => new Button(NOTE, activeKeys),
-            DRUM => new Button(DRUM, activeKeys),
-            PERFORM => new Button(PERFORM, activeKeys),
-            SHIFT => new Button(SHIFT, activeKeys),
-            ALT => new Button(ALT, activeKeys),
-            PATTERN_SONG => new Button(PATTERN_SONG, activeKeys),
-            PLAY => new Play(PLAY, activeKeys),
-            STOP => new Stop(STOP, activeKeys),
-            RECORD => new Button(RECORD, activeKeys)
+            KNOB_TYPE => new Button(KNOB_TYPE, gridIndex),
+            VOLUME => new Button(VOLUME, gridIndex),
+            PAN => new Button(PAN, gridIndex),
+            FILTER => new Button(FILTER, gridIndex),
+            RESONANCE => new Button(RESONANCE, gridIndex),
+            PATTERN_UP => new Button(PATTERN_UP, gridIndex),
+            PATTERN_DOWN => new Button(PATTERN_DOWN, gridIndex),
+            BROWSER => new Button(BROWSER, gridIndex),
+            SELECT => new Select(SELECT, gridIndex),
+            GRID_LEFT => new GridLeft(GRID_LEFT, gridIndex),
+            GRID_RIGHT => new GridRight(GRID_RIGHT, gridIndex),
+            MUTE_SOLO_1 => new Button(MUTE_SOLO_1, gridIndex),
+            MUTE_SOLO_2 => new Button(MUTE_SOLO_2, gridIndex),
+            MUTE_SOLO_3 => new Button(MUTE_SOLO_3, gridIndex),
+            MUTE_SOLO_4 => new Button(MUTE_SOLO_4, gridIndex),
+            STEP => new Step(STEP, gridIndex),
+            NOTE => new Button(NOTE, gridIndex),
+            DRUM => new Button(DRUM, gridIndex),
+            PERFORM => new Button(PERFORM, gridIndex),
+            SHIFT => new Button(SHIFT, gridIndex),
+            ALT => new Button(ALT, gridIndex),
+            PATTERN_SONG => new Button(PATTERN_SONG, gridIndex),
+            PLAY => new Play(PLAY, gridIndex),
+            STOP => new Stop(STOP, gridIndex),
+            RECORD => new Button(RECORD, gridIndex)
         ];
     }
 

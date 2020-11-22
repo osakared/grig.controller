@@ -19,10 +19,10 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output;
+package fire.toFire;
 
 import lua.Table;
-import fire.output.Text;
+import fire.toFire.Text;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
 

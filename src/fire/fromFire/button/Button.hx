@@ -19,14 +19,47 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.dial;
+package fire.fromFire.button;
 
-@:enum
-abstract DialType(Int) from Int to Int
+import fire.util.Signal;
+import fire.util.Cursor;
+
+class Button
 {
-    var VOLUME = 16;
-    var PAN = 17;
-    var FILTER = 18;
-    var RESONANCE = 19;
-    var SELECT = 118;
+    public var type (default, null) : ButtonType;
+    public var isDown (default, null) : Signal<Bool>;
+    public var gridIndex (default, null) : Signal<Cursor>;
+
+    public function new(type :ButtonType, gridIndex :Signal<Cursor>) : Void
+    {
+        this.type = type;
+        this.gridIndex = gridIndex;
+        this.isDown = new Signal(false);
+        this.isDown.addListener((_isDown) -> {
+            if(_isDown) {
+                this.onDown();
+            }
+            else {
+                this.onUp();
+            }
+        });
+    }
+
+    public function down(buttons :Buttons) : Void
+    {
+        this.isDown.value = false;
+    }
+
+    public function up(buttons :Buttons) : Void
+    {
+        this.isDown.value = true;
+    }
+
+    public function onUp() : Void
+    {
+    }
+
+    public function onDown() : Void
+    {
+    }
 }

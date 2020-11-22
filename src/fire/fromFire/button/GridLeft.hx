@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.fromFire.button;
 
 import renoise.Renoise;
 
@@ -27,39 +27,39 @@ class GridLeft extends Button
 {
     override public function onUp() : Void
     {
-        switch activeKeys.gridIndex.value {
+        switch gridIndex.value {
             case Note: {
                 if(Renoise.song().selectedNoteColumnIndex > 1) {
                     Renoise.song().selectedNoteColumnIndex -= 1;
-                    activeKeys.gridIndex.value = Vol;
+                    gridIndex.value = Vol;
                 }
                 else if(Renoise.song().selectedTrackIndex > 1) {
                     Renoise.song().selectedTrackIndex -= 1;
                     if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                         Renoise.song().selectedEffectColumnIndex = Renoise.song().selectedTrack.visibleEffectColumns;
-                        activeKeys.gridIndex.value = FXAmount;
+                        gridIndex.value = FXAmount;
                     }
                     else {
                         Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                        activeKeys.gridIndex.value = Vol;
+                        gridIndex.value = Vol;
                     }
                 }
             }
             case Inst:
-                activeKeys.gridIndex.value = Note;
+                gridIndex.value = Note;
             case Vol:
-                activeKeys.gridIndex.value = Inst;
+                gridIndex.value = Inst;
             case FXNum:
                 if(Renoise.song().selectedEffectColumnIndex > 1) {
                     Renoise.song().selectedEffectColumnIndex -= 1;
-                    activeKeys.gridIndex.value = FXAmount;
+                    gridIndex.value = FXAmount;
                 }
                 else {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    activeKeys.gridIndex.value = Vol;
+                    gridIndex.value = Vol;
                 }
             case FXAmount:
-                activeKeys.gridIndex.value = FXNum;
+                gridIndex.value = FXNum;
         }
     }
 }

@@ -19,14 +19,13 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.util;
 
-import renoise.Renoise;
-
-class Play extends Button
+enum Cursor
 {
-    override public function onDown() : Void
-    {
-        Renoise.song().transport.playing = true;
-    }
+    Note;
+    Inst;
+    Vol;
+    FXNum;
+    FXAmount;
 }

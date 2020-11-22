@@ -19,20 +19,24 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package fire.fromFire;
 
-class Math
+import fire.util.RenoiseUtil;
+import fire.util.Signal;
+import fire.util.Cursor;
+
+class Grid
 {
-    public static function clamp<T:Float> (value :T, min :T, max :T) :T
+    public function new() : Void
     {
-        return if (value < min) min
-            else if (value > max) max
-            else value;
     }
 
-    public static function mod(number :Int, amount :Int) : Int 
+    public function down(gridIndex :Signal<Cursor>, pad :Int) : Void
     {
-        var mod = ((number % amount) + amount) % amount;
-        return mod == 0 ? amount : mod;
+        RenoiseUtil.setLine(pad + 1, 64);
+    }
+
+    public function up(gridIndex :Signal<Cursor>, pad :Int) : Void
+    {
     }
 }

@@ -1,6 +1,6 @@
-package fire.output.button;
+package fire.toFire.button;
 
-import fire.input.button.ButtonType;
+import fire.fromFire.button.ButtonType;
 
 class ButtonLights
 {

@@ -19,52 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output;
+package fire.fromFire.button;
 
-import renoise.song.EffectColumn;
-import haxe.zip.Reader;
-import fire.util.ActiveKeys;
-import fire.util.RenoiseUtil;
 import renoise.Renoise;
-import renoise.song.NoteColumn;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.output.Display;
-import fire.output.button.ButtonLights;
-import fire.output.Grid as OutputGrid;
-import renoise.LineChaneObserver;
 
-class Transport
+class Play extends Button
 {
-    public function new(buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    override public function onDown() : Void
     {
-        _buttons = buttons;
-        _outputDevice = outputDevice;
-        resetLights();
-        initializeListeners();
+        Renoise.song().transport.playing = true;
     }
-
-    private function resetLights() : Void
-    {
-        handlePlaying();
-    }
-
-    private function handlePlaying() : Void
-    {
-        if(Renoise.song().transport.playing) {
-            _buttons.play.send(_outputDevice, 3);
-        }
-        else {
-            _buttons.play.send(_outputDevice, 0);
-        }
-    }
-
-    private function initializeListeners() : Void
-    {
-        Renoise.song().transport.playingObservable.addNotifier(() -> {
-            handlePlaying();
-        });
-    }
-
-    private var _buttons :ButtonLights;
-    private var _outputDevice :MidiOutputDevice;
 }

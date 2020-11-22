@@ -19,26 +19,26 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.output;
+package fire.toFire;
 
 import renoise.song.EffectColumn;
-import haxe.zip.Reader;
-import fire.util.ActiveKeys;
-import fire.util.RenoiseUtil;
+import fire.util.Signal;
+import fire.util.Cursor;
+import fire.util.Math;
 import renoise.Renoise;
 import renoise.song.NoteColumn;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.output.Display;
-import fire.output.button.ButtonLights;
-import fire.output.Grid as OutputGrid;
+import fire.toFire.Display;
+import fire.toFire.button.ButtonLights;
+import fire.toFire.Grid as OutputGrid;
 import renoise.LineChaneObserver;
 
 class Output
 {
-    public function new(outputDevice :MidiOutputDevice, activeKeys :ActiveKeys) : Void
+    public function new(outputDevice :MidiOutputDevice, gridIndex :Signal<Cursor>) : Void
     {
         _outputDevice = outputDevice;
-        _activeKeys = activeKeys;
+        _gridIndex = gridIndex;
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
@@ -59,7 +59,7 @@ class Output
     {
         var lineObserver = new LineChaneObserver();
         lineObserver.register(0, makeDrawCalls);
-        _activeKeys.gridIndex.addListener(_ -> {
+        _gridIndex.addListener(_ -> {
             makeDrawCalls();
         });
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls);
@@ -108,7 +108,7 @@ class Output
 
     private function drawLineIndex(x :Int, index :Int, row :Int, highlight :Bool) : Int
     {
-        index = RenoiseUtil.mod(index, 64);
+        index = Math.mod(index, 64);
         var line = lineString(index - 1);
         var isUnderlined = (index - 1) % Renoise.song().transport.lpb == 0;
         x = _display.drawText(line, x, 8 * row, false, isUnderlined);
@@ -117,8 +117,8 @@ class Output
 
     private function drawNoteColumn(x :Int, index :Int, row :Int, noteColumnIndex :Int, highlight :Bool) : Int
     {
-        index = RenoiseUtil.mod(index, 64);
-        var gi = _activeKeys.gridIndex.value;
+        index = Math.mod(index, 64);
+        var gi = _gridIndex.value;
         var noteColumn = Renoise.song().selectedPatternTrack.line(index).noteColumn(noteColumnIndex);
         x = drawNote(noteColumn, noteColumnIndex, x, row, gi, highlight);
         x = drawInst(noteColumn, noteColumnIndex, x, row, gi, highlight);
@@ -129,8 +129,8 @@ class Output
 
     private function drawEffectColumn(x :Int, index :Int, row :Int, effectColumnIndex :Int, highlight :Bool) : Int
     {
-        index = RenoiseUtil.mod(index, 64);
-        var gi = _activeKeys.gridIndex.value;
+        index = Math.mod(index, 64);
+        var gi = _gridIndex.value;
         var effectColumn = Renoise.song().selectedPatternTrack.line(index).effectColumn(effectColumnIndex);
         x = drawFXNumber(effectColumn, effectColumnIndex, x, row, gi, highlight);
         x = drawFXAmount(effectColumn, effectColumnIndex, x, row, gi, highlight);
@@ -177,5 +177,5 @@ class Output
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
     private var _transport :Transport;
-    private var _activeKeys :ActiveKeys;
+    private var _gridIndex :Signal<Cursor>;
 }
