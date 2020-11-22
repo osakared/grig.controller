@@ -21,7 +21,7 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import renoise.Renoise;
 import fire.input.button.ButtonType;
 
@@ -34,12 +34,12 @@ class Play implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
         Renoise.song().transport.playing = true;
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
     }
 }

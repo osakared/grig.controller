@@ -21,7 +21,7 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.input.button.ButtonType;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
@@ -35,11 +35,11 @@ class Step implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }

@@ -23,81 +23,15 @@ package renoise.song;
 
 extern class Transport
 {
-    /**
-     * Panic.
-     */
-    public function panic() : Void;
+    //Constants
+    extern public static var PLAYMODE_RESTART_PATTERN : Int;
+    public static var PLAYMODE_CONTINUE_PATTERN : Int;
 
-    /**
-     * Mode: enum = PLAYMODE
-     * 
-     * @param mode 
-     */
-    public function start(mode :Dynamic) : Void;
+    public static var RECORD_PARAMETER_MODE_PATTERN : Int;
+    public static var RECORD_PARAMETER_MODE_AUTOMATION : Int;
 
-    /**
-     * start playing the currently edited pattern at the given line offset
-     * 
-     * @param line 
-     */
-    @:native("start_at")
-    public function startAt(line :Int) : Void;
-
-    /**
-     * stop playing. when already stopped this just stops all playing notes.
-     */
-    public function stop() : Void;
-
-    /**
-     * Immediately start playing at the given sequence position.
-     * 
-     * @param pos 
-     */
-    @:native("trigger_sequence")
-    public function triggerSequence(pos :Int) : Void;
-
-    /**
-     * Append the sequence to the scheduled sequence list. Scheduled playback 
-     * positions will apply as soon as the currently playing pattern play to end.
-     * 
-     * @param pos 
-     */
-    @:native("add_scheduled_sequence")
-    public function addScheduledSequence(pos :Int) : Void;
-
-    /**
-     * Replace the scheduled sequence list with the given sequence.
-     * 
-     * @param pos 
-     */
-    @:native("set_scheduled_sequence")
-    public function setScheduledSequence(pos :Int) : Void;
-
-    /**
-     * Move the block loop one segment forwards, when possible.
-     */
-    @:native("loop_block_move_forwards")
-    public function loopBlockMoveForwards() : Void;
-
-    /**
-     * Move the block loop one segment backwards, when possible.
-     */
-    @:native("loop_block_move_backwards")
-    public function loopBlockMoveBackwards() : Void;
-
-    /**
-     * Start a new sample recording when the sample dialog is visible, otherwise 
-     * stop and finish it.
-     */
-    @:native("start_stop_sample_recording")
-    public function startStopSampleRecording() : Void;
-
-    /**
-     * Cancel a currently running sample recording when the sample dialog is 
-     * visible, otherwise do nothing.
-     */
-    @:native("cancel_sample_recording")
-    public function cancelSampleRecording() : Void;
+    public static var TIMING_MODEL_SPEED : Int;
+    public static var TIMING_MODEL_LPB : Int;
 
     /**
      * Playing.
@@ -191,4 +125,80 @@ extern class Transport
     public var loopBlockStartPos (default, null) : SongPos;
     @:native("loop_block_range_coeff")
     public var loopBlockRangeCoeff : Int;
+
+    /**
+     * Panic.
+     */
+     public function panic() : Void;
+
+     /**
+      * Mode: enum = PLAYMODE
+      * 
+      * @param mode 
+      */
+     public function start(mode :Dynamic) : Void;
+ 
+     /**
+      * start playing the currently edited pattern at the given line offset
+      * 
+      * @param line 
+      */
+     @:native("start_at")
+     public function startAt(line :Int) : Void;
+ 
+     /**
+      * stop playing. when already stopped this just stops all playing notes.
+      */
+     public function stop() : Void;
+ 
+     /**
+      * Immediately start playing at the given sequence position.
+      * 
+      * @param pos 
+      */
+     @:native("trigger_sequence")
+     public function triggerSequence(pos :Int) : Void;
+ 
+     /**
+      * Append the sequence to the scheduled sequence list. Scheduled playback 
+      * positions will apply as soon as the currently playing pattern play to end.
+      * 
+      * @param pos 
+      */
+     @:native("add_scheduled_sequence")
+     public function addScheduledSequence(pos :Int) : Void;
+ 
+     /**
+      * Replace the scheduled sequence list with the given sequence.
+      * 
+      * @param pos 
+      */
+     @:native("set_scheduled_sequence")
+     public function setScheduledSequence(pos :Int) : Void;
+ 
+     /**
+      * Move the block loop one segment forwards, when possible.
+      */
+     @:native("loop_block_move_forwards")
+     public function loopBlockMoveForwards() : Void;
+ 
+     /**
+      * Move the block loop one segment backwards, when possible.
+      */
+     @:native("loop_block_move_backwards")
+     public function loopBlockMoveBackwards() : Void;
+ 
+     /**
+      * Start a new sample recording when the sample dialog is visible, otherwise 
+      * stop and finish it.
+      */
+     @:native("start_stop_sample_recording")
+     public function startStopSampleRecording() : Void;
+ 
+     /**
+      * Cancel a currently running sample recording when the sample dialog is 
+      * visible, otherwise do nothing.
+      */
+     @:native("cancel_sample_recording")
+     public function cancelSampleRecording() : Void;
 }

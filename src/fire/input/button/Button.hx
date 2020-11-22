@@ -21,11 +21,11 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 
 interface Button
 {
     var type :ButtonType;
-    function down(modifiers :Modifiers) : Void;
-    function up(modifiers :Modifiers) : Void;
+    function down(activeKeys :ActiveKeys) : Void;
+    function up(activeKeys :ActiveKeys) : Void;
 }

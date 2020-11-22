@@ -21,11 +21,36 @@
 
 package fire.input.button;
 
-class Buttons
+abstract Buttons(Map<ButtonType, Button>) 
 {
-    public function new() : Void
-    {
-        _buttons = [
+    // public var knobType (get, null): Button;
+    // public var volume (get, null): Button;
+    // public var pan (get, null): Button;
+    // public var filter (get, null): Button;
+    // public var resonance (get, null): Button;
+    // public var patternUp (get, null): Button;
+    // public var patternDown (get, null): Button;
+    // public var browser (get, null): Button;
+    // public var select (get, null): Button;
+    // public var gridLeft (get, null): Button;
+    // public var gridRight (get, null): Button;
+    // public var muteSolo1 (get, null): Button;
+    // public var muteSolo2 (get, null): Button;
+    // public var muteSolo3 (get, null): Button;
+    // public var muteSolo4 (get, null): Button;
+    // public var step (get, null): Button;
+    // public var note (get, null): Button;
+    // public var drum (get, null): Button;
+    // public var perfrom (get, null): Button;
+    // public var shift (get, null): Button;
+    // public var alt (get, null): Button;
+    // public var patternSong (get, null): Button;
+    public var play (get, never): Button;
+    public var stop (get, never): Button;
+    public var record (get, never): Button;
+
+    inline public function new() {
+        this = [
             KNOB_TYPE => new KnobType(KNOB_TYPE),
             VOLUME => new Volume(VOLUME),
             PAN => new Pan(PAN),
@@ -56,18 +81,31 @@ class Buttons
 
     public inline function iterator() : Iterator<Button>
     {
-        return _buttons.iterator();
+        return this.iterator();
     }
 
     public inline function exists(type :ButtonType) : Bool
     {
-        return _buttons.exists(type);
+        return this.exists(type);
     }
 
     public inline function get(type :ButtonType) : Button
     {
-        return _buttons.get(type);
+        return this.get(type);
     }
 
-    private var _buttons : Map<ButtonType, Button>;
+    private inline function get_play() : Button
+    {
+        return this.get(ButtonType.PLAY);
+    }
+
+    private inline function get_stop() : Button
+    {
+        return this.get(ButtonType.STOP);
+    }
+
+    private inline function get_record() : Button
+    {
+        return this.get(ButtonType.RECORD);
+    }
 }

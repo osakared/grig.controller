@@ -22,7 +22,7 @@
 package fire.input.button;
 
 import renoise.song.NoteColumn;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.input.button.ButtonType;
 import renoise.Renoise;
 
@@ -35,17 +35,17 @@ class Select implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
-        modifiers.select = true;
+        activeKeys.select.value = true;
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
             Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
         }
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
-        modifiers.select = false;
+        activeKeys.select.value = false;
     }
 }

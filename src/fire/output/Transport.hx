@@ -19,25 +19,52 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.input.button;
+package fire.output;
 
+import renoise.song.EffectColumn;
+import haxe.zip.Reader;
 import fire.util.ActiveKeys;
-import fire.input.button.ButtonType;
+import fire.util.RenoiseUtil;
+import renoise.Renoise;
+import renoise.song.NoteColumn;
+import renoise.midi.Midi.MidiOutputDevice;
+import fire.output.Display;
+import fire.output.button.ButtonLights;
+import fire.output.Grid as OutputGrid;
+import renoise.LineChaneObserver;
 
-class Resonance implements Button
+class Transport
 {
-    public var type : ButtonType;
-
-    public function new(type :ButtonType) : Void
+    public function new(buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
-        this.type = type;
+        _buttons = buttons;
+        _outputDevice = outputDevice;
+        resetLights();
+        initializeListeners();
     }
 
-    public function down(activeKeys :ActiveKeys) : Void
+    private function resetLights() : Void
     {
+        handlePlaying();
     }
 
-    public function up(activeKeys :ActiveKeys) : Void
+    private function handlePlaying() : Void
     {
+        if(Renoise.song().transport.playing) {
+            _buttons.play.send(_outputDevice, 3);
+        }
+        else {
+            _buttons.play.send(_outputDevice, 0);
+        }
     }
+
+    private function initializeListeners() : Void
+    {
+        Renoise.song().transport.playingObservable.addNotifier(() -> {
+            handlePlaying();
+        });
+    }
+
+    private var _buttons :ButtonLights;
+    private var _outputDevice :MidiOutputDevice;
 }

@@ -28,7 +28,7 @@ import fire.input.dial.DialType;
 import fire.input.dial.Dials;
 import fire.input.button.ButtonType;
 import fire.output.Output;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 
 class Main
 {
@@ -53,21 +53,22 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var buttons = new Buttons();
+            initButtons(buttons, null);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            var modifiers = new Modifiers();
-            new Output(MIDI_OUT, modifiers);
+            var activeKeys = new ActiveKeys();
+            new Output(MIDI_OUT, activeKeys);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, inputGrid, modifiers, a.note());
+                        handleButtonDown(buttons, inputGrid, activeKeys, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, inputGrid, modifiers, a.note());
+                        handleButtonUp(buttons, inputGrid, activeKeys, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(dials, modifiers, a.note(), isRight);
+                        handleRotary(dials, activeKeys, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -75,35 +76,40 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, modifiers :Modifiers, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).down(modifiers);
+            buttons.get(button).down(activeKeys);
         }
         else {
-            grid.down(modifiers, button - 54);
+            grid.down(activeKeys, button - 54);
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, modifiers :Modifiers, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).up(modifiers);
+            buttons.get(button).up(activeKeys);
         }
         else {
-            grid.up(modifiers, button - 54);
+            grid.up(activeKeys, button - 54);
         }
     }
 
-    public static function handleRotary(dials :Dials, modifiers :Modifiers, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(dials :Dials, activeKeys :ActiveKeys, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {
-                dials.get(type).right(modifiers);
+                dials.get(type).right(activeKeys);
             }
             else {
-                dials.get(type).left(modifiers);
+                dials.get(type).left(activeKeys);
             }
         }
+    }
+
+    private static function initButtons(buttons :Buttons, state :Dynamic) : Void
+    {
+        // buttons.play.down()
     }
 }

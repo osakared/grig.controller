@@ -21,11 +21,11 @@
 
 package fire.input.dial;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 
 interface Dial
 {
     var type :DialType;
-    function left(modifiers :Modifiers) : Void;
-    function right(modifiers :Modifiers) : Void;
+    function left(activeKeys :ActiveKeys) : Void;
+    function right(activeKeys :ActiveKeys) : Void;
 }

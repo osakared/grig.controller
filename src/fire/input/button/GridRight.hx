@@ -23,7 +23,7 @@ package fire.input.button;
 
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.input.button.ButtonType;
 
 class GridRight implements Button
@@ -35,40 +35,40 @@ class GridRight implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
-        switch modifiers.gridIndex.value {
+        switch activeKeys.gridIndex.value {
             case Note:
-                modifiers.gridIndex.value = Inst;
+                activeKeys.gridIndex.value = Inst;
             case Inst:
-                modifiers.gridIndex.value = Vol;
+                activeKeys.gridIndex.value = Vol;
             case Vol:
                 if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
                     Renoise.song().selectedNoteColumnIndex += 1;
-                    modifiers.gridIndex.value = Note;
+                    activeKeys.gridIndex.value = Note;
                 }
                 else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                     Renoise.song().selectedEffectColumnIndex = 1;
-                    modifiers.gridIndex.value = FXNum;
+                    activeKeys.gridIndex.value = FXNum;
                 }
                 else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
                     Renoise.song().selectedTrackIndex += 1;
-                    modifiers.gridIndex.value = Note;
+                    activeKeys.gridIndex.value = Note;
                 }
             case FXNum:
-                modifiers.gridIndex.value = FXAmount;
+                activeKeys.gridIndex.value = FXAmount;
             case FXAmount:
                 if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
                     Renoise.song().selectedEffectColumnIndex += 1;
-                    modifiers.gridIndex.value = FXNum;
+                    activeKeys.gridIndex.value = FXNum;
                 }
                 else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
                     Renoise.song().selectedTrackIndex += 1;
-                    modifiers.gridIndex.value = Note;
+                    activeKeys.gridIndex.value = Note;
                 }
         }
     }

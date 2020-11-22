@@ -1,8 +1,29 @@
+/*
+ * Copyright (c) 2020 Jeremy Meltingtallow
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package fire.output;
 
 import renoise.song.EffectColumn;
 import haxe.zip.Reader;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.util.RenoiseUtil;
 import renoise.Renoise;
 import renoise.song.NoteColumn;
@@ -14,13 +35,14 @@ import renoise.LineChaneObserver;
 
 class Output
 {
-    public function new(outputDevice :MidiOutputDevice, modifiers :Modifiers) : Void
+    public function new(outputDevice :MidiOutputDevice, activeKeys :ActiveKeys) : Void
     {
         _outputDevice = outputDevice;
-        _modifiers = modifiers;
+        _activeKeys = activeKeys;
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
+        _transport = new Transport(_buttons, _outputDevice);
         this.initializeListeners();
         makeDrawCalls();
     }
@@ -37,25 +59,14 @@ class Output
     {
         var lineObserver = new LineChaneObserver();
         lineObserver.register(0, makeDrawCalls);
-        _modifiers.gridIndex.addListener(_ -> {
+        _activeKeys.gridIndex.addListener(_ -> {
             makeDrawCalls();
         });
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls);
-
-        Renoise.song().transport.playingObservable.addNotifier(() -> {
-            if(Renoise.song().transport.playing) {
-                _buttons.play.send(_outputDevice, 3);
-            }
-            else {
-                _buttons.play.send(_outputDevice, 0);
-            }
-        });
     }
 
     private function makeDrawCalls() : Void
     {
-        
-
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex = transport.playbackPos.line;
@@ -107,7 +118,7 @@ class Output
     private function drawNoteColumn(x :Int, index :Int, row :Int, noteColumnIndex :Int, highlight :Bool) : Int
     {
         index = RenoiseUtil.mod(index, 64);
-        var gi = _modifiers.gridIndex.value;
+        var gi = _activeKeys.gridIndex.value;
         var noteColumn = Renoise.song().selectedPatternTrack.line(index).noteColumn(noteColumnIndex);
         x = drawNote(noteColumn, noteColumnIndex, x, row, gi, highlight);
         x = drawInst(noteColumn, noteColumnIndex, x, row, gi, highlight);
@@ -119,7 +130,7 @@ class Output
     private function drawEffectColumn(x :Int, index :Int, row :Int, effectColumnIndex :Int, highlight :Bool) : Int
     {
         index = RenoiseUtil.mod(index, 64);
-        var gi = _modifiers.gridIndex.value;
+        var gi = _activeKeys.gridIndex.value;
         var effectColumn = Renoise.song().selectedPatternTrack.line(index).effectColumn(effectColumnIndex);
         x = drawFXNumber(effectColumn, effectColumnIndex, x, row, gi, highlight);
         x = drawFXAmount(effectColumn, effectColumnIndex, x, row, gi, highlight);
@@ -165,5 +176,6 @@ class Output
     private var _display :Display;
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
-    private var _modifiers :Modifiers;
+    private var _transport :Transport;
+    private var _activeKeys :ActiveKeys;
 }

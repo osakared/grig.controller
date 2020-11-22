@@ -21,16 +21,16 @@
 
 package fire.util;
 
-class Modifiers
+class ActiveKeys
 {
-    public var select :Bool;
-    public var alt :Bool;
+    public var select :Signal<Bool>;
+    public var alt :Signal<Bool>;
     public var gridIndex :Signal<Cursor>;
 
     public function new() : Void
     {
-        this.select = false;
-        this.alt = false;
+        this.select = new Signal(false);
+        this.alt = new Signal(false);
         this.gridIndex = new Signal(Note);
     }
 }

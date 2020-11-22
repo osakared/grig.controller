@@ -21,7 +21,7 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 import fire.input.button.ButtonType;
@@ -36,7 +36,7 @@ class Stop implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
         if(Renoise.song().transport.playing) {
             Renoise.song().transport.playing = false;
@@ -46,7 +46,7 @@ class Stop implements Button
         }
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
     }
 }

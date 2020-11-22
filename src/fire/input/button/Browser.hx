@@ -21,7 +21,7 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.input.button.ButtonType;
 
 class Browser implements Button
@@ -33,11 +33,11 @@ class Browser implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
     }
 }

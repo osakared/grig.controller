@@ -22,7 +22,7 @@
 package fire.input;
 
 import fire.util.RenoiseUtil;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 
 class Grid
 {
@@ -30,12 +30,12 @@ class Grid
     {
     }
 
-    public function down(modifiers :Modifiers, pad :Int) : Void
+    public function down(activeKeys :ActiveKeys, pad :Int) : Void
     {
         RenoiseUtil.setLine(pad + 1, 64);
     }
 
-    public function up(modifiers :Modifiers, pad :Int) : Void
+    public function up(activeKeys :ActiveKeys, pad :Int) : Void
     {
     }
 }

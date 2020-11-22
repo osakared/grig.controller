@@ -22,7 +22,7 @@
 package fire.input.dial;
 
 import renoise.song.NoteColumn;
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
@@ -36,10 +36,10 @@ class Select implements Dial
         this.type = type;
     }
 
-    public function left(modifiers :Modifiers) : Void
+    public function left(activeKeys :ActiveKeys) : Void
     {
-        if(modifiers.select) {
-            if(modifiers.alt) {
+        if(activeKeys.select.value) {
+            if(activeKeys.alt.value) {
                 handleAlt(true);
             }
             else {
@@ -51,10 +51,10 @@ class Select implements Dial
         }
     }
 
-    public function right(modifiers :Modifiers) : Void
+    public function right(activeKeys :ActiveKeys) : Void
     {
-        if(modifiers.select) {
-            if(modifiers.alt) {
+        if(activeKeys.select.value) {
+            if(activeKeys.alt.value) {
                 handleAlt(false);
             }
             else {

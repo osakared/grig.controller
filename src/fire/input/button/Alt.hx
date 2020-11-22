@@ -21,7 +21,7 @@
 
 package fire.input.button;
 
-import fire.util.Modifiers;
+import fire.util.ActiveKeys;
 import fire.input.button.ButtonType;
 
 class Alt implements Button
@@ -33,13 +33,13 @@ class Alt implements Button
         this.type = type;
     }
 
-    public function down(modifiers :Modifiers) : Void
+    public function down(activeKeys :ActiveKeys) : Void
     {
-        modifiers.alt = true;
+        activeKeys.alt.value = true;
     }
 
-    public function up(modifiers :Modifiers) : Void
+    public function up(activeKeys :ActiveKeys) : Void
     {
-        modifiers.alt = false;
+        activeKeys.alt.value = false;
     }
 }
