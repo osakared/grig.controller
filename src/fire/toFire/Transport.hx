@@ -24,13 +24,15 @@ package fire.toFire;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
+import fire.fromFire.button.ButtonsReadOnly as ButtonInputs;
 
 class Transport
 {
-    public function new(buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public function new(buttons :ButtonLights, buttonInputs :ButtonInputs, outputDevice :MidiOutputDevice) : Void
     {
         _buttons = buttons;
         _outputDevice = outputDevice;
+        _buttonInputs = buttonInputs;
         resetLights();
         initializeListeners();
     }
@@ -38,15 +40,55 @@ class Transport
     private function resetLights() : Void
     {
         handlePlaying();
+        handleStop();
+        handleRecord();
     }
 
     private function handlePlaying() : Void
     {
-        if(Renoise.song().transport.playing) {
-            _buttons.play.send(_outputDevice, 3);
+        var isDown = _buttonInputs.play.value;
+        if(isDown) {
+            _buttons.play.send(_outputDevice, 1);
         }
         else {
-            _buttons.play.send(_outputDevice, 0);
+            if(Renoise.song().transport.playing) {
+                _buttons.play.send(_outputDevice, 3);
+            }
+            else {
+                _buttons.play.send(_outputDevice, 0);
+            }
+        }
+    }
+
+    private function handleStop() : Void
+    {
+        var isDown = _buttonInputs.stop.value;
+        if(isDown) {
+            _buttons.stop.send(_outputDevice, 1);
+        }
+        else {
+            if(Renoise.song().transport.playing) {
+                _buttons.stop.send(_outputDevice, 0);
+            }
+            else {
+                _buttons.stop.send(_outputDevice, 2);
+            }
+        }
+    }
+
+    private function handleRecord() : Void
+    {
+        var isDown = _buttonInputs.record.value;
+        if(isDown) {
+            _buttons.record.send(_outputDevice, 1);
+        }
+        else {
+            if(Renoise.song().transport.editMode) {
+                _buttons.record.send(_outputDevice, 3);
+            }
+            else {
+                _buttons.record.send(_outputDevice, 0);
+            }
         }
     }
 
@@ -55,8 +97,20 @@ class Transport
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handlePlaying();
         });
+        _buttonInputs.play.addListener(_ -> handlePlaying());
+
+        Renoise.song().transport.playingObservable.addNotifier(() -> {
+            handleStop();
+        });
+        _buttonInputs.stop.addListener(_ -> handleStop());
+
+        Renoise.song().transport.editModeObservable.addNotifier(() -> {
+            handleRecord();
+        });
+        _buttonInputs.record.addListener(_ -> handleRecord());
     }
 
+    private var _buttonInputs :ButtonInputs;
     private var _buttons :ButtonLights;
     private var _outputDevice :MidiOutputDevice;
 }

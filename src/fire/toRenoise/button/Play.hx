@@ -28,14 +28,14 @@ class Play
     public static function handle(isDown) : Void
     {
         if(isDown) {
-            onDown();
+            // onDown();
         }
         else {
-            // onUp();
+            onUp();
         }
     }
 
-    private static function onDown() : Void
+    private static function onUp() : Void
     {
         Renoise.song().transport.playing = true;
     }

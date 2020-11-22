@@ -29,6 +29,7 @@ import fire.toRenoise.button.Play;
 import fire.toRenoise.button.Select;
 import fire.toRenoise.button.Step;
 import fire.toRenoise.button.Stop;
+import fire.toRenoise.button.Record;
 import fire.toRenoise.dial.Select as SelectDial;
 
 class ToRenoise
@@ -44,10 +45,11 @@ class ToRenoise
     {
         buttons.gridLeft.addListener(isDown -> GridLeft.handle(isDown));
         buttons.gridRight.addListener(isDown -> GridRight.handle(isDown));
-        buttons.play.addListener(isDown -> Play.handle(isDown));
         buttons.select.addListener(isDown -> Select.handle(isDown));
         buttons.step.addListener(isDown -> Step.handle(isDown));
+        buttons.play.addListener(isDown -> Play.handle(isDown));
         buttons.stop.addListener(isDown -> Stop.handle(isDown));
+        buttons.record.addListener(isDown -> Record.handle(isDown));
     }
 
     private function initDials(buttons :ButtonsReadOnly, dials :DialsReadOnly) : Void

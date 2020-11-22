@@ -22,9 +22,8 @@
 package fire.toRenoise.button;
 
 import renoise.Renoise;
-import fire.util.RenoiseUtil;
 
-class Stop
+class Record
 {
     public static function handle(isDown) : Void
     {
@@ -38,11 +37,6 @@ class Stop
 
     private static function onUp() : Void
     {
-        if(Renoise.song().transport.playing) {
-            Renoise.song().transport.playing = false;
-        }
-        else {
-            RenoiseUtil.setLine(1, 64);
-        }
+        Renoise.song().transport.editMode = !Renoise.song().transport.editMode;
     }
 }

@@ -58,7 +58,7 @@ class Main
             var buttons = new Buttons(gridIndex);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            new Output(MIDI_OUT, gridIndex);
+            new Output(MIDI_OUT, buttons, gridIndex);
             new ToRenoise(buttons, dials);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
