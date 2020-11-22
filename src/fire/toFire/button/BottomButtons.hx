@@ -19,14 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire;
+package fire.toFire.button;
 
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
 import fire.fromFire.button.ButtonsReadOnly as ButtonInputs;
 
-class Transport
+class BottomButtons
 {
     public function new(buttons :ButtonLights, buttonInputs :ButtonInputs, outputDevice :MidiOutputDevice) : Void
     {
@@ -39,12 +39,96 @@ class Transport
 
     private function resetLights() : Void
     {
-        handlePlaying();
+        handleStep();
+        handleNote();
+        handleDrum();
+        handlePerform();
+        handleShift();
+        handleAlt();
+        handlePatternSong();
+        handlePlay();
         handleStop();
         handleRecord();
     }
 
-    private function handlePlaying() : Void
+    private function handleStep() : Void
+    {
+        var isDown = _buttonInputs.step.value;
+        if(isDown) {
+            _buttons.step.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.step.send(_outputDevice, 0);
+        }
+    }
+
+    private function handleNote() : Void
+    {
+        var isDown = _buttonInputs.note.value;
+        if(isDown) {
+            _buttons.note.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.note.send(_outputDevice, 0);
+        }
+    }
+
+    private function handleDrum() : Void
+    {
+        var isDown = _buttonInputs.drum.value;
+        if(isDown) {
+            _buttons.drum.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.drum.send(_outputDevice, 0);
+        }
+    }
+
+    private function handlePerform() : Void
+    {
+        var isDown = _buttonInputs.perform.value;
+        if(isDown) {
+            _buttons.perform.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.perform.send(_outputDevice, 0);
+        }
+    }
+
+    private function handleShift() : Void
+    {
+        var isDown = _buttonInputs.shift.value;
+        if(isDown) {
+            _buttons.shift.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.shift.send(_outputDevice, 0);
+        }
+    }
+
+    private function handleAlt() : Void
+    {
+        var isDown = _buttonInputs.alt.value;
+        if(isDown) {
+            _buttons.alt.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.alt.send(_outputDevice, 0);
+        }
+    }
+
+    private function handlePatternSong() : Void
+    {
+        var isDown = _buttonInputs.patternSong.value;
+        if(isDown) {
+            _buttons.patternSong.send(_outputDevice, 1);
+        }
+        else {
+            _buttons.patternSong.send(_outputDevice, 0);
+        }
+    }
+
+    private function handlePlay() : Void
     {
         var isDown = _buttonInputs.play.value;
         if(isDown) {
@@ -94,10 +178,18 @@ class Transport
 
     private function initializeListeners() : Void
     {
+        _buttonInputs.step.addListener(_ -> handleStep());
+        _buttonInputs.note.addListener(_ -> handleNote());
+        _buttonInputs.drum.addListener(_ -> handleDrum());
+        _buttonInputs.perform.addListener(_ -> handlePerform());
+        _buttonInputs.shift.addListener(_ -> handleShift());
+        _buttonInputs.alt.addListener(_ -> handleAlt());
+        _buttonInputs.patternSong.addListener(_ -> handlePatternSong());
+
         Renoise.song().transport.playingObservable.addNotifier(() -> {
-            handlePlaying();
+            handlePlay();
         });
-        _buttonInputs.play.addListener(_ -> handlePlaying());
+        _buttonInputs.play.addListener(_ -> handlePlay());
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handleStop();

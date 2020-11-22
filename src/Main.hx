@@ -37,11 +37,6 @@ class Main
     private static var MIDI_IN :MidiInputDevice;
     private static var MIDI_OUT :MidiOutputDevice;
 
-    public static inline function getType(value :Dynamic) : String
-    {
-        return lua.Lua.type(value);
-    }
-
     public static function main() : Void
     {
         haxe.macro.Compiler.includeFile("src/fire/_lua/util.lua");
@@ -65,9 +60,9 @@ class Main
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, inputGrid, gridIndex, a.note());
+                        handleButtonDown(buttons, inputGrid, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, inputGrid, gridIndex, a.note());
+                        handleButtonUp(buttons, inputGrid, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
                         handleRotary(dials, cast buttons, a.note(), isRight);
@@ -78,7 +73,7 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, gridIndex :Signal1<Cursor>, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = true;
@@ -88,7 +83,7 @@ class Main
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, gridIndex :Signal1<Cursor>, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
