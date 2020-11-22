@@ -19,24 +19,18 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire;
+package fire.toRenoise.button;
 
-import fire.util.RenoiseUtil;
-import fire.util.Signal;
-import fire.util.Cursor;
+import renoise.song.NoteColumn;
+import renoise.Renoise;
 
-class Grid
+class Select
 {
-    public function new() : Void
+    public function onDown() : Void
     {
-    }
-
-    public function down(gridIndex :Signal<Cursor>, pad :Int) : Void
-    {
-        RenoiseUtil.setLine(pad + 1, 64);
-    }
-
-    public function up(gridIndex :Signal<Cursor>, pad :Int) : Void
-    {
+        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+        if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
+            Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
+        }
     }
 }

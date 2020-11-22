@@ -22,14 +22,13 @@
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
-import fire.fromFire.Grid as InputGrid;
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.toRenoise.Grid as InputGrid;
 import fire.fromFire.button.Buttons;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.button.ButtonType;
 import fire.toFire.Output;
-import fire.util.Signal;
+import fire.util.Signal1;
 import fire.util.Cursor;
 
 class Main
@@ -54,7 +53,7 @@ class Main
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
-            var gridIndex = new Signal(Note);
+            var gridIndex = new Signal1(Note);
             var buttons = new Buttons(gridIndex);
             var dials = new Dials();
             var inputGrid = new InputGrid();
@@ -77,20 +76,20 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, gridIndex :Signal<Cursor>, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, gridIndex :Signal1<Cursor>, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).down(buttons);
+            buttons.get(button).value = true;
         }
         else {
             grid.down(gridIndex, button - 54);
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, gridIndex :Signal<Cursor>, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, gridIndex :Signal1<Cursor>, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).up(buttons);
+            buttons.get(button).value = false;
         }
         else {
             grid.up(gridIndex, button - 54);

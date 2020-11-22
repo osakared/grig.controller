@@ -26,7 +26,7 @@ class Dials
     public function new() : Void
     {
         _dials = [
-            SELECT => new Select(SELECT),
+            SELECT => new Select(),
         ];
     }
 

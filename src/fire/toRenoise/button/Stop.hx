@@ -19,19 +19,20 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package fire.toRenoise.button;
 
-abstract SignalReadOnly<T>(Signal<T>) from Signal<T>
+import renoise.Renoise;
+import fire.util.RenoiseUtil;
+
+class Stop
 {
-    public var value (get, never):T;
-
-    public inline function addListener(fn :T -> Void) : Void -> Void
+    public function onDown() : Void
     {
-        return this.addListener(fn);
-    }
-
-    private inline function get_value() : T
-    {
-        return this.value;
+        if(Renoise.song().transport.playing) {
+            Renoise.song().transport.playing = false;
+        }
+        else {
+            RenoiseUtil.setLine(1, 64);
+        }
     }
 }

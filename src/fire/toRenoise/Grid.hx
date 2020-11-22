@@ -19,48 +19,24 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package fire.toRenoise;
 
-package fire.util;
+import fire.util.RenoiseUtil;
+import fire.util.Signal1;
+import fire.util.Cursor;
 
-class Signal<T>
+class Grid
 {
-    public var value (get, set):T;
-
-    public function new(value :T) : Void
+    public function new() : Void
     {
-        _value = value;
-        _listeners = [];
     }
 
-    public function addListener(fn :T -> Void) : Void -> Void
+    public function down(gridIndex :Signal1<Cursor>, pad :Int) : Void
     {
-        _listeners.push(fn);
-        return () -> {
-            _listeners.remove(fn);
-        };
+        RenoiseUtil.setLine(pad + 1, 64);
     }
 
-    public function dispose() : Void
+    public function up(gridIndex :Signal1<Cursor>, pad :Int) : Void
     {
-        while(_listeners.length > 0) {
-            _listeners.pop();
-        }
     }
-
-    private function set_value(value :T) : T
-    {
-        _value = value;
-        for(listener in _listeners) {
-            listener(_value);
-        }
-        return _value;
-    }
-
-    private inline function get_value() : T
-    {
-        return _value;
-    }
-
-    private var _listeners :Array<T -> Void>;
-    private var _value :T;
 }

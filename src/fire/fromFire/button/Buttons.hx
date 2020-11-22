@@ -20,68 +20,68 @@
  */
 
 package fire.fromFire.button;
-import fire.util.Signal;
+import fire.util.Signal1;
 import fire.util.Cursor;
 
-abstract Buttons(Map<ButtonType, Button>) 
+abstract Buttons(Map<ButtonType, Signal1<Bool>>) 
 {
-    public var knobType (get, never): Button;
-    public var volume (get, never): Button;
-    public var pan (get, never): Button;
-    public var filter (get, never): Button;
-    public var resonance (get, never): Button;
-    public var patternUp (get, never): Button;
-    public var patternDown (get, never): Button;
-    public var browser (get, never): Button;
-    public var select (get, never): Button;
-    public var gridLeft (get, never): Button;
-    public var gridRight (get, never): Button;
-    public var muteSolo1 (get, never): Button;
-    public var muteSolo2 (get, never): Button;
-    public var muteSolo3 (get, never): Button;
-    public var muteSolo4 (get, never): Button;
-    public var step (get, never): Button;
-    public var note (get, never): Button;
-    public var drum (get, never): Button;
-    public var perform (get, never): Button;
-    public var shift (get, never): Button;
-    public var alt (get, never): Button;
-    public var patternSong (get, never): Button;
-    public var play (get, never): Button;
-    public var stop (get, never): Button;
-    public var record (get, never): Button;
+    public var knobType (get, never): Signal1<Bool>;
+    public var volume (get, never): Signal1<Bool>;
+    public var pan (get, never): Signal1<Bool>;
+    public var filter (get, never): Signal1<Bool>;
+    public var resonance (get, never): Signal1<Bool>;
+    public var patternUp (get, never): Signal1<Bool>;
+    public var patternDown (get, never): Signal1<Bool>;
+    public var browser (get, never): Signal1<Bool>;
+    public var select (get, never): Signal1<Bool>;
+    public var gridLeft (get, never): Signal1<Bool>;
+    public var gridRight (get, never): Signal1<Bool>;
+    public var muteSolo1 (get, never): Signal1<Bool>;
+    public var muteSolo2 (get, never): Signal1<Bool>;
+    public var muteSolo3 (get, never): Signal1<Bool>;
+    public var muteSolo4 (get, never): Signal1<Bool>;
+    public var step (get, never): Signal1<Bool>;
+    public var note (get, never): Signal1<Bool>;
+    public var drum (get, never): Signal1<Bool>;
+    public var perform (get, never): Signal1<Bool>;
+    public var shift (get, never): Signal1<Bool>;
+    public var alt (get, never): Signal1<Bool>;
+    public var patternSong (get, never): Signal1<Bool>;
+    public var play (get, never): Signal1<Bool>;
+    public var stop (get, never): Signal1<Bool>;
+    public var record (get, never): Signal1<Bool>;
 
-    inline public function new(gridIndex :Signal<Cursor>) {
+    inline public function new(gridIndex :Signal1<Cursor>) {
         this = [
-            KNOB_TYPE => new Button(KNOB_TYPE, gridIndex),
-            VOLUME => new Button(VOLUME, gridIndex),
-            PAN => new Button(PAN, gridIndex),
-            FILTER => new Button(FILTER, gridIndex),
-            RESONANCE => new Button(RESONANCE, gridIndex),
-            PATTERN_UP => new Button(PATTERN_UP, gridIndex),
-            PATTERN_DOWN => new Button(PATTERN_DOWN, gridIndex),
-            BROWSER => new Button(BROWSER, gridIndex),
-            SELECT => new Select(SELECT, gridIndex),
-            GRID_LEFT => new GridLeft(GRID_LEFT, gridIndex),
-            GRID_RIGHT => new GridRight(GRID_RIGHT, gridIndex),
-            MUTE_SOLO_1 => new Button(MUTE_SOLO_1, gridIndex),
-            MUTE_SOLO_2 => new Button(MUTE_SOLO_2, gridIndex),
-            MUTE_SOLO_3 => new Button(MUTE_SOLO_3, gridIndex),
-            MUTE_SOLO_4 => new Button(MUTE_SOLO_4, gridIndex),
-            STEP => new Step(STEP, gridIndex),
-            NOTE => new Button(NOTE, gridIndex),
-            DRUM => new Button(DRUM, gridIndex),
-            PERFORM => new Button(PERFORM, gridIndex),
-            SHIFT => new Button(SHIFT, gridIndex),
-            ALT => new Button(ALT, gridIndex),
-            PATTERN_SONG => new Button(PATTERN_SONG, gridIndex),
-            PLAY => new Play(PLAY, gridIndex),
-            STOP => new Stop(STOP, gridIndex),
-            RECORD => new Button(RECORD, gridIndex)
+            KNOB_TYPE => new Signal1(false),
+            VOLUME => new Signal1(false),
+            PAN => new Signal1(false),
+            FILTER => new Signal1(false),
+            RESONANCE => new Signal1(false),
+            PATTERN_UP => new Signal1(false),
+            PATTERN_DOWN => new Signal1(false),
+            BROWSER => new Signal1(false),
+            SELECT => new Signal1(false),
+            GRID_LEFT => new Signal1(false),
+            GRID_RIGHT => new Signal1(false),
+            MUTE_SOLO_1 => new Signal1(false),
+            MUTE_SOLO_2 => new Signal1(false),
+            MUTE_SOLO_3 => new Signal1(false),
+            MUTE_SOLO_4 => new Signal1(false),
+            STEP => new Signal1(false),
+            NOTE => new Signal1(false),
+            DRUM => new Signal1(false),
+            PERFORM => new Signal1(false),
+            SHIFT => new Signal1(false),
+            ALT => new Signal1(false),
+            PATTERN_SONG => new Signal1(false),
+            PLAY => new Signal1(false),
+            STOP => new Signal1(false),
+            RECORD => new Signal1(false)
         ];
     }
 
-    public inline function iterator() : Iterator<Button>
+    public inline function iterator() : Iterator<Signal1<Bool>>
     {
         return this.iterator();
     }
@@ -91,132 +91,132 @@ abstract Buttons(Map<ButtonType, Button>)
         return this.exists(type);
     }
 
-    public inline function get(type :ButtonType) : Button
+    public inline function get(type :ButtonType) : Signal1<Bool>
     {
         return this.get(type);
     }
 
-    private inline function get_knobType() : Button
+    private inline function get_knobType() : Signal1<Bool>
     {
         return this.get(ButtonType.KNOB_TYPE);
     }
 
-    private inline function get_volume() : Button
+    private inline function get_volume() : Signal1<Bool>
     {
         return this.get(ButtonType.VOLUME);
     }
 
-    private inline function get_pan() : Button
+    private inline function get_pan() : Signal1<Bool>
     {
         return this.get(ButtonType.PAN);
     }
 
-    private inline function get_filter() : Button
+    private inline function get_filter() : Signal1<Bool>
     {
         return this.get(ButtonType.FILTER);
     }
 
-    private inline function get_resonance() : Button
+    private inline function get_resonance() : Signal1<Bool>
     {
         return this.get(ButtonType.RESONANCE);
     }
 
-    private inline function get_patternUp() : Button
+    private inline function get_patternUp() : Signal1<Bool>
     {
         return this.get(ButtonType.PATTERN_UP);
     }
 
-    private inline function get_patternDown() : Button
+    private inline function get_patternDown() : Signal1<Bool>
     {
         return this.get(ButtonType.PATTERN_DOWN);
     }
 
-    private inline function get_browser() : Button
+    private inline function get_browser() : Signal1<Bool>
     {
         return this.get(ButtonType.BROWSER);
     }
 
-    private inline function get_select() : Button
+    private inline function get_select() : Signal1<Bool>
     {
         return this.get(ButtonType.SELECT);
     }
 
-    private inline function get_gridLeft() : Button
+    private inline function get_gridLeft() : Signal1<Bool>
     {
         return this.get(ButtonType.GRID_LEFT);
     }
 
-    private inline function get_gridRight() : Button
+    private inline function get_gridRight() : Signal1<Bool>
     {
         return this.get(ButtonType.GRID_RIGHT);
     }
 
-    private inline function get_muteSolo1() : Button
+    private inline function get_muteSolo1() : Signal1<Bool>
     {
         return this.get(ButtonType.MUTE_SOLO_1);
     }
 
-    private inline function get_muteSolo2() : Button
+    private inline function get_muteSolo2() : Signal1<Bool>
     {
         return this.get(ButtonType.MUTE_SOLO_2);
     }
 
-    private inline function get_muteSolo3() : Button
+    private inline function get_muteSolo3() : Signal1<Bool>
     {
         return this.get(ButtonType.MUTE_SOLO_3);
     }
 
-    private inline function get_muteSolo4() : Button
+    private inline function get_muteSolo4() : Signal1<Bool>
     {
         return this.get(ButtonType.MUTE_SOLO_4);
     }
 
-    private inline function get_step() : Button
+    private inline function get_step() : Signal1<Bool>
     {
         return this.get(ButtonType.STEP);
     }
 
-    private inline function get_note() : Button
+    private inline function get_note() : Signal1<Bool>
     {
         return this.get(ButtonType.NOTE);
     }
 
-    private inline function get_drum() : Button
+    private inline function get_drum() : Signal1<Bool>
     {
         return this.get(ButtonType.DRUM);
     }
 
-    private inline function get_perform() : Button
+    private inline function get_perform() : Signal1<Bool>
     {
         return this.get(ButtonType.PERFORM);
     }
 
-    private inline function get_shift() : Button
+    private inline function get_shift() : Signal1<Bool>
     {
         return this.get(ButtonType.SHIFT);
     }
 
-    private inline function get_alt() : Button
+    private inline function get_alt() : Signal1<Bool>
     {
         return this.get(ButtonType.ALT);
     }
 
-    private inline function get_patternSong() : Button
+    private inline function get_patternSong() : Signal1<Bool>
     {
         return this.get(ButtonType.PATTERN_SONG);
     }
 
-    private inline function get_play() : Button
+    private inline function get_play() : Signal1<Bool>
     {
         return this.get(ButtonType.PLAY);
     }
 
-    private inline function get_stop() : Button
+    private inline function get_stop() : Signal1<Bool>
     {
         return this.get(ButtonType.STOP);
     }
 
-    private inline function get_record() : Button
+    private inline function get_record() : Signal1<Bool>
     {
         return this.get(ButtonType.RECORD);
     }

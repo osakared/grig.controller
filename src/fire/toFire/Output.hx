@@ -22,7 +22,7 @@
 package fire.toFire;
 
 import renoise.song.EffectColumn;
-import fire.util.Signal;
+import fire.util.Signal1;
 import fire.util.Cursor;
 import fire.util.Math;
 import renoise.Renoise;
@@ -35,7 +35,7 @@ import renoise.LineChaneObserver;
 
 class Output
 {
-    public function new(outputDevice :MidiOutputDevice, gridIndex :Signal<Cursor>) : Void
+    public function new(outputDevice :MidiOutputDevice, gridIndex :Signal1<Cursor>) : Void
     {
         _outputDevice = outputDevice;
         _gridIndex = gridIndex;
@@ -177,5 +177,5 @@ class Output
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
     private var _transport :Transport;
-    private var _gridIndex :Signal<Cursor>;
+    private var _gridIndex :Signal1<Cursor>;
 }

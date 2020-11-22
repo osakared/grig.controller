@@ -19,18 +19,48 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
 
-import renoise.song.NoteColumn;
-import renoise.Renoise;
+package fire.util;
 
-class Select extends Button
+class Signal1<T>
 {
-    override public function onDown() : Void
+    public var value (get, set):T;
+
+    public function new(value :T) : Void
     {
-        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
-            Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
+        _value = value;
+        _listeners = [];
+    }
+
+    public function addListener(fn :T -> Void) : Void -> Void
+    {
+        _listeners.push(fn);
+        return () -> {
+            _listeners.remove(fn);
+        };
+    }
+
+    public function dispose() : Void
+    {
+        while(_listeners.length > 0) {
+            _listeners.pop();
         }
     }
+
+    private function set_value(value :T) : T
+    {
+        _value = value;
+        for(listener in _listeners) {
+            listener(_value);
+        }
+        return _value;
+    }
+
+    private inline function get_value() : T
+    {
+        return _value;
+    }
+
+    private var _listeners :Array<T -> Void>;
+    private var _value :T;
 }

@@ -26,23 +26,11 @@ import fire.util.Cursor;
 
 class Button
 {
-    public var type (default, null) : ButtonType;
     public var isDown (default, null) : Signal<Bool>;
-    public var gridIndex (default, null) : Signal<Cursor>;
 
-    public function new(type :ButtonType, gridIndex :Signal<Cursor>) : Void
+    public function new() : Void
     {
-        this.type = type;
-        this.gridIndex = gridIndex;
         this.isDown = new Signal(false);
-        this.isDown.addListener((_isDown) -> {
-            if(_isDown) {
-                this.onDown();
-            }
-            else {
-                this.onUp();
-            }
-        });
     }
 
     public function down(buttons :Buttons) : Void
@@ -53,13 +41,5 @@ class Button
     public function up(buttons :Buttons) : Void
     {
         this.isDown.value = true;
-    }
-
-    public function onUp() : Void
-    {
-    }
-
-    public function onDown() : Void
-    {
     }
 }

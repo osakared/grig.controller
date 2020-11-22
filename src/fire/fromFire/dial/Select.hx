@@ -29,17 +29,15 @@ using fire.util.Math;
 
 class Select implements Dial
 {
-    public var type : DialType;
 
-    public function new(type :DialType) : Void
+    public function new() : Void
     {
-        this.type = type;
     }
 
     public function left(buttons :ButtonsReadOnly) : Void
     {
-        if(buttons.select.isDown.value) {
-            if(buttons.alt.isDown.value) {
+        if(buttons.select.value) {
+            if(buttons.alt.value) {
                 handleAlt(true);
             }
             else {
@@ -53,8 +51,8 @@ class Select implements Dial
 
     public function right(buttons :ButtonsReadOnly) : Void
     {
-        if(buttons.select.isDown.value) {
-            if(buttons.alt.isDown.value) {
+        if(buttons.select.value) {
+            if(buttons.alt.value) {
                 handleAlt(false);
             }
             else {

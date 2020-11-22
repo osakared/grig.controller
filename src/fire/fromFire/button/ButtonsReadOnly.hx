@@ -21,174 +21,158 @@
 
 package fire.fromFire.button;
 
-import fire.util.SignalReadOnly;
+import fire.util.Signal1ReadOnly;
 
 abstract ButtonsReadOnly(Buttons) from Buttons
 {
-    public var knobType (get, never): ButtonReadOnly;
-    public var volume (get, never): ButtonReadOnly;
-    public var pan (get, never): ButtonReadOnly;
-    public var filter (get, never): ButtonReadOnly;
-    public var resonance (get, never): ButtonReadOnly;
-    public var patternUp (get, never): ButtonReadOnly;
-    public var patternDown (get, never): ButtonReadOnly;
-    public var browser (get, never): ButtonReadOnly;
-    public var select (get, never): ButtonReadOnly;
-    public var gridLeft (get, never): ButtonReadOnly;
-    public var gridRight (get, never): ButtonReadOnly;
-    public var muteSolo1 (get, never): ButtonReadOnly;
-    public var muteSolo2 (get, never): ButtonReadOnly;
-    public var muteSolo3 (get, never): ButtonReadOnly;
-    public var muteSolo4 (get, never): ButtonReadOnly;
-    public var step (get, never): ButtonReadOnly;
-    public var note (get, never): ButtonReadOnly;
-    public var drum (get, never): ButtonReadOnly;
-    public var perform (get, never): ButtonReadOnly;
-    public var shift (get, never): ButtonReadOnly;
-    public var alt (get, never): ButtonReadOnly;
-    public var patternSong (get, never): ButtonReadOnly;
-    public var play (get, never): ButtonReadOnly;
-    public var stop (get, never): ButtonReadOnly;
-    public var record (get, never): ButtonReadOnly;
+    public var knobType (get, never): Signal1ReadOnly<Bool>;
+    public var volume (get, never): Signal1ReadOnly<Bool>;
+    public var pan (get, never): Signal1ReadOnly<Bool>;
+    public var filter (get, never): Signal1ReadOnly<Bool>;
+    public var resonance (get, never): Signal1ReadOnly<Bool>;
+    public var patternUp (get, never): Signal1ReadOnly<Bool>;
+    public var patternDown (get, never): Signal1ReadOnly<Bool>;
+    public var browser (get, never): Signal1ReadOnly<Bool>;
+    public var select (get, never): Signal1ReadOnly<Bool>;
+    public var gridLeft (get, never): Signal1ReadOnly<Bool>;
+    public var gridRight (get, never): Signal1ReadOnly<Bool>;
+    public var muteSolo1 (get, never): Signal1ReadOnly<Bool>;
+    public var muteSolo2 (get, never): Signal1ReadOnly<Bool>;
+    public var muteSolo3 (get, never): Signal1ReadOnly<Bool>;
+    public var muteSolo4 (get, never): Signal1ReadOnly<Bool>;
+    public var step (get, never): Signal1ReadOnly<Bool>;
+    public var note (get, never): Signal1ReadOnly<Bool>;
+    public var drum (get, never): Signal1ReadOnly<Bool>;
+    public var perform (get, never): Signal1ReadOnly<Bool>;
+    public var shift (get, never): Signal1ReadOnly<Bool>;
+    public var alt (get, never): Signal1ReadOnly<Bool>;
+    public var patternSong (get, never): Signal1ReadOnly<Bool>;
+    public var play (get, never): Signal1ReadOnly<Bool>;
+    public var stop (get, never): Signal1ReadOnly<Bool>;
+    public var record (get, never): Signal1ReadOnly<Bool>;
 
-    private inline function get_knobType() : ButtonReadOnly
+    private inline function get_knobType() : Signal1ReadOnly<Bool>
     {
         return this.knobType;
     }
 
-    private inline function get_volume() : ButtonReadOnly
+    private inline function get_volume() : Signal1ReadOnly<Bool>
     {
         return this.volume;
     }
 
-    private inline function get_pan() : ButtonReadOnly
+    private inline function get_pan() : Signal1ReadOnly<Bool>
     {
         return this.pan;
     }
 
-    private inline function get_filter() : ButtonReadOnly
+    private inline function get_filter() : Signal1ReadOnly<Bool>
     {
         return this.filter;
     }
 
-    private inline function get_resonance() : ButtonReadOnly
+    private inline function get_resonance() : Signal1ReadOnly<Bool>
     {
         return this.resonance;
     }
 
-    private inline function get_patternUp() : ButtonReadOnly
+    private inline function get_patternUp() : Signal1ReadOnly<Bool>
     {
         return this.patternUp;
     }
 
-    private inline function get_patternDown() : ButtonReadOnly
+    private inline function get_patternDown() : Signal1ReadOnly<Bool>
     {
         return this.patternDown;
     }
 
-    private inline function get_browser() : ButtonReadOnly
+    private inline function get_browser() : Signal1ReadOnly<Bool>
     {
         return this.browser;
     }
 
-    private inline function get_select() : ButtonReadOnly
+    private inline function get_select() : Signal1ReadOnly<Bool>
     {
         return this.select;
     }
 
-    private inline function get_gridLeft() : ButtonReadOnly
+    private inline function get_gridLeft() : Signal1ReadOnly<Bool>
     {
         return this.gridLeft;
     }
 
-    private inline function get_gridRight() : ButtonReadOnly
+    private inline function get_gridRight() : Signal1ReadOnly<Bool>
     {
         return this.gridRight;
     }
 
-    private inline function get_muteSolo1() : ButtonReadOnly
+    private inline function get_muteSolo1() : Signal1ReadOnly<Bool>
     {
         return this.muteSolo1;
     }
 
-    private inline function get_muteSolo2() : ButtonReadOnly
+    private inline function get_muteSolo2() : Signal1ReadOnly<Bool>
     {
         return this.muteSolo2;
     }
 
-    private inline function get_muteSolo3() : ButtonReadOnly
+    private inline function get_muteSolo3() : Signal1ReadOnly<Bool>
     {
         return this.muteSolo3;
     }
 
-    private inline function get_muteSolo4() : ButtonReadOnly
+    private inline function get_muteSolo4() : Signal1ReadOnly<Bool>
     {
         return this.muteSolo4;
     }
 
-    private inline function get_step() : ButtonReadOnly
+    private inline function get_step() : Signal1ReadOnly<Bool>
     {
         return this.step;
     }
 
-    private inline function get_note() : ButtonReadOnly
+    private inline function get_note() : Signal1ReadOnly<Bool>
     {
         return this.note;
     }
 
-    private inline function get_drum() : ButtonReadOnly
+    private inline function get_drum() : Signal1ReadOnly<Bool>
     {
         return this.drum;
     }
 
-    private inline function get_perform() : ButtonReadOnly
+    private inline function get_perform() : Signal1ReadOnly<Bool>
     {
         return this.perform;
     }
 
-    private inline function get_shift() : ButtonReadOnly
+    private inline function get_shift() : Signal1ReadOnly<Bool>
     {
         return this.shift;
     }
 
-    private inline function get_alt() : ButtonReadOnly
+    private inline function get_alt() : Signal1ReadOnly<Bool>
     {
         return this.alt;
     }
 
-    private inline function get_patternSong() : ButtonReadOnly
+    private inline function get_patternSong() : Signal1ReadOnly<Bool>
     {
         return this.patternSong;
     }
 
-    private inline function get_play() : ButtonReadOnly
+    private inline function get_play() : Signal1ReadOnly<Bool>
     {
         return this.play;
     }
 
-    private inline function get_stop() : ButtonReadOnly
+    private inline function get_stop() : Signal1ReadOnly<Bool>
     {
         return this.stop;
     }
 
-    private inline function get_record() : ButtonReadOnly
+    private inline function get_record() : Signal1ReadOnly<Bool>
     {
         return this.record;
-    }
-}
-
-abstract ButtonReadOnly(Button) from Button
-{
-    public var type (get, never) : ButtonType;
-    public var isDown (get, never) : SignalReadOnly<Bool>;
-
-    private inline function get_type() : ButtonType
-    {
-        return this.type;
-    }
-
-    private inline function get_isDown() : SignalReadOnly<Bool>
-    {
-        return this.isDown;
     }
 }

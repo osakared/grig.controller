@@ -25,7 +25,6 @@ import fire.fromFire.button.ButtonsReadOnly;
 
 interface Dial
 {
-    var type :DialType;
     function left(buttons :ButtonsReadOnly) : Void;
     function right(buttons :ButtonsReadOnly) : Void;
 }

@@ -19,14 +19,15 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package fire.toRenoise.button;
 
 import renoise.Renoise;
+import fire.util.RenoiseUtil;
 
-class Play extends Button
+class Step
 {
-    override public function onDown() : Void
+    public function onUp() : Void
     {
-        Renoise.song().transport.playing = true;
+        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }
