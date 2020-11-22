@@ -23,59 +23,59 @@ package fire.input.button;
 
 abstract Buttons(Map<ButtonType, Button>) 
 {
-    // public var knobType (get, null): Button;
-    // public var volume (get, null): Button;
-    // public var pan (get, null): Button;
-    // public var filter (get, null): Button;
-    // public var resonance (get, null): Button;
-    // public var patternUp (get, null): Button;
-    // public var patternDown (get, null): Button;
-    // public var browser (get, null): Button;
-    // public var select (get, null): Button;
-    // public var gridLeft (get, null): Button;
-    // public var gridRight (get, null): Button;
-    // public var muteSolo1 (get, null): Button;
-    // public var muteSolo2 (get, null): Button;
-    // public var muteSolo3 (get, null): Button;
-    // public var muteSolo4 (get, null): Button;
-    // public var step (get, null): Button;
-    // public var note (get, null): Button;
-    // public var drum (get, null): Button;
-    // public var perfrom (get, null): Button;
-    // public var shift (get, null): Button;
-    // public var alt (get, null): Button;
-    // public var patternSong (get, null): Button;
+    public var knobType (get, never): Button;
+    public var volume (get, never): Button;
+    public var pan (get, never): Button;
+    public var filter (get, never): Button;
+    public var resonance (get, never): Button;
+    public var patternUp (get, never): Button;
+    public var patternDown (get, never): Button;
+    public var browser (get, never): Button;
+    public var select (get, never): Button;
+    public var gridLeft (get, never): Button;
+    public var gridRight (get, never): Button;
+    public var muteSolo1 (get, never): Button;
+    public var muteSolo2 (get, never): Button;
+    public var muteSolo3 (get, never): Button;
+    public var muteSolo4 (get, never): Button;
+    public var step (get, never): Button;
+    public var note (get, never): Button;
+    public var drum (get, never): Button;
+    public var perform (get, never): Button;
+    public var shift (get, never): Button;
+    public var alt (get, never): Button;
+    public var patternSong (get, never): Button;
     public var play (get, never): Button;
     public var stop (get, never): Button;
     public var record (get, never): Button;
 
     inline public function new() {
         this = [
-            KNOB_TYPE => new KnobType(KNOB_TYPE),
-            VOLUME => new Volume(VOLUME),
-            PAN => new Pan(PAN),
-            FILTER => new Filter(FILTER),
-            RESONANCE => new Resonance(RESONANCE),
-            PATTERN_UP => new PatternUp(PATTERN_UP),
-            PATTERN_DOWN => new PatternDown(PATTERN_DOWN),
-            BROWSER => new Browser(BROWSER),
-            SELECT => new Select(SELECT),
-            GRID_LEFT => new GridLeft(GRID_LEFT),
-            GRID_RIGHT => new GridRight(GRID_RIGHT),
-            MUTE_SOLO_1 => new MuteSolo(MUTE_SOLO_1),
-            MUTE_SOLO_2 => new MuteSolo(MUTE_SOLO_2),
-            MUTE_SOLO_3 => new MuteSolo(MUTE_SOLO_3),
-            MUTE_SOLO_4 => new MuteSolo(MUTE_SOLO_4),
-            STEP => new Step(STEP),
-            NOTE => new Note(NOTE),
-            DRUM => new Drum(DRUM),
-            PERFORM => new Perform(PERFORM),
-            SHIFT => new Shift(SHIFT),
-            ALT => new Alt(ALT),
-            PATTERN_SONG => new PatternSong(PATTERN_SONG),
-            PLAY => new Play(PLAY),
-            STOP => new Stop(STOP),
-            RECORD => new Record(RECORD)
+            KNOB_TYPE => new Button(KNOB_TYPE),
+            VOLUME => new Button(VOLUME),
+            PAN => new Button(PAN),
+            FILTER => new Button(FILTER),
+            RESONANCE => new Button(RESONANCE),
+            PATTERN_UP => new Button(PATTERN_UP),
+            PATTERN_DOWN => new Button(PATTERN_DOWN),
+            BROWSER => new Button(BROWSER),
+            SELECT => new Button(SELECT),
+            GRID_LEFT => new Button(GRID_LEFT),
+            GRID_RIGHT => new Button(GRID_RIGHT),
+            MUTE_SOLO_1 => new Button(MUTE_SOLO_1),
+            MUTE_SOLO_2 => new Button(MUTE_SOLO_2),
+            MUTE_SOLO_3 => new Button(MUTE_SOLO_3),
+            MUTE_SOLO_4 => new Button(MUTE_SOLO_4),
+            STEP => new Button(STEP),
+            NOTE => new Button(NOTE),
+            DRUM => new Button(DRUM),
+            PERFORM => new Button(PERFORM),
+            SHIFT => new Button(SHIFT),
+            ALT => new Button(ALT),
+            PATTERN_SONG => new Button(PATTERN_SONG),
+            PLAY => new Button(PLAY),
+            STOP => new Button(STOP),
+            RECORD => new Button(RECORD)
         ];
     }
 
@@ -92,6 +92,116 @@ abstract Buttons(Map<ButtonType, Button>)
     public inline function get(type :ButtonType) : Button
     {
         return this.get(type);
+    }
+
+    private inline function get_knobType() : Button
+    {
+        return this.get(ButtonType.KNOB_TYPE);
+    }
+
+    private inline function get_volume() : Button
+    {
+        return this.get(ButtonType.VOLUME);
+    }
+
+    private inline function get_pan() : Button
+    {
+        return this.get(ButtonType.PAN);
+    }
+
+    private inline function get_filter() : Button
+    {
+        return this.get(ButtonType.FILTER);
+    }
+
+    private inline function get_resonance() : Button
+    {
+        return this.get(ButtonType.RESONANCE);
+    }
+
+    private inline function get_patternUp() : Button
+    {
+        return this.get(ButtonType.PATTERN_UP);
+    }
+
+    private inline function get_patternDown() : Button
+    {
+        return this.get(ButtonType.PATTERN_DOWN);
+    }
+
+    private inline function get_browser() : Button
+    {
+        return this.get(ButtonType.BROWSER);
+    }
+
+    private inline function get_select() : Button
+    {
+        return this.get(ButtonType.SELECT);
+    }
+
+    private inline function get_gridLeft() : Button
+    {
+        return this.get(ButtonType.GRID_LEFT);
+    }
+
+    private inline function get_gridRight() : Button
+    {
+        return this.get(ButtonType.GRID_RIGHT);
+    }
+
+    private inline function get_muteSolo1() : Button
+    {
+        return this.get(ButtonType.MUTE_SOLO_1);
+    }
+
+    private inline function get_muteSolo2() : Button
+    {
+        return this.get(ButtonType.MUTE_SOLO_2);
+    }
+
+    private inline function get_muteSolo3() : Button
+    {
+        return this.get(ButtonType.MUTE_SOLO_3);
+    }
+
+    private inline function get_muteSolo4() : Button
+    {
+        return this.get(ButtonType.MUTE_SOLO_4);
+    }
+
+    private inline function get_step() : Button
+    {
+        return this.get(ButtonType.STEP);
+    }
+
+    private inline function get_note() : Button
+    {
+        return this.get(ButtonType.NOTE);
+    }
+
+    private inline function get_drum() : Button
+    {
+        return this.get(ButtonType.DRUM);
+    }
+
+    private inline function get_perform() : Button
+    {
+        return this.get(ButtonType.PERFORM);
+    }
+
+    private inline function get_shift() : Button
+    {
+        return this.get(ButtonType.SHIFT);
+    }
+
+    private inline function get_alt() : Button
+    {
+        return this.get(ButtonType.ALT);
+    }
+
+    private inline function get_patternSong() : Button
+    {
+        return this.get(ButtonType.PATTERN_SONG);
     }
 
     private inline function get_play() : Button

@@ -21,11 +21,27 @@
 
 package fire.input.button;
 
+import fire.util.Signal;
 import fire.util.ActiveKeys;
 
-interface Button
+class Button
 {
-    var type :ButtonType;
-    function down(activeKeys :ActiveKeys) : Void;
-    function up(activeKeys :ActiveKeys) : Void;
+    public var type (default, null) : ButtonType;
+    public var isDown (default, null) : Signal<Bool>;
+
+    public function new(type :ButtonType) : Void
+    {
+        this.type = type;
+        this.isDown = new Signal(false);
+    }
+
+    public function down(button :Buttons) : Void
+    {
+        this.isDown.value = false;
+    }
+
+    public function up(button :Buttons) : Void
+    {
+        this.isDown.value = true;
+    }
 }

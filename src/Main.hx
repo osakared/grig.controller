@@ -79,7 +79,7 @@ class Main
     public static function handleButtonDown(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).down(activeKeys);
+            buttons.get(button).down(buttons);
         }
         else {
             grid.down(activeKeys, button - 54);
@@ -89,7 +89,7 @@ class Main
     public static function handleButtonUp(buttons :Buttons, grid :InputGrid, activeKeys :ActiveKeys, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
-            buttons.get(button).up(activeKeys);
+            buttons.get(button).up(buttons);
         }
         else {
             grid.up(activeKeys, button - 54);
