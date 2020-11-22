@@ -23,7 +23,7 @@ package fire.input.button;
 
 import fire.util.Modifiers;
 import renoise.Renoise;
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 import fire.input.button.ButtonType;
 
 class Stop implements Button

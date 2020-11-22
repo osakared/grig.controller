@@ -21,7 +21,7 @@
 
 package fire.input;
 
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 import fire.util.Modifiers;
 
 class Grid

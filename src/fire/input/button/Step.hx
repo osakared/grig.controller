@@ -24,7 +24,7 @@ package fire.input.button;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 import renoise.Renoise;
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 
 class Step implements Button
 {

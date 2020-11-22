@@ -24,7 +24,7 @@ package fire.input.dial;
 import renoise.song.NoteColumn;
 import fire.util.Modifiers;
 import renoise.Renoise;
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 using fire.util.Math;
 
 class Select implements Dial

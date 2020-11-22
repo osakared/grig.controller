@@ -3,7 +3,7 @@ package fire.output;
 import renoise.song.EffectColumn;
 import haxe.zip.Reader;
 import fire.util.Modifiers;
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 import renoise.Renoise;
 import renoise.song.NoteColumn;
 import renoise.midi.Midi.MidiOutputDevice;

@@ -19,7 +19,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise;
+package fire.util;
+
+import renoise.Renoise;
 
 class RenoiseUtil
 {

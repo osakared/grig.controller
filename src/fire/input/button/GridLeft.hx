@@ -22,7 +22,7 @@
 package fire.input.button;
 
 import renoise.Renoise;
-import renoise.RenoiseUtil;
+import fire.util.RenoiseUtil;
 import fire.util.Modifiers;
 import fire.input.button.ButtonType;
 
