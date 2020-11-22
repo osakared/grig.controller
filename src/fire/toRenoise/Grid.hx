@@ -22,8 +22,6 @@
 package fire.toRenoise;
 
 import fire.util.RenoiseUtil;
-import fire.util.Signal1;
-import fire.util.Cursor;
 
 class Grid
 {
@@ -31,12 +29,8 @@ class Grid
     {
     }
 
-    public function down(gridIndex :Signal1<Cursor>, pad :Int) : Void
+    public function down(pad :Int) : Void
     {
         RenoiseUtil.setLine(pad + 1, 64);
-    }
-
-    public function up(gridIndex :Signal1<Cursor>, pad :Int) : Void
-    {
     }
 }

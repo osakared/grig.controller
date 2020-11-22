@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
@@ -58,6 +59,7 @@ class Main
             var dials = new Dials();
             var inputGrid = new InputGrid();
             new Output(MIDI_OUT, gridIndex);
+            new ToRenoise(buttons, dials);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
@@ -82,7 +84,7 @@ class Main
             buttons.get(button).value = true;
         }
         else {
-            grid.down(gridIndex, button - 54);
+            grid.down(button - 54);
         }
     }
 
@@ -91,19 +93,16 @@ class Main
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
         }
-        else {
-            grid.up(gridIndex, button - 54);
-        }
     }
 
     public static function handleRotary(dials :Dials, buttons :Buttons, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {
-                dials.get(type).right(buttons);
+                dials.get(type).right.emit();
             }
             else {
-                dials.get(type).left(buttons);
+                dials.get(type).left.emit();
             }
         }
     }

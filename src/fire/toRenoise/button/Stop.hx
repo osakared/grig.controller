@@ -26,7 +26,17 @@ import fire.util.RenoiseUtil;
 
 class Stop
 {
-    public function onDown() : Void
+    public static function handle(isDown) : Void
+    {
+        if(isDown) {
+            onDown();
+        }
+        else {
+            // onUp();
+        }
+    }
+
+    private static function onDown() : Void
     {
         if(Renoise.song().transport.playing) {
             Renoise.song().transport.playing = false;

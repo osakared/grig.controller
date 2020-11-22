@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.dial;
+package fire.toRenoise.dial;
 
 import renoise.song.NoteColumn;
 import fire.fromFire.button.ButtonsReadOnly;
@@ -27,14 +27,9 @@ import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
 
-class Select implements Dial
+class Select
 {
-
-    public function new() : Void
-    {
-    }
-
-    public function left(buttons :ButtonsReadOnly) : Void
+    public static function onLeft(buttons :ButtonsReadOnly) : Void
     {
         if(buttons.select.value) {
             if(buttons.alt.value) {
@@ -49,7 +44,7 @@ class Select implements Dial
         }
     }
 
-    public function right(buttons :ButtonsReadOnly) : Void
+    public static function onRight(buttons :ButtonsReadOnly) : Void
     {
         if(buttons.select.value) {
             if(buttons.alt.value) {
@@ -64,7 +59,7 @@ class Select implements Dial
         }
     }
 
-    private function handleAlt(isLeft :Bool) : Void
+    private static function handleAlt(isLeft :Bool) : Void
     {
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         Renoise.song().selectedLine.noteColumn(1).noteValue = switch [isLeft, noteValue] {
@@ -78,13 +73,13 @@ class Select implements Dial
         }
     }
 
-    private function moveNote(amount :Int) : Void
+    private static function moveNote(amount :Int) : Void
     {
         var noteValue = (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
         Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
     }
 
-    private function moveLine(amount :Int) : Void
+    private static function moveLine(amount :Int) : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + amount, 64);
     }

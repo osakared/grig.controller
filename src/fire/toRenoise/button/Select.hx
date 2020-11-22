@@ -26,7 +26,17 @@ import renoise.Renoise;
 
 class Select
 {
-    public function onDown() : Void
+    public static function handle(isDown) : Void
+    {
+        if(isDown) {
+            onDown();
+        }
+        else {
+            // onUp();
+        }
+    }
+
+    private static function onDown() : Void
     {
         var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {

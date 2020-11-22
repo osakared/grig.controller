@@ -23,10 +23,12 @@ package fire.fromFire.dial;
 
 class Dials
 {
+    public var select (get, never): Dial;
+
     public function new() : Void
     {
         _dials = [
-            SELECT => new Select(),
+            SELECT => new Dial(),
         ];
     }
 
@@ -43,6 +45,11 @@ class Dials
     public inline function get(type :DialType) : Dial
     {
         return _dials.get(type);
+    }
+
+    private inline function get_select() : Dial
+    {
+        return this.get(DialType.SELECT);
     }
 
     private var _dials : Map<DialType, Dial>;

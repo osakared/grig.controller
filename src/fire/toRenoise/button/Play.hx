@@ -25,7 +25,17 @@ import renoise.Renoise;
 
 class Play
 {
-    public function onDown() : Void
+    public static function handle(isDown) : Void
+    {
+        if(isDown) {
+            onDown();
+        }
+        else {
+            // onUp();
+        }
+    }
+
+    private static function onDown() : Void
     {
         Renoise.song().transport.playing = true;
     }

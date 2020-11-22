@@ -26,7 +26,17 @@ import fire.util.RenoiseUtil;
 
 class Step
 {
-    public function onUp() : Void
+    public static function handle(isDown) : Void
+    {
+        if(isDown) {
+            // onDown();
+        }
+        else {
+            onUp();
+        }
+    }
+
+    private static function onUp() : Void
     {
         RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }

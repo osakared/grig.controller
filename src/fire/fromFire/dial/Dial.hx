@@ -21,10 +21,16 @@
 
 package fire.fromFire.dial;
 
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.util.Signal0;
 
-interface Dial
+class Dial
 {
-    function left(buttons :ButtonsReadOnly) : Void;
-    function right(buttons :ButtonsReadOnly) : Void;
+    public var left (default, null) : Signal0;
+    public var right (default, null) : Signal0;
+
+    public function new() : Void
+    {
+        this.left = new Signal0();
+        this.right = new Signal0();
+    }
 }

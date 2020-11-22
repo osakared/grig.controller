@@ -19,27 +19,32 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package fire.fromFire.dial;
 
-import fire.util.Signal;
-import fire.util.Cursor;
+import fire.util.Signal0ReadOnly;
 
-class Button
+abstract DialsReadOnly(Dials) from Dials
 {
-    public var isDown (default, null) : Signal<Bool>;
+    public var select (get, never): DialReadOnly;
 
-    public function new() : Void
+    private inline function get_select() : DialReadOnly
     {
-        this.isDown = new Signal(false);
+        return this.select;
+    }
+}
+
+abstract DialReadOnly(Dial) from Dial
+{
+    public var left (get, never) : Signal0ReadOnly;
+    public var right (get, never) : Signal0ReadOnly;
+
+    private inline function get_left() : Signal0ReadOnly
+    {
+        return this.left;
     }
 
-    public function down(buttons :Buttons) : Void
+    private inline function get_right() : Signal0ReadOnly
     {
-        this.isDown.value = false;
-    }
-
-    public function up(buttons :Buttons) : Void
-    {
-        this.isDown.value = true;
+        return this.right;
     }
 }

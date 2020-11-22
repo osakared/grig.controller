@@ -25,7 +25,17 @@ import renoise.Renoise;
 
 class GridLeft
 {
-    public function onUp() : Void
+    public static function handle(isDown) : Void
+    {
+        if(isDown) {
+            // onDown();
+        }
+        else {
+            onUp();
+        }
+    }
+
+    private static function onUp() : Void
     {
         // switch gridIndex.value {
         //     case Note: {
