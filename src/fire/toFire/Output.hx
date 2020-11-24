@@ -21,7 +21,7 @@
 
 package fire.toFire;
 
-import fire.toFire.button.BottomButtons;
+import fire.toFire.button.Buttons;
 import renoise.song.EffectColumn;
 import fire.util.Signal1;
 import fire.util.Cursor;
@@ -44,7 +44,7 @@ class Output
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
-        _transport = new BottomButtons(_buttons, buttonInputs, _outputDevice);
+        _transport = new Buttons(_buttons, buttonInputs, _outputDevice);
         this.initializeListeners();
         makeDrawCalls();
     }
@@ -178,6 +178,6 @@ class Output
     private var _display :Display;
     private var _pads :OutputGrid;
     private var _buttons :ButtonLights;
-    private var _transport :BottomButtons;
+    private var _transport :Buttons;
     private var _gridIndex :Signal1<Cursor>;
 }
