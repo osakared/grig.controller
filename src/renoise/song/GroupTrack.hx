@@ -21,7 +21,18 @@
 
 package renoise.song;
 
+import lua.Table;
+
 extern class GroupTrack
 {
-    
+    /**
+     * All member tracks of this group (including subgroups and their tracks).
+     */
+    public var members (default, null) : Table<Int, Track>;
+
+    /**
+     * Collapsed/expanded visual appearance of whole group.
+     */
+    @:native("group_collapsed")
+    public var groupCollapsed : Bool;
 }

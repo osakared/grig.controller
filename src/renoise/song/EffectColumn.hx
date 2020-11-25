@@ -23,19 +23,30 @@ package renoise.song;
 
 extern class EffectColumn
 {
+    /**
+     * True, when all effect column properties are empty.
+     */
     @:native("is_empty")
     public var isEmpty (default, null) : Bool;
 
+    /**
+     * True, when this column is selected in the pattern or phrase editor.
+     */
     @:native("is_selected")
     public var isSelected (default, null) : Bool;
 
+    /**
+     * Access effect column properties either by values (numbers) or by strings.
+     */
     @:native("number_value")
     public var numberValue : Int;
+
     @:native("number_string")
     public var numberString : String;
 
     @:native("amount_value")
     public var amountValue : Int;
+    
     @:native("amount_string")
     public var amountString : String;
 
