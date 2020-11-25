@@ -23,5 +23,43 @@ package renoise.song;
 
 extern class PatternTrackAutomation
 {
+    /**
+     * Removes all points from the automation. Will not delete the automation 
+     * from tracks[]:automation, instead the resulting automation will not do 
+     * anything at all.
+     */
+    public function clear() : Void;
     
+    /**
+     * Remove all existing points in the given [from, to) time range from the automation.
+     * @param from 
+     * @param to 
+     * @return Void
+     */
+    @:native("clear_range")
+    public function clearRange(from :Int, to :Int) : Void;
+
+    /**
+     * Test if a point exists at the given time (in lines
+     * @param time 
+     * @return Bool
+     */
+    @:native("has_point_at")
+    public function hasPointAt(time :Int) : Bool;
+
+    /**
+     * Insert a new point, or change an existing one, if a point in time already 
+     * exists.
+     * @param time 
+     * @param value 
+     */
+    public function add_point_at(time :Int, value :Int) : Void;
+
+    /**
+     * Removes a point at the given time. Point must exist.
+     * @param time 
+     * @return Bool
+     */
+    @:native("remove_point_at")
+    public function removePointAt(time :Int) : Bool;
 }

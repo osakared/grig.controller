@@ -21,6 +21,7 @@
 
 package fire.toFire;
 
+import lua.Table;
 import fire.toFire.button.Buttons;
 import renoise.song.EffectColumn;
 import fire.util.Signal1;
@@ -35,6 +36,7 @@ import fire.toFire.Grid as OutputGrid;
 import renoise.LineChaneObserver;
 import fire.fromFire.button.ButtonsReadOnly as ButtonInputs;
 import fire.util.State;
+using lua.PairTools;
 
 class Output
 {
@@ -81,7 +83,24 @@ class Output
     private function drawPads(padIndex :Int) : Void
     {
         _pads.clear();
-        _pads.drawPad(127, 0, 0, padIndex - 1);
+
+        var lines = Renoise.song().selectedPatternTrack.linesInRange(1, 64);
+        var hasDrawnPadIndex = false;
+        lines.ipairsEach((index, line) -> {
+            var noteValue = line.noteColumn(1).noteValue;
+            if(noteValue < 120) {
+                if(index == padIndex) {
+                    _pads.drawPad(90, 20, 20, index - 1);
+                    hasDrawnPadIndex = true;
+                }
+                else {
+                    _pads.drawPad(20, 20, 20, index - 1);
+                }
+            }
+        });
+        if(!hasDrawnPadIndex) {
+            _pads.drawPad(90,0,0, padIndex - 1);
+        }
         _pads.render(_outputDevice);
     }
 

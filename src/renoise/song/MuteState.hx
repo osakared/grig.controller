@@ -22,7 +22,7 @@
 package renoise.song;
 
 @:native("renoise.Track")
-extern enum abstract MuteState(Dynamic)
+extern enum abstract MuteState(Int)
 {
     @:native("MUTE_STATE_ACTIVE")
     var ACTIVE;

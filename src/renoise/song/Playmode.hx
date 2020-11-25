@@ -21,7 +21,13 @@
 
 package renoise.song;
 
-extern class PatternTrackLine
+@:native("renoise.PatternTrackAutomation")
+extern enum abstract PlayMode(Int)
 {
-    
+    @:native("PLAYMODE_POINTS")
+    var POINTS;
+    @:native("PLAYMODE_LINES")
+    var LINES;
+    @:native("PLAYMODE_CURVES")
+    var CURVES;
 }

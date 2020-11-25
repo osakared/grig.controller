@@ -22,7 +22,7 @@
 package renoise.song;
 
 @:native("renoise.Song")
-extern enum abstract SubColumn(Dynamic)
+extern enum abstract SubColumn(Int)
 {
     @:native("SUB_COLUMN_NOTE")
     var NOTE;

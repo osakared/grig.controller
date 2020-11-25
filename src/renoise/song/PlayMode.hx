@@ -21,7 +21,15 @@
 
 package renoise.song;
 
-extern class TrackDevice
+@:native("renoise.Track")
+extern enum abstract TrackType(Dynamic)
 {
-    
+    @:native("TRACK_TYPE_SEQUENCER")
+    var SEQUENCER;
+    @:native("TRACK_TYPE_MASTER")
+    var MASTER;
+    @:native("TRACK_TYPE_SEND")
+    var SEND;
+    @:native("TRACK_TYPE_GROUP")
+    var GROUP;
 }

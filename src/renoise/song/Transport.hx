@@ -21,6 +21,8 @@
 
 package renoise.song;
 
+import renoise.song.Playmode.PlayMode;
+
 extern class Transport
 {
     //Constants
@@ -136,7 +138,7 @@ extern class Transport
      * 
      * @param mode 
      */
-    public function start(mode :Dynamic) : Void;
+    public function start(mode :PlayMode) : Void;
 
     /**
      * start playing the currently edited pattern at the given line offset

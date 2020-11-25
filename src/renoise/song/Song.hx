@@ -25,6 +25,8 @@ import lua.Table;
 
 extern class Song
 {
+    public static var MAX_NUMBER_OF_INSTRUMENTS : Int;
+
     /**
      * When the song is loaded from or saved to a file, the absolute path and 
      * name to the XRNS file is returned. Otherwise, an empty string is returned.

@@ -23,6 +23,13 @@ package renoise.song;
 
 extern class SongPos
 {
+    /**
+     * Position in the pattern sequence.
+     */
     public var sequence :Int;
+
+    /**
+     * Position in the pattern at the given pattern sequence.
+     */
     public var line :Int;
 }
