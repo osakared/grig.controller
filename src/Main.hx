@@ -31,6 +31,7 @@ import fire.fromFire.button.ButtonType;
 import fire.toFire.Output;
 import fire.util.Signal1;
 import fire.util.Cursor;
+import fire.util.State;
 
 class Main
 {
@@ -50,10 +51,11 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var gridIndex = new Signal1(Note);
+            var state = new State();
             var buttons = new Buttons(gridIndex);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            new Output(MIDI_OUT, buttons, gridIndex);
+            new Output(state, MIDI_OUT, buttons, gridIndex);
             new ToRenoise(buttons, dials);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {

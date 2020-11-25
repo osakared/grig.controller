@@ -38,6 +38,6 @@ class Step
 
     private static function onUp() : Void
     {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
+        // RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }
 }

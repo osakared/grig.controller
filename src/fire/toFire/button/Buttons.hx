@@ -21,6 +21,7 @@
 
 package fire.toFire.button;
 
+import fire.util.State;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
@@ -28,8 +29,9 @@ import fire.fromFire.button.ButtonsReadOnly;
 
 class Buttons
 {
-    public function new(buttons :ButtonLights, buttonInputs :ButtonsReadOnly, outputDevice :MidiOutputDevice) : Void
+    public function new(state :State, buttons :ButtonLights, buttonInputs :ButtonsReadOnly, outputDevice :MidiOutputDevice) : Void
     {
+        _state = state;
         _buttons = buttons;
         _outputDevice = outputDevice;
         _buttonInputs = buttonInputs;
@@ -48,10 +50,7 @@ class Buttons
         handleMuteSolo2();
         handleMuteSolo3();
         handleMuteSolo4();
-        handleStep();
-        handleNote();
-        handleDrum();
-        handlePerform();
+        handleThingThing();
         handleShift();
         handleAlt();
         handlePatternSong();
@@ -159,47 +158,58 @@ class Buttons
         }
     }
 
-    private function handleStep() : Void
+    private function handleThingThing() : Void
     {
-        var isDown = _buttonInputs.step.value;
-        if(isDown) {
-            _buttons.step.send(_outputDevice, 1);
+        if(_buttonInputs.step.value) {
+            _buttons.step.send(_outputDevice, 2);
+            _state.input = STEP;
         }
         else {
-            _buttons.step.send(_outputDevice, 0);
+            switch _state.input {
+                case STEP:
+                    _buttons.step.send(_outputDevice, 4);
+                case _:
+                    _buttons.step.send(_outputDevice, 0);
+            }
         }
-    }
 
-    private function handleNote() : Void
-    {
-        var isDown = _buttonInputs.note.value;
-        if(isDown) {
-            _buttons.note.send(_outputDevice, 1);
+        if(_buttonInputs.note.value) {
+            _buttons.note.send(_outputDevice, 2);
+            _state.input = NOTE;
         }
         else {
-            _buttons.note.send(_outputDevice, 0);
+            switch _state.input {
+                case NOTE:
+                    _buttons.note.send(_outputDevice, 4);
+                case _:
+                    _buttons.note.send(_outputDevice, 0);
+            }
         }
-    }
 
-    private function handleDrum() : Void
-    {
-        var isDown = _buttonInputs.drum.value;
-        if(isDown) {
-            _buttons.drum.send(_outputDevice, 1);
+        if(_buttonInputs.drum.value) {
+            _buttons.drum.send(_outputDevice, 2);
+            _state.input = DRUM;
         }
         else {
-            _buttons.drum.send(_outputDevice, 0);
+            switch _state.input {
+                case DRUM:
+                    _buttons.drum.send(_outputDevice, 4);
+                case _:
+                    _buttons.drum.send(_outputDevice, 0);
+            }
         }
-    }
 
-    private function handlePerform() : Void
-    {
-        var isDown = _buttonInputs.perform.value;
-        if(isDown) {
-            _buttons.perform.send(_outputDevice, 1);
+        if(_buttonInputs.perform.value) {
+            _buttons.perform.send(_outputDevice, 2);
+            _state.input = PERFORM;
         }
         else {
-            _buttons.perform.send(_outputDevice, 0);
+            switch _state.input {
+                case PERFORM:
+                    _buttons.perform.send(_outputDevice, 4);
+                case _:
+                    _buttons.perform.send(_outputDevice, 0);
+            }
         }
     }
 
@@ -295,10 +305,10 @@ class Buttons
         _buttonInputs.muteSolo2.addListener(_ -> handleMuteSolo2());
         _buttonInputs.muteSolo3.addListener(_ -> handleMuteSolo3());
         _buttonInputs.muteSolo4.addListener(_ -> handleMuteSolo4());
-        _buttonInputs.step.addListener(_ -> handleStep());
-        _buttonInputs.note.addListener(_ -> handleNote());
-        _buttonInputs.drum.addListener(_ -> handleDrum());
-        _buttonInputs.perform.addListener(_ -> handlePerform());
+        _buttonInputs.step.addListener(_ -> handleThingThing());
+        _buttonInputs.note.addListener(_ -> handleThingThing());
+        _buttonInputs.drum.addListener(_ -> handleThingThing());
+        _buttonInputs.perform.addListener(_ -> handleThingThing());
         _buttonInputs.shift.addListener(_ -> handleShift());
         _buttonInputs.alt.addListener(_ -> handleAlt());
         _buttonInputs.patternSong.addListener(_ -> handlePatternSong());
@@ -322,4 +332,5 @@ class Buttons
     private var _buttonInputs :ButtonsReadOnly;
     private var _buttons :ButtonLights;
     private var _outputDevice :MidiOutputDevice;
+    private var _state :State;
 }

@@ -34,17 +34,18 @@ import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid as OutputGrid;
 import renoise.LineChaneObserver;
 import fire.fromFire.button.ButtonsReadOnly as ButtonInputs;
+import fire.util.State;
 
 class Output
 {
-    public function new(outputDevice :MidiOutputDevice, buttonInputs :ButtonInputs, gridIndex :Signal1<Cursor>) : Void
+    public function new(state :State, outputDevice :MidiOutputDevice, buttonInputs :ButtonInputs, gridIndex :Signal1<Cursor>) : Void
     {
         _outputDevice = outputDevice;
         _gridIndex = gridIndex;
         _display = new Display();
         _pads = new OutputGrid(_outputDevice);
         _buttons = new ButtonLights();
-        _transport = new Buttons(_buttons, buttonInputs, _outputDevice);
+        _transport = new Buttons(state, _buttons, buttonInputs, _outputDevice);
         this.initializeListeners();
         makeDrawCalls();
     }
