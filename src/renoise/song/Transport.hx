@@ -28,10 +28,8 @@ extern class Transport
     //Constants
     extern public static var PLAYMODE_RESTART_PATTERN : Int;
     public static var PLAYMODE_CONTINUE_PATTERN : Int;
-
     public static var RECORD_PARAMETER_MODE_PATTERN : Int;
     public static var RECORD_PARAMETER_MODE_AUTOMATION : Int;
-
     public static var TIMING_MODEL_SPEED : Int;
     public static var TIMING_MODEL_LPB : Int;
 
@@ -39,6 +37,7 @@ extern class Transport
      * Playing.
      */
     public var playing : Bool;
+
     @:native("playing_observable")
     public var playingObservable : Observable;
 
@@ -55,6 +54,7 @@ extern class Transport
      * BPM, LPB, and TPL.
      */
     public var bpm : Int;
+
     @:native("bpm_observable")
     public var bpmObservable : Observable;
 
@@ -62,6 +62,7 @@ extern class Transport
      * BPM, LPB, and TPL.
      */
     public var lpb : Int;
+
     @:native("lpb_observable")
     public var lpbObservable : Observable;
 
@@ -69,6 +70,7 @@ extern class Transport
      * BPM, LPB, and TPL.
      */
     public var tpl : Int;
+
     @:native("tpl_observable")
     public var tplObservable : Observable;
 
@@ -77,6 +79,7 @@ extern class Transport
      */
     @:native("playback_pos")
     public var playbackPos : SongPos;
+
     @:native("playback_pos_beats")
     public var playbackPosBeats : Int;
 
@@ -85,6 +88,7 @@ extern class Transport
      */
     @:native("edit_pos")
     public var editPos : SongPos;
+
     @:native("edit_pos_beats")
     public var editPosBeats :Int;
 
@@ -93,6 +97,7 @@ extern class Transport
      */
     @:native("song_length")
     public var songLength (default, null) : SongPos;
+
     @:native("song_length_beats")
     public var songLengthBeats (default, null) : Int;
 
@@ -101,32 +106,66 @@ extern class Transport
      */
     @:native("loop_start")
     public var loopStart (default, null) : SongPos;
+
     @:native("loop_end")
     public var loopEnd (default, null) : SongPos;
+
     @:native("loop_range")
     public var loopRange (default, null) : lua.Table<Int, SongPos>;
+
     @:native("loop_start_beats")
     public var loopStartBeats (default, null) : Int;
+
     @:native("loop_end_beats")
     public var loopEndBeats (default, null) : Int;
+
     @:native("loop_range_beats")
     public var loopRangeBeats (default, null) : lua.Table<Int, Int>;
+
     @:native("loop_sequence_start")
     public var loopSequenceStart (default, null) : Int;
+
     @:native("loop_sequence_end")
     public var loopSequenceEnd (default, null) : Int;
+
     @:native("loop_sequence_range")
     public var loopSequenceRange (default, null) : lua.Table<Int, Int>;
+
     @:native("loop_pattern")
     public var loopPattern : Bool;
+
     @:native("loop_pattern_observable")
     public var loopPatternObservable : Observable;
+
     @:native("loop_block_enabled")
     public var loopBlockEnabled : Bool;
+
     @:native("loop_block_start_pos")
     public var loopBlockStartPos (default, null) : SongPos;
+
     @:native("loop_block_range_coeff")
     public var loopBlockRangeCoeff : Int;
+
+    /**
+     * Edit modes.
+     */
+     @:native("edit_mode")
+     public var editMode : Bool;
+ 
+     @:native("edit_mode_observable")
+     public var editModeObservable : Observable;
+ 
+     @:native("edit_step")
+     public var editStep : Int;
+ 
+     @:native("edit_step_observable")
+     public var editStepObservable : Observable;
+ 
+     @:native("octave")
+     public var octave : Int;
+ 
+     @:native("octave_observable")
+     public var octaveObservable : Observable;
 
     /**
      * Panic.
@@ -203,22 +242,4 @@ extern class Transport
      */
     @:native("cancel_sample_recording")
     public function cancelSampleRecording() : Void;
-
-    /**
-     * Edit modes.
-     */
-    @:native("edit_mode")
-    public var editMode : Bool;
-    @:native("edit_mode_observable")
-    public var editModeObservable : Observable;
-
-    @:native("edit_step")
-    public var editStep : Int;
-    @:native("edit_step_observable")
-    public var editStepObservable : Observable;
-
-    @:native("octave")
-    public var octave : Int;
-    @:native("octave_observable")
-    public var octaveObservable : Observable;
 }

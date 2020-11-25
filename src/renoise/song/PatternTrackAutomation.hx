@@ -21,8 +21,94 @@
 
 package renoise.song;
 
+import renoise.song.Playmode.PlayMode;
+import lua.Table;
+
 extern class PatternTrackAutomation
 {
+
+    /**
+     * Destination device. Can in some rare circumstances be nil, i.e. when a 
+     * device or track is about to be deleted.
+     */
+    @:native("dest_device")
+    public var destDevice : AudioDevice;
+
+    /**
+     * Destination device's parameter. Can in some rare circumstances be nil, 
+     * i.e. when a device or track is about to be deleted.
+     */
+    @:native("dest_parameter")
+    public var destParameter : DeviceParameter;
+
+    /**
+     * play-mode (interpolation mode).
+     */
+    public var playmode : PlayMode;
+
+    @:native("playmode_observable")
+    public var playmodeObservable : Observable;
+
+    /**
+     * Max length (time in lines) of the automation. Will always fit the 
+     * patterns length.
+     */
+    public var length : Int;
+
+    /**
+     * Selection range as visible in the automation editor. always valid. 
+     * returns the automation range no selection is present in the UI.
+     */
+    @:native("selection_start")
+    public var selectionStart : Int;
+
+    @:native("selection_start_observable")
+    public var selectionStartObservable : Observable;
+
+    @:native("selection_end")
+    public var selectionEnd : Int;
+    
+    @:native("selection_end_observable")
+    public var selectionEndObservable : Observable;
+
+    /**
+     * Get or set selection range. when setting an empty table, the existing 
+     * selection, if any, will be cleared.
+     */
+    @:native("selection_range")
+    public var selectionRange : Array<Int>;
+
+    @:native("selection_range_observable")
+    public var selectionRangeObservable : Observable;
+
+    /**
+     * Get all points of the automation. When setting a new list of points, 
+     * items may be unsorted by time, but there may not be multiple points for 
+     * the same time. Returns a copy of the list, so changing points[1].value 
+     * will not do anything. Instead, change them via points = { something } 
+     * instead.
+     */
+    public var points : Table<Int, Int>;
+
+    @:native("points_observable")
+    public var pointsObservable : Observable;
+
+    /**
+     * An automation point's time in pattern lines.
+     */
+    public var time : Int;
+
+    /**
+     * An automation point's value [0-1.0]
+     */
+    public var value : Float;
+
+    /**
+     * An envelope point's scaling (used in 'lines' playback mode only - 0.0 is 
+     * linear).
+     */
+    public var scaling : Float;
+
     /**
      * Removes all points from the automation. Will not delete the automation 
      * from tracks[]:automation, instead the resulting automation will not do 
@@ -31,7 +117,8 @@ extern class PatternTrackAutomation
     public function clear() : Void;
     
     /**
-     * Remove all existing points in the given [from, to) time range from the automation.
+     * Remove all existing points in the given [from, to) time range from the 
+     * automation.
      * @param from 
      * @param to 
      * @return Void
