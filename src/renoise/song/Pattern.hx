@@ -27,6 +27,8 @@ typedef LineNotifier = {pattern :Dynamic, track :Dynamic, line :Dynamic} -> Void
 
 extern class Pattern
 {
+    public static var MAX_NUMBER_OF_LINES : Int;
+
     @:native("is_empty")
     public var isEmpty : Bool;
 

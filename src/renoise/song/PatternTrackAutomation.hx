@@ -76,7 +76,7 @@ extern class PatternTrackAutomation
      * selection, if any, will be cleared.
      */
     @:native("selection_range")
-    public var selectionRange : Array<Int>;
+    public var selectionRange : Table<Int, Int>;
 
     @:native("selection_range_observable")
     public var selectionRangeObservable : Observable;
