@@ -21,7 +21,7 @@
 
 package renoise.song;
 
-import renoise.song.Playmode.PlayMode;
+import renoise.song.AutomationPlayMode;
 import lua.Table;
 
 extern class PatternTrackAutomation
@@ -44,7 +44,7 @@ extern class PatternTrackAutomation
     /**
      * play-mode (interpolation mode).
      */
-    public var playmode : PlayMode;
+    public var playmode : AutomationPlayMode;
 
     @:native("playmode_observable")
     public var playmodeObservable : Observable;

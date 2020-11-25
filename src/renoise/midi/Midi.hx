@@ -46,10 +46,10 @@ extern class Midi
      * are no longer available will do nothing. Aka, you can use them 
      * as before and they will not fire any errors. The messages will 
      * simply go into the void...
-     * @return Dynamic
+     * @return Observable
      */
     @:native("devices_changed_observable")
-    public static function devicesChangedObservable() : Dynamic;
+    public static function devicesChangedObservable() : Observable;
 
     /**
      * Listen to incoming MIDI data: opens access to a MIDI input 

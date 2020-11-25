@@ -21,17 +21,13 @@
 
 package renoise.song;
 
-import renoise.song.Playmode.PlayMode;
+import renoise.song.TransportPlayMode;
 
 extern class Transport
 {
     //Constants
-    extern public static var PLAYMODE_RESTART_PATTERN : Int;
-    public static var PLAYMODE_CONTINUE_PATTERN : Int;
     public static var RECORD_PARAMETER_MODE_PATTERN : Int;
     public static var RECORD_PARAMETER_MODE_AUTOMATION : Int;
-    public static var TIMING_MODEL_SPEED : Int;
-    public static var TIMING_MODEL_LPB : Int;
 
     /**
      * Playing.
@@ -48,7 +44,7 @@ extern class Transport
      * defines relationship between pattern lines and beats.
      */
     @:native("timing_model")
-    public var timingModel (default, null) : Dynamic;
+    public var timingModel (default, null) : TimingModel;
 
     /**
      * BPM, LPB, and TPL.
@@ -177,7 +173,7 @@ extern class Transport
      * 
      * @param mode 
      */
-    public function start(mode :PlayMode) : Void;
+    public function start(mode :TransportPlayMode) : Void;
 
     /**
      * start playing the currently edited pattern at the given line offset

@@ -92,7 +92,7 @@ extern class PatternTrack
      * @return PatternTrackAutomation
      */
     @:native("find_automation")
-    public function findAutomation(parameter :Dynamic) : PatternTrackAutomation;
+    public function findAutomation(parameter :DeviceParameter) : PatternTrackAutomation;
 
     /**
      * Creates a new automation for the given device parameter. Fires an error when an 
@@ -104,7 +104,7 @@ extern class PatternTrack
      * @return PatternTrackAutomation
      */
     @:native("create_automation")
-    public function createAutomation(parameter :Dynamic) : PatternTrackAutomation;
+    public function createAutomation(parameter :DeviceParameter) : PatternTrackAutomation;
 
     /**
      * Remove an existing automation the given device parameter. Automation must exist.
@@ -112,5 +112,5 @@ extern class PatternTrack
      * @param parameter 
      */
     @:native("delete_automation")
-    public function deleteAutomation(parameter :Dynamic) : Void;
+    public function deleteAutomation(parameter :DeviceParameter) : Void;
 }

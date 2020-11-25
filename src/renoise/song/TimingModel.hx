@@ -21,13 +21,11 @@
 
 package renoise.song;
 
-@:native("renoise.PatternTrackAutomation")
-extern enum abstract PlayMode(Int)
+@:native("renoise.Transport")
+extern enum abstract TimingModel(Int)
 {
-    @:native("PLAYMODE_POINTS")
-    var POINTS;
-    @:native("PLAYMODE_LINES")
-    var LINES;
-    @:native("PLAYMODE_CURVES")
-    var CURVES;
+    @:native("TIMING_MODEL_SPEED")
+    var SPEED;
+    @:native("TIMING_MODEL_LPB")
+    var LPB;
 }

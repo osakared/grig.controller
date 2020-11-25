@@ -313,7 +313,7 @@ extern class Song
     public var selectedSubColumnType : SubColumn;
 
     @:native("selection_in_pattern")
-    public var selectionInPattern : Selection;
+    public var selectionInPattern : Table<Int, Selection>;
 
     /**
      * same as 'selection_in_pattern' but for the currently selected phrase 
@@ -321,7 +321,7 @@ extern class Song
      * fields are valid.
      */
     @:native("selection_in_phrase")
-    public var selectionInPhrase : Selection;
+    public var selectionInPhrase : Table<Int, Selection>;
 
     /**
      * Test if something in the song can be undone.

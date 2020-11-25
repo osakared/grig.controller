@@ -21,12 +21,11 @@
 
 package renoise.song;
 
-
-class Selection
+@:native("renoise.Transport")
+extern enum abstract TransportPlayMode(Int)
 {
-    @:native("start_line")
-    public var startLine :Int;
-
-    @:native("end_line")
-    public var endLine :Int;
+    @:native("PLAYMODE_RESTART_PATTERN")
+    var RESTART_PATTERN;
+    @:native("PLAYMODE_CONTINUE_PATTERN")
+    var CONTINUE_PATTERN;
 }

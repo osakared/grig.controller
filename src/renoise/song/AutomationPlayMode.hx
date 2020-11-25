@@ -21,12 +21,13 @@
 
 package renoise.song;
 
-
-class Selection
+@:native("renoise.PatternTrackAutomation")
+extern enum abstract AutomationPlayMode(Int)
 {
-    @:native("start_line")
-    public var startLine :Int;
-
-    @:native("end_line")
-    public var endLine :Int;
+    @:native("PLAYMODE_POINTS")
+    var POINTS;
+    @:native("PLAYMODE_LINES")
+    var LINES;
+    @:native("PLAYMODE_CURVES")
+    var CURVES;
 }

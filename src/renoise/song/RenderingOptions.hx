@@ -21,7 +21,15 @@
 
 package renoise.song;
 
+import renoise.song.SongPos;
 
-abstract RenderingOptions(Dynamic)
+
+typedef RenderingOptions =
 {
+    start_pos :SongPos, //renoise.SongPos object. by default the song start.
+    end_pos :SongPos, //renoise.SongPos object. by default the song end.
+    sample_rate :Int, //one of 22050, 44100, 48000, 88200, 96000, 192000. by default the players current rate.
+    bit_depth :Int, //number, one of 16, 24 or 32. by default 32.
+    interpolation :String, //string, one of 'default', 'precise'. by default default'.
+    priority :String, //string, one "low", "realtime", "high". by default "high".
 }
