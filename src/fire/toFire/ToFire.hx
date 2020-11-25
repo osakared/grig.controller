@@ -21,7 +21,6 @@
 
 package fire.toFire;
 
-import lua.Table;
 import fire.toFire.button.Buttons;
 import renoise.song.EffectColumn;
 import fire.util.Signal1;
@@ -32,20 +31,20 @@ import renoise.song.NoteColumn;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.Display;
 import fire.toFire.button.ButtonLights;
-import fire.toFire.Grid as OutputGrid;
+import fire.toFire.Grid;
 import renoise.LineChaneObserver;
-import fire.fromFire.button.ButtonsReadOnly as ButtonInputs;
+import fire.fromFire.button.ButtonsReadOnly;
 import fire.util.State;
 using lua.PairTools;
 
-class Output
+class ToFire
 {
-    public function new(state :State, outputDevice :MidiOutputDevice, buttonInputs :ButtonInputs, gridIndex :Signal1<Cursor>) : Void
+    public function new(state :State, outputDevice :MidiOutputDevice, buttonInputs :ButtonsReadOnly, gridIndex :Signal1<Cursor>) : Void
     {
         _outputDevice = outputDevice;
         _gridIndex = gridIndex;
         _display = new Display();
-        _pads = new OutputGrid(_outputDevice);
+        _pads = new Grid(_outputDevice);
         _buttons = new ButtonLights();
         _transport = new Buttons(state, _buttons, buttonInputs, _outputDevice);
         this.initializeListeners();
@@ -196,7 +195,7 @@ class Output
 
     private var _outputDevice :MidiOutputDevice;
     private var _display :Display;
-    private var _pads :OutputGrid;
+    private var _pads :Grid;
     private var _buttons :ButtonLights;
     private var _transport :Buttons;
     private var _gridIndex :Signal1<Cursor>;

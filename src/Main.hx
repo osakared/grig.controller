@@ -28,7 +28,7 @@ import fire.fromFire.button.Buttons;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.button.ButtonType;
-import fire.toFire.Output;
+import fire.toFire.ToFire;
 import fire.util.Signal1;
 import fire.util.Cursor;
 import fire.util.State;
@@ -55,7 +55,7 @@ class Main
             var buttons = new Buttons(gridIndex);
             var dials = new Dials();
             var inputGrid = new InputGrid();
-            new Output(state, MIDI_OUT, buttons, gridIndex);
+            new ToFire(state, MIDI_OUT, buttons, gridIndex);
             new ToRenoise(buttons, dials);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
