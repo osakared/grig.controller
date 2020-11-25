@@ -30,6 +30,7 @@ extern class PatternTrack
 
     @:native("alias_pattern_index")
     public var aliasPatternIndex : Int;
+
     @:native("alias_pattern_index_observable")
     public var aliasPatternIndexObservable : Observable;
 
@@ -39,12 +40,14 @@ extern class PatternTrack
 
     @:native("is_empty")
     public var isEmpty (default, null): Bool;
+
     @:native("is_empty_observable")
     public var isEmptyObservable (default, null): Observable;
 
     public var lines (default, null): Table<Int, PatternLine>;
 
     public var automation (default, null): Table<Int, PatternTrackAutomation>;
+    
     @:native("automation_observable")
     public var automationObservable (default, null): Observable;
 
