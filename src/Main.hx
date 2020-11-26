@@ -62,7 +62,7 @@ class Main
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, inputGrid, a.note());
+                        handleButtonDown(state, buttons, inputGrid, a.note());
 					case BUTTON_UP:
                         handleButtonUp(buttons, inputGrid, a.note());
                     case ROTARY:
@@ -75,13 +75,13 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
+    public static function handleButtonDown(state :State, buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = true;
         }
         else {
-            grid.down(button - 54);
+            grid.down(state, button - 54);
         }
     }
 

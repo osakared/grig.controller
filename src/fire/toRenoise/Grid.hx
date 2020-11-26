@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import fire.util.State.StateReadOnly;
 import fire.util.RenoiseUtil;
 
 class Grid
@@ -29,8 +30,14 @@ class Grid
     {
     }
 
-    public function down(pad :Int) : Void
+    public function down(state :StateReadOnly, pad :Int) : Void
     {
-        RenoiseUtil.setLine(pad + 1, 64);
+        switch state.input {
+            case STEP:
+                RenoiseUtil.setLine(pad + 1, 64);
+            case NOTE:
+            case DRUM:
+            case PERFORM:
+        }
     }
 }

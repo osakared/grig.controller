@@ -31,6 +31,7 @@ import fire.toRenoise.button.Step;
 import fire.toRenoise.button.Stop;
 import fire.toRenoise.button.Record;
 import fire.toRenoise.dial.Select as SelectDial;
+import fire.util.State.StateReadOnly;
 
 class ToRenoise
 {
@@ -58,9 +59,9 @@ class ToRenoise
         dials.select.right.addListener(SelectDial.onRight.bind(buttons));
     }
 
-    public inline function onGridDown(pad :Int) : Void
+    public inline function onGridDown(state :StateReadOnly, pad :Int) : Void
     {
-        _grid.down(pad);
+        _grid.down(state, pad);
     }
 
     private var _grid :Grid;
