@@ -162,10 +162,10 @@ class Buttons
     {
         if(_buttonInputs.step.value) {
             _buttons.step.send(_outputDevice, 2);
-            _state.input = STEP;
+            _state.input.value = STEP;
         }
         else {
-            switch _state.input {
+            switch _state.input.value {
                 case STEP:
                     _buttons.step.send(_outputDevice, 4);
                 case _:
@@ -175,10 +175,10 @@ class Buttons
 
         if(_buttonInputs.note.value) {
             _buttons.note.send(_outputDevice, 2);
-            _state.input = NOTE;
+            _state.input.value = NOTE;
         }
         else {
-            switch _state.input {
+            switch _state.input.value {
                 case NOTE:
                     _buttons.note.send(_outputDevice, 4);
                 case _:
@@ -188,10 +188,10 @@ class Buttons
 
         if(_buttonInputs.drum.value) {
             _buttons.drum.send(_outputDevice, 2);
-            _state.input = DRUM;
+            _state.input.value = DRUM;
         }
         else {
-            switch _state.input {
+            switch _state.input.value {
                 case DRUM:
                     _buttons.drum.send(_outputDevice, 4);
                 case _:
@@ -201,10 +201,10 @@ class Buttons
 
         if(_buttonInputs.perform.value) {
             _buttons.perform.send(_outputDevice, 2);
-            _state.input = PERFORM;
+            _state.input.value = PERFORM;
         }
         else {
-            switch _state.input {
+            switch _state.input.value {
                 case PERFORM:
                     _buttons.perform.send(_outputDevice, 4);
                 case _:

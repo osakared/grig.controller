@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import lua.Table;
 import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;

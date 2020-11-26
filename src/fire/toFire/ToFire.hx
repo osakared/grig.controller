@@ -47,8 +47,8 @@ class ToFire
         _pads = new Grid(_outputDevice);
         _buttons = new ButtonLights();
         _transport = new Buttons(state, _buttons, buttonInputs, _outputDevice);
-        this.initializeListeners();
-        makeDrawCalls();
+        this.initializeListeners(state);
+        makeDrawCalls(state);
     }
 
     private function lineString(line :Int) : String
@@ -59,48 +59,82 @@ class ToFire
             : lineStr;
     }
 
-    private function initializeListeners() : Void
+    private function initializeListeners(state :StateReadOnly) : Void
     {
         var lineObserver = new LineChaneObserver();
-        lineObserver.register(0, makeDrawCalls);
+        lineObserver.register(0, makeDrawCalls.bind(state));
         _gridIndex.addListener(_ -> {
-            makeDrawCalls();
+            makeDrawCalls(state);
         });
-        Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls);
+        state.input.addListener(_ -> {
+            makeDrawCalls(state);
+        });
+        Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(state));
     }
 
-    private function makeDrawCalls() : Void
+    private function makeDrawCalls(state :StateReadOnly) : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex = transport.playbackPos.line;
-            drawPads(padIndex);
+            drawPads(state, padIndex);
             drawDisplay(padIndex);
         }
     }
 
-    private function drawPads(padIndex :Int) : Void
+    private function drawPads(state :StateReadOnly, padIndex :Int) : Void
     {
         _pads.clear();
 
+        switch state.input.value {
+            case STEP:
+                drawPadsStep(padIndex);
+            case NOTE:
+                drawPadsNote();
+            case DRUM:
+            case PERFORM:
+        }
+        
+        _pads.render(_outputDevice);
+    }
+
+    private function drawPadsStep(padIndex :Int) : Void
+    {
         var lines = Renoise.song().selectedPatternTrack.linesInRange(1, 64);
         var hasDrawnPadIndex = false;
         lines.ipairsEach((index, line) -> {
             var noteValue = line.noteColumn(1).noteValue;
             if(noteValue < 120) {
                 if(index == padIndex) {
-                    _pads.drawPad(90, 20, 20, index - 1);
+                    _pads.drawPad(90, 0, 30, index - 1);
                     hasDrawnPadIndex = true;
                 }
                 else {
-                    _pads.drawPad(20, 20, 20, index - 1);
+                    _pads.drawPad(40, 0, 40, index - 1);
                 }
             }
         });
         if(!hasDrawnPadIndex) {
             _pads.drawPad(90,0,0, padIndex - 1);
         }
-        _pads.render(_outputDevice);
+    }
+
+    private function drawPadsNote() : Void
+    {
+        _pads.drawPad(90, 0, 30, 1);
+        _pads.drawPad(90, 0, 30, 2);
+
+        _pads.drawPad(90, 0, 30, 4);
+        _pads.drawPad(90, 0, 30, 5);
+        _pads.drawPad(90, 0, 30, 6);
+
+        _pads.drawPad(90, 0, 30, 16);
+        _pads.drawPad(90, 0, 30, 17);
+        _pads.drawPad(90, 0, 30, 18);
+        _pads.drawPad(90, 0, 30, 19);
+        _pads.drawPad(90, 0, 30, 20);
+        _pads.drawPad(90, 0, 30, 21);
+        _pads.drawPad(90, 0, 30, 22);
     }
 
     private function drawDisplay(padIndex :Int) : Void

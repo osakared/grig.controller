@@ -21,8 +21,11 @@
 
 package fire.toRenoise;
 
+import lua.TableTools;
 import fire.util.State.StateReadOnly;
 import fire.util.RenoiseUtil;
+import renoise.Renoise;
+import lua.Table;
 
 class Grid
 {
@@ -32,10 +35,24 @@ class Grid
 
     public function down(state :StateReadOnly, pad :Int) : Void
     {
-        switch state.input {
+        switch state.input.value {
             case STEP:
                 RenoiseUtil.setLine(pad + 1, 64);
-            case NOTE:
+            case NOTE: {
+                var instr = Renoise.song().selectedInstrumentIndex;
+                var track = Renoise.song().selectedTrackIndex;
+                var note = 30;
+                var velocity = 0x80;
+                var osc_vars = Table.create();
+                Table.insert(osc_vars, {tag: "i",value: instr});
+                Table.insert(osc_vars, {tag: "i",value: track});
+                Table.insert(osc_vars, {tag: "i",value: note});
+                Table.insert(osc_vars, {tag: "i",value: velocity});
+                var header = "/renoise/trigger/note_on";
+                var osc_msg = renoise.Osc.createMessage(header,osc_vars);
+                // Renoise.Osc.Message(Table.create([0,1]));
+            }
+                // Renoise.song().instrument(1)
             case DRUM:
             case PERFORM:
         }
