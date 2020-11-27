@@ -24,6 +24,7 @@ package fire.fromFire;
 import fire.fromFire.button.ButtonType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.grid.Grid;
+import fire.fromFire.button.Buttons;
 import fire.util.Signal1;
 
 class ControllerState
@@ -56,6 +57,7 @@ class ControllerState
     public var dials (default, null) : Dials;
     public var input (default, null):Signal1<InputState>;
     public var grid (default, null):Grid;
+    public var buttons (default, null):Buttons;
 
     public function new() {
         _buttons = [
@@ -88,6 +90,7 @@ class ControllerState
         this.dials = new Dials();
         this.input = new Signal1(STEP);
         this.grid = new Grid();
+        this.buttons = new Buttons();
         initInput();
     }
 
