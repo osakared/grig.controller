@@ -24,7 +24,7 @@ import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
 import fire.fromFire.Grid;
-import fire.fromFire.button.Buttons;
+import fire.fromFire.ControllerState;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.button.ButtonType;
@@ -52,7 +52,7 @@ class Main
             MIDI_OUT = Midi.createOutputDevice(device);
             var gridIndex = new Signal1(Note);
             var state = new State();
-            var buttons = new Buttons(gridIndex);
+            var buttons = new ControllerState();
             var dials = new Dials();
             var fromFireGrid = new Grid();
             new ToFire(state, MIDI_OUT, buttons, gridIndex);
@@ -75,7 +75,7 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(state :State, buttons :Buttons, grid :Grid, button :ButtonType) : Void
+    public static function handleButtonDown(state :State, buttons :ControllerState, grid :Grid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = true;
@@ -85,7 +85,7 @@ class Main
         }
     }
 
-    public static function handleButtonUp(state :State, buttons :Buttons, grid :Grid, button :ButtonType) : Void
+    public static function handleButtonUp(state :State, buttons :ControllerState, grid :Grid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
@@ -95,7 +95,7 @@ class Main
         }
     }
 
-    public static function handleRotary(dials :Dials, buttons :Buttons, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(dials :Dials, buttons :ControllerState, type :DialType, isRight :Bool) : Void
     {
         if(dials.exists(type)) {
             if(isRight) {

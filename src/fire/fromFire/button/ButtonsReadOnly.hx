@@ -23,7 +23,7 @@ package fire.fromFire.button;
 
 import fire.util.Signal1ReadOnly;
 
-abstract ButtonsReadOnly(Buttons) from Buttons
+abstract ButtonsReadOnly(ControllerState) from ControllerState
 {
     public var knobType (get, never): Signal1ReadOnly<Bool>;
     public var volume (get, never): Signal1ReadOnly<Bool>;

@@ -19,11 +19,12 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
-import fire.util.Signal1;
-import fire.util.Cursor;
+package fire.fromFire;
 
-abstract Buttons(Map<ButtonType, Signal1<Bool>>) 
+import fire.fromFire.button.ButtonType;
+import fire.util.Signal1;
+
+abstract ControllerState(Map<ButtonType, Signal1<Bool>>) 
 {
     public var knobType (get, never): Signal1<Bool>;
     public var volume (get, never): Signal1<Bool>;
@@ -51,7 +52,7 @@ abstract Buttons(Map<ButtonType, Signal1<Bool>>)
     public var stop (get, never): Signal1<Bool>;
     public var record (get, never): Signal1<Bool>;
 
-    inline public function new(gridIndex :Signal1<Cursor>) {
+    inline public function new() {
         this = [
             KNOB_TYPE => new Signal1(false),
             VOLUME => new Signal1(false),
