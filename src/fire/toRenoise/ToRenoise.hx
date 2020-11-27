@@ -34,39 +34,39 @@ import fire.toRenoise.dial.Select as SelectDial;
 
 class ToRenoise
 {
-    public function new(buttons :ControllerStateReadOnly) : Void
+    public function new(controllerState :ControllerStateReadOnly) : Void
     {
         _grid = new Grid();
-        initButtons(buttons);
-        initDials(buttons);
+        initcontrollerState(controllerState);
+        initDials(controllerState);
     }
 
-    private function initButtons(buttons :ControllerStateReadOnly) : Void
+    private function initcontrollerState(controllerState :ControllerStateReadOnly) : Void
     {
-        buttons.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
-        buttons.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
-        buttons.select.addListener((isDown, _) -> Select.handle(isDown));
-        buttons.step.addListener((isDown, _) -> Step.handle(isDown));
-        buttons.play.addListener((isDown, _) -> Play.handle(isDown));
-        buttons.stop.addListener((isDown, _) -> Stop.handle(isDown));
-        buttons.record.addListener((isDown, _) -> Record.handle(isDown));
+        controllerState.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
+        controllerState.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
+        controllerState.select.addListener((isDown, _) -> Select.handle(isDown));
+        controllerState.step.addListener((isDown, _) -> Step.handle(isDown));
+        controllerState.play.addListener((isDown, _) -> Play.handle(isDown));
+        controllerState.stop.addListener((isDown, _) -> Stop.handle(isDown));
+        controllerState.record.addListener((isDown, _) -> Record.handle(isDown));
 
         for(i in 0...64) {
-            buttons.padConnect(i).addListener((isDown, _) -> {
+            controllerState.padConnect(i).addListener((isDown, _) -> {
                 if(isDown) {
-                    _grid.down(buttons, i);
+                    _grid.down(controllerState, i);
                 }
                 else {
-                    _grid.up(buttons, i);
+                    _grid.up(controllerState, i);
                 }
             });
         }
     }
 
-    private function initDials(buttons :ControllerStateReadOnly) : Void
+    private function initDials(controllerState :ControllerStateReadOnly) : Void
     {
-        buttons.dials.select.left.addListener(SelectDial.onLeft.bind(buttons));
-        buttons.dials.select.right.addListener(SelectDial.onRight.bind(buttons));
+        controllerState.dials.select.left.addListener(SelectDial.onLeft.bind(controllerState));
+        controllerState.dials.select.right.addListener(SelectDial.onRight.bind(controllerState));
     }
 
     private var _grid :Grid;

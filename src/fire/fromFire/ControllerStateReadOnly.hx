@@ -24,6 +24,7 @@ package fire.fromFire;
 import fire.fromFire.dial.DialsReadOnly;
 import fire.fromFire.ControllerState.InputState;
 import fire.util.Signal1ReadOnly;
+import fire.util.Signal1;
 
 abstract ControllerStateReadOnly(ControllerState) from ControllerState
 {
@@ -54,6 +55,7 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     public var record (get, never): Signal1ReadOnly<Bool>;
     public var dials (get, never) : DialsReadOnly;
     public var input (get, never) : Signal1ReadOnly<InputState>;
+    public var inputUnsafe (get, never) : Signal1<InputState>;
 
     public inline function padIsDown(pad :Int) : Bool
     {
@@ -196,6 +198,11 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     }
 
     private inline function get_input() : Signal1ReadOnly<InputState>
+    {
+        return this.input;
+    }
+
+    private inline function get_inputUnsafe() : Signal1<InputState>
     {
         return this.input;
     }

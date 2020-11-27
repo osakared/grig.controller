@@ -29,10 +29,10 @@ using fire.util.Math;
 
 class Select
 {
-    public static function onLeft(buttons :ControllerStateReadOnly) : Void
+    public static function onLeft(controllerState :ControllerStateReadOnly) : Void
     {
-        if(buttons.select.value) {
-            if(buttons.alt.value) {
+        if(controllerState.select.value) {
+            if(controllerState.alt.value) {
                 handleAlt(true);
             }
             else {
@@ -44,10 +44,10 @@ class Select
         }
     }
 
-    public static function onRight(buttons :ControllerStateReadOnly) : Void
+    public static function onRight(controllerState :ControllerStateReadOnly) : Void
     {
-        if(buttons.select.value) {
-            if(buttons.alt.value) {
+        if(controllerState.select.value) {
+            if(controllerState.alt.value) {
                 handleAlt(false);
             }
             else {

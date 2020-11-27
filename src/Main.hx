@@ -48,20 +48,20 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var gridIndex = new Signal1(Note);
-            var buttons = new ControllerState();
-            new ToFire(MIDI_OUT, buttons, gridIndex);
-            new ToRenoise(buttons);
+            var controllerState = new ControllerState();
+            new ToFire(MIDI_OUT, controllerState, gridIndex);
+            new ToRenoise(controllerState);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(buttons, a.note());
+                        handleButtonDown(controllerState, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, a.note());
+                        handleButtonUp(controllerState, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(cast buttons, a.note(), isRight);
+                        handleRotary(cast controllerState, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -69,34 +69,34 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(buttons :ControllerState, button :ButtonType) : Void
+    public static function handleButtonDown(controllerState :ControllerState, button :ButtonType) : Void
     {
-        if(buttons.exists(button)) {
-            buttons.get(button).value = true;
+        if(controllerState.exists(button)) {
+            controllerState.get(button).value = true;
         }
         else {
-            buttons.padDown(button - 54);
+            controllerState.padDown(button - 54);
         }
     }
 
-    public static function handleButtonUp(buttons :ControllerState, button :ButtonType) : Void
+    public static function handleButtonUp(controllerState :ControllerState, button :ButtonType) : Void
     {
-        if(buttons.exists(button)) {
-            buttons.get(button).value = false;
+        if(controllerState.exists(button)) {
+            controllerState.get(button).value = false;
         }
         else {
-            buttons.padUp(button - 54);
+            controllerState.padUp(button - 54);
         }
     }
 
-    public static function handleRotary(buttons :ControllerState, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(controllerState :ControllerState, type :DialType, isRight :Bool) : Void
     {
-        if(buttons.dials.exists(type)) {
+        if(controllerState.dials.exists(type)) {
             if(isRight) {
-                buttons.dials.get(type).right.emit();
+                controllerState.dials.get(type).right.emit();
             }
             else {
-                buttons.dials.get(type).left.emit();
+                controllerState.dials.get(type).left.emit();
             }
         }
     }

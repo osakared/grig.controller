@@ -21,6 +21,7 @@
 
 package fire.toFire;
 
+import fire.fromFire.ControllerStateReadOnly;
 import fire.toFire.button.Buttons;
 import renoise.song.EffectColumn;
 import fire.util.Signal1;
@@ -33,21 +34,21 @@ import fire.toFire.Display;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;
 import renoise.LineChaneObserver;
-import fire.fromFire.ControllerState;
+import fire.fromFire.ControllerStateReadOnly;
 using lua.PairTools;
 
 class ToFire
 {
-    public function new(outputDevice :MidiOutputDevice, buttonInputs :ControllerState, gridIndex :Signal1<Cursor>) : Void
+    public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly, gridIndex :Signal1<Cursor>) : Void
     {
         _outputDevice = outputDevice;
         _gridIndex = gridIndex;
         _display = new Display();
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
-        _transport = new Buttons(buttonLights, buttonInputs, _outputDevice);
-        this.initializeListeners(buttonInputs);
-        makeDrawCalls(buttonInputs);
+        _transport = new Buttons(buttonLights, controllerState, _outputDevice);
+        this.initializeListeners(controllerState);
+        makeDrawCalls(controllerState);
     }
 
     private function lineString(line :Int) : String
@@ -58,34 +59,34 @@ class ToFire
             : lineStr;
     }
 
-    private function initializeListeners(buttonInputs :ControllerState) : Void
+    private function initializeListeners(controllerState :ControllerStateReadOnly) : Void
     {
         var lineObserver = new LineChaneObserver();
-        lineObserver.register(0, makeDrawCalls.bind(buttonInputs));
+        lineObserver.register(0, makeDrawCalls.bind(controllerState));
         _gridIndex.addListener((_, _) -> {
-            makeDrawCalls(buttonInputs);
+            makeDrawCalls(controllerState);
         });
-        buttonInputs.input.addListener((_, _) -> {
-            makeDrawCalls(buttonInputs);
+        controllerState.input.addListener((_, _) -> {
+            makeDrawCalls(controllerState);
         });
-        Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(buttonInputs));
+        Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(controllerState));
     }
 
-    private function makeDrawCalls(buttonInputs :ControllerState) : Void
+    private function makeDrawCalls(controllerState :ControllerStateReadOnly) : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex = transport.playbackPos.line;
-            drawPads(buttonInputs, padIndex);
+            drawPads(controllerState, padIndex);
             drawDisplay(padIndex);
         }
     }
 
-    private function drawPads(buttonInputs :ControllerState, padIndex :Int) : Void
+    private function drawPads(controllerState :ControllerStateReadOnly, padIndex :Int) : Void
     {
         _pads.clear();
 
-        switch buttonInputs.input.value {
+        switch controllerState.input.value {
             case STEP:
                 drawPadsStep(padIndex);
             case NOTE:

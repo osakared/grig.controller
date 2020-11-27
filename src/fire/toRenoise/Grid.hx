@@ -38,9 +38,9 @@ class Grid
         _client = Socket.createClient(host, port, UDP);
     }
 
-    public function down(buttonInputs :ControllerStateReadOnly, pad :Int) : Void
+    public function down(controllerState :ControllerStateReadOnly, pad :Int) : Void
     {
-        switch buttonInputs.input.value {
+        switch controllerState.input.value {
             case STEP:
                 RenoiseUtil.setLine(pad + 1, 64);
             case NOTE: {
@@ -66,10 +66,10 @@ class Grid
         }
     }
 
-    public function up(buttonInputs :ControllerStateReadOnly, pad :Int) : Void
+    public function up(controllerState :ControllerStateReadOnly, pad :Int) : Void
     {
         Renoise.app().showStatus(Std.string(pad));
-        switch buttonInputs.input.value {
+        switch controllerState.input.value {
             case STEP:
             case NOTE: {
                 var note = PadNote.getNote(pad);
