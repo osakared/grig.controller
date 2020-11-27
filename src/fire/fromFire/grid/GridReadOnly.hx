@@ -19,22 +19,45 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package fire.fromFire.grid;
 
-abstract Bitset(Int) from Int
+import fire.util.Signal0ReadOnly;
+import fire.util.Signal1ReadOnly;
+
+abstract GridReadOnly(Grid) from Grid
 {
-    inline public function remove (mask:Int) : Bitset
+    public var hasDown (get, never) : Bool;
+    public var change (get, never) : Signal0ReadOnly;
+    public var onUp (get, never) : Signal1ReadOnly<Null<Int>>;
+    public var onDown (get, never) : Signal1ReadOnly<Null<Int>>;
+
+    public inline function isDown(pad :Int) : Bool
     {
-        return this & ~mask;
+        return this.isDown(pad);
     }
 
-    inline public function add(mask:Int) : Bitset
+    public inline function iterator() : Iterator<Int>
     {
-        return this | mask;
+        return this.iterator();
     }
-    
-    inline public function contains (mask :Int) : Bool
+
+    private inline function get_hasDown() : Bool
     {
-        return this & mask != 0;
+        return this.hasDown;
+    }
+
+    private inline function get_change() : Signal0ReadOnly
+    {
+        return this.change;
+    }
+
+    private inline function get_onUp() : Signal1ReadOnly<Null<Int>>
+    {
+        return this.onUp;
+    }
+
+    private inline function get_onDown() : Signal1ReadOnly<Null<Int>>
+    {
+        return this.onDown;
     }
 }

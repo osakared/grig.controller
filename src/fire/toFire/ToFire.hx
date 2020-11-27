@@ -21,7 +21,6 @@
 
 package fire.toFire;
 
-import fire.fromFire.ControllerStateReadOnly;
 import fire.toFire.button.Buttons;
 import renoise.song.EffectColumn;
 import fire.util.Signal1;
@@ -35,6 +34,7 @@ import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;
 import renoise.LineChaneObserver;
 import fire.fromFire.ControllerStateReadOnly;
+import fire.util.PadNote.PadNoteUtil;
 using lua.PairTools;
 
 class ToFire
@@ -69,6 +69,9 @@ class ToFire
         controllerState.input.addListener((_, _) -> {
             makeDrawCalls(controllerState);
         });
+        controllerState.grid.change.addListener(() -> {
+            makeDrawCalls(controllerState);
+        });
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(controllerState));
     }
 
@@ -90,7 +93,7 @@ class ToFire
             case STEP:
                 drawPadsStep(padIndex);
             case NOTE:
-                drawPadsNote();
+                drawPadsNote(controllerState);
             case DRUM:
             case PERFORM:
         }
@@ -119,74 +122,21 @@ class ToFire
         }
     }
 
-    private function drawPadsNote() : Void
+    private function drawPadsNote(controllerState :ControllerStateReadOnly) : Void
     {
-        //octave1
-        _pads.drawPad(0, 90, 30, 1);
-        _pads.drawPad(0, 90, 30, 2);
-        _pads.drawPad(0, 90, 30, 4);
-        _pads.drawPad(0, 90, 30, 5);
-        _pads.drawPad(0, 90, 30, 6);
-        //
-        _pads.drawPad(90, 0, 30, 16);
-        _pads.drawPad(90, 0, 30, 17);
-        _pads.drawPad(90, 0, 30, 18);
-        _pads.drawPad(90, 0, 30, 19);
-        _pads.drawPad(90, 0, 30, 20);
-        _pads.drawPad(90, 0, 30, 21);
-        _pads.drawPad(90, 0, 30, 22);
+        for(pad in PadNoteUtil.keysBlack) {
+            var offset = controllerState.grid.isDown(pad)
+                ? 30
+                : 0;
+            _pads.drawPad(60 + offset, 0, 30 + offset, pad);
+        }
 
-        //octave2
-        _pads.drawPad(0, 90, 30, 8);
-        _pads.drawPad(0, 90, 30, 9);
-        _pads.drawPad(0, 90, 30, 11);
-        _pads.drawPad(0, 90, 30, 12);
-        _pads.drawPad(0, 90, 30, 13);
-        //
-        _pads.drawPad(90, 0, 30, 23);
-        _pads.drawPad(90, 0, 30, 24);
-        _pads.drawPad(90, 0, 30, 25);
-        _pads.drawPad(90, 0, 30, 26);
-        _pads.drawPad(90, 0, 30, 27);
-        _pads.drawPad(90, 0, 30, 28);
-        _pads.drawPad(90, 0, 30, 29);
-        _pads.drawPad(90, 0, 30, 30);
-
-        //octave3
-        _pads.drawPad(0, 30, 90, 33);
-        _pads.drawPad(0, 30, 90, 34);
-        _pads.drawPad(0, 30, 90, 36);
-        _pads.drawPad(0, 30, 90, 37);
-        _pads.drawPad(0, 30, 90, 38);
-        //
-        _pads.drawPad(90, 30, 0, 48);
-        _pads.drawPad(90, 30, 0, 49);
-        _pads.drawPad(90, 30, 0, 50);
-        _pads.drawPad(90, 30, 0, 51);
-        _pads.drawPad(90, 30, 0, 52);
-        _pads.drawPad(90, 30, 0, 53);
-        _pads.drawPad(90, 30, 0, 54);
-
-        //octave4
-        _pads.drawPad(0, 30, 90, 40);
-        _pads.drawPad(0, 30, 90, 41);
-        _pads.drawPad(0, 30, 90, 43);
-        _pads.drawPad(0, 30, 90, 44);
-        _pads.drawPad(0, 30, 90, 45);
-        //
-        _pads.drawPad(90, 30, 0, 55);
-        _pads.drawPad(90, 30, 0, 56);
-        _pads.drawPad(90, 30, 0, 57);
-        _pads.drawPad(90, 30, 0, 58);
-        _pads.drawPad(90, 30, 0, 59);
-        _pads.drawPad(90, 30, 0, 60);
-        _pads.drawPad(90, 30, 0, 61);
-        _pads.drawPad(90, 30, 0, 62);
-
-        //util
-        _pads.drawPad(70, 20, 10, 15);
-        _pads.drawPad(70, 20, 10, 47);
-        _pads.drawPad(70, 20, 10, 63);
+        for(pad in PadNoteUtil.keysWhite) {
+            var offset = controllerState.grid.isDown(pad)
+                ? 30
+                : 0;
+            _pads.drawPad(60 + offset, 30 + offset, 0, pad);
+        }
     }
 
     private function drawDisplay(padIndex :Int) : Void

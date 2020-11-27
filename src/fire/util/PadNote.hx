@@ -1,7 +1,7 @@
 package fire.util;
 
 @:enum
-abstract PadNote(Int) from Int
+abstract PadNote(Int) from Int to Int
 {
     var C_1 = 16;
     var C_SHARP_1 = 1;
@@ -64,4 +64,18 @@ abstract PadNote(Int) from Int
             case _: -1;
         }
     }
+}
+
+class PadNoteUtil
+{
+    public static var keysBlack = [
+        C_SHARP_1, D_SHARP_1, F_SHARP_1, G_SHARP_1, A_SHARP_1,
+        C_SHARP_2, D_SHARP_2, F_SHARP_2, G_SHARP_2, A_SHARP_2
+    ];
+
+    public static var keysWhite = [
+        C_1, D_1, E_1, F_1, G_1, A_1, B_1, 
+        C_2, D_2, E_2, F_2, G_2, A_2, B_2, 
+        C_3
+    ];
 }

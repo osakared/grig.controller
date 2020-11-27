@@ -75,7 +75,7 @@ class Main
             controllerState.get(button).value = true;
         }
         else {
-            controllerState.padDown(button - 54);
+            controllerState.grid.down(button - 54);
         }
     }
 
@@ -85,7 +85,7 @@ class Main
             controllerState.get(button).value = false;
         }
         else {
-            controllerState.padUp(button - 54);
+            controllerState.grid.up(button - 54);
         }
     }
 

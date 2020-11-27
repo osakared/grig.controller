@@ -21,10 +21,11 @@
 
 package fire.fromFire;
 
+import fire.fromFire.grid.GridReadOnly;
 import fire.fromFire.dial.DialsReadOnly;
 import fire.fromFire.ControllerState.InputState;
+import fire.util.Signal0ReadOnly;
 import fire.util.Signal1ReadOnly;
-import fire.util.Signal1;
 
 abstract ControllerStateReadOnly(ControllerState) from ControllerState
 {
@@ -55,16 +56,7 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     public var record (get, never): Signal1ReadOnly<Bool>;
     public var dials (get, never) : DialsReadOnly;
     public var input (get, never) : Signal1ReadOnly<InputState>;
-
-    public inline function padIsDown(pad :Int) : Bool
-    {
-        return this.padIsDown(pad);
-    }
-
-    public inline function padConnect(pad :Int) : Signal1ReadOnly<Bool>
-    {
-        return this.padConnect(pad);
-    }
+    public var grid (get, never) : GridReadOnly;
 
     private inline function get_knobType() : Signal1ReadOnly<Bool>
     {
@@ -199,5 +191,10 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     private inline function get_input() : Signal1ReadOnly<InputState>
     {
         return this.input;
+    }
+
+    private inline function get_grid() : GridReadOnly
+    {
+        return this.grid;
     }
 }

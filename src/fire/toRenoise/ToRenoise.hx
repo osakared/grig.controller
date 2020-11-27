@@ -51,16 +51,13 @@ class ToRenoise
         controllerState.stop.addListener((isDown, _) -> Stop.handle(isDown));
         controllerState.record.addListener((isDown, _) -> Record.handle(isDown));
 
-        for(i in 0...64) {
-            controllerState.padConnect(i).addListener((isDown, _) -> {
-                if(isDown) {
-                    _grid.down(controllerState, i);
-                }
-                else {
-                    _grid.up(controllerState, i);
-                }
-            });
-        }
+        controllerState.grid.onDown.addListener((pad, _) -> {
+            _grid.down(controllerState, pad);
+        });
+
+        controllerState.grid.onUp.addListener((pad, _) -> {
+            _grid.up(controllerState, pad);
+        });
     }
 
     private function initDials(controllerState :ControllerStateReadOnly) : Void

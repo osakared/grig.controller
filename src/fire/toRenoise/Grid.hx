@@ -45,7 +45,6 @@ class Grid
                 RenoiseUtil.setLine(pad + 1, 64);
             case NOTE: {
                 var note = PadNote.getNote(pad);
-                Renoise.app().showStatus("Down");
                 if(note != -1) {
                     var instr = Renoise.song().selectedInstrumentIndex;
                     var track = Renoise.song().selectedTrackIndex;
@@ -68,7 +67,6 @@ class Grid
 
     public function up(controllerState :ControllerStateReadOnly, pad :Int) : Void
     {
-        Renoise.app().showStatus(Std.string(pad));
         switch controllerState.input.value {
             case STEP:
             case NOTE: {

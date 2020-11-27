@@ -23,8 +23,8 @@ package fire.fromFire;
 
 import fire.fromFire.button.ButtonType;
 import fire.fromFire.dial.Dials;
+import fire.fromFire.grid.Grid;
 import fire.util.Signal1;
-import fire.util.Signal1ReadOnly;
 
 class ControllerState
 {
@@ -54,7 +54,8 @@ class ControllerState
     public var stop (get, never): Signal1<Bool>;
     public var record (get, never): Signal1<Bool>;
     public var dials (default, null) : Dials;
-    public var input :Signal1<InputState>;
+    public var input (default, null):Signal1<InputState>;
+    public var grid (default, null):Grid;
 
     public function new() {
         _buttons = [
@@ -84,9 +85,9 @@ class ControllerState
             STOP => new Signal1(false),
             RECORD => new Signal1(false)
         ];
-        _pads = [for (i in 0...64) new Signal1(false)];
         this.dials = new Dials();
         this.input = new Signal1(STEP);
+        this.grid = new Grid();
         initInput();
     }
 
@@ -112,26 +113,6 @@ class ControllerState
         else if(this.perform.value) {
             this.input.value = PERFORM;
         }
-    }
-
-    public function padDown(pad :Int) : Void
-    {
-        _pads[pad].value = true;
-    }
-
-    public function padUp(pad :Int) : Void
-    {
-        _pads[pad].value = false;
-    }
-
-    public function padIsDown(pad :Int) : Bool
-    {
-        return _pads[pad].value;
-    }
-
-    public function padConnect(pad :Int) : Signal1ReadOnly<Bool>
-    {
-        return _pads[pad];
     }
 
     public inline function iterator() : Iterator<Signal1<Bool>>
@@ -275,7 +256,6 @@ class ControllerState
     }
 
     private var _buttons :Map<ButtonType, Signal1<Bool>>;
-    private var _pads : Array<Signal1<Bool>>;
 }
 
 enum InputState
