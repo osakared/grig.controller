@@ -21,6 +21,10 @@
 
 package renoise;
 
+import renoise.Osc.Bundle;
+import renoise.Osc.Message;
+import haxe.extern.EitherType;
+
 extern class Socket
 {
     /**
@@ -115,7 +119,7 @@ extern class SocketClient extends SocketBase
      * @param message 
      * @return Bool
      */
-    public function send(message :Dynamic) : Bool;
+    public function send(message :EitherType<Message, Bundle>) : Bool;
 
     /**
      * Receive a message string from the the connected server with the given 

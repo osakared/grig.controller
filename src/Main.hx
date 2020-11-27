@@ -65,7 +65,7 @@ class Main
 					case BUTTON_DOWN:
                         handleButtonDown(state, buttons, inputGrid, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(buttons, inputGrid, a.note());
+                        handleButtonUp(state, buttons, inputGrid, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
                         handleRotary(dials, cast buttons, a.note(), isRight);
@@ -86,10 +86,13 @@ class Main
         }
     }
 
-    public static function handleButtonUp(buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
+    public static function handleButtonUp(state :State, buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
+        }
+        else {
+            grid.up(state, button - 54);
         }
     }
 

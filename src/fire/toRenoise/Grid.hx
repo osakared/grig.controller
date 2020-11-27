@@ -21,16 +21,21 @@
 
 package fire.toRenoise;
 
-import lua.TableTools;
+import fire.util.PadNote;
+import renoise.Socket;
+import renoise.Socket.SocketClient;
 import fire.util.State.StateReadOnly;
 import fire.util.RenoiseUtil;
 import renoise.Renoise;
-import lua.Table;
+import renoise.Osc.OscArgs;
 
 class Grid
 {
     public function new() : Void
     {
+        var host = "localhost";
+        var port = 8000;
+        _client = Socket.createClient(host, port, UDP);
     }
 
     public function down(state :StateReadOnly, pad :Int) : Void
@@ -39,22 +44,52 @@ class Grid
             case STEP:
                 RenoiseUtil.setLine(pad + 1, 64);
             case NOTE: {
-                var instr = Renoise.song().selectedInstrumentIndex;
-                var track = Renoise.song().selectedTrackIndex;
-                var note = 30;
-                var velocity = 0x80;
-                var osc_vars = Table.create();
-                Table.insert(osc_vars, {tag: "i",value: instr});
-                Table.insert(osc_vars, {tag: "i",value: track});
-                Table.insert(osc_vars, {tag: "i",value: note});
-                Table.insert(osc_vars, {tag: "i",value: velocity});
-                var header = "/renoise/trigger/note_on";
-                var osc_msg = renoise.Osc.createMessage(header,osc_vars);
-                // Renoise.Osc.Message(Table.create([0,1]));
+                var note = PadNote.getNote(pad);
+                if(note != -1) {
+                    var instr = Renoise.song().selectedInstrumentIndex;
+                    var track = Renoise.song().selectedTrackIndex;
+                    var velocity = 127;
+
+                    var oscVars = OscArgs.create();
+                    oscVars.addTagValue("i", instr);
+                    oscVars.addTagValue("i", track);
+                    oscVars.addTagValue("i", note);
+                    oscVars.addTagValue("i", velocity);
+                    var header = "/renoise/trigger/note_on";
+                    var oscMsg = renoise.Osc.createMessage(header,oscVars);
+                    _client.send(oscMsg);
+                }
             }
-                // Renoise.song().instrument(1)
             case DRUM:
             case PERFORM:
         }
     }
+
+    public function up(state :StateReadOnly, pad :Int) : Void
+    {
+        Renoise.app().showStatus(Std.string(pad));
+        switch state.input.value {
+            case STEP:
+            case NOTE: {
+                var note = PadNote.getNote(pad);
+                if(note != -1) {
+                    var instr = Renoise.song().selectedInstrumentIndex;
+                    var track = Renoise.song().selectedTrackIndex;
+
+                    var oscVars = OscArgs.create();
+                    oscVars.addTagValue("i", instr);
+                    oscVars.addTagValue("i", track);
+                    oscVars.addTagValue("i", note);
+                    var header = "/renoise/trigger/note_off";
+                    var oscMsg = renoise.Osc.createMessage(header,oscVars);
+                    _client.send(oscMsg);
+                }
+            }
+            case DRUM:
+            case PERFORM:
+        }
+    }
+
+    private var _client :SocketClient;
 }
+

@@ -21,7 +21,6 @@
 
 package renoise;
 
-import lua.Table;
 import haxe.extern.EitherType;
 
 extern class Osc
@@ -49,7 +48,7 @@ extern class Osc
      * @return Message
      */
     @:native("Message")
-    public static function createMessage(pattern :String, arguments :Table<Int, Dynamic>) : Message;
+    public static function createMessage(pattern :String, arguments :OscArgs) : Message;
 
     /**
      * Create a new bundle by specifying a time-tag and one or more messages. If 
@@ -61,7 +60,7 @@ extern class Osc
      * @return Bundle
      */
     @:native("Bundle")
-    public static function createBundle(pattern :String, arguments :Table<Int, Dynamic>) : Bundle;
+    public static function createBundle(pattern :String, arguments :OscArgs) : Bundle;
 }
 
 extern class Message
@@ -75,7 +74,7 @@ extern class Message
      * Table of {tag="X", value=SomeValue} that represents the message arguments. 
      * see renoise.Osc.Message "create" for more info.
      */
-    public var arguments (default, null) : Table<Int, Dynamic>;
+    public var arguments (default, null) : OscArgs;
 
     /**
      * Raw binary representation of the messsage, as needed when e.g. sending 
@@ -95,7 +94,7 @@ extern class Bundle
     /**
      * Access to the bundle elements (table of messages or bundle objects)
      */
-    public var elements (default, null) : Table<Int, EitherType<Message, Bundle>>;
+    public var elements (default, null) : OscArgs;
 
     /**
      * Raw binary representation of the bundle, as needed when e.g. sending the 
@@ -103,4 +102,20 @@ extern class Bundle
      */
     @:native("binary_data")
     public var binaryData (default, null) : String;
+}
+
+@:native("table")
+private extern class __OscArgs__
+{
+    public static function create() : OscArgs;
+    public function insert(data :Dynamic) : Void;
+}
+
+@:forwardStatics(create)
+abstract OscArgs(__OscArgs__)
+{
+    inline public function addTagValue(tag :String, value :Dynamic) : Void
+    {
+        untyped _hx_insert_tag_value(this, tag, value);
+    }
 }

@@ -44,13 +44,13 @@ class ToRenoise
 
     private function initButtons(buttons :ButtonsReadOnly) : Void
     {
-        buttons.gridLeft.addListener(isDown -> GridLeft.handle(isDown));
-        buttons.gridRight.addListener(isDown -> GridRight.handle(isDown));
-        buttons.select.addListener(isDown -> Select.handle(isDown));
-        buttons.step.addListener(isDown -> Step.handle(isDown));
-        buttons.play.addListener(isDown -> Play.handle(isDown));
-        buttons.stop.addListener(isDown -> Stop.handle(isDown));
-        buttons.record.addListener(isDown -> Record.handle(isDown));
+        buttons.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
+        buttons.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
+        buttons.select.addListener((isDown, _) -> Select.handle(isDown));
+        buttons.step.addListener((isDown, _) -> Step.handle(isDown));
+        buttons.play.addListener((isDown, _) -> Play.handle(isDown));
+        buttons.stop.addListener((isDown, _) -> Stop.handle(isDown));
+        buttons.record.addListener((isDown, _) -> Record.handle(isDown));
     }
 
     private function initDials(buttons :ButtonsReadOnly, dials :DialsReadOnly) : Void

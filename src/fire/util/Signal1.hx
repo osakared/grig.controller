@@ -32,7 +32,7 @@ class Signal1<T>
         _listeners = [];
     }
 
-    public function addListener(fn :T -> Void) : Void -> Void
+    public function addListener(fn :T -> T -> Void) : Void -> Void
     {
         _listeners.push(fn);
         return () -> {
@@ -49,9 +49,10 @@ class Signal1<T>
 
     private function set_value(value :T) : T
     {
+        var lastValue = _value;
         _value = value;
         for(listener in _listeners) {
-            listener(_value);
+            listener(_value, lastValue);
         }
         return _value;
     }
@@ -61,6 +62,6 @@ class Signal1<T>
         return _value;
     }
 
-    private var _listeners :Array<T -> Void>;
+    private var _listeners :Array<T -> T -> Void>;
     private var _value :T;
 }

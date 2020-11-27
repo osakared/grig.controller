@@ -296,37 +296,37 @@ class Buttons
 
     private function initializeListeners() : Void
     {
-        _buttonInputs.patternUp.addListener(_ -> handlePatternUp());
-        _buttonInputs.patternDown.addListener(_ -> handlePatternDown());
-        _buttonInputs.browser.addListener(_ -> handleBrowser());
-        _buttonInputs.gridLeft.addListener(_ -> handleGridLeft());
-        _buttonInputs.gridRight.addListener(_ -> handleGridRight());
-        _buttonInputs.muteSolo1.addListener(_ -> handleMuteSolo1());
-        _buttonInputs.muteSolo2.addListener(_ -> handleMuteSolo2());
-        _buttonInputs.muteSolo3.addListener(_ -> handleMuteSolo3());
-        _buttonInputs.muteSolo4.addListener(_ -> handleMuteSolo4());
-        _buttonInputs.step.addListener(_ -> handleThingThing());
-        _buttonInputs.note.addListener(_ -> handleThingThing());
-        _buttonInputs.drum.addListener(_ -> handleThingThing());
-        _buttonInputs.perform.addListener(_ -> handleThingThing());
-        _buttonInputs.shift.addListener(_ -> handleShift());
-        _buttonInputs.alt.addListener(_ -> handleAlt());
-        _buttonInputs.patternSong.addListener(_ -> handlePatternSong());
+        _buttonInputs.patternUp.addListener((_, _) -> handlePatternUp());
+        _buttonInputs.patternDown.addListener((_, _) -> handlePatternDown());
+        _buttonInputs.browser.addListener((_, _) -> handleBrowser());
+        _buttonInputs.gridLeft.addListener((_, _) -> handleGridLeft());
+        _buttonInputs.gridRight.addListener((_, _) -> handleGridRight());
+        _buttonInputs.muteSolo1.addListener((_, _) -> handleMuteSolo1());
+        _buttonInputs.muteSolo2.addListener((_, _) -> handleMuteSolo2());
+        _buttonInputs.muteSolo3.addListener((_, _) -> handleMuteSolo3());
+        _buttonInputs.muteSolo4.addListener((_, _) -> handleMuteSolo4());
+        _buttonInputs.step.addListener((_, _) -> handleThingThing());
+        _buttonInputs.note.addListener((_, _) -> handleThingThing());
+        _buttonInputs.drum.addListener((_, _) -> handleThingThing());
+        _buttonInputs.perform.addListener((_, _) -> handleThingThing());
+        _buttonInputs.shift.addListener((_, _) -> handleShift());
+        _buttonInputs.alt.addListener((_, _) -> handleAlt());
+        _buttonInputs.patternSong.addListener((_, _) -> handlePatternSong());
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handlePlay();
         });
-        _buttonInputs.play.addListener(_ -> handlePlay());
+        _buttonInputs.play.addListener((_, _) -> handlePlay());
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handleStop();
         });
-        _buttonInputs.stop.addListener(_ -> handleStop());
+        _buttonInputs.stop.addListener((_, _) -> handleStop());
 
         Renoise.song().transport.editModeObservable.addNotifier(() -> {
             handleRecord();
         });
-        _buttonInputs.record.addListener(_ -> handleRecord());
+        _buttonInputs.record.addListener((_, _) -> handleRecord());
     }
 
     private var _buttonInputs :ButtonsReadOnly;
