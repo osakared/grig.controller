@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import fire.fromFire.button.ButtonType;
 import fire.fromFire.dial.DialsReadOnly;
 import fire.fromFire.ControllerStateReadOnly;
 import fire.toRenoise.button.GridLeft;
@@ -37,19 +38,31 @@ class ToRenoise
     public function new(controllerState :ControllerStateReadOnly) : Void
     {
         _grid = new Grid();
+        _buttonBehaviours = [
+            GRID_LEFT => GridLeft.handle,
+            GRID_RIGHT => GridRight.handle,
+            SELECT => Select.handle,
+            STEP => Step.handle,
+            PLAY => Play.handle,
+            STOP => Stop.handle,
+            RECORD => Record.handle
+        ];
         initcontrollerState(controllerState);
         initDials(controllerState);
     }
 
     private function initcontrollerState(controllerState :ControllerStateReadOnly) : Void
     {
-        controllerState.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown, controllerState));
-        controllerState.gridRight.addListener((isDown, _) -> GridRight.handle(isDown, controllerState));
-        controllerState.select.addListener((isDown, _) -> Select.handle(isDown, controllerState));
-        controllerState.step.addListener((isDown, _) -> Step.handle(isDown, controllerState));
-        controllerState.play.addListener((isDown, _) -> Play.handle(isDown, controllerState));
-        controllerState.stop.addListener((isDown, _) -> Stop.handle(isDown, controllerState));
-        controllerState.record.addListener((isDown, _) -> Record.handle(isDown, controllerState));
+        controllerState.buttons.onDown.addListener((to, _) -> {
+            if(_buttonBehaviours.exists(to)) {
+                _buttonBehaviours.get(to)(true, controllerState);
+            }
+        });
+        controllerState.buttons.onUp.addListener((to, _) -> {
+            if(_buttonBehaviours.exists(to)) {
+                _buttonBehaviours.get(to)(false, controllerState);
+            }
+        });
 
         controllerState.grid.onDown.addListener((pad, _) -> {
             _grid.down(controllerState, pad);
@@ -79,4 +92,5 @@ class ToRenoise
     }
 
     private var _grid :Grid;
+    private var _buttonBehaviours : Map<ButtonType, (isDown :Bool, controllerState :ControllerStateReadOnly) -> Void>;
 }

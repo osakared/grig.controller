@@ -60,6 +60,38 @@ class Buttons
         }
     }
 
+    public function isButton(value :ButtonType) : Bool
+    {
+        return switch value {
+            case ButtonType.ALT: true;
+            case ButtonType.BROWSER: true;
+            case ButtonType.DRUM: true;
+            case ButtonType.FILTER: true;
+            case ButtonType.GRID_LEFT: true;
+            case ButtonType.GRID_RIGHT: true;
+            case ButtonType.KNOB_TYPE: true;
+            case ButtonType.MUTE_SOLO_1: true;
+            case ButtonType.MUTE_SOLO_2: true;
+            case ButtonType.MUTE_SOLO_3: true;
+            case ButtonType.MUTE_SOLO_4: true;
+            case ButtonType.NOTE: true;
+            case ButtonType.PAN: true;
+            case ButtonType.PATTERN_DOWN: true;
+            case ButtonType.PATTERN_UP: true;
+            case ButtonType.PATTERN_SONG: true;
+            case ButtonType.PERFORM: true;
+            case ButtonType.PLAY: true;
+            case ButtonType.RECORD: true;
+            case ButtonType.RESONANCE: true;
+            case ButtonType.SELECT: true;
+            case ButtonType.SHIFT: true;
+            case ButtonType.STEP: true;
+            case ButtonType.STOP: true;
+            case ButtonType.VOLUME: true;
+            case _: false;
+        };
+    }
+
     public inline function iterator() : Iterator<ButtonType>
     {
         return _buttons.iterator();

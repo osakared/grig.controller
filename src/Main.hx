@@ -71,8 +71,8 @@ class Main
 
     public static function handleButtonDown(controllerState :ControllerState, button :ButtonType) : Void
     {
-        if(controllerState.exists(button)) {
-            controllerState.get(button).value = true;
+        if(controllerState.buttons.isButton(button)) {
+            controllerState.buttons.down(button);
         }
         else {
             controllerState.grid.down(button - 54);
@@ -81,8 +81,8 @@ class Main
 
     public static function handleButtonUp(controllerState :ControllerState, button :ButtonType) : Void
     {
-        if(controllerState.exists(button)) {
-            controllerState.get(button).value = false;
+        if(controllerState.buttons.isButton(button)) {
+            controllerState.buttons.up(button);
         }
         else {
             controllerState.grid.up(button - 54);

@@ -59,8 +59,7 @@ class Buttons
 
     private function handlePatternUp() : Void
     {
-        var isDown = _controllerState.patternUp.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(PATTERN_UP)) {
             _buttons.patternUp.send(_outputDevice, 1);
         }
         else {
@@ -70,8 +69,7 @@ class Buttons
 
     private function handlePatternDown() : Void
     {
-        var isDown = _controllerState.patternDown.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(PATTERN_DOWN)) {
             _buttons.patternDown.send(_outputDevice, 1);
         }
         else {
@@ -81,8 +79,7 @@ class Buttons
 
     private function handleBrowser() : Void
     {
-        var isDown = _controllerState.browser.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(BROWSER)) {
             _buttons.browser.send(_outputDevice, 1);
         }
         else {
@@ -92,8 +89,7 @@ class Buttons
 
     private function handleGridLeft() : Void
     {
-        var isDown = _controllerState.gridLeft.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(GRID_LEFT)) {
             _buttons.gridLeft.send(_outputDevice, 1);
         }
         else {
@@ -103,8 +99,7 @@ class Buttons
 
     private function handleGridRight() : Void
     {
-        var isDown = _controllerState.gridRight.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(GRID_RIGHT)) {
             _buttons.gridRight.send(_outputDevice, 1);
         }
         else {
@@ -114,8 +109,7 @@ class Buttons
 
     private function handleMuteSolo1() : Void
     {
-        var isDown = _controllerState.muteSolo1.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(MUTE_SOLO_1)) {
             _buttons.muteSolo1.send(_outputDevice, 1);
         }
         else {
@@ -125,8 +119,7 @@ class Buttons
 
     private function handleMuteSolo2() : Void
     {
-        var isDown = _controllerState.muteSolo2.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(MUTE_SOLO_2)) {
             _buttons.muteSolo2.send(_outputDevice, 1);
         }
         else {
@@ -136,8 +129,7 @@ class Buttons
 
     private function handleMuteSolo3() : Void
     {
-        var isDown = _controllerState.muteSolo3.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(MUTE_SOLO_3)) {
             _buttons.muteSolo3.send(_outputDevice, 1);
         }
         else {
@@ -147,8 +139,7 @@ class Buttons
 
     private function handleMuteSolo4() : Void
     {
-        var isDown = _controllerState.muteSolo4.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(MUTE_SOLO_4)) {
             _buttons.muteSolo4.send(_outputDevice, 1);
         }
         else {
@@ -158,7 +149,7 @@ class Buttons
 
     private function handleInput() : Void
     {
-        if(_controllerState.step.value) {
+        if(_controllerState.buttons.isDown(STEP)) {
             _buttons.step.send(_outputDevice, 2);
         }
         else {
@@ -170,7 +161,7 @@ class Buttons
             }
         }
 
-        if(_controllerState.note.value) {
+        if(_controllerState.buttons.isDown(NOTE)) {
             _buttons.note.send(_outputDevice, 2);
         }
         else {
@@ -182,7 +173,7 @@ class Buttons
             }
         }
 
-        if(_controllerState.drum.value) {
+        if(_controllerState.buttons.isDown(DRUM)) {
             _buttons.drum.send(_outputDevice, 2);
         }
         else {
@@ -194,7 +185,7 @@ class Buttons
             }
         }
 
-        if(_controllerState.perform.value) {
+        if(_controllerState.buttons.isDown(PERFORM)) {
             _buttons.perform.send(_outputDevice, 2);
         }
         else {
@@ -209,8 +200,7 @@ class Buttons
 
     private function handleShift() : Void
     {
-        var isDown = _controllerState.shift.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(SHIFT)) {
             _buttons.shift.send(_outputDevice, 1);
         }
         else {
@@ -220,8 +210,7 @@ class Buttons
 
     private function handleAlt() : Void
     {
-        var isDown = _controllerState.alt.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(ALT)) {
             _buttons.alt.send(_outputDevice, 1);
         }
         else {
@@ -231,8 +220,7 @@ class Buttons
 
     private function handlePatternSong() : Void
     {
-        var isDown = _controllerState.patternSong.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(PATTERN_SONG)) {
             _buttons.patternSong.send(_outputDevice, 1);
         }
         else {
@@ -242,8 +230,7 @@ class Buttons
 
     private function handlePlay() : Void
     {
-        var isDown = _controllerState.play.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(PLAY)) {
             _buttons.play.send(_outputDevice, 1);
         }
         else {
@@ -258,8 +245,7 @@ class Buttons
 
     private function handleStop() : Void
     {
-        var isDown = _controllerState.stop.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(STOP)) {
             _buttons.stop.send(_outputDevice, 1);
         }
         else {
@@ -274,8 +260,7 @@ class Buttons
 
     private function handleRecord() : Void
     {
-        var isDown = _controllerState.record.value;
-        if(isDown) {
+        if(_controllerState.buttons.isDown(RECORD)) {
             _buttons.record.send(_outputDevice, 1);
         }
         else {
@@ -290,37 +275,37 @@ class Buttons
 
     private function initializeListeners() : Void
     {
-        _controllerState.patternUp.addListener((_, _) -> handlePatternUp());
-        _controllerState.patternDown.addListener((_, _) -> handlePatternDown());
-        _controllerState.browser.addListener((_, _) -> handleBrowser());
-        _controllerState.gridLeft.addListener((_, _) -> handleGridLeft());
-        _controllerState.gridRight.addListener((_, _) -> handleGridRight());
-        _controllerState.muteSolo1.addListener((_, _) -> handleMuteSolo1());
-        _controllerState.muteSolo2.addListener((_, _) -> handleMuteSolo2());
-        _controllerState.muteSolo3.addListener((_, _) -> handleMuteSolo3());
-        _controllerState.muteSolo4.addListener((_, _) -> handleMuteSolo4());
-        _controllerState.step.addListener((_, _) -> handleInput());
-        _controllerState.note.addListener((_, _) -> handleInput());
-        _controllerState.drum.addListener((_, _) -> handleInput());
-        _controllerState.perform.addListener((_, _) -> handleInput());
-        _controllerState.shift.addListener((_, _) -> handleShift());
-        _controllerState.alt.addListener((_, _) -> handleAlt());
-        _controllerState.patternSong.addListener((_, _) -> handlePatternSong());
+        _controllerState.buttons.change.addListener(handlePatternUp);
+        _controllerState.buttons.change.addListener(handlePatternDown);
+        _controllerState.buttons.change.addListener(handleBrowser);
+        _controllerState.buttons.change.addListener(handleGridLeft);
+        _controllerState.buttons.change.addListener(handleGridRight);
+        _controllerState.buttons.change.addListener(handleMuteSolo1);
+        _controllerState.buttons.change.addListener(handleMuteSolo2);
+        _controllerState.buttons.change.addListener(handleMuteSolo3);
+        _controllerState.buttons.change.addListener(handleMuteSolo4);
+        _controllerState.buttons.change.addListener(handleInput);
+        _controllerState.buttons.change.addListener(handleInput);
+        _controllerState.buttons.change.addListener(handleInput);
+        _controllerState.buttons.change.addListener(handleInput);
+        _controllerState.buttons.change.addListener(handleShift);
+        _controllerState.buttons.change.addListener(handleAlt);
+        _controllerState.buttons.change.addListener(handlePatternSong);
+        _controllerState.buttons.change.addListener(handlePlay);
+        _controllerState.buttons.change.addListener(handleStop);
+        _controllerState.buttons.change.addListener(handleRecord);
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handlePlay();
         });
-        _controllerState.play.addListener((_, _) -> handlePlay());
 
         Renoise.song().transport.playingObservable.addNotifier(() -> {
             handleStop();
         });
-        _controllerState.stop.addListener((_, _) -> handleStop());
 
         Renoise.song().transport.editModeObservable.addNotifier(() -> {
             handleRecord();
         });
-        _controllerState.record.addListener((_, _) -> handleRecord());
     }
 
     private var _controllerState :ControllerStateReadOnly;

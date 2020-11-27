@@ -36,6 +36,11 @@ abstract ButtonsReadOnly(Buttons) from Buttons
         return this.isDown(button);
     }
 
+    public inline function isButton(value :ButtonType) : Bool
+    {
+        return this.isButton(value);
+    }
+
     public inline function iterator() : Iterator<ButtonType>
     {
         return this.iterator();
