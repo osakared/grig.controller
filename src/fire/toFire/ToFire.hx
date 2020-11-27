@@ -45,8 +45,8 @@ class ToFire
         _gridIndex = gridIndex;
         _display = new Display();
         _pads = new Grid(_outputDevice);
-        _buttons = new ButtonLights();
-        _transport = new Buttons(state, _buttons, buttonInputs, _outputDevice);
+        var buttonLights = new ButtonLights();
+        _transport = new Buttons(state, buttonLights, buttonInputs, _outputDevice);
         this.initializeListeners(state);
         makeDrawCalls(state);
     }
@@ -282,7 +282,6 @@ class ToFire
     private var _outputDevice :MidiOutputDevice;
     private var _display :Display;
     private var _pads :Grid;
-    private var _buttons :ButtonLights;
     private var _transport :Buttons;
     private var _gridIndex :Signal1<Cursor>;
 }

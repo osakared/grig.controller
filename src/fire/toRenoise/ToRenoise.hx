@@ -31,18 +31,19 @@ import fire.toRenoise.button.Step;
 import fire.toRenoise.button.Stop;
 import fire.toRenoise.button.Record;
 import fire.toRenoise.dial.Select as SelectDial;
+import fire.fromFire.Grid as FromFireGrid;
 import fire.util.State.StateReadOnly;
 
 class ToRenoise
 {
-    public function new(buttons :ButtonsReadOnly, dials :DialsReadOnly) : Void
+    public function new(fromFireGrid :FromFireGrid, buttons :ButtonsReadOnly, dials :DialsReadOnly, state :StateReadOnly) : Void
     {
         _grid = new Grid();
-        initButtons(buttons);
+        initButtons(fromFireGrid, buttons, state);
         initDials(buttons, dials);
     }
 
-    private function initButtons(buttons :ButtonsReadOnly) : Void
+    private function initButtons(fromFireGrid :FromFireGrid, buttons :ButtonsReadOnly, state :StateReadOnly) : Void
     {
         buttons.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
         buttons.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
@@ -51,17 +52,23 @@ class ToRenoise
         buttons.play.addListener((isDown, _) -> Play.handle(isDown));
         buttons.stop.addListener((isDown, _) -> Stop.handle(isDown));
         buttons.record.addListener((isDown, _) -> Record.handle(isDown));
+
+        for(i in 0...64) {
+            fromFireGrid.connect(i).addListener((isDown, _) -> {
+                if(isDown) {
+                    _grid.down(state, i);
+                }
+                else {
+                    _grid.up(state, i);
+                }
+            });
+        }
     }
 
     private function initDials(buttons :ButtonsReadOnly, dials :DialsReadOnly) : Void
     {
         dials.select.left.addListener(SelectDial.onLeft.bind(buttons));
         dials.select.right.addListener(SelectDial.onRight.bind(buttons));
-    }
-
-    public inline function onGridDown(state :StateReadOnly, pad :Int) : Void
-    {
-        _grid.down(state, pad);
     }
 
     private var _grid :Grid;

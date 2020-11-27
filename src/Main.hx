@@ -19,12 +19,11 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import lua.Table;
 import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
-import fire.toRenoise.Grid as InputGrid;
+import fire.fromFire.Grid;
 import fire.fromFire.button.Buttons;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.dial.Dials;
@@ -55,17 +54,17 @@ class Main
             var state = new State();
             var buttons = new Buttons(gridIndex);
             var dials = new Dials();
-            var inputGrid = new InputGrid();
+            var fromFireGrid = new Grid();
             new ToFire(state, MIDI_OUT, buttons, gridIndex);
-            new ToRenoise(buttons, dials);
+            new ToRenoise(fromFireGrid, buttons, dials, state);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(state, buttons, inputGrid, a.note());
+                        handleButtonDown(state, buttons, fromFireGrid, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(state, buttons, inputGrid, a.note());
+                        handleButtonUp(state, buttons, fromFireGrid, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
                         handleRotary(dials, cast buttons, a.note(), isRight);
@@ -76,23 +75,23 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(state :State, buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
+    public static function handleButtonDown(state :State, buttons :Buttons, grid :Grid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = true;
         }
         else {
-            grid.down(state, button - 54);
+            grid.down(button - 54);
         }
     }
 
-    public static function handleButtonUp(state :State, buttons :Buttons, grid :InputGrid, button :ButtonType) : Void
+    public static function handleButtonUp(state :State, buttons :Buttons, grid :Grid, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
         }
         else {
-            grid.up(state, button - 54);
+            grid.up(button - 54);
         }
     }
 

@@ -45,6 +45,7 @@ class Grid
                 RenoiseUtil.setLine(pad + 1, 64);
             case NOTE: {
                 var note = PadNote.getNote(pad);
+                Renoise.app().showStatus("Down");
                 if(note != -1) {
                     var instr = Renoise.song().selectedInstrumentIndex;
                     var track = Renoise.song().selectedTrackIndex;
