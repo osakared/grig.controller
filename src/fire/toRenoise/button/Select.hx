@@ -23,24 +23,35 @@ package fire.toRenoise.button;
 
 import renoise.song.NoteColumn;
 import renoise.Renoise;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Select
 {
-    public static function handle(isDown) : Void
+    public static function handle(isDown: Bool, state :ControllerStateReadOnly) : Void
     {
         if(isDown) {
-            onDown();
+            onDown(state);
         }
         else {
             // onUp();
         }
     }
 
-    private static function onDown() : Void
+    private static function onDown(state :ControllerStateReadOnly) : Void
     {
-        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        if(noteValue == NoteColumn.NOTE_EMPTY || noteValue == NoteColumn.NOTE_OFF) {
-            Renoise.song().selectedLine.noteColumn(1).noteValue = NoteColumn.MIDDLE_C;
+        if(state.grid.hasDown) {
+            var selectedNoteColumn = Renoise.song().selectedNoteColumnIndex;
+            for(pad in state.grid.iterator()) {
+                var noteColumn = Renoise.song().selectedPatternTrack.line(pad + 1).noteColumn(selectedNoteColumn);
+                noteColumn.noteValue = switch noteColumn.noteValue {
+                    case NoteColumn.NOTE_EMPTY:
+                        NoteColumn.NOTE_OFF;
+                    case NoteColumn.NOTE_OFF:
+                        NoteColumn.NOTE_EMPTY;
+                    case _:
+                        NoteColumn.NOTE_OFF;
+                }
+            }
         }
     }
 }

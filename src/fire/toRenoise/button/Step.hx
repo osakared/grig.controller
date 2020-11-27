@@ -23,20 +23,21 @@ package fire.toRenoise.button;
 
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Step
 {
-    public static function handle(isDown) : Void
+    public static function handle(isDown: Bool, state :ControllerStateReadOnly) : Void
     {
         if(isDown) {
             // onDown();
         }
         else {
-            onUp();
+            onUp(state);
         }
     }
 
-    private static function onUp() : Void
+    private static function onUp(state :ControllerStateReadOnly) : Void
     {
         // RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + 1, 64);
     }

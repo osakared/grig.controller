@@ -23,20 +23,21 @@ package fire.toRenoise.button;
 
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Stop
 {
-    public static function handle(isDown) : Void
+    public static function handle(isDown: Bool, state :ControllerStateReadOnly) : Void
     {
         if(isDown) {
             // onDown();
         }
         else {
-            onUp();
+            onUp(state);
         }
     }
 
-    private static function onUp() : Void
+    private static function onUp(state :ControllerStateReadOnly) : Void
     {
         if(Renoise.song().transport.playing) {
             Renoise.song().transport.playing = false;

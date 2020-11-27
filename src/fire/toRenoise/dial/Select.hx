@@ -31,31 +31,39 @@ class Select
 {
     public static function onLeft(controllerState :ControllerStateReadOnly) : Void
     {
-        if(controllerState.select.value) {
-            if(controllerState.alt.value) {
-                handleAlt(true);
-            }
-            else {
-                moveNote(-1);
-            }
-        }
-        else {
-            moveLine(-1);
+        switch controllerState.input.value {
+            case STEP:
+                switch controllerState.grid.hasDown {
+                    case true:
+                        moveNote(-1);
+                    case false:
+                        moveLine(-1);
+                }
+            case NOTE:
+                moveLine(-1);
+            case DRUM:
+                moveLine(-1);
+            case PERFORM:
+                moveLine(-1);
         }
     }
 
     public static function onRight(controllerState :ControllerStateReadOnly) : Void
     {
-        if(controllerState.select.value) {
-            if(controllerState.alt.value) {
-                handleAlt(false);
-            }
-            else {
-                moveNote(1);
-            }
-        }
-        else {
-            moveLine(1);
+        switch controllerState.input.value {
+            case STEP:
+                switch controllerState.grid.hasDown {
+                    case true:
+                        moveNote(1);
+                    case false:
+                        moveLine(1);
+                }
+            case NOTE:
+                moveLine(1);
+            case DRUM:
+                moveLine(1);
+            case PERFORM:
+                moveLine(1);
         }
     }
 
@@ -75,8 +83,15 @@ class Select
 
     private static function moveNote(amount :Int) : Void
     {
-        var noteValue = (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
-        Renoise.song().selectedLine.noteColumn(1).noteValue = noteValue;
+        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+        Renoise.song().selectedLine.noteColumn(1).noteValue = switch noteValue {
+            case NoteColumn.NOTE_EMPTY:
+                NoteColumn.MIDDLE_C;
+            case NoteColumn.NOTE_OFF:
+                NoteColumn.MIDDLE_C;
+            case _:
+                (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
+        }
     }
 
     private static function moveLine(amount :Int) : Void

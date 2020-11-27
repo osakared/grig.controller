@@ -69,9 +69,8 @@ class ToFire
         controllerState.input.addListener((_, _) -> {
             makeDrawCalls(controllerState);
         });
-        controllerState.grid.change.addListener(() -> {
-            makeDrawCalls(controllerState);
-        });
+        controllerState.grid.change.addListener(makeDrawCalls.bind(controllerState));
+        controllerState.dials.change.addListener(makeDrawCalls.bind(controllerState));
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(controllerState));
     }
 

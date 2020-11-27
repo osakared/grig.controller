@@ -43,13 +43,13 @@ class ToRenoise
 
     private function initcontrollerState(controllerState :ControllerStateReadOnly) : Void
     {
-        controllerState.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
-        controllerState.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
-        controllerState.select.addListener((isDown, _) -> Select.handle(isDown));
-        controllerState.step.addListener((isDown, _) -> Step.handle(isDown));
-        controllerState.play.addListener((isDown, _) -> Play.handle(isDown));
-        controllerState.stop.addListener((isDown, _) -> Stop.handle(isDown));
-        controllerState.record.addListener((isDown, _) -> Record.handle(isDown));
+        controllerState.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown, controllerState));
+        controllerState.gridRight.addListener((isDown, _) -> GridRight.handle(isDown, controllerState));
+        controllerState.select.addListener((isDown, _) -> Select.handle(isDown, controllerState));
+        controllerState.step.addListener((isDown, _) -> Step.handle(isDown, controllerState));
+        controllerState.play.addListener((isDown, _) -> Play.handle(isDown, controllerState));
+        controllerState.stop.addListener((isDown, _) -> Stop.handle(isDown, controllerState));
+        controllerState.record.addListener((isDown, _) -> Record.handle(isDown, controllerState));
 
         controllerState.grid.onDown.addListener((pad, _) -> {
             _grid.down(controllerState, pad);
@@ -62,8 +62,20 @@ class ToRenoise
 
     private function initDials(controllerState :ControllerStateReadOnly) : Void
     {
-        controllerState.dials.select.left.addListener(SelectDial.onLeft.bind(controllerState));
-        controllerState.dials.select.right.addListener(SelectDial.onRight.bind(controllerState));
+        controllerState.dials.onLeft.addListener((to, _) -> {
+            switch to {
+                case SELECT:
+                    SelectDial.onLeft(controllerState);
+                case _:
+            }
+        });
+        controllerState.dials.onRight.addListener((to, _) -> {
+            switch to {
+                case SELECT:
+                    SelectDial.onRight(controllerState);
+                case _:
+            }
+        });
     }
 
     private var _grid :Grid;

@@ -22,20 +22,21 @@
 package fire.toRenoise.button;
 
 import renoise.Renoise;
+import fire.fromFire.ControllerStateReadOnly;
 
 class GridRight
 {
-    public static function handle(isDown) : Void
+    public static function handle(isDown: Bool, state :ControllerStateReadOnly) : Void
     {
         if(isDown) {
             // onDown();
         }
         else {
-            onUp();
+            onUp(state);
         }
     }
 
-    private static function onUp() : Void
+    private static function onUp(state :ControllerStateReadOnly) : Void
     {
         // switch gridIndex.value {
         //     case Note:

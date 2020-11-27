@@ -91,13 +91,11 @@ class Main
 
     public static function handleRotary(controllerState :ControllerState, type :DialType, isRight :Bool) : Void
     {
-        if(controllerState.dials.exists(type)) {
-            if(isRight) {
-                controllerState.dials.get(type).right.emit();
-            }
-            else {
-                controllerState.dials.get(type).left.emit();
-            }
+        if(isRight) {
+            controllerState.dials.right(type);
+        }
+        else {
+            controllerState.dials.left(type);
         }
     }
 }

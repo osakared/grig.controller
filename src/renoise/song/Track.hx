@@ -27,14 +27,20 @@ extern class Track
      * Type, name, color.
      */
     public var type (default, null) : TrackType;
+
     public var name :String;
+
     @:native("name_observable")
     public var nameObservable :Observable;
+
     public var color :lua.Table<Int, Int>;
+
     @:native("color_observable")
     public var colorObservable :Observable;
+
     @:native("color_blend")
     public var colorBlend :Int;
+
     @:native("color_blend_observable")
     public var colorBlendObservable :Observable;
 
@@ -43,10 +49,13 @@ extern class Track
      */
     @:native("mute_state")
     public var muteState : MuteState;
+
     @:native("mute_state_observable")
     public var muteStateObservable : Observable;
+
     @:native("solo_state")
     public var soloState : Bool;
+
     @:native("solo_state_observable")
     public var soloStateObservable : Observable;
 
@@ -55,12 +64,16 @@ extern class Track
      */
     @:native("prefx_volume")
     public var prefxVolume : DeviceParameter;
+
     @:native("prefx_panning")
     public var prefxPanning : DeviceParameter;
+
     @:native("prefx_width")
     public var prefxWidth : DeviceParameter;
+
     @:native("postfx_volume")
     public var postfxVolume : DeviceParameter;
+
     @:native("postfx_panning")
     public var postfxPanning : DeviceParameter;
 
@@ -68,6 +81,7 @@ extern class Track
      * Collapsed/expanded visual appearance.
      */
     public var collapsed : Bool;
+
     @:native("collapsed_observable")
     public var collapsedObservable : Observable;
 
@@ -82,8 +96,10 @@ extern class Track
      */
     @:native("available_output_routings")
     public var availableOutputRoutings (default, null) : lua.Table<Int, String>;
+
     @:native("output_routing")
     public var outputRouting : String;
+
     @:native("output_routing_observable")
     public var outputRoutingObservable : Observable;
 
@@ -92,6 +108,7 @@ extern class Track
      */
     @:native("output_delay")
     public var outputDelay : Int;
+
     @:native("output_delay_observable")
     public var outputDelayObservable : Observable;
 
@@ -100,34 +117,49 @@ extern class Track
      */
     @:native("max_effect_columns")
     public var maxEffectColumns (default, null) : Int;
+
     @:native("min_effect_columns")
     public var minEffectColumns (default, null) : Int;
+
     @:native("max_note_columns")
     public var maxNoteColumns (default, null) : Int;
+
     @:native("min_note_columns")
     public var minNoteColumns (default, null) : Int;
+
     @:native("visible_effect_columns")
     public var visibleEffectColumns : Int;
+
     @:native("visible_effect_columns_observable")
     public var visibleEffectColumnsObservable : Observable;
+
     @:native("visible_note_columns")
     public var visibleNoteColumns : Int;
+
     @:native("visible_note_columns_observable")
     public var visibleNoteColumnsObservable : Observable;
+
     @:native("volume_column_visible")
     public var volumeColumnVisible : Bool;
+
     @:native("volume_column_visible_observable")
     public var volumeColumnVisibleObservable : Observable;
+
     @:native("panning_column_visible")
     public var panningColumVisible : Bool;
+
     @:native("panning_column_visible_observable")
     public var panningColumnVisibleObservable : Observable;
+
     @:native("delay_column_visible")
     public var delayColumnVisible : Bool;
+
     @:native("delay_column_visible_observable")
     public var delayColumnVisibleObservable : Observable;
+
     @:native("sample_effects_column_visible")
     public var sampleEffectsColumnVisible : Bool;
+
     @:native("sample_effects_column_visible_observable")
     public var sampleEffectsColumnVisibleObservable : Observable;
 
@@ -147,7 +179,9 @@ extern class Track
      */
     @:native("available_device_infos")
     public var availableDeviceInfos (default, null) : lua.Table<Int, String>;
+
     public var devices (default, null) : AudioDevice;
+
     @:native("devices_observable")
     public var devicesObservable (default, null) : Observable;
 
@@ -195,7 +229,9 @@ extern class Track
      * Uses default mute state from the prefs. Not for the master track.
      */
     public function mute() : Void;
+
     public function unmute() : Void;
+
     public function solo() : Void;
 
     /**
@@ -206,8 +242,10 @@ extern class Track
      */
     @:native("column_is_muted")
     public function columnIsMuted(index :Int) : Bool;
+
     @:native("column_is_muted_observable")
     public function columnIsMutedObservable(index :Int) : Observable;
+
     @:native("set_column_is_muted")
     public function setColumnIsMuted(index :Int, muted :Bool) : Void;
 
@@ -219,8 +257,10 @@ extern class Track
      */
     @:native("column_name")
     public function columnName(index :Int) : String;
+
     @:native("column_name_observable")
     public function columnNameObservable(index :Int) : Observable;
+
     @:native("set_column_name")
     public function setColumnName(index :Int, name :String) : Void;
 
@@ -232,6 +272,7 @@ extern class Track
      */
     @:native("swap_note_columns_at")
     public function swapNoteColumnsAt(a :Int, b :Int) : Void;
+    
     @:native("swap_effect_columns_at")
     public function swapEffectColumnsAt(a :Int, b :Int) : Void;
 }

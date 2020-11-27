@@ -21,36 +21,31 @@
 
 package fire.fromFire.dial;
 
+import fire.util.Signal0;
+import fire.util.Signal1;
+
 class Dials
 {
-    public var select (get, never): Dial;
+    public var change (default, null) : Signal0;
+    public var onLeft (default, null) : Signal1<Null<DialType>>;
+    public var onRight (default, null) : Signal1<Null<DialType>>;
 
     public function new() : Void
     {
-        _dials = [
-            SELECT => new Dial(),
-        ];
+        this.change = new Signal0();
+        this.onLeft = new Signal1(null);
+        this.onRight = new Signal1(null);
     }
 
-    public inline function iterator() : Iterator<Dial>
+    public function left(type :DialType) : Void
     {
-        return _dials.iterator();
+        this.onLeft.value = type;
+        this.change.emit();
     }
 
-    public inline function exists(type :DialType) : Bool
+    public function right(type :DialType) : Void
     {
-        return _dials.exists(type);
+        this.onRight.value = type;
+        this.change.emit();
     }
-
-    public inline function get(type :DialType) : Dial
-    {
-        return _dials.get(type);
-    }
-
-    private inline function get_select() : Dial
-    {
-        return this.get(DialType.SELECT);
-    }
-
-    private var _dials : Map<DialType, Dial>;
 }

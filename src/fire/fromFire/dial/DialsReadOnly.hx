@@ -22,29 +22,26 @@
 package fire.fromFire.dial;
 
 import fire.util.Signal0ReadOnly;
+import fire.util.Signal1ReadOnly;
 
 abstract DialsReadOnly(Dials) from Dials
 {
-    public var select (get, never): DialReadOnly;
+    public var change (get, never) : Signal0ReadOnly;
+    public var onLeft (get, never) : Signal1ReadOnly<Null<DialType>>;
+    public var onRight (get, never) : Signal1ReadOnly<Null<DialType>>;
 
-    private inline function get_select() : DialReadOnly
+    private inline function get_change() : Signal0ReadOnly
     {
-        return this.select;
-    }
-}
-
-abstract DialReadOnly(Dial) from Dial
-{
-    public var left (get, never) : Signal0ReadOnly;
-    public var right (get, never) : Signal0ReadOnly;
-
-    private inline function get_left() : Signal0ReadOnly
-    {
-        return this.left;
+        return this.change;
     }
 
-    private inline function get_right() : Signal0ReadOnly
+    private inline function get_onLeft() : Signal1ReadOnly<Null<DialType>>
     {
-        return this.right;
+        return this.onLeft;
+    }
+
+    private inline function get_onRight() : Signal1ReadOnly<Null<DialType>>
+    {
+        return this.onRight;
     }
 }
