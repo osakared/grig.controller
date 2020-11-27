@@ -21,17 +21,15 @@
 
 package fire.toFire.button;
 
-import fire.util.State;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.fromFire.ControllerState;
 
 class Buttons
 {
-    public function new(state :State, buttons :ButtonLights, buttonInputs :ControllerStateReadOnly, outputDevice :MidiOutputDevice) : Void
+    public function new(buttons :ButtonLights, buttonInputs :ControllerState, outputDevice :MidiOutputDevice) : Void
     {
-        _state = state;
         _buttons = buttons;
         _outputDevice = outputDevice;
         _buttonInputs = buttonInputs;
@@ -162,10 +160,10 @@ class Buttons
     {
         if(_buttonInputs.step.value) {
             _buttons.step.send(_outputDevice, 2);
-            _state.input.value = STEP;
+            _buttonInputs.input.value = STEP;
         }
         else {
-            switch _state.input.value {
+            switch _buttonInputs.input.value {
                 case STEP:
                     _buttons.step.send(_outputDevice, 4);
                 case _:
@@ -175,10 +173,10 @@ class Buttons
 
         if(_buttonInputs.note.value) {
             _buttons.note.send(_outputDevice, 2);
-            _state.input.value = NOTE;
+            _buttonInputs.input.value = NOTE;
         }
         else {
-            switch _state.input.value {
+            switch _buttonInputs.input.value {
                 case NOTE:
                     _buttons.note.send(_outputDevice, 4);
                 case _:
@@ -188,10 +186,10 @@ class Buttons
 
         if(_buttonInputs.drum.value) {
             _buttons.drum.send(_outputDevice, 2);
-            _state.input.value = DRUM;
+            _buttonInputs.input.value = DRUM;
         }
         else {
-            switch _state.input.value {
+            switch _buttonInputs.input.value {
                 case DRUM:
                     _buttons.drum.send(_outputDevice, 4);
                 case _:
@@ -201,10 +199,10 @@ class Buttons
 
         if(_buttonInputs.perform.value) {
             _buttons.perform.send(_outputDevice, 2);
-            _state.input.value = PERFORM;
+            _buttonInputs.input.value = PERFORM;
         }
         else {
-            switch _state.input.value {
+            switch _buttonInputs.input.value {
                 case PERFORM:
                     _buttons.perform.send(_outputDevice, 4);
                 case _:
@@ -329,8 +327,7 @@ class Buttons
         _buttonInputs.record.addListener((_, _) -> handleRecord());
     }
 
-    private var _buttonInputs :ControllerStateReadOnly;
+    private var _buttonInputs :ControllerState;
     private var _buttons :ButtonLights;
     private var _outputDevice :MidiOutputDevice;
-    private var _state :State;
 }

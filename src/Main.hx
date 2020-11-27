@@ -23,15 +23,12 @@ import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
-import fire.fromFire.Grid;
 import fire.fromFire.ControllerState;
 import fire.fromFire.dial.DialType;
-import fire.fromFire.dial.Dials;
 import fire.fromFire.button.ButtonType;
 import fire.toFire.ToFire;
 import fire.util.Signal1;
 import fire.util.Cursor;
-import fire.util.State;
 
 class Main
 {
@@ -51,23 +48,20 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var gridIndex = new Signal1(Note);
-            var state = new State();
             var buttons = new ControllerState();
-            var dials = new Dials();
-            var fromFireGrid = new Grid();
-            new ToFire(state, MIDI_OUT, buttons, gridIndex);
-            new ToRenoise(fromFireGrid, buttons, dials, state);
+            new ToFire(MIDI_OUT, buttons, gridIndex);
+            new ToRenoise(buttons);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();
 				switch inputState {
 					case BUTTON_DOWN:
-                        handleButtonDown(state, buttons, fromFireGrid, a.note());
+                        handleButtonDown(buttons, a.note());
 					case BUTTON_UP:
-                        handleButtonUp(state, buttons, fromFireGrid, a.note());
+                        handleButtonUp(buttons, a.note());
                     case ROTARY:
                         var isRight = a.velocity() < 64;
-                        handleRotary(dials, cast buttons, a.note(), isRight);
+                        handleRotary(cast buttons, a.note(), isRight);
                     case _:
                         Renoise.app().showStatus(Std.string(a.type()));
 				}
@@ -75,34 +69,34 @@ class Main
 		}
     }
 
-    public static function handleButtonDown(state :State, buttons :ControllerState, grid :Grid, button :ButtonType) : Void
+    public static function handleButtonDown(buttons :ControllerState, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = true;
         }
         else {
-            grid.down(button - 54);
+            buttons.padDown(button - 54);
         }
     }
 
-    public static function handleButtonUp(state :State, buttons :ControllerState, grid :Grid, button :ButtonType) : Void
+    public static function handleButtonUp(buttons :ControllerState, button :ButtonType) : Void
     {
         if(buttons.exists(button)) {
             buttons.get(button).value = false;
         }
         else {
-            grid.up(button - 54);
+            buttons.padUp(button - 54);
         }
     }
 
-    public static function handleRotary(dials :Dials, buttons :ControllerState, type :DialType, isRight :Bool) : Void
+    public static function handleRotary(buttons :ControllerState, type :DialType, isRight :Bool) : Void
     {
-        if(dials.exists(type)) {
+        if(buttons.dials.exists(type)) {
             if(isRight) {
-                dials.get(type).right.emit();
+                buttons.dials.get(type).right.emit();
             }
             else {
-                dials.get(type).left.emit();
+                buttons.dials.get(type).left.emit();
             }
         }
     }

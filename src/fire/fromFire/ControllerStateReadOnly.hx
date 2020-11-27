@@ -21,6 +21,8 @@
 
 package fire.fromFire;
 
+import fire.fromFire.dial.DialsReadOnly;
+import fire.fromFire.ControllerState.InputState;
 import fire.util.Signal1ReadOnly;
 
 abstract ControllerStateReadOnly(ControllerState) from ControllerState
@@ -50,6 +52,18 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     public var play (get, never): Signal1ReadOnly<Bool>;
     public var stop (get, never): Signal1ReadOnly<Bool>;
     public var record (get, never): Signal1ReadOnly<Bool>;
+    public var dials (get, never) : DialsReadOnly;
+    public var input (get, never) : Signal1ReadOnly<InputState>;
+
+    public inline function padIsDown(pad :Int) : Bool
+    {
+        return this.padIsDown(pad);
+    }
+
+    public inline function padConnect(pad :Int) : Signal1ReadOnly<Bool>
+    {
+        return this.padConnect(pad);
+    }
 
     private inline function get_knobType() : Signal1ReadOnly<Bool>
     {
@@ -174,5 +188,15 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     private inline function get_record() : Signal1ReadOnly<Bool>
     {
         return this.record;
+    }
+
+    private inline function get_dials() : DialsReadOnly
+    {
+        return this.dials;
+    }
+
+    private inline function get_input() : Signal1ReadOnly<InputState>
+    {
+        return this.input;
     }
 }

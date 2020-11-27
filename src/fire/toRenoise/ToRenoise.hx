@@ -31,19 +31,17 @@ import fire.toRenoise.button.Step;
 import fire.toRenoise.button.Stop;
 import fire.toRenoise.button.Record;
 import fire.toRenoise.dial.Select as SelectDial;
-import fire.fromFire.Grid as FromFireGrid;
-import fire.util.State.StateReadOnly;
 
 class ToRenoise
 {
-    public function new(fromFireGrid :FromFireGrid, buttons :ControllerStateReadOnly, dials :DialsReadOnly, state :StateReadOnly) : Void
+    public function new(buttons :ControllerStateReadOnly) : Void
     {
         _grid = new Grid();
-        initButtons(fromFireGrid, buttons, state);
-        initDials(buttons, dials);
+        initButtons(buttons);
+        initDials(buttons);
     }
 
-    private function initButtons(fromFireGrid :FromFireGrid, buttons :ControllerStateReadOnly, state :StateReadOnly) : Void
+    private function initButtons(buttons :ControllerStateReadOnly) : Void
     {
         buttons.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
         buttons.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
@@ -54,21 +52,21 @@ class ToRenoise
         buttons.record.addListener((isDown, _) -> Record.handle(isDown));
 
         for(i in 0...64) {
-            fromFireGrid.connect(i).addListener((isDown, _) -> {
+            buttons.padConnect(i).addListener((isDown, _) -> {
                 if(isDown) {
-                    _grid.down(state, i);
+                    _grid.down(buttons, i);
                 }
                 else {
-                    _grid.up(state, i);
+                    _grid.up(buttons, i);
                 }
             });
         }
     }
 
-    private function initDials(buttons :ControllerStateReadOnly, dials :DialsReadOnly) : Void
+    private function initDials(buttons :ControllerStateReadOnly) : Void
     {
-        dials.select.left.addListener(SelectDial.onLeft.bind(buttons));
-        dials.select.right.addListener(SelectDial.onRight.bind(buttons));
+        buttons.dials.select.left.addListener(SelectDial.onLeft.bind(buttons));
+        buttons.dials.select.right.addListener(SelectDial.onRight.bind(buttons));
     }
 
     private var _grid :Grid;

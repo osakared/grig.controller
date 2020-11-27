@@ -24,10 +24,10 @@ package fire.toRenoise;
 import fire.util.PadNote;
 import renoise.Socket;
 import renoise.Socket.SocketClient;
-import fire.util.State.StateReadOnly;
 import fire.util.RenoiseUtil;
 import renoise.Renoise;
 import renoise.Osc.OscArgs;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Grid
 {
@@ -38,9 +38,9 @@ class Grid
         _client = Socket.createClient(host, port, UDP);
     }
 
-    public function down(state :StateReadOnly, pad :Int) : Void
+    public function down(buttonInputs :ControllerStateReadOnly, pad :Int) : Void
     {
-        switch state.input.value {
+        switch buttonInputs.input.value {
             case STEP:
                 RenoiseUtil.setLine(pad + 1, 64);
             case NOTE: {
@@ -66,10 +66,10 @@ class Grid
         }
     }
 
-    public function up(state :StateReadOnly, pad :Int) : Void
+    public function up(buttonInputs :ControllerStateReadOnly, pad :Int) : Void
     {
         Renoise.app().showStatus(Std.string(pad));
-        switch state.input.value {
+        switch buttonInputs.input.value {
             case STEP:
             case NOTE: {
                 var note = PadNote.getNote(pad);
