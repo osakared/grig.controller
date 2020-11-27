@@ -48,7 +48,7 @@ class Buttons
         handleMuteSolo2();
         handleMuteSolo3();
         handleMuteSolo4();
-        handleThingThing();
+        handleInput();
         handleShift();
         handleAlt();
         handlePatternSong();
@@ -156,11 +156,10 @@ class Buttons
         }
     }
 
-    private function handleThingThing() : Void
+    private function handleInput() : Void
     {
         if(_controllerState.step.value) {
             _buttons.step.send(_outputDevice, 2);
-            _controllerState.inputUnsafe.value = STEP;
         }
         else {
             switch _controllerState.input.value {
@@ -173,7 +172,6 @@ class Buttons
 
         if(_controllerState.note.value) {
             _buttons.note.send(_outputDevice, 2);
-            _controllerState.inputUnsafe.value = NOTE;
         }
         else {
             switch _controllerState.input.value {
@@ -186,7 +184,6 @@ class Buttons
 
         if(_controllerState.drum.value) {
             _buttons.drum.send(_outputDevice, 2);
-            _controllerState.inputUnsafe.value = DRUM;
         }
         else {
             switch _controllerState.input.value {
@@ -199,7 +196,6 @@ class Buttons
 
         if(_controllerState.perform.value) {
             _buttons.perform.send(_outputDevice, 2);
-            _controllerState.inputUnsafe.value = PERFORM;
         }
         else {
             switch _controllerState.input.value {
@@ -303,10 +299,10 @@ class Buttons
         _controllerState.muteSolo2.addListener((_, _) -> handleMuteSolo2());
         _controllerState.muteSolo3.addListener((_, _) -> handleMuteSolo3());
         _controllerState.muteSolo4.addListener((_, _) -> handleMuteSolo4());
-        _controllerState.step.addListener((_, _) -> handleThingThing());
-        _controllerState.note.addListener((_, _) -> handleThingThing());
-        _controllerState.drum.addListener((_, _) -> handleThingThing());
-        _controllerState.perform.addListener((_, _) -> handleThingThing());
+        _controllerState.step.addListener((_, _) -> handleInput());
+        _controllerState.note.addListener((_, _) -> handleInput());
+        _controllerState.drum.addListener((_, _) -> handleInput());
+        _controllerState.perform.addListener((_, _) -> handleInput());
         _controllerState.shift.addListener((_, _) -> handleShift());
         _controllerState.alt.addListener((_, _) -> handleAlt());
         _controllerState.patternSong.addListener((_, _) -> handlePatternSong());

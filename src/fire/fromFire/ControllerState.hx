@@ -87,6 +87,31 @@ class ControllerState
         _pads = [for (i in 0...64) new Signal1(false)];
         this.dials = new Dials();
         this.input = new Signal1(STEP);
+        initInput();
+    }
+
+    private function initInput() : Void
+    {
+        this.step.addListener((_, _) -> handleInputState());
+        this.note.addListener((_, _) -> handleInputState());
+        this.drum.addListener((_, _) -> handleInputState());
+        this.perform.addListener((_, _) -> handleInputState());
+    }
+
+    private function handleInputState() : Void
+    {
+        if(this.step.value) {
+            this.input.value = STEP;
+        }
+        else if(this.note.value) {
+            this.input.value = NOTE;
+        }
+        else if(this.drum.value) {
+            this.input.value = DRUM;
+        }
+        else if(this.perform.value) {
+            this.input.value = PERFORM;
+        }
     }
 
     public function padDown(pad :Int) : Void
