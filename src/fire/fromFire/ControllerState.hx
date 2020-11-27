@@ -23,8 +23,9 @@ package fire.fromFire;
 
 import fire.fromFire.button.ButtonType;
 import fire.util.Signal1;
+import fire.util.Signal1ReadOnly;
 
-abstract ControllerState(Map<ButtonType, Signal1<Bool>>) 
+class ControllerState
 {
     public var knobType (get, never): Signal1<Bool>;
     public var volume (get, never): Signal1<Bool>;
@@ -52,8 +53,8 @@ abstract ControllerState(Map<ButtonType, Signal1<Bool>>)
     public var stop (get, never): Signal1<Bool>;
     public var record (get, never): Signal1<Bool>;
 
-    inline public function new() {
-        this = [
+    public function new() {
+        _buttons = [
             KNOB_TYPE => new Signal1(false),
             VOLUME => new Signal1(false),
             PAN => new Signal1(false),
@@ -80,145 +81,169 @@ abstract ControllerState(Map<ButtonType, Signal1<Bool>>)
             STOP => new Signal1(false),
             RECORD => new Signal1(false)
         ];
+        _pads = [for (i in 0...64) new Signal1(false)];
+    }
+
+    public function padDown(pad :Int) : Void
+    {
+        _pads[pad].value = true;
+    }
+
+    public function padUp(pad :Int) : Void
+    {
+        _pads[pad].value = false;
+    }
+
+    public function padIsDown(pad :Int) : Bool
+    {
+        return _pads[pad].value;
+    }
+
+    public function padConnect(pad :Int) : Signal1ReadOnly<Bool>
+    {
+        return _pads[pad];
     }
 
     public inline function iterator() : Iterator<Signal1<Bool>>
     {
-        return this.iterator();
+        return _buttons.iterator();
     }
 
     public inline function exists(type :ButtonType) : Bool
     {
-        return this.exists(type);
+        return _buttons.exists(type);
     }
 
     public inline function get(type :ButtonType) : Signal1<Bool>
     {
-        return this.get(type);
+        return _buttons.get(type);
     }
 
     private inline function get_knobType() : Signal1<Bool>
     {
-        return this.get(ButtonType.KNOB_TYPE);
+        return _buttons.get(ButtonType.KNOB_TYPE);
     }
 
     private inline function get_volume() : Signal1<Bool>
     {
-        return this.get(ButtonType.VOLUME);
+        return _buttons.get(ButtonType.VOLUME);
     }
 
     private inline function get_pan() : Signal1<Bool>
     {
-        return this.get(ButtonType.PAN);
+        return _buttons.get(ButtonType.PAN);
     }
 
     private inline function get_filter() : Signal1<Bool>
     {
-        return this.get(ButtonType.FILTER);
+        return _buttons.get(ButtonType.FILTER);
     }
 
     private inline function get_resonance() : Signal1<Bool>
     {
-        return this.get(ButtonType.RESONANCE);
+        return _buttons.get(ButtonType.RESONANCE);
     }
 
     private inline function get_patternUp() : Signal1<Bool>
     {
-        return this.get(ButtonType.PATTERN_UP);
+        return _buttons.get(ButtonType.PATTERN_UP);
     }
 
     private inline function get_patternDown() : Signal1<Bool>
     {
-        return this.get(ButtonType.PATTERN_DOWN);
+        return _buttons.get(ButtonType.PATTERN_DOWN);
     }
 
     private inline function get_browser() : Signal1<Bool>
     {
-        return this.get(ButtonType.BROWSER);
+        return _buttons.get(ButtonType.BROWSER);
     }
 
     private inline function get_select() : Signal1<Bool>
     {
-        return this.get(ButtonType.SELECT);
+        return _buttons.get(ButtonType.SELECT);
     }
 
     private inline function get_gridLeft() : Signal1<Bool>
     {
-        return this.get(ButtonType.GRID_LEFT);
+        return _buttons.get(ButtonType.GRID_LEFT);
     }
 
     private inline function get_gridRight() : Signal1<Bool>
     {
-        return this.get(ButtonType.GRID_RIGHT);
+        return _buttons.get(ButtonType.GRID_RIGHT);
     }
 
     private inline function get_muteSolo1() : Signal1<Bool>
     {
-        return this.get(ButtonType.MUTE_SOLO_1);
+        return _buttons.get(ButtonType.MUTE_SOLO_1);
     }
 
     private inline function get_muteSolo2() : Signal1<Bool>
     {
-        return this.get(ButtonType.MUTE_SOLO_2);
+        return _buttons.get(ButtonType.MUTE_SOLO_2);
     }
 
     private inline function get_muteSolo3() : Signal1<Bool>
     {
-        return this.get(ButtonType.MUTE_SOLO_3);
+        return _buttons.get(ButtonType.MUTE_SOLO_3);
     }
 
     private inline function get_muteSolo4() : Signal1<Bool>
     {
-        return this.get(ButtonType.MUTE_SOLO_4);
+        return _buttons.get(ButtonType.MUTE_SOLO_4);
     }
 
     private inline function get_step() : Signal1<Bool>
     {
-        return this.get(ButtonType.STEP);
+        return _buttons.get(ButtonType.STEP);
     }
 
     private inline function get_note() : Signal1<Bool>
     {
-        return this.get(ButtonType.NOTE);
+        return _buttons.get(ButtonType.NOTE);
     }
 
     private inline function get_drum() : Signal1<Bool>
     {
-        return this.get(ButtonType.DRUM);
+        return _buttons.get(ButtonType.DRUM);
     }
 
     private inline function get_perform() : Signal1<Bool>
     {
-        return this.get(ButtonType.PERFORM);
+        return _buttons.get(ButtonType.PERFORM);
     }
 
     private inline function get_shift() : Signal1<Bool>
     {
-        return this.get(ButtonType.SHIFT);
+        return _buttons.get(ButtonType.SHIFT);
     }
 
     private inline function get_alt() : Signal1<Bool>
     {
-        return this.get(ButtonType.ALT);
+        return _buttons.get(ButtonType.ALT);
     }
 
     private inline function get_patternSong() : Signal1<Bool>
     {
-        return this.get(ButtonType.PATTERN_SONG);
+        return _buttons.get(ButtonType.PATTERN_SONG);
     }
 
     private inline function get_play() : Signal1<Bool>
     {
-        return this.get(ButtonType.PLAY);
+        return _buttons.get(ButtonType.PLAY);
     }
 
     private inline function get_stop() : Signal1<Bool>
     {
-        return this.get(ButtonType.STOP);
+        return _buttons.get(ButtonType.STOP);
     }
 
     private inline function get_record() : Signal1<Bool>
     {
-        return this.get(ButtonType.RECORD);
+        return _buttons.get(ButtonType.RECORD);
     }
+
+    private var _buttons :Map<ButtonType, Signal1<Bool>>;
+    private var _pads : Array<Signal1<Bool>>;
 }

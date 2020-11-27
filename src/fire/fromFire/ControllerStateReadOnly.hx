@@ -19,11 +19,11 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package fire.fromFire;
 
 import fire.util.Signal1ReadOnly;
 
-abstract ButtonsReadOnly(ControllerState) from ControllerState
+abstract ControllerStateReadOnly(ControllerState) from ControllerState
 {
     public var knobType (get, never): Signal1ReadOnly<Bool>;
     public var volume (get, never): Signal1ReadOnly<Bool>;

@@ -22,14 +22,14 @@
 package fire.toRenoise.dial;
 
 import renoise.song.NoteColumn;
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
 
 class Select
 {
-    public static function onLeft(buttons :ButtonsReadOnly) : Void
+    public static function onLeft(buttons :ControllerStateReadOnly) : Void
     {
         if(buttons.select.value) {
             if(buttons.alt.value) {
@@ -44,7 +44,7 @@ class Select
         }
     }
 
-    public static function onRight(buttons :ButtonsReadOnly) : Void
+    public static function onRight(buttons :ControllerStateReadOnly) : Void
     {
         if(buttons.select.value) {
             if(buttons.alt.value) {

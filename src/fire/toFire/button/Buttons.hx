@@ -25,11 +25,11 @@ import fire.util.State;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Buttons
 {
-    public function new(state :State, buttons :ButtonLights, buttonInputs :ButtonsReadOnly, outputDevice :MidiOutputDevice) : Void
+    public function new(state :State, buttons :ButtonLights, buttonInputs :ControllerStateReadOnly, outputDevice :MidiOutputDevice) : Void
     {
         _state = state;
         _buttons = buttons;
@@ -329,7 +329,7 @@ class Buttons
         _buttonInputs.record.addListener((_, _) -> handleRecord());
     }
 
-    private var _buttonInputs :ButtonsReadOnly;
+    private var _buttonInputs :ControllerStateReadOnly;
     private var _buttons :ButtonLights;
     private var _outputDevice :MidiOutputDevice;
     private var _state :State;

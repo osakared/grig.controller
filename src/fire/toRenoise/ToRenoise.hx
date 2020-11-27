@@ -22,7 +22,7 @@
 package fire.toRenoise;
 
 import fire.fromFire.dial.DialsReadOnly;
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 import fire.toRenoise.button.GridLeft;
 import fire.toRenoise.button.GridRight;
 import fire.toRenoise.button.Play;
@@ -36,14 +36,14 @@ import fire.util.State.StateReadOnly;
 
 class ToRenoise
 {
-    public function new(fromFireGrid :FromFireGrid, buttons :ButtonsReadOnly, dials :DialsReadOnly, state :StateReadOnly) : Void
+    public function new(fromFireGrid :FromFireGrid, buttons :ControllerStateReadOnly, dials :DialsReadOnly, state :StateReadOnly) : Void
     {
         _grid = new Grid();
         initButtons(fromFireGrid, buttons, state);
         initDials(buttons, dials);
     }
 
-    private function initButtons(fromFireGrid :FromFireGrid, buttons :ButtonsReadOnly, state :StateReadOnly) : Void
+    private function initButtons(fromFireGrid :FromFireGrid, buttons :ControllerStateReadOnly, state :StateReadOnly) : Void
     {
         buttons.gridLeft.addListener((isDown, _) -> GridLeft.handle(isDown));
         buttons.gridRight.addListener((isDown, _) -> GridRight.handle(isDown));
@@ -65,7 +65,7 @@ class ToRenoise
         }
     }
 
-    private function initDials(buttons :ButtonsReadOnly, dials :DialsReadOnly) : Void
+    private function initDials(buttons :ControllerStateReadOnly, dials :DialsReadOnly) : Void
     {
         dials.select.left.addListener(SelectDial.onLeft.bind(buttons));
         dials.select.right.addListener(SelectDial.onRight.bind(buttons));

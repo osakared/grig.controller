@@ -33,13 +33,13 @@ import fire.toFire.Display;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;
 import renoise.LineChaneObserver;
-import fire.fromFire.button.ButtonsReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 import fire.util.State;
 using lua.PairTools;
 
 class ToFire
 {
-    public function new(state :State, outputDevice :MidiOutputDevice, buttonInputs :ButtonsReadOnly, gridIndex :Signal1<Cursor>) : Void
+    public function new(state :State, outputDevice :MidiOutputDevice, buttonInputs :ControllerStateReadOnly, gridIndex :Signal1<Cursor>) : Void
     {
         _outputDevice = outputDevice;
         _gridIndex = gridIndex;
