@@ -20,6 +20,7 @@
  */
 
 import fire.toRenoise.ToRenoise;
+import fire.toRenoise.SoftKeys;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;

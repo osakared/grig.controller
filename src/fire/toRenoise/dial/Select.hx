@@ -29,13 +29,23 @@ using fire.util.Math;
 
 class Select
 {
-    public static function onLeft(controllerState :ControllerStateReadOnly) : Void
+    public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    {
+        if(isLeft) {
+            onLeft(softkeys, state);
+        }
+        else {
+            onRight(softkeys, state);
+        }
+    }
+
+    private static function onLeft(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
     {
         switch controllerState.input.value {
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        moveNote(-1);
+                        moveNote(softkeys, -1);
                     case false:
                         moveLine(-1);
                 }
@@ -48,13 +58,13 @@ class Select
         }
     }
 
-    public static function onRight(controllerState :ControllerStateReadOnly) : Void
+    private static function onRight(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
     {
         switch controllerState.input.value {
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        moveNote(1);
+                        moveNote(softkeys, 1);
                     case false:
                         moveLine(1);
                 }
@@ -67,24 +77,10 @@ class Select
         }
     }
 
-    private static function handleAlt(isLeft :Bool) : Void
+    private static function moveNote(softkeys :SoftKeys, amount :Int) : Void
     {
-        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        Renoise.song().selectedLine.noteColumn(1).noteValue = switch [isLeft, noteValue] {
-            case [true, NoteColumn.NOTE_EMPTY]: NoteColumn.MIDDLE_C;
-            case [true, NoteColumn.NOTE_OFF]: NoteColumn.NOTE_EMPTY;
-            case [true, _]: NoteColumn.NOTE_OFF;
-
-            case [false, NoteColumn.NOTE_EMPTY]: NoteColumn.NOTE_OFF;
-            case [false, NoteColumn.NOTE_OFF]: NoteColumn.MIDDLE_C;
-            case [false, _]: NoteColumn.NOTE_EMPTY;
-        }
-    }
-
-    private static function moveNote(amount :Int) : Void
-    {
-        var noteValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-        Renoise.song().selectedLine.noteColumn(1).noteValue = switch noteValue {
+        var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+        var newValue = switch oldValue {
             case NoteColumn.NOTE_EMPTY:
                 NoteColumn.MIDDLE_C;
             case NoteColumn.NOTE_OFF:
@@ -92,6 +88,9 @@ class Select
             case _:
                 (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
         }
+        Renoise.song().selectedLine.noteColumn(1).noteValue = newValue;
+        softkeys.playNote(false, oldValue);
+        softkeys.playNote(true, newValue);
     }
 
     private static function moveLine(amount :Int) : Void

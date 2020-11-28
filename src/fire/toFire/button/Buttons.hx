@@ -295,17 +295,9 @@ class Buttons
         _controllerState.buttons.change.addListener(handleStop);
         _controllerState.buttons.change.addListener(handleRecord);
 
-        Renoise.song().transport.playingObservable.addNotifier(() -> {
-            handlePlay();
-        });
-
-        Renoise.song().transport.playingObservable.addNotifier(() -> {
-            handleStop();
-        });
-
-        Renoise.song().transport.editModeObservable.addNotifier(() -> {
-            handleRecord();
-        });
+        Renoise.song().transport.playingObservable.addNotifier(handlePlay);
+        Renoise.song().transport.playingObservable.addNotifier(handleStop);
+        Renoise.song().transport.editModeObservable.addNotifier(handleRecord);
     }
 
     private var _controllerState :ControllerStateReadOnly;

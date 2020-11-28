@@ -27,7 +27,7 @@ import fire.fromFire.ControllerStateReadOnly;
 
 class Stop
 {
-    public static function handle(isDown: Bool, state :ControllerStateReadOnly) : Void
+    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
     {
         if(isDown) {
             // onDown();

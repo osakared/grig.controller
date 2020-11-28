@@ -19,39 +19,42 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.button;
+package fire.toRenoise;
 
-import renoise.song.NoteColumn;
+import renoise.Socket;
+import renoise.Socket.SocketClient;
 import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
+import renoise.Osc.OscArgs;
 
-class Select
+class SoftKeys
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public function new() : Void
     {
-        if(isDown) {
-            onDown(state);
-        }
-        else {
-            // onUp();
-        }
+        var host = "localhost";
+        var port = 8000;
+        _client = Socket.createClient(host, port, UDP);
     }
 
-    private static function onDown(state :ControllerStateReadOnly) : Void
+    public function playNote(isOn :Bool, note :Int) : Void
     {
-        if(state.grid.hasDown) {
-            var selectedNoteColumn = Renoise.song().selectedNoteColumnIndex;
-            for(pad in state.grid.iterator()) {
-                var noteColumn = Renoise.song().selectedPatternTrack.line(pad + 1).noteColumn(selectedNoteColumn);
-                noteColumn.noteValue = switch noteColumn.noteValue {
-                    case NoteColumn.NOTE_EMPTY:
-                        NoteColumn.NOTE_OFF;
-                    case NoteColumn.NOTE_OFF:
-                        NoteColumn.NOTE_EMPTY;
-                    case _:
-                        NoteColumn.NOTE_OFF;
-                }
-            }
+        var instr = Renoise.song().selectedInstrumentIndex;
+        var track = Renoise.song().selectedTrackIndex;
+        var velocity = 127;
+
+        var oscVars = OscArgs.create();
+        oscVars.addTagValue("i", instr);
+        oscVars.addTagValue("i", track);
+        oscVars.addTagValue("i", note);
+        if(isOn) {
+            oscVars.addTagValue("i", velocity);
         }
+        var header = isOn
+            ? "/renoise/trigger/note_on"
+            : "/renoise/trigger/note_off";
+        Renoise.app().showStatus(header);
+        var oscMsg = renoise.Osc.createMessage(header,oscVars);
+        _client.send(oscMsg);
     }
+
+    private var _client :SocketClient;
 }

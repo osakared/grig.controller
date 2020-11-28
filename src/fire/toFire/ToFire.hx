@@ -71,6 +71,7 @@ class ToFire
         });
         controllerState.grid.change.addListener(makeDrawCalls.bind(controllerState));
         controllerState.dials.change.addListener(makeDrawCalls.bind(controllerState));
+        controllerState.buttons.change.addListener(makeDrawCalls.bind(controllerState));
         Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(controllerState));
     }
 
@@ -106,7 +107,7 @@ class ToFire
         var hasDrawnPadIndex = false;
         lines.ipairsEach((index, line) -> {
             var noteValue = line.noteColumn(1).noteValue;
-            if(noteValue < 120) {
+            if(noteValue < 121) {
                 if(index == padIndex) {
                     _pads.drawPad(90, 0, 30, index - 1);
                     hasDrawnPadIndex = true;

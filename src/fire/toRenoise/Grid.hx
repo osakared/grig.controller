@@ -21,43 +21,28 @@
 
 package fire.toRenoise;
 
-import fire.util.PadNote;
-import renoise.Socket;
-import renoise.Socket.SocketClient;
-import fire.util.RenoiseUtil;
 import renoise.Renoise;
-import renoise.Osc.OscArgs;
+import fire.util.PadNote;
+import fire.util.RenoiseUtil;
 import fire.fromFire.ControllerStateReadOnly;
 
 class Grid
 {
-    public function new() : Void
+    public function new(softkeys :SoftKeys) : Void
     {
-        var host = "localhost";
-        var port = 8000;
-        _client = Socket.createClient(host, port, UDP);
+        _softKeys = softkeys;
     }
 
     public function down(controllerState :ControllerStateReadOnly, pad :Int) : Void
     {
         switch controllerState.input.value {
-            case STEP:
+            case STEP: {
                 RenoiseUtil.setLine(pad + 1, 64);
+            }
             case NOTE: {
                 var note = PadNote.getNote(pad);
                 if(note != -1) {
-                    var instr = Renoise.song().selectedInstrumentIndex;
-                    var track = Renoise.song().selectedTrackIndex;
-                    var velocity = 127;
-
-                    var oscVars = OscArgs.create();
-                    oscVars.addTagValue("i", instr);
-                    oscVars.addTagValue("i", track);
-                    oscVars.addTagValue("i", note);
-                    oscVars.addTagValue("i", velocity);
-                    var header = "/renoise/trigger/note_on";
-                    var oscMsg = renoise.Osc.createMessage(header,oscVars);
-                    _client.send(oscMsg);
+                    _softKeys.playNote(true, note);
                 }
             }
             case DRUM:
@@ -68,20 +53,14 @@ class Grid
     public function up(controllerState :ControllerStateReadOnly, pad :Int) : Void
     {
         switch controllerState.input.value {
-            case STEP:
+            case STEP: {
+                var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
+                _softKeys.playNote(false, oldValue);
+            }
             case NOTE: {
                 var note = PadNote.getNote(pad);
                 if(note != -1) {
-                    var instr = Renoise.song().selectedInstrumentIndex;
-                    var track = Renoise.song().selectedTrackIndex;
-
-                    var oscVars = OscArgs.create();
-                    oscVars.addTagValue("i", instr);
-                    oscVars.addTagValue("i", track);
-                    oscVars.addTagValue("i", note);
-                    var header = "/renoise/trigger/note_off";
-                    var oscMsg = renoise.Osc.createMessage(header,oscVars);
-                    _client.send(oscMsg);
+                    _softKeys.playNote(false, note);
                 }
             }
             case DRUM:
@@ -89,6 +68,6 @@ class Grid
         }
     }
 
-    private var _client :SocketClient;
+    private var _softKeys :SoftKeys;
 }
 
