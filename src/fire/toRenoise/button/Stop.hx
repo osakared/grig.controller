@@ -43,7 +43,7 @@ class Stop
             Renoise.song().transport.playing = false;
         }
         else {
-            RenoiseUtil.setLine(1, 64);
+            RenoiseUtil.setPos(1, 64);
         }
     }
 }

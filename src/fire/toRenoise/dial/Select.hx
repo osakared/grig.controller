@@ -95,7 +95,12 @@ class Select
 
     private static function moveLine(amount :Int) : Void
     {
-        RenoiseUtil.setLine(Renoise.song().transport.playbackPos.line + amount, 64);
+        if(Renoise.song().transport.editMode) {
+            RenoiseUtil.setPos(Renoise.song().transport.editPos.line + amount, 64);
+        }
+        else {
+            RenoiseUtil.setPos(Renoise.song().transport.playbackPos.line + amount, 64);
+        }
     }
 }
 

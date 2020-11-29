@@ -25,10 +25,14 @@ import renoise.Renoise;
 
 class RenoiseUtil
 {
-    public static function setLine(line :Int, modVal :Int) : Void
+    public static function setPos(line :Int, modVal :Int) : Void
     {
         var playbackPos = Renoise.song().transport.playbackPos;
         playbackPos.line = Math.mod(line, modVal);
         Renoise.song().transport.playbackPos = playbackPos;
+
+        var editPos = Renoise.song().transport.editPos;
+        editPos.line = Math.mod(line, modVal);
+        Renoise.song().transport.editPos = editPos;
     }
 }

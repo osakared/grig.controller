@@ -79,7 +79,9 @@ class ToFire
     {
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
-            var padIndex = transport.playbackPos.line;
+            var padIndex =  transport.editMode
+                ? transport.editPos.line
+                : transport.playbackPos.line;
             drawPads(controllerState, padIndex);
             drawDisplay(padIndex);
         }

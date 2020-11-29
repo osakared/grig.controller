@@ -37,7 +37,7 @@ class Grid
     {
         switch controllerState.input.value {
             case STEP: {
-                RenoiseUtil.setLine(pad + 1, 64);
+                RenoiseUtil.setPos(pad + 1, 64);
             }
             case NOTE: {
                 var note = PadNote.getNote(pad);
