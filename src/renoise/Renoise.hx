@@ -24,13 +24,37 @@ package renoise;
 import renoise.application.Application;
 import renoise.song.Song;
 import renoise.tool.Tool;
+import renoise.hack.Hack;
 
 @:native("renoise")
 extern class Renoise
 {
-    extern public static function app() :Application;
-    extern public static function song() :Song;
-    extern public static function tool() :Tool;
     extern public static var API_VERSION : Int;
     extern public static var RENOISE_VERSION : String;
+    
+    extern public static function app() :Application;
+
+    extern public static function song() :Song;
+
+    extern public static function tool() :Tool;
+
+    extern public static inline function hack() :Hack
+    {
+        return RenoiseHack.hack;
+    }
+}
+
+class RenoiseHack
+{
+    public static var hack (get, null) : Hack;
+
+    private static function get_hack() : Hack
+    {
+        if(_hack == null) {
+            _hack = new Hack();
+        }
+        return _hack;
+    }
+
+    private static var _hack :Hack = null;
 }

@@ -95,5 +95,7 @@ class Main
         else {
             controllerState.dials.left(type);
         }
+
+        Renoise.app().showStatus(Std.string(Renoise.hack().cursor));
     }
 }

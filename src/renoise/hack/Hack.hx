@@ -24,18 +24,19 @@ package renoise.hack;
 class Hack
 {
     public var cursor :Cursor;
-    
+
     public function new() : Void
     {
-
+        this.cursor = NOTE;
     }
 }
 
-enum Cursor
+@:enum
+abstract Cursor(Int)
 {
-    NOTE;
-    INST;
-    VOL;
-    FX_NUM;
-    FX_AMOUNT;
+    var NOTE = 0;
+    var INST = 1;
+    var VOL = 2;
+    var FX_NUM = 3;
+    var FX_AMOUNT = 4;
 }
