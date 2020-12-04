@@ -21,6 +21,7 @@
 
 package fire.fromFire;
 
+import fire.util.Cursor;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.grid.Grid;
 import fire.fromFire.button.Buttons;
@@ -30,12 +31,14 @@ class ControllerState
 {
     public var dials (default, null) : Dials;
     public var input (default, null):Signal1<InputState>;
+    public var cursor (default, null):Signal1<Cursor>;
     public var grid (default, null):Grid;
     public var buttons (default, null):Buttons;
 
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
+        this.cursor = new Signal1(Cursor.NOTE);
         this.grid = new Grid();
         this.buttons = new Buttons();
         initInput();

@@ -21,6 +21,7 @@
 
 package fire.toFire.view.display;
 
+import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
 import fire.util.PadNote;
@@ -32,7 +33,7 @@ using lua.PairTools;
 
 class Tracker
 {
-    public static function draw(outputDevice :MidiOutputDevice, display :Display, gridIndex :Cursor, padIndex :Int) : Void
+    public static function draw(controllerState :ControllerStateReadOnly, outputDevice :MidiOutputDevice, display :Display, padIndex :Int) : Void
     {
         display.clear();
         display.drawText(Renoise.song().selectedTrack.name, 18, 0, false, false);
@@ -45,11 +46,11 @@ class Tracker
             var highlight = i - 3 == 0;
 
             for(columnIndex in 0...visibleNoteColumns) {
-                x = drawNoteColumn(display, gridIndex, x, drawIndex, i + 1, columnIndex + 1, highlight);
+                x = drawNoteColumn(display, controllerState.cursor.value, x, drawIndex, i + 1, columnIndex + 1, highlight);
             }
 
             for(columnIndex in 0...visibleEffectColumns) {
-                x = drawEffectColumn(display, gridIndex, x, drawIndex, i + 1, columnIndex + 1, highlight);
+                x = drawEffectColumn(display, controllerState.cursor.value, x, drawIndex, i + 1, columnIndex + 1, highlight);
             }
         }
 
@@ -97,31 +98,31 @@ class Tracker
 
     private static inline function drawNote(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
     {
-        var willHighlight = cursor == Note && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = cursor == Cursor.NOTE && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.noteString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawInst(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
     {
-        var willHighlight = cursor == Inst && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = cursor == Cursor.INST && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.instrumentString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawVol(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
     {
-        var willHighlight = cursor == Vol && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = cursor == Cursor.VOL && highlight && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.volumeString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXNumber(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
     {
-        var willHighlight = cursor == FXNum && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = cursor == Cursor.FX_NUM && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.numberString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXAmount(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, cursor :Cursor, highlight :Bool) : Int
     {
-        var willHighlight = cursor == FXAmount && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = cursor == Cursor.FX_AMOUNT && highlight && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.amountString, x, 8 * row, false, willHighlight);
     }
 

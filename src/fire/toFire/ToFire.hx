@@ -38,10 +38,9 @@ using lua.PairTools;
 
 class ToFire
 {
-    public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly, gridIndex :Signal1<Cursor>) : Void
+    public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly) : Void
     {
         _outputDevice = outputDevice;
-        _gridIndex = gridIndex;
         _display = new Display();
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
@@ -54,7 +53,7 @@ class ToFire
     {
         var lineObserver = new LineChangeObserver();
         lineObserver.register(0, makeDrawCalls.bind(controllerState));
-        _gridIndex.addListener((_) -> {
+        controllerState.cursor.addListener((_) -> {
             makeDrawCalls(controllerState);
         });
         controllerState.input.addListener((_) -> {
@@ -82,13 +81,13 @@ class ToFire
     {
         switch controllerState.input.value {
             case STEP:
-                Tracker.draw(_outputDevice, _display, _gridIndex.value, padIndex);
+                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
             case NOTE:
-                Tracker.draw(_outputDevice, _display, _gridIndex.value, padIndex);
+                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
             case DRUM:
-                Tracker.draw(_outputDevice, _display, _gridIndex.value, padIndex);
+                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
             case PERFORM:
-                Tracker.draw(_outputDevice, _display, _gridIndex.value, padIndex);
+                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
         }
     }  
 
@@ -108,5 +107,4 @@ class ToFire
     private var _display :Display;
     private var _pads :Grid;
     private var _transport :Buttons;
-    private var _gridIndex :Signal1<Cursor>;
 }

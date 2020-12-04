@@ -23,9 +23,9 @@ package fire.util;
 
 enum Cursor
 {
-    Note;
-    Inst;
-    Vol;
-    FXNum;
-    FXAmount;
+    NOTE;
+    INST;
+    VOL;
+    FX_NUM;
+    FX_AMOUNT;
 }

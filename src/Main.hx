@@ -20,7 +20,6 @@
  */
 
 import fire.toRenoise.ToRenoise;
-import fire.toRenoise.SoftKeys;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
@@ -29,7 +28,6 @@ import fire.fromFire.dial.DialType;
 import fire.fromFire.button.ButtonType;
 import fire.toFire.ToFire;
 import fire.util.Signal1;
-import fire.util.Cursor;
 
 class Main
 {
@@ -48,9 +46,8 @@ class Main
 
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
-            var gridIndex = new Signal1(Note);
             var controllerState = new ControllerState();
-            new ToFire(MIDI_OUT, controllerState, gridIndex);
+            new ToFire(MIDI_OUT, controllerState);
             new ToRenoise(controllerState);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {

@@ -21,6 +21,7 @@
 
 package fire.fromFire;
 
+import fire.util.Cursor;
 import fire.fromFire.button.ButtonsReadOnly;
 import fire.fromFire.grid.GridReadOnly;
 import fire.fromFire.dial.DialsReadOnly;
@@ -31,6 +32,7 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
 {
     public var dials (get, never) : DialsReadOnly;
     public var input (get, never) : Signal1ReadOnly<InputState>;
+    public var cursor (get, never) : Signal1ReadOnly<Cursor>;
     public var grid (get, never) : GridReadOnly;
     public var buttons (get, never) : ButtonsReadOnly;
 
@@ -42,6 +44,11 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     private inline function get_input() : Signal1ReadOnly<InputState>
     {
         return this.input;
+    }
+
+    private inline function get_cursor() : Signal1ReadOnly<Cursor>
+    {
+        return this.cursor;
     }
 
     private inline function get_grid() : GridReadOnly

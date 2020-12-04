@@ -92,7 +92,7 @@ class Grid
                 case _:
             }
         }
-}
+    }
 
     private var _softKeys :SoftKeys;
 }
