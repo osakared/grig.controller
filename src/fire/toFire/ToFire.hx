@@ -23,7 +23,6 @@ package fire.toFire;
 
 import fire.toFire.button.Buttons;
 import fire.util.Signal1;
-import fire.util.Cursor;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.Display;
@@ -53,9 +52,7 @@ class ToFire
     {
         var lineObserver = new LineChangeObserver();
         lineObserver.register(0, makeDrawCalls.bind(controllerState));
-        controllerState.cursor.addListener((_) -> {
-            makeDrawCalls(controllerState);
-        });
+
         controllerState.input.addListener((_) -> {
             makeDrawCalls(controllerState);
         });

@@ -21,7 +21,7 @@
 
 package fire.fromFire;
 
-import fire.util.Cursor;
+import fire.fromFire.button.ButtonType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.grid.Grid;
 import fire.fromFire.button.Buttons;
@@ -31,14 +31,12 @@ class ControllerState
 {
     public var dials (default, null) : Dials;
     public var input (default, null):Signal1<InputState>;
-    public var cursor (default, null):Signal1<Cursor>;
     public var grid (default, null):Grid;
     public var buttons (default, null):Buttons;
 
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
-        this.cursor = new Signal1(Cursor.NOTE);
         this.grid = new Grid();
         this.buttons = new Buttons();
         initInput();
@@ -46,22 +44,23 @@ class ControllerState
 
     private function initInput() : Void
     {
-        this.buttons.change.addListener(handleInputState);
+        this.buttons.onDown.addListener(type -> {
+            handleButtonDown(type);
+        });
     }
 
-    private function handleInputState() : Void
+    private function handleButtonDown(type :ButtonType) : Void
     {
-        if(this.buttons.isDown(STEP)) {
-            this.input.value = STEP;
-        }
-        else if(this.buttons.isDown(NOTE)) {
-            this.input.value = NOTE;
-        }
-        else if(this.buttons.isDown(DRUM)) {
-            this.input.value = DRUM;
-        }
-        else if(this.buttons.isDown(PERFORM)) {
-            this.input.value = PERFORM;
+        switch type {
+            case STEP:
+                this.input.value = STEP;
+            case NOTE:
+                this.input.value = NOTE;
+            case DRUM:
+                this.input.value = DRUM;
+            case PERFORM:
+                this.input.value = PERFORM;
+            case _:
         }
     }
 }

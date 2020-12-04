@@ -25,7 +25,6 @@ import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
 import fire.util.PadNote;
 import renoise.song.EffectColumn;
-import fire.util.Cursor;
 import renoise.Renoise;
 import renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;

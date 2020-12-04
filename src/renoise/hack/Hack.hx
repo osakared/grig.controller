@@ -19,48 +19,23 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package renoise.hack;
 
-@:enum
-abstract RedYellow(Int) from Int to Int
+class Hack
 {
-    var OFF = 0x00;
-    var DULL_RED = 0x01;
-    var DULL_YELLOW = 0x02;
-    var HIGH_RED = 0x03;
-    var HIGH_YELLOW = 0x04;
+    public var cursor :Cursor;
+    
+    public function new() : Void
+    {
+
+    }
 }
 
-@:enum
-abstract Yellow(Int) from Int to Int
+enum Cursor
 {
-    var OFF = 0x00;
-    var DULL_YELLOW = 0x01;
-    var HIGH_YELLOW = 0x02;
-}
-
-@:enum
-abstract Red(Int) from Int to Int
-{
-    var OFF = 0x00;
-    var DULL_RED = 0x01;
-    var HIGH_RED = 0x02;
-}
-
-@:enum
-abstract Green(Int) from Int to Int
-{
-    var OFF = 0x00;
-    var DULL_GREEN = 0x01;
-    var HIGH_GREEN = 0x02;
-}
-
-@:enum
-abstract YellowGreen(Int) from Int to Int
-{
-    var OFF = 0x00;
-    var DULL_GREEN = 0x01;
-    var DULL_YELLOW = 0x02;
-    var HIGH_GREEN = 0x03;
-    var HIGH_YELLOW = 0x04;
+    NOTE;
+    INST;
+    VOL;
+    FX_NUM;
+    FX_AMOUNT;
 }
