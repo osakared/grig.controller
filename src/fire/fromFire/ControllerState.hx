@@ -21,6 +21,7 @@
 
 package fire.fromFire;
 
+import renoise.Renoise;
 import fire.fromFire.button.ButtonType;
 import fire.fromFire.dial.Dials;
 import fire.fromFire.grid.Grid;
@@ -60,6 +61,10 @@ class ControllerState
                 this.input.value = DRUM;
             case PERFORM:
                 this.input.value = PERFORM;
+            case GRID_LEFT:
+                Renoise.hack().moveCursorLeft();
+            case GRID_RIGHT:
+                Renoise.hack().moveCursorRight();
             case _:
         }
     }

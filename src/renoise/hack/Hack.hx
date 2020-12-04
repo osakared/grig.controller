@@ -21,13 +21,78 @@
 
 package renoise.hack;
 
+import fire.util.Signal1;
+
 class Hack
 {
-    public var cursor :Cursor;
+    public var cursor :Signal1<Cursor>;
 
     public function new() : Void
     {
-        this.cursor = NOTE;
+        this.cursor = new Signal1(NOTE);
+        this.init();
+    }
+
+    public function moveCursorLeft() : Void
+    {
+        switch this.cursor.value {
+            case NOTE:
+                if(Renoise.song().selectedNoteColumnIndex > 1) {
+                    Renoise.song().selectedNoteColumnIndex -= 1;
+                    this.cursor.value = VOL;
+                }
+            case INST:
+                this.cursor.value = NOTE;
+            case VOL:
+                this.cursor.value = INST;
+            case FX_NUM:
+                if(Renoise.song().selectedEffectColumnIndex > 1) {
+                    Renoise.song().selectedEffectColumnIndex -= 1;
+                    this.cursor.value = FX_AMOUNT;
+                }
+                else {
+                    Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+                    this.cursor.value = VOL;
+                }
+            case FX_AMOUNT:
+                this.cursor.value = FX_NUM;
+        }
+    }
+
+    public function moveCursorRight() : Void
+    {
+        switch this.cursor.value {
+            case NOTE:
+                this.cursor.value = INST;
+            case INST:
+                this.cursor.value = VOL;
+            case VOL:
+                if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
+                    Renoise.song().selectedNoteColumnIndex += 1;
+                    this.cursor.value = NOTE;
+                }
+                else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
+                    Renoise.song().selectedEffectColumnIndex = 1;
+                    this.cursor.value = FX_NUM;
+                }
+            case FX_NUM:
+                this.cursor.value = FX_AMOUNT;
+            case FX_AMOUNT:
+                if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
+                    Renoise.song().selectedEffectColumnIndex += 1;
+                    this.cursor.value = FX_NUM;
+                }
+        }
+    }
+
+    private function init() : Void
+    {
+        if(Renoise.song().selectedNoteColumnIndex != 0) {
+            this.cursor.value = NOTE;
+        }
+        else {
+            this.cursor.value = FX_NUM;
+        }
     }
 }
 
