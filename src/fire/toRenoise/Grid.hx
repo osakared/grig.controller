@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import renoise.song.NoteColumn;
 import renoise.Renoise;
 import fire.util.PadNote;
 import fire.util.RenoiseUtil;
@@ -40,10 +41,7 @@ class Grid
                 RenoiseUtil.setPos(pad + 1, 64);
             }
             case NOTE: {
-                var note = PadNote.getNote(pad);
-                if(note != -1) {
-                    _softKeys.playNote(true, note);
-                }
+                hitNote(pad, true);
             }
             case DRUM:
             case PERFORM:
@@ -58,15 +56,43 @@ class Grid
                 _softKeys.playNote(false, oldValue);
             }
             case NOTE: {
-                var note = PadNote.getNote(pad);
-                if(note != -1) {
-                    _softKeys.playNote(false, note);
-                }
+                hitNote(pad, false);
             }
             case DRUM:
             case PERFORM:
         }
     }
+
+    private function hitNote(pad :PadNote, isDown :Bool) : Void
+    {
+        var note = PadNote.getNote(pad);
+        if(note != -1) {
+            _softKeys.playNote(isDown, note);
+
+            if(!isDown && RenoiseUtil.isRecording()) {
+                RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+            }
+        }
+        else if(!isDown && RenoiseUtil.isRecording()) {
+            switch pad {
+                case OFF:
+                    var noteColumn = Renoise.song().selectedNoteColumnIndex;
+                    Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = NoteColumn.NOTE_OFF;
+                    if(RenoiseUtil.isRecording()) {
+                        RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+                    }
+                case ERASE:
+                    var noteColumn = Renoise.song().selectedNoteColumnIndex;
+                    Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = NoteColumn.NOTE_EMPTY;
+                    if(RenoiseUtil.isRecording()) {
+                        RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+                    }
+                case OCTAVE_UP:
+                case OCTAVE_DOWN:
+                case _:
+            }
+        }
+}
 
     private var _softKeys :SoftKeys;
 }

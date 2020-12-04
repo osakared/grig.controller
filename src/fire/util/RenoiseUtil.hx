@@ -25,6 +25,11 @@ import renoise.Renoise;
 
 class RenoiseUtil
 {
+    public static inline function isRecording() : Bool
+    {
+        return Renoise.song().transport.editMode;
+    }
+
     public static function setPos(line :Int, modVal :Int) : Void
     {
         var playbackPos = Renoise.song().transport.playbackPos;
@@ -35,4 +40,14 @@ class RenoiseUtil
         editPos.line = Math.mod(line, modVal);
         Renoise.song().transport.editPos = editPos;
     }
+
+    public static function lineMoveBy(amount :Int) : Void
+    {
+        if(Renoise.song().transport.editMode) {
+            RenoiseUtil.setPos(Renoise.song().transport.editPos.line + amount, 64);
+        }
+        else {
+            RenoiseUtil.setPos(Renoise.song().transport.playbackPos.line + amount, 64);
+        }
+}
 }

@@ -19,30 +19,45 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire.button;
+package fire.toFire.view.grid;
 
-import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.fromFire.button.ButtonType;
+import fire.util.Math;
+import fire.util.PadNote;
+import renoise.song.EffectColumn;
+import fire.util.Cursor;
+import renoise.Renoise;
+import renoise.song.NoteColumn;
+import fire.fromFire.ControllerStateReadOnly;
+using lua.PairTools;
 
-abstract ButtonLight(ButtonType) from Int
+class Piano
 {
-    inline public function new(value :ButtonType) : Void
+    public static function draw(outputDevice :MidiOutputDevice, pads :Grid, controllerState :ControllerStateReadOnly) : Void
     {
-        this = value;
+        pads.clear();
+
+        for(pad in PadNoteUtil.keysBlack) {
+            checkPad(pads, controllerState, pad);
+        }
+
+        for(pad in PadNoteUtil.keysWhite) {
+            checkPad(pads, controllerState, pad);
+        }
+
+        checkPad(pads, controllerState, PadNote.OFF);
+        checkPad(pads, controllerState, PadNote.ERASE);
+        checkPad(pads, controllerState, PadNote.OCTAVE_UP);
+        checkPad(pads, controllerState, PadNote.OCTAVE_DOWN);
+        
+        pads.render(outputDevice);
     }
 
-    public inline function clear(output :MidiOutputDevice) : Void
+    private static function checkPad(pads :Grid, controllerState :ControllerStateReadOnly, pad :PadNote) : Void
     {
-        send(output, 0);
-    }
-
-    public function send(output :MidiOutputDevice, value :Int) : Void
-    {
-        lightMsg[2] = this;
-        lightMsg[3] = value;
-        output.send(lightMsg);
-    }
-
-    private static var lightMsg :Table<Int, Int> = Table.create([0xB0]);
+        var offset = controllerState.grid.isDown(pad)
+            ? 60
+            : 0;
+        pads.drawPad(40 + offset, 80 + offset, 40, pad);
+    }  
 }

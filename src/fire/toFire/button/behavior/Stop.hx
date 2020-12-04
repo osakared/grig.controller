@@ -19,25 +19,26 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.button;
+package fire.toFire.button.behavior;
 
-import renoise.Renoise;
 import fire.fromFire.ControllerStateReadOnly;
+import renoise.midi.Midi.MidiOutputDevice;
+import renoise.Renoise;
 
-class Record
+class Stop
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
-        if(isDown) {
-            // onDown();
+        if(controllerState.buttons.isDown(STOP)) {
+            buttons.stop.send(outputDevice, 1);
         }
         else {
-            onUp(state);
+            if(Renoise.song().transport.playing) {
+                buttons.stop.send(outputDevice, 0);
+            }
+            else {
+                buttons.stop.send(outputDevice, 2);
+            }
         }
-    }
-
-    private static function onUp(state :ControllerStateReadOnly) : Void
-    {
-        Renoise.song().transport.editMode = !Renoise.song().transport.editMode;
     }
 }

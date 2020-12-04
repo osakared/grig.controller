@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.dial;
+package fire.toRenoise.behavior.dial;
 
 import renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;
@@ -47,14 +47,14 @@ class Select
                     case true:
                         moveNote(softkeys, -1);
                     case false:
-                        moveLine(-1);
+                        RenoiseUtil.lineMoveBy(-1);
                 }
             case NOTE:
-                moveLine(-1);
+                RenoiseUtil.lineMoveBy(-1);
             case DRUM:
-                moveLine(-1);
+                RenoiseUtil.lineMoveBy(-1);
             case PERFORM:
-                moveLine(-1);
+                RenoiseUtil.lineMoveBy(-1);
         }
     }
 
@@ -66,14 +66,14 @@ class Select
                     case true:
                         moveNote(softkeys, 1);
                     case false:
-                        moveLine(1);
+                        RenoiseUtil.lineMoveBy(1);
                 }
             case NOTE:
-                moveLine(1);
+                RenoiseUtil.lineMoveBy(1);
             case DRUM:
-                moveLine(1);
+                RenoiseUtil.lineMoveBy(1);
             case PERFORM:
-                moveLine(1);
+                RenoiseUtil.lineMoveBy(1);
         }
     }
 
@@ -88,19 +88,10 @@ class Select
             case _:
                 (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
         }
-        Renoise.song().selectedLine.noteColumn(1).noteValue = newValue;
+        var noteColumn = Renoise.song().selectedNoteColumnIndex;
+        Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = newValue;
         softkeys.playNote(false, oldValue);
         softkeys.playNote(true, newValue);
-    }
-
-    private static function moveLine(amount :Int) : Void
-    {
-        if(Renoise.song().transport.editMode) {
-            RenoiseUtil.setPos(Renoise.song().transport.editPos.line + amount, 64);
-        }
-        else {
-            RenoiseUtil.setPos(Renoise.song().transport.playbackPos.line + amount, 64);
-        }
     }
 }
 

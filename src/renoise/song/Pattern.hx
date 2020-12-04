@@ -21,9 +21,10 @@
 
 package renoise.song;
 
+import renoise.song.Track;
 import lua.Table;
 
-typedef LineNotifier = {pattern :Dynamic, track :Dynamic, line :Dynamic} -> Void;
+typedef LineNotifier = {pattern :Pattern, track :Track, line :Int} -> Void;
 
 extern class Pattern
 {

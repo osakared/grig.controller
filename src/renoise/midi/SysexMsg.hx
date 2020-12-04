@@ -19,30 +19,10 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire.button;
+package renoise.midi;
 
 import lua.Table;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.fromFire.button.ButtonType;
 
-abstract ButtonLight(ButtonType) from Int
+abstract SysexMsg(Array<Table<Int, Int>>) 
 {
-    inline public function new(value :ButtonType) : Void
-    {
-        this = value;
-    }
-
-    public inline function clear(output :MidiOutputDevice) : Void
-    {
-        send(output, 0);
-    }
-
-    public function send(output :MidiOutputDevice, value :Int) : Void
-    {
-        lightMsg[2] = this;
-        lightMsg[3] = value;
-        output.send(lightMsg);
-    }
-
-    private static var lightMsg :Table<Int, Int> = Table.create([0xB0]);
 }

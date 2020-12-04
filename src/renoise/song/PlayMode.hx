@@ -22,7 +22,7 @@
 package renoise.song;
 
 @:native("renoise.Track")
-extern enum abstract TrackType(Dynamic)
+extern enum abstract TrackType(Int)
 {
     @:native("TRACK_TYPE_SEQUENCER")
     var SEQUENCER;

@@ -31,6 +31,11 @@ abstract PadNote(Int) from Int to Int
 
     var C_3 = 30;
 
+    var OFF = 48;
+    var ERASE = 49;
+    var OCTAVE_UP = 62;
+    var OCTAVE_DOWN = 63;
+
     public static function getNote(padNote :PadNote) : Int
     {
         return switch padNote {

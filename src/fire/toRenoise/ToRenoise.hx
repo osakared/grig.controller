@@ -24,16 +24,16 @@ package fire.toRenoise;
 import fire.fromFire.dial.DialType;
 import fire.toRenoise.SoftKeys;
 import fire.fromFire.button.ButtonType;
-import fire.fromFire.dial.DialsReadOnly;
 import fire.fromFire.ControllerStateReadOnly;
-import fire.toRenoise.button.GridLeft;
-import fire.toRenoise.button.GridRight;
-import fire.toRenoise.button.Play;
-import fire.toRenoise.button.Select;
-import fire.toRenoise.button.Step;
-import fire.toRenoise.button.Stop;
-import fire.toRenoise.button.Record;
-import fire.toRenoise.dial.Select as SelectDial;
+import fire.toRenoise.behavior.Behavior;
+import fire.toRenoise.behavior.button.GridLeft;
+import fire.toRenoise.behavior.button.GridRight;
+import fire.toRenoise.behavior.button.Play;
+import fire.toRenoise.behavior.button.Select;
+import fire.toRenoise.behavior.button.Step;
+import fire.toRenoise.behavior.button.Stop;
+import fire.toRenoise.behavior.button.Record;
+import fire.toRenoise.behavior.dial.Select as SelectDial;
 
 class ToRenoise
 {
@@ -60,41 +60,38 @@ class ToRenoise
 
     private function initControllerState(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
     {
-        controllerState.buttons.onDown.addListener((to, _) -> {
+        controllerState.buttons.onDown.addListener((to) -> {
             if(_buttonBehaviours.exists(to)) {
                 _buttonBehaviours.get(to)(true, softkeys, controllerState);
             }
         });
-        controllerState.buttons.onUp.addListener((to, _) -> {
+        controllerState.buttons.onUp.addListener((to) -> {
             if(_buttonBehaviours.exists(to)) {
                 _buttonBehaviours.get(to)(false, softkeys, controllerState);
             }
         });
 
-        controllerState.dials.onLeft.addListener((to, _) -> {
+        controllerState.dials.onLeft.addListener((to) -> {
             if(_dialBehaviours.exists(to)) {
                 _dialBehaviours.get(to)(true, softkeys, controllerState);
             }
         });
-        controllerState.dials.onRight.addListener((to, _) -> {
+        controllerState.dials.onRight.addListener((to) -> {
             if(_dialBehaviours.exists(to)) {
                 _dialBehaviours.get(to)(false, softkeys, controllerState);
             }
         });
 
-        controllerState.grid.onDown.addListener((pad, _) -> {
+        controllerState.grid.onDown.addListener((pad) -> {
             _grid.down(controllerState, pad);
         });
 
-        controllerState.grid.onUp.addListener((pad, _) -> {
+        controllerState.grid.onUp.addListener((pad) -> {
             _grid.up(controllerState, pad);
         });
     }
 
     private var _grid :Grid;
-    private var _buttonBehaviours : Map<ButtonType, ButtonBehaviour>;
-    private var _dialBehaviours : Map<DialType, ButtonBehaviour>;
+    private var _buttonBehaviours : Map<ButtonType, Behavior>;
+    private var _dialBehaviours : Map<DialType, Behavior>;
 }
-
-typedef ButtonBehaviour = (isDown :Bool, softkeys :SoftKeys, controllerState :ControllerStateReadOnly) -> Void;
-typedef DialBehaviour = (isLeft :Bool, softkeys :SoftKeys, controllerState :ControllerStateReadOnly) -> Void;

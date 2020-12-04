@@ -19,13 +19,25 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise;
+package fire.toRenoise.behavior.button;
 
-@:native("LineChaneObserver")
-extern class LineChaneObserver
+import renoise.Renoise;
+import fire.fromFire.ControllerStateReadOnly;
+
+class Play
 {
-    @:selfCall
-    public function new() : Void;
-    public function register(id :Int, cb :Void -> Void) :Void;
-    public function unregister(id :Int) :Void;
+    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    {
+        if(isDown) {
+            // onDown();
+        }
+        else {
+            onUp(state);
+        }
+    }
+
+    private static function onUp(state :ControllerStateReadOnly) : Void
+    {
+        Renoise.song().transport.playing = true;
+    }
 }

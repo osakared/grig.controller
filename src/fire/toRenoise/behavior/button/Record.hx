@@ -19,30 +19,25 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire.button;
+package fire.toRenoise.behavior.button;
 
-import lua.Table;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.fromFire.button.ButtonType;
+import renoise.Renoise;
+import fire.fromFire.ControllerStateReadOnly;
 
-abstract ButtonLight(ButtonType) from Int
+class Record
 {
-    inline public function new(value :ButtonType) : Void
+    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
     {
-        this = value;
+        if(isDown) {
+            // onDown();
+        }
+        else {
+            onUp(state);
+        }
     }
 
-    public inline function clear(output :MidiOutputDevice) : Void
+    private static function onUp(state :ControllerStateReadOnly) : Void
     {
-        send(output, 0);
+        Renoise.song().transport.editMode = !Renoise.song().transport.editMode;
     }
-
-    public function send(output :MidiOutputDevice, value :Int) : Void
-    {
-        lightMsg[2] = this;
-        lightMsg[3] = value;
-        output.send(lightMsg);
-    }
-
-    private static var lightMsg :Table<Int, Int> = Table.create([0xB0]);
 }

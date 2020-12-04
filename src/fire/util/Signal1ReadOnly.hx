@@ -25,7 +25,7 @@ abstract Signal1ReadOnly<T>(Signal1<T>) from Signal1<T>
 {
     public var value (get, never):T;
 
-    public inline function addListener(fn :T -> T -> Void) : Void -> Void
+    public inline function addListener(fn :T -> Void) : Void -> Void
     {
         return this.addListener(fn);
     }

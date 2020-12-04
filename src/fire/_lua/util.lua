@@ -22,19 +22,19 @@ end
 ---
 --- observes the playback position to make listeners on the playback position possible
 
-class "LineChaneObserver"
+class "LineChangeObserver"
 
 --- ======================================================================================================
 ---
 ---                                                 [ INIT ]
 
-function LineChaneObserver:__init()
+function LineChangeObserver:__init()
     self._hooks = {}
 end
 
 --- id : a key to find the hook later (to delete it)
 --- hook : a function called (with the updated value)
-function LineChaneObserver:register(id,hook)
+function LineChangeObserver:register(id,hook)
 
     if self._hooks[id] then
         self:unregister(id)
@@ -67,7 +67,7 @@ function LineChaneObserver:register(id,hook)
     renoise.tool().app_idle_observable:add_notifier(internal_hook_func)
 end
 
-function LineChaneObserver:unregister(id)
+function LineChangeObserver:unregister(id)
     if self._hooks[id] then
         if renoise.tool().app_idle_observable:has_notifier(self._hooks[id].internal_hook) then
             renoise.tool().app_idle_observable:remove_notifier(self._hooks[id].internal_hook)
@@ -76,7 +76,7 @@ function LineChaneObserver:unregister(id)
     end
 end
 
-function LineChaneObserver:has_notifier(id)
+function LineChangeObserver:has_notifier(id)
     if self._hooks[id] then
         return true
     else

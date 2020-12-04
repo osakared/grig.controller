@@ -51,7 +51,6 @@ class SoftKeys
         var header = isOn
             ? "/renoise/trigger/note_on"
             : "/renoise/trigger/note_off";
-        Renoise.app().showStatus(header);
         var oscMsg = renoise.Osc.createMessage(header,oscVars);
         _client.send(oscMsg);
     }

@@ -19,39 +19,20 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.button;
+package fire.toFire.button.behavior;
 
-import renoise.song.NoteColumn;
-import renoise.Renoise;
 import fire.fromFire.ControllerStateReadOnly;
+import renoise.midi.Midi.MidiOutputDevice;
 
-class Select
+class PatternSong
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
-        if(isDown) {
-            onDown(state);
+        if(controllerState.buttons.isDown(PATTERN_SONG)) {
+            buttons.patternSong.send(outputDevice, 1);
         }
         else {
-            // onUp();
-        }
-    }
-
-    private static function onDown(state :ControllerStateReadOnly) : Void
-    {
-        if(state.grid.hasDown) {
-            var selectedNoteColumn = Renoise.song().selectedNoteColumnIndex;
-            for(pad in state.grid.iterator()) {
-                var noteColumn = Renoise.song().selectedPatternTrack.line(pad + 1).noteColumn(selectedNoteColumn);
-                noteColumn.noteValue = switch noteColumn.noteValue {
-                    case NoteColumn.NOTE_EMPTY:
-                        NoteColumn.NOTE_OFF;
-                    case NoteColumn.NOTE_OFF:
-                        NoteColumn.NOTE_EMPTY;
-                    case _:
-                        NoteColumn.NOTE_OFF;
-                }
-            }
+            buttons.patternSong.send(outputDevice, 0);
         }
     }
 }

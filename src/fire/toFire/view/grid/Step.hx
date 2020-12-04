@@ -19,25 +19,37 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.button;
+package fire.toFire.view.grid;
 
+import renoise.midi.Midi.MidiOutputDevice;
 import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.toFire.Grid;
+using lua.PairTools;
 
-class Play
+class Step
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public static function draw(outputDevice :MidiOutputDevice, pads :Grid, padIndex :Int) : Void
     {
-        if(isDown) {
-            // onDown();
-        }
-        else {
-            onUp(state);
-        }
-    }
+        pads.clear();
 
-    private static function onUp(state :ControllerStateReadOnly) : Void
-    {
-        Renoise.song().transport.playing = true;
+        var lines = Renoise.song().selectedPatternTrack.linesInRange(1, 64);
+        var hasDrawnPadIndex = false;
+        lines.ipairsEach((index, line) -> {
+            var noteValue = line.noteColumn(1).noteValue;
+            if(noteValue < 121) {
+                if(index == padIndex) {
+                    pads.drawPad(90, 0, 30, index - 1);
+                    hasDrawnPadIndex = true;
+                }
+                else {
+                    pads.drawPad(40, 0, 40, index - 1);
+                }
+            }
+        });
+        if(!hasDrawnPadIndex) {
+            pads.drawPad(90,0,0, padIndex - 1);
+        }
+
+        pads.render(outputDevice);
     }
 }

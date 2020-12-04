@@ -71,7 +71,7 @@ extern class Midi
      * @return MidiInputDevice
      */
     @:native("create_input_device")
-    public static function createInputDevice(device_name :String, callback :MidiMsg -> Void, sysex_callback :Dynamic -> Void) : MidiInputDevice;
+    public static function createInputDevice(device_name :String, callback :MidiMsg -> Void, sysex_callback :SysexMsg -> Void) : MidiInputDevice;
 
     /**
      * Send MIDI: open access to a MIDI device by specifying the 

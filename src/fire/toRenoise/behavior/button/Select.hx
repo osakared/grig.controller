@@ -19,30 +19,39 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire.button;
+package fire.toRenoise.behavior.button;
 
-import lua.Table;
-import renoise.midi.Midi.MidiOutputDevice;
-import fire.fromFire.button.ButtonType;
+import renoise.song.NoteColumn;
+import renoise.Renoise;
+import fire.fromFire.ControllerStateReadOnly;
 
-abstract ButtonLight(ButtonType) from Int
+class Select
 {
-    inline public function new(value :ButtonType) : Void
+    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
     {
-        this = value;
+        if(isDown) {
+            onDown(state);
+        }
+        else {
+            // onUp();
+        }
     }
 
-    public inline function clear(output :MidiOutputDevice) : Void
+    private static function onDown(state :ControllerStateReadOnly) : Void
     {
-        send(output, 0);
+        if(state.grid.hasDown) {
+            var selectedNoteColumn = Renoise.song().selectedNoteColumnIndex;
+            for(pad in state.grid.iterator()) {
+                var noteColumn = Renoise.song().selectedPatternTrack.line(pad + 1).noteColumn(selectedNoteColumn);
+                noteColumn.noteValue = switch noteColumn.noteValue {
+                    case NoteColumn.NOTE_EMPTY:
+                        NoteColumn.NOTE_OFF;
+                    case NoteColumn.NOTE_OFF:
+                        NoteColumn.NOTE_EMPTY;
+                    case _:
+                        NoteColumn.NOTE_OFF;
+                }
+            }
+        }
     }
-
-    public function send(output :MidiOutputDevice, value :Int) : Void
-    {
-        lightMsg[2] = this;
-        lightMsg[3] = value;
-        output.send(lightMsg);
-    }
-
-    private static var lightMsg :Table<Int, Int> = Table.create([0xB0]);
 }

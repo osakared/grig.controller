@@ -19,12 +19,12 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.button;
+package fire.toRenoise.behavior.button;
 
 import renoise.Renoise;
 import fire.fromFire.ControllerStateReadOnly;
 
-class GridRight
+class GridLeft
 {
     public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
     {
@@ -39,34 +39,38 @@ class GridRight
     private static function onUp(state :ControllerStateReadOnly) : Void
     {
         // switch gridIndex.value {
-        //     case Note:
-        //         gridIndex.value = Inst;
+        //     case Note: {
+        //         if(Renoise.song().selectedNoteColumnIndex > 1) {
+        //             Renoise.song().selectedNoteColumnIndex -= 1;
+        //             gridIndex.value = Vol;
+        //         }
+        //         else if(Renoise.song().selectedTrackIndex > 1) {
+        //             Renoise.song().selectedTrackIndex -= 1;
+        //             if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
+        //                 Renoise.song().selectedEffectColumnIndex = Renoise.song().selectedTrack.visibleEffectColumns;
+        //                 gridIndex.value = FXAmount;
+        //             }
+        //             else {
+        //                 Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+        //                 gridIndex.value = Vol;
+        //             }
+        //         }
+        //     }
         //     case Inst:
-        //         gridIndex.value = Vol;
+        //         gridIndex.value = Note;
         //     case Vol:
-        //         if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
-        //             Renoise.song().selectedNoteColumnIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
-        //         else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
-        //             Renoise.song().selectedEffectColumnIndex = 1;
-        //             gridIndex.value = FXNum;
-        //         }
-        //         else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
-        //             Renoise.song().selectedTrackIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
+        //         gridIndex.value = Inst;
         //     case FXNum:
-        //         gridIndex.value = FXAmount;
+        //         if(Renoise.song().selectedEffectColumnIndex > 1) {
+        //             Renoise.song().selectedEffectColumnIndex -= 1;
+        //             gridIndex.value = FXAmount;
+        //         }
+        //         else {
+        //             Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+        //             gridIndex.value = Vol;
+        //         }
         //     case FXAmount:
-        //         if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
-        //             Renoise.song().selectedEffectColumnIndex += 1;
-        //             gridIndex.value = FXNum;
-        //         }
-        //         else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
-        //             Renoise.song().selectedTrackIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
+        //         gridIndex.value = FXNum;
         // }
     }
 }
