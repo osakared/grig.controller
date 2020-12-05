@@ -19,14 +19,38 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.dial;
+package fire.input;
 
-@:enum
-abstract DialType(Int) from Int to Int
+import fire.input.button.ButtonsReadOnly;
+import fire.input.grid.GridReadOnly;
+import fire.input.dial.DialsReadOnly;
+import fire.input.ControllerState.InputState;
+import fire.util.Signal1ReadOnly;
+
+abstract ControllerStateReadOnly(ControllerState) from ControllerState
 {
-    var VOLUME = 16;
-    var PAN = 17;
-    var FILTER = 18;
-    var RESONANCE = 19;
-    var SELECT = 118;
+    public var dials (get, never) : DialsReadOnly;
+    public var input (get, never) : Signal1ReadOnly<InputState>;
+    public var grid (get, never) : GridReadOnly;
+    public var buttons (get, never) : ButtonsReadOnly;
+
+    private inline function get_dials() : DialsReadOnly
+    {
+        return this.dials;
+    }
+
+    private inline function get_input() : Signal1ReadOnly<InputState>
+    {
+        return this.input;
+    }
+
+    private inline function get_grid() : GridReadOnly
+    {
+        return this.grid;
+    }
+
+    private inline function get_buttons() : ButtonsReadOnly
+    {
+        return this.buttons;
+    }
 }

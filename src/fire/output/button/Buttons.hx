@@ -25,7 +25,7 @@ import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.button.ButtonLights;
 import fire.output.button.behavior.*;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 
 class Buttons
 {

@@ -19,13 +19,13 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire;
+package fire.input;
 
 import renoise.Renoise;
-import fire.fromFire.button.ButtonType;
-import fire.fromFire.dial.Dials;
-import fire.fromFire.grid.Grid;
-import fire.fromFire.button.Buttons;
+import fire.input.button.ButtonType;
+import fire.input.dial.Dials;
+import fire.input.grid.Grid;
+import fire.input.button.Buttons;
 import fire.util.Signal1;
 
 class ControllerState

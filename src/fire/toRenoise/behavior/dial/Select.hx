@@ -22,7 +22,7 @@
 package fire.toRenoise.behavior.dial;
 
 import renoise.song.NoteColumn;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;

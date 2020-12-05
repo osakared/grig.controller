@@ -19,29 +19,50 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.dial;
+package fire.input.button;
 
 import fire.util.Signal0ReadOnly;
 import fire.util.Signal1ReadOnly;
 
-abstract DialsReadOnly(Dials) from Dials
+abstract ButtonsReadOnly(Buttons) from Buttons
 {
+    public var hasDown (get, never) : Bool;
     public var fire (get, never) : Signal0ReadOnly;
-    public var onLeft (get, never) : Signal1ReadOnly<Null<DialType>>;
-    public var onRight (get, never) : Signal1ReadOnly<Null<DialType>>;
+    public var onUp (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+    public var onDown (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+
+    public inline function isDown(button :ButtonType) : Bool
+    {
+        return this.isDown(button);
+    }
+
+    public inline function isButton(value :ButtonType) : Bool
+    {
+        return this.isButton(value);
+    }
+
+    public inline function iterator() : Iterator<ButtonType>
+    {
+        return this.iterator();
+    }
+
+    private inline function get_hasDown() : Bool
+    {
+        return this.hasDown;
+    }
 
     private inline function get_fire() : Signal0ReadOnly
     {
         return this.fire;
     }
 
-    private inline function get_onLeft() : Signal1ReadOnly<Null<DialType>>
+    private inline function get_onUp() : Signal1ReadOnly<Null<ButtonType>>
     {
-        return this.onLeft;
+        return this.onUp;
     }
 
-    private inline function get_onRight() : Signal1ReadOnly<Null<DialType>>
+    private inline function get_onDown() : Signal1ReadOnly<Null<ButtonType>>
     {
-        return this.onRight;
+        return this.onDown;
     }
 }

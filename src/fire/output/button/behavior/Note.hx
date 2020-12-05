@@ -21,7 +21,7 @@
 
 package fire.output.button.behavior;
 
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class Note

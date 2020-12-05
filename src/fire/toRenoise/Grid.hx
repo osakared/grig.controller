@@ -25,7 +25,7 @@ import renoise.song.NoteColumn;
 import renoise.Renoise;
 import fire.util.PadNote;
 import fire.util.RenoiseUtil;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 
 class Grid
 {

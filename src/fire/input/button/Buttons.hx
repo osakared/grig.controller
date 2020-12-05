@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package fire.input.button;
 
 import fire.util.Signal0;
 import fire.util.Signal1;

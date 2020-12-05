@@ -23,7 +23,7 @@ package fire.output.button;
 
 import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.fromFire.button.ButtonType;
+import fire.input.button.ButtonType;
 
 abstract ButtonLight(ButtonType) from Int
 {

@@ -23,7 +23,7 @@ package fire.toRenoise.behavior.button;
 
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 
 class Stop
 {

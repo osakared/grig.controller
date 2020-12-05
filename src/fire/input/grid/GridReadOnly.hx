@@ -19,29 +19,24 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package fire.input.grid;
 
 import fire.util.Signal0ReadOnly;
 import fire.util.Signal1ReadOnly;
 
-abstract ButtonsReadOnly(Buttons) from Buttons
+abstract GridReadOnly(Grid) from Grid
 {
     public var hasDown (get, never) : Bool;
     public var fire (get, never) : Signal0ReadOnly;
-    public var onUp (get, never) : Signal1ReadOnly<Null<ButtonType>>;
-    public var onDown (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+    public var onUp (get, never) : Signal1ReadOnly<Null<Int>>;
+    public var onDown (get, never) : Signal1ReadOnly<Null<Int>>;
 
-    public inline function isDown(button :ButtonType) : Bool
+    public inline function isDown(pad :Int) : Bool
     {
-        return this.isDown(button);
+        return this.isDown(pad);
     }
 
-    public inline function isButton(value :ButtonType) : Bool
-    {
-        return this.isButton(value);
-    }
-
-    public inline function iterator() : Iterator<ButtonType>
+    public inline function iterator() : Iterator<Int>
     {
         return this.iterator();
     }
@@ -56,12 +51,12 @@ abstract ButtonsReadOnly(Buttons) from Buttons
         return this.fire;
     }
 
-    private inline function get_onUp() : Signal1ReadOnly<Null<ButtonType>>
+    private inline function get_onUp() : Signal1ReadOnly<Null<Int>>
     {
         return this.onUp;
     }
 
-    private inline function get_onDown() : Signal1ReadOnly<Null<ButtonType>>
+    private inline function get_onDown() : Signal1ReadOnly<Null<Int>>
     {
         return this.onDown;
     }

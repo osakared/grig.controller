@@ -21,7 +21,7 @@
 
 package fire.output.button;
 
-import fire.fromFire.button.ButtonType;
+import fire.input.button.ButtonType;
 
 class ButtonLights
 {

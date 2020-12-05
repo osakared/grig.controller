@@ -21,7 +21,7 @@
 
 package fire.output.view.display;
 
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
 import renoise.song.EffectColumn;

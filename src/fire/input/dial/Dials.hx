@@ -19,62 +19,33 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.grid;
+package fire.input.dial;
 
 import fire.util.Signal0;
 import fire.util.Signal1;
 
-class Grid
+class Dials
 {
-    public var hasDown (get, never) : Bool;
     public var fire (default, null) : Signal0;
-    public var onUp (default, null) : Signal1<Null<Int>>;
-    public var onDown (default, null) : Signal1<Null<Int>>;
+    public var onLeft (default, null) : Signal1<Null<DialType>>;
+    public var onRight (default, null) : Signal1<Null<DialType>>;
 
     public function new() : Void
     {
         this.fire = new Signal0();
-        this.onUp = new Signal1(null);
-        this.onDown = new Signal1(null);
-        _lengthDown = 0;
-        _pads = new Map<Int, Int>();
+        this.onLeft = new Signal1(null);
+        this.onRight = new Signal1(null);
     }
 
-    public function down(pad :Int) : Void
+    public function left(type :DialType) : Void
     {
-        if(!_pads.exists(pad)) {
-            _pads.set(pad, pad);
-            _lengthDown++;
-            this.onDown.value = pad;
-            this.fire.emit();
-        }
+        this.onLeft.value = type;
+        this.fire.emit();
     }
 
-    public function up(pad :Int) : Void
+    public function right(type :DialType) : Void
     {
-        if(_pads.exists(pad)) {
-            _pads.remove(pad);
-            _lengthDown--;
-            this.onUp.value = pad;
-            this.fire.emit();
-        }
+        this.onRight.value = type;
+        this.fire.emit();
     }
-
-    public inline function iterator() : Iterator<Int>
-    {
-        return _pads.iterator();
-    }
-
-    public inline function isDown(pad :Int) : Bool
-    {
-        return _pads.exists(pad);
-    }
-
-    private function get_hasDown() : Bool
-    {
-        return _lengthDown > 0;
-    }
-
-    private var _lengthDown :Int;
-    private var _pads :Map<Int, Int>;
 }

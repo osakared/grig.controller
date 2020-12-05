@@ -28,7 +28,7 @@ import fire.util.PadNote;
 import renoise.song.EffectColumn;
 import renoise.Renoise;
 import renoise.song.NoteColumn;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 using lua.PairTools;
 
 class Piano
@@ -36,7 +36,9 @@ class Piano
     public static function draw(outputDevice :MidiOutputDevice, pads :Grid, controllerState :ControllerStateReadOnly) : Void
     {
         pads.clear();
-        var colorUp = new Color(40, 80, 40);
+
+        var trackColor = Renoise.song().selectedTrack.color;
+        var colorUp = Color.fromTrackColor(trackColor);
         var colorDown = new Color(60, 100, 60);
 
         for(pad in PadNoteUtil.keysBlack) {

@@ -19,45 +19,29 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.grid;
+package fire.input.dial;
 
 import fire.util.Signal0ReadOnly;
 import fire.util.Signal1ReadOnly;
 
-abstract GridReadOnly(Grid) from Grid
+abstract DialsReadOnly(Dials) from Dials
 {
-    public var hasDown (get, never) : Bool;
-    public var change (get, never) : Signal0ReadOnly;
-    public var onUp (get, never) : Signal1ReadOnly<Null<Int>>;
-    public var onDown (get, never) : Signal1ReadOnly<Null<Int>>;
+    public var fire (get, never) : Signal0ReadOnly;
+    public var onLeft (get, never) : Signal1ReadOnly<Null<DialType>>;
+    public var onRight (get, never) : Signal1ReadOnly<Null<DialType>>;
 
-    public inline function isDown(pad :Int) : Bool
-    {
-        return this.isDown(pad);
-    }
-
-    public inline function iterator() : Iterator<Int>
-    {
-        return this.iterator();
-    }
-
-    private inline function get_hasDown() : Bool
-    {
-        return this.hasDown;
-    }
-
-    private inline function get_change() : Signal0ReadOnly
+    private inline function get_fire() : Signal0ReadOnly
     {
         return this.fire;
     }
 
-    private inline function get_onUp() : Signal1ReadOnly<Null<Int>>
+    private inline function get_onLeft() : Signal1ReadOnly<Null<DialType>>
     {
-        return this.onUp;
+        return this.onLeft;
     }
 
-    private inline function get_onDown() : Signal1ReadOnly<Null<Int>>
+    private inline function get_onRight() : Signal1ReadOnly<Null<DialType>>
     {
-        return this.onDown;
+        return this.onRight;
     }
 }

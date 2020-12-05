@@ -22,14 +22,13 @@
 package fire.output;
 
 import fire.output.button.Buttons;
-import fire.util.Signal1;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.output.Display;
 import fire.output.button.ButtonLights;
 import fire.output.Grid;
 import renoise.LineChangeObserver;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.input.ControllerStateReadOnly;
 import fire.output.view.display.Tracker;
 import fire.output.view.grid.Step;
 import fire.output.view.grid.Piano;
@@ -60,7 +59,7 @@ class Fireout
         controllerState.input.addListener((_) -> {
             draw(controllerState);
         });
-        controllerState.buttons.fire.addListener(draw.bind(controllerState));
+        controllerState.grid.fire.addListener(draw.bind(controllerState));
         Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState));
     }
 
