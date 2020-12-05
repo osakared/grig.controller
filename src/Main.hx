@@ -26,7 +26,7 @@ import renoise.tool.Tool.MenuEntry;
 import fire.fromFire.ControllerState;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.button.ButtonType;
-import fire.fireout.ToFire;
+import fire.fireout.Fireout;
 import fire.util.Signal1;
 
 class Main
@@ -47,7 +47,7 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var controllerState = new ControllerState();
-            new ToFire(MIDI_OUT, controllerState);
+            new Fireout(MIDI_OUT, controllerState);
             new ToRenoise(controllerState);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {

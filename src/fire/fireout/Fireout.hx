@@ -35,7 +35,7 @@ import fire.fireout.view.grid.Step;
 import fire.fireout.view.grid.Piano;
 using lua.PairTools;
 
-class ToFire
+class Fireout
 {
     public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly) : Void
     {
