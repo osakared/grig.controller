@@ -21,6 +21,7 @@
 
 package fire.toFire.view.grid;
 
+import fire.util.Color;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
 import fire.util.PadNote;
@@ -35,28 +36,30 @@ class Piano
     public static function draw(outputDevice :MidiOutputDevice, pads :Grid, controllerState :ControllerStateReadOnly) : Void
     {
         pads.clear();
+        var colorUp = new Color(40, 80, 40);
+        var colorDown = new Color(60, 100, 60);
 
         for(pad in PadNoteUtil.keysBlack) {
-            checkPad(pads, controllerState, pad);
+            checkPad(pads, controllerState, pad, colorUp, colorDown);
         }
 
         for(pad in PadNoteUtil.keysWhite) {
-            checkPad(pads, controllerState, pad);
+            checkPad(pads, controllerState, pad, colorUp, colorDown);
         }
 
-        checkPad(pads, controllerState, PadNote.OFF);
-        checkPad(pads, controllerState, PadNote.ERASE);
-        checkPad(pads, controllerState, PadNote.OCTAVE_UP);
-        checkPad(pads, controllerState, PadNote.OCTAVE_DOWN);
+        checkPad(pads, controllerState, PadNote.OFF, colorUp, colorDown);
+        checkPad(pads, controllerState, PadNote.ERASE, colorUp, colorDown);
+        checkPad(pads, controllerState, PadNote.OCTAVE_UP, colorUp, colorDown);
+        checkPad(pads, controllerState, PadNote.OCTAVE_DOWN, colorUp, colorDown);
         
         pads.render(outputDevice);
     }
 
-    private static function checkPad(pads :Grid, controllerState :ControllerStateReadOnly, pad :PadNote) : Void
+    private static function checkPad(pads :Grid, controllerState :ControllerStateReadOnly, pad :PadNote, colorUp :Color, colorDown :Color) : Void
     {
-        var offset = controllerState.grid.isDown(pad)
-            ? 60
-            : 0;
-        pads.drawPad(40 + offset, 80 + offset, 40, pad);
+        var color = controllerState.grid.isDown(pad)
+            ? colorDown
+            : colorUp;
+        pads.draw(color, pad);
     }  
 }

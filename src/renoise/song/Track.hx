@@ -33,7 +33,7 @@ extern class Track
     @:native("name_observable")
     public var nameObservable :Observable;
 
-    public var color :lua.Table<Int, Int>;
+    public var color :TrackColor;
 
     @:native("color_observable")
     public var colorObservable :Observable;

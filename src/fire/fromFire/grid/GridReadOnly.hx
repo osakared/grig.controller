@@ -48,7 +48,7 @@ abstract GridReadOnly(Grid) from Grid
 
     private inline function get_change() : Signal0ReadOnly
     {
-        return this.change;
+        return this.fire;
     }
 
     private inline function get_onUp() : Signal1ReadOnly<Null<Int>>

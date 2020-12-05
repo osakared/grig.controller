@@ -26,13 +26,13 @@ import fire.util.Signal1;
 
 class Dials
 {
-    public var change (default, null) : Signal0;
+    public var fire (default, null) : Signal0;
     public var onLeft (default, null) : Signal1<Null<DialType>>;
     public var onRight (default, null) : Signal1<Null<DialType>>;
 
     public function new() : Void
     {
-        this.change = new Signal0();
+        this.fire = new Signal0();
         this.onLeft = new Signal1(null);
         this.onRight = new Signal1(null);
     }
@@ -40,12 +40,12 @@ class Dials
     public function left(type :DialType) : Void
     {
         this.onLeft.value = type;
-        this.change.emit();
+        this.fire.emit();
     }
 
     public function right(type :DialType) : Void
     {
         this.onRight.value = type;
-        this.change.emit();
+        this.fire.emit();
     }
 }

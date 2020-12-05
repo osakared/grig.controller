@@ -68,7 +68,7 @@ class Buttons
 
     private function initializeListeners() : Void
     {
-        _controllerState.buttons.change.addListener(update);
+        _controllerState.buttons.fire.addListener(update);
         Renoise.song().transport.playingObservable.addNotifier(update);
         Renoise.song().transport.editModeObservable.addNotifier(update);
     }

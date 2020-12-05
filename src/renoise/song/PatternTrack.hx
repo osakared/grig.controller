@@ -34,7 +34,7 @@ extern class PatternTrack
     @:native("alias_pattern_index_observable")
     public var aliasPatternIndexObservable : Observable;
 
-    public var color : Table<Int, Int>;
+    public var color : TrackColor;
     @:native("color_observable")
     public var colorObservable : Observable;
 

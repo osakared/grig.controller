@@ -19,50 +19,31 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.fromFire.button;
+package renoise.song;
 
-import fire.util.Signal0ReadOnly;
-import fire.util.Signal1ReadOnly;
+import lua.Table;
 
-abstract ButtonsReadOnly(Buttons) from Buttons
+abstract TrackColor(lua.Table<Int, Int>)
 {
-    public var hasDown (get, never) : Bool;
-    public var fire (get, never) : Signal0ReadOnly;
-    public var onUp (get, never) : Signal1ReadOnly<Null<ButtonType>>;
-    public var onDown (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+    //0-0xFF
+    public var r (get, never):Int;
+    //0-0xFF
+    public var g (get, never):Int;
+    //0-0xFF
+    public var b (get, never):Int;
 
-    public inline function isDown(button :ButtonType) : Bool
+    private inline function get_r() : Int
     {
-        return this.isDown(button);
+        return this[1];
     }
 
-    public inline function isButton(value :ButtonType) : Bool
+    private inline function get_g() : Int
     {
-        return this.isButton(value);
+        return this[2];
     }
 
-    public inline function iterator() : Iterator<ButtonType>
+    private inline function get_b() : Int
     {
-        return this.iterator();
-    }
-
-    private inline function get_hasDown() : Bool
-    {
-        return this.hasDown;
-    }
-
-    private inline function get_fire() : Signal0ReadOnly
-    {
-        return this.fire;
-    }
-
-    private inline function get_onUp() : Signal1ReadOnly<Null<ButtonType>>
-    {
-        return this.onUp;
-    }
-
-    private inline function get_onDown() : Signal1ReadOnly<Null<ButtonType>>
-    {
-        return this.onDown;
+        return this[3];
     }
 }

@@ -21,6 +21,7 @@
 
 package fire.toFire.view.grid;
 
+import fire.util.Color;
 import renoise.midi.Midi.MidiOutputDevice;
 import renoise.Renoise;
 import fire.toFire.Grid;
@@ -34,20 +35,25 @@ class Step
 
         var lines = Renoise.song().selectedPatternTrack.linesInRange(1, 64);
         var hasDrawnPadIndex = false;
+        var trackColor = Renoise.song().selectedTrack.color;
+        var color = Color.fromTrackColor(trackColor);
         lines.ipairsEach((index, line) -> {
             var noteValue = line.noteColumn(1).noteValue;
             if(noteValue < 121) {
+                //This is a pad with a value that also is the current pad.
                 if(index == padIndex) {
-                    pads.drawPad(90, 0, 30, index - 1);
+                    pads.draw(color, index - 1);
                     hasDrawnPadIndex = true;
                 }
+                //This is a pad with a value.
                 else {
-                    pads.drawPad(40, 0, 40, index - 1);
+                    pads.draw(color, index - 1);
                 }
             }
         });
+        //The current pad which was never drawn.
         if(!hasDrawnPadIndex) {
-            pads.drawPad(90,0,0, padIndex - 1);
+            pads.draw(color, padIndex - 1);
         }
 
         pads.render(outputDevice);

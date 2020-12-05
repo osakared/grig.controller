@@ -27,13 +27,13 @@ import fire.util.Signal1;
 class Grid
 {
     public var hasDown (get, never) : Bool;
-    public var change (default, null) : Signal0;
+    public var fire (default, null) : Signal0;
     public var onUp (default, null) : Signal1<Null<Int>>;
     public var onDown (default, null) : Signal1<Null<Int>>;
 
     public function new() : Void
     {
-        this.change = new Signal0();
+        this.fire = new Signal0();
         this.onUp = new Signal1(null);
         this.onDown = new Signal1(null);
         _lengthDown = 0;
@@ -46,7 +46,7 @@ class Grid
             _pads.set(pad, pad);
             _lengthDown++;
             this.onDown.value = pad;
-            this.change.emit();
+            this.fire.emit();
         }
     }
 
@@ -56,7 +56,7 @@ class Grid
             _pads.remove(pad);
             _lengthDown--;
             this.onUp.value = pad;
-            this.change.emit();
+            this.fire.emit();
         }
     }
 

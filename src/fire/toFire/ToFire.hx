@@ -45,53 +45,33 @@ class ToFire
         var buttonLights = new ButtonLights();
         _transport = new Buttons(buttonLights, controllerState, _outputDevice);
         this.initializeListeners(controllerState);
-        drawDisplay(controllerState);
-        drawPads(controllerState);
+        draw(controllerState);
     }
 
     private function initializeListeners(controllerState :ControllerStateReadOnly) : Void
     {
         var lineObserver = new LineChangeObserver();
         lineObserver.register(0, () -> {
-            drawDisplay(controllerState);
-            drawPads(controllerState);
+            draw(controllerState);
         });
         Renoise.hack().cursor.addListener((_) -> {
-            drawDisplay(controllerState);
+            draw(controllerState);
         });
         controllerState.input.addListener((_) -> {
-            drawPads(controllerState);
+            draw(controllerState);
         });
-        Renoise.song().selectedPatternTrackObservable.addNotifier(drawPads.bind(controllerState));
+        controllerState.buttons.fire.addListener(draw.bind(controllerState));
+        Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState));
     }
 
-    private function drawDisplay(controllerState :ControllerStateReadOnly) : Void
+    private function draw(controllerState :ControllerStateReadOnly) : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex =  transport.editMode
                 ? transport.editPos.line
                 : transport.playbackPos.line;
-            switch controllerState.input.value {
-                case STEP:
-                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-                case NOTE:
-                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-                case DRUM:
-                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-                case PERFORM:
-                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-            }
-        }
-    }  
-
-    private function drawPads(controllerState :ControllerStateReadOnly) : Void
-    {
-        if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
-            var transport = Renoise.song().transport;
-            var padIndex =  transport.editMode
-                ? transport.editPos.line
-                : transport.playbackPos.line;
+            Tracker.draw(controllerState, _outputDevice, _display, padIndex);
             switch controllerState.input.value {
                 case STEP:
                     Step.draw(_outputDevice, _pads, padIndex);

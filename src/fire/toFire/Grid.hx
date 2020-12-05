@@ -21,6 +21,8 @@
 
 package fire.toFire;
 
+import fire.util.Color;
+import renoise.song.TrackColor;
 import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.LuaArray;
@@ -45,12 +47,12 @@ class Grid
         }
     }
 
-    public function drawPad(r :Int, g :Int, b :Int, pad :Int) : Void
+    public function draw(color :Color, pad :Int) : Void
     {
         var modPad = pad % (PADS * ROWS);
         pad %= PADS;
         var row = Math.floor(modPad / PADS);
-        drawToPad(r, g, b, pad, row);
+        drawToPad(color.r, color.g, color.b, pad, row);
     }
 
     public function clear() : Void

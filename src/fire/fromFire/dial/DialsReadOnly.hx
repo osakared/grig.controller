@@ -26,13 +26,13 @@ import fire.util.Signal1ReadOnly;
 
 abstract DialsReadOnly(Dials) from Dials
 {
-    public var change (get, never) : Signal0ReadOnly;
+    public var fire (get, never) : Signal0ReadOnly;
     public var onLeft (get, never) : Signal1ReadOnly<Null<DialType>>;
     public var onRight (get, never) : Signal1ReadOnly<Null<DialType>>;
 
-    private inline function get_change() : Signal0ReadOnly
+    private inline function get_fire() : Signal0ReadOnly
     {
-        return this.change;
+        return this.fire;
     }
 
     private inline function get_onLeft() : Signal1ReadOnly<Null<DialType>>
