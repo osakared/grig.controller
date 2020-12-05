@@ -26,7 +26,7 @@ import renoise.tool.Tool.MenuEntry;
 import fire.fromFire.ControllerState;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.button.ButtonType;
-import fire.out.Fireout;
+import fire.output.Fireout;
 import fire.util.Signal1;
 
 class Main
