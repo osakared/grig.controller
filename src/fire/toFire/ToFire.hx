@@ -45,58 +45,61 @@ class ToFire
         var buttonLights = new ButtonLights();
         _transport = new Buttons(buttonLights, controllerState, _outputDevice);
         this.initializeListeners(controllerState);
-        makeDrawCalls(controllerState);
+        drawDisplay(controllerState);
+        drawPads(controllerState);
     }
 
     private function initializeListeners(controllerState :ControllerStateReadOnly) : Void
     {
         var lineObserver = new LineChangeObserver();
-        lineObserver.register(0, makeDrawCalls.bind(controllerState));
-
-        controllerState.input.addListener((_) -> {
-            makeDrawCalls(controllerState);
+        lineObserver.register(0, () -> {
+            drawDisplay(controllerState);
+            drawPads(controllerState);
         });
-        controllerState.grid.change.addListener(makeDrawCalls.bind(controllerState));
-        controllerState.dials.change.addListener(makeDrawCalls.bind(controllerState));
-        controllerState.buttons.change.addListener(makeDrawCalls.bind(controllerState));
-        Renoise.song().selectedPatternTrackObservable.addNotifier(makeDrawCalls.bind(controllerState));
+        Renoise.hack().cursor.addListener((_) -> {
+            drawDisplay(controllerState);
+        });
+        controllerState.input.addListener((_) -> {
+            drawPads(controllerState);
+        });
+        Renoise.song().selectedPatternTrackObservable.addNotifier(drawPads.bind(controllerState));
     }
 
-    private function makeDrawCalls(controllerState :ControllerStateReadOnly) : Void
+    private function drawDisplay(controllerState :ControllerStateReadOnly) : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
             var transport = Renoise.song().transport;
             var padIndex =  transport.editMode
                 ? transport.editPos.line
                 : transport.playbackPos.line;
-            drawPads(controllerState, padIndex);
-            drawDisplay(controllerState, padIndex);
-        }
-    }
-
-    private function drawDisplay(controllerState :ControllerStateReadOnly, padIndex :Int) : Void
-    {
-        switch controllerState.input.value {
-            case STEP:
-                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-            case NOTE:
-                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-            case DRUM:
-                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-            case PERFORM:
-                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+            switch controllerState.input.value {
+                case STEP:
+                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+                case NOTE:
+                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+                case DRUM:
+                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+                case PERFORM:
+                    Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+            }
         }
     }  
 
-    private function drawPads(controllerState :ControllerStateReadOnly, padIndex :Int) : Void
+    private function drawPads(controllerState :ControllerStateReadOnly) : Void
     {
-        switch controllerState.input.value {
-            case STEP:
-                Step.draw(_outputDevice, _pads, padIndex);
-            case NOTE:
-                Piano.draw(_outputDevice, _pads, controllerState);
-            case DRUM:
-            case PERFORM:
+        if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
+            var transport = Renoise.song().transport;
+            var padIndex =  transport.editMode
+                ? transport.editPos.line
+                : transport.playbackPos.line;
+            switch controllerState.input.value {
+                case STEP:
+                    Step.draw(_outputDevice, _pads, padIndex);
+                case NOTE:
+                    Piano.draw(_outputDevice, _pads, controllerState);
+                case DRUM:
+                case PERFORM:
+            }
         }
     }  
 

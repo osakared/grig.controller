@@ -22,78 +22,122 @@
 package renoise.hack;
 
 import fire.util.Signal1;
+import fire.util.Signal1ReadOnly;
 
 class Hack
 {
-    public var cursor :Signal1<Cursor>;
+    public var cursor (get, never):Signal1ReadOnly<Cursor>;
 
     public function new() : Void
     {
-        this.cursor = new Signal1(NOTE);
+        _cursor = new Signal1(NOTE);
         this.init();
     }
 
     public function moveCursorLeft() : Void
     {
-        switch this.cursor.value {
+        switch _cursor.value {
             case NOTE:
                 if(Renoise.song().selectedNoteColumnIndex > 1) {
                     Renoise.song().selectedNoteColumnIndex -= 1;
-                    this.cursor.value = VOL;
+                    _cursor.value = VOL;
                 }
             case INST:
-                this.cursor.value = NOTE;
+                _cursor.value = NOTE;
             case VOL:
-                this.cursor.value = INST;
+                _cursor.value = INST;
             case FX_NUM:
                 if(Renoise.song().selectedEffectColumnIndex > 1) {
                     Renoise.song().selectedEffectColumnIndex -= 1;
-                    this.cursor.value = FX_AMOUNT;
+                    _cursor.value = FX_AMOUNT;
                 }
                 else {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    this.cursor.value = VOL;
+                    _cursor.value = VOL;
                 }
             case FX_AMOUNT:
-                this.cursor.value = FX_NUM;
+                _cursor.value = FX_NUM;
         }
     }
 
     public function moveCursorRight() : Void
     {
-        switch this.cursor.value {
+        switch _cursor.value {
             case NOTE:
-                this.cursor.value = INST;
+                _cursor.value = INST;
             case INST:
-                this.cursor.value = VOL;
+                _cursor.value = VOL;
             case VOL:
                 if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
                     Renoise.song().selectedNoteColumnIndex += 1;
-                    this.cursor.value = NOTE;
+                    _cursor.value = NOTE;
                 }
                 else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                     Renoise.song().selectedEffectColumnIndex = 1;
-                    this.cursor.value = FX_NUM;
+                    _cursor.value = FX_NUM;
                 }
             case FX_NUM:
-                this.cursor.value = FX_AMOUNT;
+                _cursor.value = FX_AMOUNT;
             case FX_AMOUNT:
                 if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
                     Renoise.song().selectedEffectColumnIndex += 1;
-                    this.cursor.value = FX_NUM;
+                    _cursor.value = FX_NUM;
                 }
         }
     }
 
     private function init() : Void
     {
+        var disposeLastObserved = observeTrackColumns();
+        Renoise.song().selectedTrackIndexObservable.addNotifier(() -> {
+            disposeLastObserved();
+            disposeLastObserved = observeTrackColumns();
+        });
+        Renoise.song().selectedPatternTrackObservable.addNotifier(setTrackCursor);
+        setTrackCursor();
+    }
+
+    private function setTrackCursor() : Void
+    {
         if(Renoise.song().selectedNoteColumnIndex != 0) {
-            this.cursor.value = NOTE;
+            _cursor.value = NOTE;
         }
         else {
-            this.cursor.value = FX_NUM;
+            _cursor.value = FX_NUM;
         }
     }
+
+    private function observeTrackColumns() {
+        function effect() {
+            if(Renoise.song().selectedTrack.visibleEffectColumns == 0) {
+                if(Renoise.song().selectedNoteColumnIndex == 0) {
+                    Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
+                    _cursor.value = NOTE;
+                }
+            }
+            else {
+                _cursor.value = _cursor.value;
+            }
+        }
+        function note() {
+            _cursor.value = _cursor.value;
+        }
+        var track = Renoise.song().selectedTrack;
+
+        track.visibleEffectColumnsObservable.addNotifier(effect);
+        track.visibleNoteColumnsObservable.addNotifier(note);
+        return () -> {
+            track.visibleEffectColumnsObservable.removeNotifier(effect);
+            track.visibleNoteColumnsObservable.removeNotifier(note);
+        };
+    }
+
+    private inline function get_cursor() : Signal1ReadOnly<Cursor>
+    {
+        return _cursor;
+    }
+
+    private var _cursor :Signal1<Cursor>;
 }
 
 @:enum

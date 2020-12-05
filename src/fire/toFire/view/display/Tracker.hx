@@ -45,7 +45,9 @@ class Tracker
             ? snci % 2 != 0
                 ? snci - (snci % 2)
                 : snci - 2
-            : visibleNoteColumns;
+            : seci == 1 && visibleNoteColumns % 2 != 0
+                ? visibleNoteColumns - 1
+                : visibleNoteColumns;
 
         var startEffectColumn = seci != 0
             ? seci % 3 != 0
