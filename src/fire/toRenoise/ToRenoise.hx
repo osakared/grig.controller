@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.dial.DialType;
 import fire.toRenoise.SoftKeys;
 import fire.fromFire.button.ButtonType;
@@ -37,7 +38,7 @@ import fire.toRenoise.behavior.dial.Select as SelectDial;
 
 class ToRenoise
 {
-    public function new(controllerState :ControllerStateReadOnly) : Void
+    public function new(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         var softkeys = new SoftKeys();
         _grid = new Grid(softkeys);
@@ -55,10 +56,10 @@ class ToRenoise
             SELECT => SelectDial.handle
         ];
 
-        initControllerState(softkeys, controllerState);
+        initControllerState(softkeys, controllerState, renoiseState);
     }
 
-    private function initControllerState(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
+    private function initControllerState(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         controllerState.buttons.onDown.addListener((to) -> {
             if(_buttonBehaviours.exists(to)) {
@@ -83,11 +84,11 @@ class ToRenoise
         });
 
         controllerState.grid.onDown.addListener((pad) -> {
-            _grid.down(controllerState, pad);
+            _grid.down(controllerState, renoiseState, pad);
         });
 
         controllerState.grid.onUp.addListener((pad) -> {
-            _grid.up(controllerState, pad);
+            _grid.up(controllerState, renoiseState, pad);
         });
     }
 

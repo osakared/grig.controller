@@ -49,7 +49,7 @@ class Main
             var controllerState = new ControllerState();
             var renoiseState = new RenoiseState();
             new Fireout(MIDI_OUT, controllerState, renoiseState);
-            new ToRenoise(controllerState);
+            new ToRenoise(controllerState, renoiseState);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {
 				var inputState = a.type();

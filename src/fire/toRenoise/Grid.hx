@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import fire.fromRenoise.RenoiseState;
 import renoise.song.NoteColumn;
 import renoise.Renoise;
 import fire.util.PadNote;
@@ -34,21 +35,21 @@ class Grid
         _softKeys = softkeys;
     }
 
-    public function down(controllerState :ControllerStateReadOnly, pad :Int) : Void
+    public function down(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, pad :Int) : Void
     {
         switch controllerState.input.value {
             case STEP: {
                 RenoiseUtil.setPos(pad + 1, 64);
             }
             case NOTE: {
-                hitNote(pad, true);
+                hitNote(pad, true, renoiseState);
             }
             case DRUM:
             case PERFORM:
         }
     }
 
-    public function up(controllerState :ControllerStateReadOnly, pad :Int) : Void
+    public function up(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, pad :Int) : Void
     {
         switch controllerState.input.value {
             case STEP: {
@@ -56,14 +57,14 @@ class Grid
                 _softKeys.playNote(false, oldValue);
             }
             case NOTE: {
-                hitNote(pad, false);
+                hitNote(pad, false, renoiseState);
             }
             case DRUM:
             case PERFORM:
         }
     }
 
-    private function hitNote(pad :PadNote, isDown :Bool) : Void
+    private function hitNote(pad :PadNote, isDown :Bool, renoiseState :RenoiseState) : Void
     {
         var note = PadNote.getNote(pad);
         if(note != -1) {

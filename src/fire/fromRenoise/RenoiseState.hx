@@ -30,6 +30,8 @@ class RenoiseState
     public var track (default, null) : Signal1<Track>;
     public var currentPos (get, null) : SongPos;
     public var isPlaying (get, null) : Bool;
+    public var isRecording (get, null) : Bool;
+    public var editStep (get, null) : Int;
 
     public function new() : Void
     {
@@ -40,8 +42,8 @@ class RenoiseState
     {
         var trackIndex = Renoise.song().selectedTrackIndex;
         var track = Renoise.song().selectedNoteColumnIndex != 0
-            ? NoteColumn(trackIndex, Renoise.song().selectedNoteColumnIndex)
-            : EffectColumn(trackIndex, Renoise.song().selectedEffectColumnIndex);
+            ? TrackNote(trackIndex, Renoise.song().selectedNoteColumnIndex)
+            : TrackEffect(trackIndex, Renoise.song().selectedEffectColumnIndex);
         this.track = new Signal1(track);
     }
 
@@ -57,10 +59,20 @@ class RenoiseState
     {
         return Renoise.song().transport.playing;
     }
+
+    private inline function get_isRecording() : Bool
+    {
+        return Renoise.song().transport.editMode;
+    }
+
+    private inline function get_editStep() : Int
+    {
+        return Renoise.song().transport.editStep;
+    }
 }
 
 enum Track
 {
-    NoteColumn(track :Int, index :Int);
-    EffectColumn(track :Int, index :Int);
+    TrackNote(track :Int, index :Int);
+    TrackEffect(track :Int, index :Int);
 }

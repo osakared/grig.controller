@@ -72,7 +72,7 @@ class Fireout
             case STEP:
                 Step.draw(_outputDevice, _pads, padIndex);
             case NOTE:
-                Piano.draw(_outputDevice, _pads, controllerState);
+                Piano.draw(_outputDevice, _pads, controllerState, renoiseState);
             case DRUM:
             case PERFORM:
         }

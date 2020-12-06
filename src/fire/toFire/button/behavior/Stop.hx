@@ -34,7 +34,7 @@ class Stop
             buttons.stop.send(outputDevice, 1);
         }
         else {
-            if(Renoise.song().transport.playing) {
+            if(renoiseState.isPlaying) {
                 buttons.stop.send(outputDevice, 0);
             }
             else {

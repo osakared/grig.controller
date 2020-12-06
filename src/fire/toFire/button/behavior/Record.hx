@@ -34,7 +34,7 @@ class Record
             buttons.record.send(outputDevice, 1);
         }
         else {
-            if(Renoise.song().transport.editMode) {
+            if(renoiseState.isRecording) {
                 buttons.record.send(outputDevice, 3);
             }
             else {

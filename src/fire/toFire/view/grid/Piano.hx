@@ -21,6 +21,8 @@
 
 package fire.toFire.view.grid;
 
+import fire.util.TrackColor;
+import fire.fromRenoise.RenoiseState;
 import fire.util.Color;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
@@ -33,13 +35,12 @@ using lua.PairTools;
 
 class Piano
 {
-    public static function draw(outputDevice :MidiOutputDevice, pads :Grid, controllerState :ControllerStateReadOnly) : Void
+    public static function draw(outputDevice :MidiOutputDevice, pads :Grid, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         pads.clear();
 
-        var trackColor = Renoise.song().selectedTrack.color;
-        var colorUp = Color.fromTrackColor(trackColor);
-        var colorDown = new Color(60, 100, 60);
+        var colorUp = TrackColor.active;
+        var colorDown = TrackColor.activeFlipped;
 
         for(pad in PadNoteUtil.keysBlack) {
             checkPad(pads, controllerState, pad, colorUp, colorDown);
