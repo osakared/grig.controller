@@ -21,12 +21,13 @@
 
 package fire.toFire.button.behavior;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class Browser
 {
-    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
         if(controllerState.buttons.isDown(BROWSER)) {
             buttons.browser.send(outputDevice, 1);

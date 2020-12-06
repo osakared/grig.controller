@@ -21,6 +21,7 @@
 
 package fire.toFire;
 
+import fire.fromRenoise.RenoiseState;
 import fire.toFire.button.Buttons;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
@@ -36,49 +37,44 @@ using lua.PairTools;
 
 class Fireout
 {
-    public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly) : Void
+    public function new(outputDevice :MidiOutputDevice, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         _outputDevice = outputDevice;
         _display = new Display();
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
-        _transport = new Buttons(buttonLights, controllerState, _outputDevice);
-        this.initializeListeners(controllerState);
-        draw(controllerState);
+        _transport = new Buttons(buttonLights, controllerState, renoiseState, _outputDevice);
+        this.initializeListeners(controllerState, renoiseState);
+        draw(controllerState, renoiseState);
     }
 
-    private function initializeListeners(controllerState :ControllerStateReadOnly) : Void
+    private function initializeListeners(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         var lineObserver = new LineChangeObserver();
         lineObserver.register(0, () -> {
-            draw(controllerState);
+            draw(controllerState, renoiseState);
         });
         Renoise.hack().cursor.addListener((_) -> {
-            draw(controllerState);
+            draw(controllerState, renoiseState);
         });
         controllerState.input.addListener((_) -> {
-            draw(controllerState);
+            draw(controllerState, renoiseState);
         });
-        controllerState.grid.fire.addListener(draw.bind(controllerState));
-        Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState));
+        controllerState.grid.fire.addListener(draw.bind(controllerState, renoiseState));
+        Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState, renoiseState));
     }
 
-    private function draw(controllerState :ControllerStateReadOnly) : Void
+    private function draw(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
-        if(Renoise.song().selectedNoteColumnIndex != 0 || Renoise.song().selectedEffectColumnIndex != 0) {
-            var transport = Renoise.song().transport;
-            var padIndex =  transport.editMode
-                ? transport.editPos.line
-                : transport.playbackPos.line;
-            Tracker.draw(controllerState, _outputDevice, _display, padIndex);
-            switch controllerState.input.value {
-                case STEP:
-                    Step.draw(_outputDevice, _pads, padIndex);
-                case NOTE:
-                    Piano.draw(_outputDevice, _pads, controllerState);
-                case DRUM:
-                case PERFORM:
-            }
+        var padIndex =  renoiseState.currentPos.line;
+        Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+        switch controllerState.input.value {
+            case STEP:
+                Step.draw(_outputDevice, _pads, padIndex);
+            case NOTE:
+                Piano.draw(_outputDevice, _pads, controllerState);
+            case DRUM:
+            case PERFORM:
         }
     }  
 

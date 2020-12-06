@@ -21,12 +21,13 @@
 
 package fire.toFire.button.behavior;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class GridLeft
 {
-    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
         if(controllerState.buttons.isDown(GRID_LEFT)) {
             buttons.gridLeft.send(outputDevice, 1);

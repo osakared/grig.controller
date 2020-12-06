@@ -21,19 +21,19 @@
 
 package fire.toFire.button.behavior;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
-import renoise.Renoise;
 
 class Play
 {
-    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
         if(controllerState.buttons.isDown(PLAY)) {
             buttons.play.send(outputDevice, 1);
         }
         else {
-            if(Renoise.song().transport.playing) {
+            if(renoiseState.isPlaying) {
                 buttons.play.send(outputDevice, 3);
             }
             else {

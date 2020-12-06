@@ -19,6 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import fire.fromRenoise.RenoiseState;
 import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;
@@ -46,7 +47,8 @@ class Main
 		if(device != null && device.indexOf("FL STUDIO FIRE") == 0) {
             MIDI_OUT = Midi.createOutputDevice(device);
             var controllerState = new ControllerState();
-            new Fireout(MIDI_OUT, controllerState);
+            var renoiseState = new RenoiseState();
+            new Fireout(MIDI_OUT, controllerState, renoiseState);
             new ToRenoise(controllerState);
 
 			MIDI_IN = Midi.createInputDevice(device, (a) -> {

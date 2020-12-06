@@ -21,12 +21,13 @@
 
 package fire.toFire.button.behavior;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class MuteSolo2
 {
-    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
         if(controllerState.buttons.isDown(MUTE_SOLO_2)) {
             buttons.muteSolo2.send(outputDevice, 1);

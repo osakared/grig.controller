@@ -21,7 +21,46 @@
 
 package fire.fromRenoise;
 
-class FromRenoise
-{
+import renoise.song.SongPos;
+import renoise.Renoise;
+import fire.util.Signal1;
 
+class RenoiseState
+{
+    public var track (default, null) : Signal1<Track>;
+    public var currentPos (get, null) : SongPos;
+    public var isPlaying (get, null) : Bool;
+
+    public function new() : Void
+    {
+        setTrack();
+    }
+
+    private function setTrack() : Void
+    {
+        var trackIndex = Renoise.song().selectedTrackIndex;
+        var track = Renoise.song().selectedNoteColumnIndex != 0
+            ? NoteColumn(trackIndex, Renoise.song().selectedNoteColumnIndex)
+            : EffectColumn(trackIndex, Renoise.song().selectedEffectColumnIndex);
+        this.track = new Signal1(track);
+    }
+
+    private function get_currentPos() : SongPos
+    {
+        var transport = Renoise.song().transport;
+        return  transport.editMode
+            ? transport.editPos
+            : transport.playbackPos;
+    }
+
+    private inline function get_isPlaying() : Bool
+    {
+        return Renoise.song().transport.playing;
+    }
+}
+
+enum Track
+{
+    NoteColumn(track :Int, index :Int);
+    EffectColumn(track :Int, index :Int);
 }

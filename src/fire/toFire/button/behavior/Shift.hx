@@ -22,11 +22,12 @@
 package fire.toFire.button.behavior;
 
 import fire.fromFire.ControllerStateReadOnly;
+import fire.fromRenoise.RenoiseState;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class Shift
 {
-    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
         if(controllerState.buttons.isDown(SHIFT)) {
             buttons.shift.send(outputDevice, 1);

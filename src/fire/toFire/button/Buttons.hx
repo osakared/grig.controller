@@ -21,6 +21,7 @@
 
 package fire.toFire.button;
 
+import fire.fromRenoise.RenoiseState;
 import renoise.Renoise;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
@@ -29,11 +30,12 @@ import fire.fromFire.ControllerStateReadOnly;
 
 class Buttons
 {
-    public function new(buttons :ButtonLights, controllerState :ControllerStateReadOnly, outputDevice :MidiOutputDevice) : Void
+    public function new(buttons :ButtonLights, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, outputDevice :MidiOutputDevice) : Void
     {
         _buttons = buttons;
         _outputDevice = outputDevice;
         _controllerState = controllerState;
+        _renoiseState = renoiseState;
         _behaviors = [
             Alt.handle,
             Browser.handle,
@@ -62,7 +64,7 @@ class Buttons
     private function update() : Void
     {
         for(behavior in _behaviors) {
-            behavior(_controllerState, _buttons, _outputDevice);
+            behavior(_controllerState, _renoiseState, _buttons, _outputDevice);
         }
     }
 
@@ -74,6 +76,7 @@ class Buttons
     }
 
     private var _controllerState :ControllerStateReadOnly;
+    private var _renoiseState :RenoiseState;
     private var _buttons :ButtonLights;
     private var _outputDevice :MidiOutputDevice;
     private var _behaviors : Array<Behavior>;
