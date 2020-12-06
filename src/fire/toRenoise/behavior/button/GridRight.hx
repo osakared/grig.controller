@@ -38,35 +38,5 @@ class GridRight
 
     private static function onUp(state :ControllerStateReadOnly) : Void
     {
-        // switch gridIndex.value {
-        //     case Note:
-        //         gridIndex.value = Inst;
-        //     case Inst:
-        //         gridIndex.value = Vol;
-        //     case Vol:
-        //         if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
-        //             Renoise.song().selectedNoteColumnIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
-        //         else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
-        //             Renoise.song().selectedEffectColumnIndex = 1;
-        //             gridIndex.value = FXNum;
-        //         }
-        //         else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
-        //             Renoise.song().selectedTrackIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
-        //     case FXNum:
-        //         gridIndex.value = FXAmount;
-        //     case FXAmount:
-        //         if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
-        //             Renoise.song().selectedEffectColumnIndex += 1;
-        //             gridIndex.value = FXNum;
-        //         }
-        //         else if(Renoise.song().selectedTrackIndex < Renoise.song().sequencerTrackCount) {
-        //             Renoise.song().selectedTrackIndex += 1;
-        //             gridIndex.value = Note;
-        //         }
-        // }
     }
 }

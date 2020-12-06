@@ -21,6 +21,7 @@
 
 package fire.toRenoise.behavior.dial;
 
+import fire.output.button.behavior.Alt;
 import renoise.song.NoteColumn;
 import fire.input.ControllerStateReadOnly;
 import renoise.Renoise;
@@ -31,49 +32,41 @@ class Select
 {
     public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly) : Void
     {
-        if(isLeft) {
-            onLeft(softkeys, state);
+        if(state.buttons.isDown(ALT)) {
+            alt(isLeft);
         }
         else {
-            onRight(softkeys, state);
+            normal(softkeys, state, isLeft);
         }
     }
 
-    private static function onLeft(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
+    private static function normal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, isLeft :Bool) : Void
     {
+        var amount = isLeft ? -1 : 1;
         switch controllerState.input.value {
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        moveNote(softkeys, -1);
+                        moveNote(softkeys, amount);
                     case false:
-                        RenoiseUtil.lineMoveBy(-1);
+                        RenoiseUtil.lineMoveBy(amount);
                 }
             case NOTE:
-                RenoiseUtil.lineMoveBy(-1);
+                RenoiseUtil.lineMoveBy(amount);
             case DRUM:
-                RenoiseUtil.lineMoveBy(-1);
+                RenoiseUtil.lineMoveBy(amount);
             case PERFORM:
-                RenoiseUtil.lineMoveBy(-1);
+                RenoiseUtil.lineMoveBy(amount);
         }
     }
 
-    private static function onRight(softkeys :SoftKeys, controllerState :ControllerStateReadOnly) : Void
+    private static function alt(isLeft :Bool) : Void
     {
-        switch controllerState.input.value {
-            case STEP:
-                switch controllerState.grid.hasDown {
-                    case true:
-                        moveNote(softkeys, 1);
-                    case false:
-                        RenoiseUtil.lineMoveBy(1);
-                }
-            case NOTE:
-                RenoiseUtil.lineMoveBy(1);
-            case DRUM:
-                RenoiseUtil.lineMoveBy(1);
-            case PERFORM:
-                RenoiseUtil.lineMoveBy(1);
+        if(isLeft) {
+            Renoise.hack().moveCursorLeft();
+        }
+        else {
+            Renoise.hack().moveCursorRight();
         }
     }
 
