@@ -19,24 +19,50 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.behavior.button;
+package fire.fromFire.button;
 
-import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.util.Signal0ReadOnly;
+import fire.util.Signal1ReadOnly;
 
-class GridRight
+abstract ButtonsReadOnly(Buttons) from Buttons
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public var hasDown (get, never) : Bool;
+    public var fire (get, never) : Signal0ReadOnly;
+    public var onUp (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+    public var onDown (get, never) : Signal1ReadOnly<Null<ButtonType>>;
+
+    public inline function isDown(button :ButtonType) : Bool
     {
-        if(isDown) {
-            // onDown();
-        }
-        else {
-            onUp(state);
-        }
+        return this.isDown(button);
     }
 
-    private static function onUp(state :ControllerStateReadOnly) : Void
+    public inline function isButton(value :ButtonType) : Bool
     {
+        return this.isButton(value);
+    }
+
+    public inline function iterator() : Iterator<ButtonType>
+    {
+        return this.iterator();
+    }
+
+    private inline function get_hasDown() : Bool
+    {
+        return this.hasDown;
+    }
+
+    private inline function get_fire() : Signal0ReadOnly
+    {
+        return this.fire;
+    }
+
+    private inline function get_onUp() : Signal1ReadOnly<Null<ButtonType>>
+    {
+        return this.onUp;
+    }
+
+    private inline function get_onDown() : Signal1ReadOnly<Null<ButtonType>>
+    {
+        return this.onDown;
     }
 }

@@ -19,35 +19,56 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.util;
+package fire.fromFire;
 
-import renoise.Renoise;
+import fire.fromFire.button.ButtonType;
+import fire.fromFire.dial.Dials;
+import fire.fromFire.grid.Grid;
+import fire.fromFire.button.Buttons;
+import fire.util.Signal1;
 
-class RenoiseUtil
+class ControllerState
 {
-    public static inline function isRecording() : Bool
-    {
-        return Renoise.song().transport.editMode;
+    public var dials (default, null) : Dials;
+    public var input (default, null):Signal1<InputState>;
+    public var grid (default, null):Grid;
+    public var buttons (default, null):Buttons;
+
+    public function new() {
+        this.dials = new Dials();
+        this.input = new Signal1(STEP);
+        this.grid = new Grid();
+        this.buttons = new Buttons();
+        initInput();
     }
 
-    public static function setPos(line :Int, modVal :Int) : Void
+    private function initInput() : Void
     {
-        var playbackPos = Renoise.song().transport.playbackPos;
-        playbackPos.line = Math.mod(line, modVal);
-        Renoise.song().transport.playbackPos = playbackPos;
-
-        var editPos = Renoise.song().transport.editPos;
-        editPos.line = Math.mod(line, modVal);
-        Renoise.song().transport.editPos = editPos;
+        this.buttons.onDown.addListener(type -> {
+            handleButtonDown(type);
+        });
     }
 
-    public static function lineMoveBy(amount :Int) : Void
+    private function handleButtonDown(type :ButtonType) : Void
     {
-        if(Renoise.song().transport.editMode) {
-            RenoiseUtil.setPos(Renoise.song().transport.editPos.line + amount, 64);
+        switch type {
+            case STEP:
+                this.input.value = STEP;
+            case NOTE:
+                this.input.value = NOTE;
+            case DRUM:
+                this.input.value = DRUM;
+            case PERFORM:
+                this.input.value = PERFORM;
+            case _:
         }
-        else {
-            RenoiseUtil.setPos(Renoise.song().transport.playbackPos.line + amount, 64);
-        }
     }
+}
+
+enum InputState
+{
+    STEP;
+    NOTE;
+    DRUM;
+    PERFORM;
 }

@@ -21,6 +21,6 @@
 
 package fire.toRenoise.behavior;
 
-import fire.input.ControllerStateReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 
 typedef Behavior = (is_ :Bool, softkeys :SoftKeys, controllerState :ControllerStateReadOnly) -> Void;

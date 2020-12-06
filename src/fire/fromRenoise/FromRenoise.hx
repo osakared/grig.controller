@@ -19,24 +19,9 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.behavior.button;
+package fire.fromRenoise;
 
-import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
-
-class GridRight
+class FromRenoise
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
-    {
-        if(isDown) {
-            // onDown();
-        }
-        else {
-            onUp(state);
-        }
-    }
 
-    private static function onUp(state :ControllerStateReadOnly) : Void
-    {
-    }
 }

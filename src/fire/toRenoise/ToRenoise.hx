@@ -21,10 +21,10 @@
 
 package fire.toRenoise;
 
-import fire.input.dial.DialType;
+import fire.fromFire.dial.DialType;
 import fire.toRenoise.SoftKeys;
-import fire.input.button.ButtonType;
-import fire.input.ControllerStateReadOnly;
+import fire.fromFire.button.ButtonType;
+import fire.fromFire.ControllerStateReadOnly;
 import fire.toRenoise.behavior.Behavior;
 import fire.toRenoise.behavior.button.GridLeft;
 import fire.toRenoise.behavior.button.GridRight;

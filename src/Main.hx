@@ -23,10 +23,10 @@ import fire.toRenoise.ToRenoise;
 import renoise.Renoise;
 import renoise.midi.Midi;
 import renoise.tool.Tool.MenuEntry;
-import fire.input.ControllerState;
-import fire.input.dial.DialType;
-import fire.input.button.ButtonType;
-import fire.output.Fireout;
+import fire.fromFire.ControllerState;
+import fire.fromFire.dial.DialType;
+import fire.fromFire.button.ButtonType;
+import fire.toFire.Fireout;
 
 class Main
 {

@@ -23,7 +23,7 @@ package fire.toRenoise.behavior.button;
 
 import renoise.song.NoteColumn;
 import renoise.Renoise;
-import fire.input.ControllerStateReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 
 class Select
 {

@@ -19,24 +19,14 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.behavior.button;
+package fire.fromFire.dial;
 
-import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
-
-class GridRight
+@:enum
+abstract DialType(Int) from Int to Int
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
-    {
-        if(isDown) {
-            // onDown();
-        }
-        else {
-            onUp(state);
-        }
-    }
-
-    private static function onUp(state :ControllerStateReadOnly) : Void
-    {
-    }
+    var VOLUME = 16;
+    var PAN = 17;
+    var FILTER = 18;
+    var RESONANCE = 19;
+    var SELECT = 118;
 }

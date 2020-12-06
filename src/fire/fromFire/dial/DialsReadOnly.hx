@@ -19,24 +19,29 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.behavior.button;
+package fire.fromFire.dial;
 
-import renoise.Renoise;
-import fire.fromFire.ControllerStateReadOnly;
+import fire.util.Signal0ReadOnly;
+import fire.util.Signal1ReadOnly;
 
-class GridRight
+abstract DialsReadOnly(Dials) from Dials
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public var fire (get, never) : Signal0ReadOnly;
+    public var onLeft (get, never) : Signal1ReadOnly<Null<DialType>>;
+    public var onRight (get, never) : Signal1ReadOnly<Null<DialType>>;
+
+    private inline function get_fire() : Signal0ReadOnly
     {
-        if(isDown) {
-            // onDown();
-        }
-        else {
-            onUp(state);
-        }
+        return this.fire;
     }
 
-    private static function onUp(state :ControllerStateReadOnly) : Void
+    private inline function get_onLeft() : Signal1ReadOnly<Null<DialType>>
     {
+        return this.onLeft;
+    }
+
+    private inline function get_onRight() : Signal1ReadOnly<Null<DialType>>
+    {
+        return this.onRight;
     }
 }

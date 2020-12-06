@@ -19,24 +19,25 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toRenoise.behavior.button;
+package fire.toFire.button.behavior;
 
-import renoise.Renoise;
 import fire.fromFire.ControllerStateReadOnly;
+import renoise.midi.Midi.MidiOutputDevice;
 
-class GridRight
+class Perform
 {
-    public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public static function handle(controllerState :ControllerStateReadOnly, buttons :ButtonLights, outputDevice :MidiOutputDevice) : Void
     {
-        if(isDown) {
-            // onDown();
+        if(controllerState.buttons.isDown(PERFORM)) {
+            buttons.perform.send(outputDevice, 2);
         }
         else {
-            onUp(state);
+            switch controllerState.input.value {
+                case PERFORM:
+                    buttons.perform.send(outputDevice, 4);
+                case _:
+                    buttons.perform.send(outputDevice, 0);
+            }
         }
-    }
-
-    private static function onUp(state :ControllerStateReadOnly) : Void
-    {
     }
 }

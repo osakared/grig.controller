@@ -21,9 +21,9 @@
 
 package fire.toRenoise.behavior.dial;
 
-import fire.output.button.behavior.Alt;
+import fire.toFire.button.behavior.Alt;
 import renoise.song.NoteColumn;
-import fire.input.ControllerStateReadOnly;
+import fire.fromFire.ControllerStateReadOnly;
 import renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
