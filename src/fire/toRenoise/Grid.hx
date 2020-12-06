@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -54,7 +54,7 @@ class Grid
         switch controllerState.input.value {
             case STEP: {
                 var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-                _softKeys.playNote(false, oldValue);
+                _softKeys.playNote(false, oldValue, renoiseState);
             }
             case NOTE: {
                 hitNote(pad, false, renoiseState);
@@ -68,28 +68,26 @@ class Grid
     {
         var note = PadNote.getNote(pad);
         if(note != -1) {
-            _softKeys.playNote(isDown, note);
+            _softKeys.playNote(isDown, note, renoiseState);
 
             if(!isDown && RenoiseUtil.isRecording()) {
-                RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+                RenoiseUtil.lineMoveBy(renoiseState.editStep);
             }
         }
         else if(!isDown && RenoiseUtil.isRecording()) {
-            switch pad {
-                case OFF:
-                    var noteColumn = Renoise.song().selectedNoteColumnIndex;
-                    Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = NoteColumn.NOTE_OFF;
+            switch [pad, renoiseState.trackColumn.value] {
+                case [OFF, TrackNote(index)]:
+                    Renoise.song().selectedLine.noteColumn(index).noteValue = NoteColumn.NOTE_OFF;
                     if(RenoiseUtil.isRecording()) {
-                        RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+                        RenoiseUtil.lineMoveBy(renoiseState.editStep);
                     }
-                case ERASE:
-                    var noteColumn = Renoise.song().selectedNoteColumnIndex;
-                    Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = NoteColumn.NOTE_EMPTY;
+                case [ERASE, TrackNote(index)]:
+                    Renoise.song().selectedLine.noteColumn(index).noteValue = NoteColumn.NOTE_EMPTY;
                     if(RenoiseUtil.isRecording()) {
-                        RenoiseUtil.lineMoveBy(Renoise.song().transport.editStep);
+                        RenoiseUtil.lineMoveBy(renoiseState.editStep);
                     }
-                case OCTAVE_UP:
-                case OCTAVE_DOWN:
+                case [OCTAVE_UP, TrackNote(index)]:
+                case [OCTAVE_DOWN, TrackNote(index)]:
                 case _:
             }
         }

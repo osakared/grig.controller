@@ -11,7 +11,7 @@ _hx_table_push = function(table, item)
 end
 
 _hx_table_clear = function(table)
-    for k in pairs (table) do
+    for k in pai (table) do
         table [k] = nil
     end
 end
@@ -20,7 +20,7 @@ end
 --- https://github.com/mrVanDalo/stepp0r/blob/master/src/Layer/PlaybackPositionObserver.lua
 ---                                                 [ Line Change Observer ]
 ---
---- observes the playback position to make listeners on the playback position possible
+--- observes the playback position to make listene on the playback position possible
 
 class "LineChangeObserver"
 

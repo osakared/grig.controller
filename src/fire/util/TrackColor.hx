@@ -11,11 +11,11 @@ class TrackColor
 
     private static function init() : Void
     {
-        Renoise.song().selectedTrackObservable.addNotifier(setColors);
-        setColors();
+        Renoise.song().selectedTrackObservable.addNotifier(setColo);
+        setColo();
     }
 
-    private static function setColors() : Void
+    private static function setColo() : Void
     {
         var trackColor = Renoise.song().selectedTrack.color;
         _active = Color.fromTrackColor(trackColor);

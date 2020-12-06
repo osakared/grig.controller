@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -44,7 +44,7 @@ extern class Midi
      * happen when using ReWire slaves. ReWire adds virtual MIDI 
      * devices to Renoise. Already opened references to devices which 
      * are no longer available will do nothing. Aka, you can use them 
-     * as before and they will not fire any errors. The messages will 
+     * as before and they will not fire any erro. The messages will 
      * simply go into the void...
      * @return Observable
      */
@@ -143,8 +143,8 @@ extern class MidiOutputDevice
 
     /**
      * Send raw 1-3 byte MIDI messages or sysex messages. The message is 
-     * expected to be an array of numbers. It must not be empty and can 
-     * only contain numbers >= 0 and <= 0xFF (bytes). Sysex messages must 
+     * expected to be an array of numbe. It must not be empty and can 
+     * only contain numbe >= 0 and <= 0xFF (bytes). Sysex messages must 
      * be sent in one block, must start with 0xF0, and end with 0xF7.
      * @param msg 
      */

@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -87,7 +87,7 @@ extern class SocketBase
     /**
      * Closes the socket connection and releases all resources. This will make 
      * the socket useless, so any properties, calls to the socket will result in 
-     * errors. Can be useful to explicitly release a connection without waiting 
+     * erro. Can be useful to explicitly release a connection without waiting 
      * for the dead object to be garbage collected, or if you want to actively 
      * refuse a connection.
      */

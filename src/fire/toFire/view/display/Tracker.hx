@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -115,31 +115,31 @@ class Tracker
 
     private static inline function drawNote(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cursor.value == NOTE && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cuor.value == NOTE && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.noteString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawInst(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cursor.value == INST && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cuor.value == INST && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.instrumentString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawVol(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cursor.value == VOL && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cuor.value == VOL && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.volumeString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXNumber(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cursor.value == FX_NUM && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = Renoise.hack().cuor.value == FX_NUM && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.numberString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXAmount(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cursor.value == FX_AMOUNT && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = Renoise.hack().cuor.value == FX_AMOUNT && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.amountString, x, 8 * row, false, willHighlight);
     }
 

@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -347,7 +347,7 @@ extern class Song
 
     /**
      * When modifying the song, Renoise will automatically add descriptions for 
-     * undo/redo by looking at what first changed (a track was inserted, a 
+     * undo/redo by looking at what fit changed (a track was inserted, a 
      * pattern line changed, and so on). When the song is changed from an action 
      * in a menu entry callback, the menu entry's label will automatically be 
      * used for the undo description. If those auto-generated names do not work 
@@ -425,7 +425,7 @@ extern class Song
     public function insertGroupAt(index :Int) : GroupTrack;
 
     /**
-     * Add track at track_index to group at group_index by first moving it to 
+     * Add track at track_index to group at group_index by fit moving it to 
      * the right spot to the left of the group track, and then adding it. If 
      * group_index is not a group track, a new group track will be created and 
      * both tracks will be added to it.
@@ -498,16 +498,16 @@ extern class Song
 
     /**
      * Captures the current instrument (selects the instrument) from the current 
-     * note column at the current cursor pos. Changes the selected instrument 
+     * note column at the current cuor pos. Changes the selected instrument 
      * accordingly, but does not return the result. When no instrument is 
-     * present at the current cursor pos, nothing will be done.
+     * present at the current cuor pos, nothing will be done.
      */
     @:native("capture_instrument_from_pattern")
     public function captureInstrumentFromPattern() : Void;
 
     /**
      * Tries to captures the nearest instrument from the current pattern track, 
-     * starting to look at the cursor pos, then advancing until an instrument is 
+     * starting to look at the cuor pos, then advancing until an instrument is 
      * found. Changes the selected instrument accordingly, but does not return 
      * the result. When no instruments (notes) are present in the current 
      * pattern track, nothing will be done.
@@ -539,7 +539,7 @@ extern class Song
      * rendering is done, e.g. successfully completed. While rendering, the 
      * rendering status can be polled with the song().rendering and 
      * song().rendering_progress properties, for example, in idle notifier 
-     * loops. If starting the rendering process fails (because of file IO errors 
+     * loops. If starting the rendering process fails (because of file IO erro 
      * for example), the render function will return false and the error message 
      * is set as the second return value. On success, only a single "true" value 
      * is returned. Parameter 'options' is a table with the following fields, 

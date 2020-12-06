@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -21,6 +21,7 @@
 
 package fire.toRenoise;
 
+import fire.fromRenoise.RenoiseState;
 import renoise.Socket;
 import renoise.Socket.SocketClient;
 import renoise.Renoise;
@@ -35,23 +36,21 @@ class SoftKeys
         _client = Socket.createClient(host, port, UDP);
     }
 
-    public function playNote(isOn :Bool, note :Int) : Void
+    public function playNote(isOn :Bool, note :Int, renoiseState :RenoiseState) : Void
     {
-        var instr = Renoise.song().selectedInstrumentIndex;
-        var track = Renoise.song().selectedTrackIndex;
         var velocity = 127;
 
-        var oscVars = OscArgs.create();
-        oscVars.addTagValue("i", instr);
-        oscVars.addTagValue("i", track);
-        oscVars.addTagValue("i", note);
+        var oscVa = OscArgs.create();
+        oscVa.addTagValue("i", renoiseState.instrumentIndex);
+        oscVa.addTagValue("i", renoiseState.trackIndex);
+        oscVa.addTagValue("i", note);
         if(isOn) {
-            oscVars.addTagValue("i", velocity);
+            oscVa.addTagValue("i", velocity);
         }
         var header = isOn
             ? "/renoise/trigger/note_on"
             : "/renoise/trigger/note_off";
-        var oscMsg = renoise.Osc.createMessage(header,oscVars);
+        var oscMsg = renoise.Osc.createMessage(header,oscVa);
         _client.send(oscMsg);
     }
 

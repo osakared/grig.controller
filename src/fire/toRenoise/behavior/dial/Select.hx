@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -21,6 +21,7 @@
 
 package fire.toRenoise.behavior.dial;
 
+import fire.fromRenoise.RenoiseState;
 import fire.toFire.button.behavior.Alt;
 import renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;
@@ -30,24 +31,24 @@ using fire.util.Math;
 
 class Select
 {
-    public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly) : Void
+    public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         if(state.buttons.isDown(ALT)) {
             alt(isLeft);
         }
         else {
-            normal(softkeys, state, isLeft);
+            normal(softkeys, state, renoiseState, isLeft);
         }
     }
 
-    private static function normal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, isLeft :Bool) : Void
+    private static function normal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, isLeft :Bool) : Void
     {
         var amount = isLeft ? -1 : 1;
         switch controllerState.input.value {
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        moveNote(softkeys, amount);
+                        moveNote(softkeys, amount, renoiseState);
                     case false:
                         RenoiseUtil.lineMoveBy(amount);
                 }
@@ -63,14 +64,14 @@ class Select
     private static function alt(isLeft :Bool) : Void
     {
         if(isLeft) {
-            Renoise.hack().moveCursorLeft();
+            Renoise.hack().moveCuorLeft();
         }
         else {
-            Renoise.hack().moveCursorRight();
+            Renoise.hack().moveCuorRight();
         }
     }
 
-    private static function moveNote(softkeys :SoftKeys, amount :Int) : Void
+    private static function moveNote(softkeys :SoftKeys, amount :Int, renoiseState :RenoiseState) : Void
     {
         var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         var newValue = switch oldValue {
@@ -83,8 +84,8 @@ class Select
         }
         var noteColumn = Renoise.song().selectedNoteColumnIndex;
         Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = newValue;
-        softkeys.playNote(false, oldValue);
-        softkeys.playNote(true, newValue);
+        softkeys.playNote(false, oldValue, renoiseState);
+        softkeys.playNote(true, newValue, renoiseState);
     }
 }
 

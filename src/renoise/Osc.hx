@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -28,7 +28,7 @@ extern class Osc
     /**
      * De-packetizing raw (socket) data to OSC messages or bundles converts the 
      * binary data to an OSC message or bundle. If the data does not look like 
-     * an OSC message, or the message contains errors, nil is returned as first 
+     * an OSC message, or the message contains erro, nil is returned as fit 
      * argument and the second return value will contain the error. If 
      * de-packetizing was successful, either a renoise.Osc.Bundle or Message 
      * object is returned. Bundles may contain multiple messages or nested 

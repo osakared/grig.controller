@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -26,62 +26,62 @@ import fire.util.Signal1ReadOnly;
 
 class Hack
 {
-    public var cursor (get, never):Signal1ReadOnly<Cursor>;
+    public var cuor (get, never):Signal1ReadOnly<Cuor>;
 
     public function new() : Void
     {
-        _cursor = new Signal1(NOTE);
+        _cuor = new Signal1(NOTE);
         this.init();
     }
 
-    public function moveCursorLeft() : Void
+    public function moveCuorLeft() : Void
     {
-        switch _cursor.value {
+        switch _cuor.value {
             case NOTE:
                 if(Renoise.song().selectedNoteColumnIndex > 1) {
                     Renoise.song().selectedNoteColumnIndex -= 1;
-                    _cursor.value = VOL;
+                    _cuor.value = VOL;
                 }
             case INST:
-                _cursor.value = NOTE;
+                _cuor.value = NOTE;
             case VOL:
-                _cursor.value = INST;
+                _cuor.value = INST;
             case FX_NUM:
                 if(Renoise.song().selectedEffectColumnIndex > 1) {
                     Renoise.song().selectedEffectColumnIndex -= 1;
-                    _cursor.value = FX_AMOUNT;
+                    _cuor.value = FX_AMOUNT;
                 }
                 else {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    _cursor.value = VOL;
+                    _cuor.value = VOL;
                 }
             case FX_AMOUNT:
-                _cursor.value = FX_NUM;
+                _cuor.value = FX_NUM;
         }
     }
 
-    public function moveCursorRight() : Void
+    public function moveCuorRight() : Void
     {
-        switch _cursor.value {
+        switch _cuor.value {
             case NOTE:
-                _cursor.value = INST;
+                _cuor.value = INST;
             case INST:
-                _cursor.value = VOL;
+                _cuor.value = VOL;
             case VOL:
                 if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
                     Renoise.song().selectedNoteColumnIndex += 1;
-                    _cursor.value = NOTE;
+                    _cuor.value = NOTE;
                 }
                 else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                     Renoise.song().selectedEffectColumnIndex = 1;
-                    _cursor.value = FX_NUM;
+                    _cuor.value = FX_NUM;
                 }
             case FX_NUM:
-                _cursor.value = FX_AMOUNT;
+                _cuor.value = FX_AMOUNT;
             case FX_AMOUNT:
                 if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
                     Renoise.song().selectedEffectColumnIndex += 1;
-                    _cursor.value = FX_NUM;
+                    _cuor.value = FX_NUM;
                 }
         }
     }
@@ -93,17 +93,17 @@ class Hack
             disposeLastObserved();
             disposeLastObserved = observeTrackColumns();
         });
-        Renoise.song().selectedPatternTrackObservable.addNotifier(setTrackCursor);
-        setTrackCursor();
+        Renoise.song().selectedPatternTrackObservable.addNotifier(setTrackCuor);
+        setTrackCuor();
     }
 
-    private function setTrackCursor() : Void
+    private function setTrackCuor() : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0) {
-            _cursor.value = NOTE;
+            _cuor.value = NOTE;
         }
         else {
-            _cursor.value = FX_NUM;
+            _cuor.value = FX_NUM;
         }
     }
 
@@ -112,15 +112,15 @@ class Hack
             if(Renoise.song().selectedTrack.visibleEffectColumns == 0) {
                 if(Renoise.song().selectedNoteColumnIndex == 0) {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    _cursor.value = NOTE;
+                    _cuor.value = NOTE;
                 }
             }
             else {
-                _cursor.value = _cursor.value;
+                _cuor.value = _cuor.value;
             }
         }
         function note() {
-            _cursor.value = _cursor.value;
+            _cuor.value = _cuor.value;
         }
         var track = Renoise.song().selectedTrack;
 
@@ -132,16 +132,16 @@ class Hack
         };
     }
 
-    private inline function get_cursor() : Signal1ReadOnly<Cursor>
+    private inline function get_cuor() : Signal1ReadOnly<Cuor>
     {
-        return _cursor;
+        return _cuor;
     }
 
-    private var _cursor :Signal1<Cursor>;
+    private var _cuor :Signal1<Cuor>;
 }
 
 @:enum
-abstract Cursor(Int)
+abstract Cuor(Int)
 {
     var NOTE = 0;
     var INST = 1;

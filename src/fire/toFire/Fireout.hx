@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -44,17 +44,17 @@ class Fireout
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
         _transport = new Buttons(buttonLights, controllerState, renoiseState, _outputDevice);
-        this.initializeListeners(controllerState, renoiseState);
+        this.initializeListene(controllerState, renoiseState);
         draw(controllerState, renoiseState);
     }
 
-    private function initializeListeners(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
+    private function initializeListene(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         var lineObserver = new LineChangeObserver();
         lineObserver.register(0, () -> {
             draw(controllerState, renoiseState);
         });
-        Renoise.hack().cursor.addListener((_) -> {
+        Renoise.hack().cuor.addListener((_) -> {
             draw(controllerState, renoiseState);
         });
         controllerState.input.addListener((_) -> {

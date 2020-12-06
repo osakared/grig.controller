@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2020 Jeremy Meltingtallow
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any peon obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
+ * Software, and to permit peons to whom the Software is furnished to do so,
  * subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
@@ -75,10 +75,10 @@ class Display
 
     public function drawText(text :String, x :Int, y :Int, underline :Bool, invert :Bool) : Int
     {
-        var letters = Text.make(text);
+        var lette = Text.make(text);
         var yIndex = 0;
         var maxUnderlines = 6 * text.length - 1;
-        for(line in letters) {
+        for(line in lette) {
             var xIndex = 0;
             for(value in line) {
                 if(underline && yIndex == 7 && xIndex < maxUnderlines) {
