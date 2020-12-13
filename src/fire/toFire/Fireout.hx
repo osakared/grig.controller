@@ -31,6 +31,7 @@ import fire.toFire.Grid;
 import renoise.LineChangeObserver;
 import fire.fromFire.ControllerStateReadOnly;
 import fire.toFire.view.display.Tracker;
+import fire.toFire.view.display.Instruments;
 import fire.toFire.view.grid.Step;
 import fire.toFire.view.grid.Piano;
 using lua.PairTools;
@@ -60,14 +61,18 @@ class Fireout
         controllerState.input.addListener((_) -> {
             draw(controllerState, renoiseState);
         });
+        controllerState.browser.addListener((_) -> {
+            draw(controllerState, renoiseState);
+        });
         controllerState.grid.fire.addListener(draw.bind(controllerState, renoiseState));
+        controllerState.dials.fire.addListener(draw.bind(controllerState, renoiseState));
         Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState, renoiseState));
+        Renoise.song().selectedInstrumentIndexObservable.addNotifier(draw.bind(controllerState, renoiseState));
     }
 
     private function draw(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         var padIndex =  renoiseState.currentPos.line;
-        Tracker.draw(controllerState, _outputDevice, _display, padIndex);
         switch controllerState.input.value {
             case STEP:
                 Step.draw(_outputDevice, _pads, padIndex);
@@ -75,6 +80,12 @@ class Fireout
                 Piano.draw(_outputDevice, _pads, controllerState, renoiseState);
             case DRUM:
             case PERFORM:
+        }
+        switch controllerState.browser.value {
+            case SEQ:
+                Tracker.draw(controllerState, _outputDevice, _display, padIndex);
+            case INST:
+                Instruments.draw(controllerState, _outputDevice, _display);
         }
     }  
 

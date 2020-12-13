@@ -21,6 +21,8 @@
 
 package fire.toFire;
 
+import renoise.Renoise;
+
 class Text
 {
     static function cleanString(input :String) : String
@@ -30,7 +32,7 @@ class Text
         var output = "";
         while(index < length) {
             var code = input.charCodeAt(index);
-            if((code > 47 && code < 58) || code == 32 || code == 35 || code == 45 || code == 46 || code == 124 || (code > 96 && code < 123)) {
+            if((code > 47 && code < 59) || code == 95 || code == 32 || code == 35 || code == 45 || code == 46 || code == 124 || (code > 96 && code < 123)) {
                 output += input.charAt(index);
             }
             index++;
@@ -470,6 +472,26 @@ class Text
             [1,0,0,0,1,0],
             [1,0,0,0,1,0],
             [0,1,1,1,0,0],
+            [0,0,0,0,0,0],
+        ],
+        ":" => [
+            [0,0,0,0,0,0],
+            [1,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [1,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+        ],
+        "_" => [
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [1,1,1,1,1,0],
             [0,0,0,0,0,0],
         ]
     ];

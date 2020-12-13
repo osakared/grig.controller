@@ -26,7 +26,7 @@ import fire.util.Signal1ReadOnly;
 
 class Hack
 {
-    public var cuor (get, never):Signal1ReadOnly<Cuor>;
+    public var cuor (get, never):Signal1ReadOnly<Cursor>;
 
     public function new() : Void
     {
@@ -34,7 +34,7 @@ class Hack
         this.init();
     }
 
-    public function moveCuorLeft() : Void
+    public function moveCursorLeft() : Void
     {
         switch _cuor.value {
             case NOTE:
@@ -60,7 +60,7 @@ class Hack
         }
     }
 
-    public function moveCuorRight() : Void
+    public function moveCursorRight() : Void
     {
         switch _cuor.value {
             case NOTE:
@@ -93,11 +93,11 @@ class Hack
             disposeLastObserved();
             disposeLastObserved = observeTrackColumns();
         });
-        Renoise.song().selectedPatternTrackObservable.addNotifier(setTrackCuor);
-        setTrackCuor();
+        Renoise.song().selectedPatternTrackObservable.addNotifier(setTrackCursor);
+        setTrackCursor();
     }
 
-    private function setTrackCuor() : Void
+    private function setTrackCursor() : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0) {
             _cuor.value = NOTE;
@@ -132,16 +132,16 @@ class Hack
         };
     }
 
-    private inline function get_cuor() : Signal1ReadOnly<Cuor>
+    private inline function get_cuor() : Signal1ReadOnly<Cursor>
     {
         return _cuor;
     }
 
-    private var _cuor :Signal1<Cuor>;
+    private var _cuor :Signal1<Cursor>;
 }
 
 @:enum
-abstract Cuor(Int)
+abstract Cursor(Int)
 {
     var NOTE = 0;
     var INST = 1;

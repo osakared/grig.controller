@@ -22,7 +22,6 @@
 package fire.toRenoise.behavior.dial;
 
 import fire.fromRenoise.RenoiseState;
-import fire.toFire.button.behavior.Alt;
 import renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.Renoise;
@@ -33,15 +32,30 @@ class Select
 {
     public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
-        if(state.buttons.isDown(ALT)) {
-            alt(isLeft);
+        switch state.browser.value {
+            case SEQ: {
+                if(state.buttons.isDown(ALT)) {
+                    seqAlt(isLeft);
+                }
+                else {
+                    seqNormal(softkeys, state, renoiseState, isLeft);
+                }
+            }
+            case INST: {
+                inst(renoiseState, isLeft);
+            }
         }
-        else {
-            normal(softkeys, state, renoiseState, isLeft);
-        }
+        
     }
 
-    private static function normal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, isLeft :Bool) : Void
+    private static function inst(renoiseState :RenoiseState, isLeft :Bool) : Void
+    {
+        var amount = isLeft ? -1 : 1;
+        var curInstIndex = renoiseState.instrumentIndex;
+        renoiseState.instrumentIndex = curInstIndex + amount;
+    }
+
+    private static function seqNormal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, isLeft :Bool) : Void
     {
         var amount = isLeft ? -1 : 1;
         switch controllerState.input.value {
@@ -61,13 +75,13 @@ class Select
         }
     }
 
-    private static function alt(isLeft :Bool) : Void
+    private static function seqAlt(isLeft :Bool) : Void
     {
         if(isLeft) {
-            Renoise.hack().moveCuorLeft();
+            Renoise.hack().moveCursorLeft();
         }
         else {
-            Renoise.hack().moveCuorRight();
+            Renoise.hack().moveCursorRight();
         }
     }
 
@@ -84,8 +98,6 @@ class Select
         }
         var noteColumn = Renoise.song().selectedNoteColumnIndex;
         Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = newValue;
-        softkeys.playNote(false, oldValue, renoiseState);
-        softkeys.playNote(true, newValue, renoiseState);
     }
 }
 

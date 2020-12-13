@@ -19,35 +19,26 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.song;
+package renoise.ds;
 
-extern class Instrument
+import lua.Table;
+
+abstract ReadOnlyTableArray<T>(Table<Int, T>) to Table<Int, T> from Table<Int, T>
 {
-    /**
-     * Instrument's name.
-     */
-    public var name :String;
+    public var length (get, never) : Int;
 
-    @:native("name_observable")
-    public var nameObservable :Observable;
+    inline public function new() : Void
+    {
+        this = Table.create();
+    }
 
-    /**
-     * Reset, clear all settings and all samples.
-     */
-    public function clear() : Void;
+    @:arrayAccess
+    public inline function get(key :Int) {
+        return this[key];
+    }
 
-    /**
-     * Copy all settings from the other instrument, including all samples.
-     * @param other 
-     */
-    @:native("copy_from")
-    public function copyFrom(other :Instrument) : Void;
-
-    /**
-     * Access a single macro by index [1-NUMBER_OF_MACROS]. See also property 'macros'.
-     * @param index 
-     * @return InstrumentMacro
-     */
-    @:native("macro_")
-    public function macro_(index :Int) : InstrumentMacro;
+    private inline function get_length() : Int
+    {
+        return untyped _hx_length(this);
+    }
 }

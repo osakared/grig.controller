@@ -31,12 +31,14 @@ class ControllerState
 {
     public var dials (default, null) : Dials;
     public var input (default, null):Signal1<InputState>;
+    public var browser (default, null):Signal1<BrowserState>;
     public var grid (default, null):Grid;
     public var buttons (default, null):Buttons;
 
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
+        this.browser = new Signal1(SEQ);
         this.grid = new Grid();
         this.buttons = new Buttons();
         initInput();
@@ -60,6 +62,13 @@ class ControllerState
                 this.input.value = DRUM;
             case PERFORM:
                 this.input.value = PERFORM;
+            case BROWSER:
+                switch this.browser.value {
+                    case SEQ:
+                        this.browser.value = INST;
+                    case INST:
+                        this.browser.value = SEQ;
+                }
             case _:
         }
     }
@@ -71,4 +80,10 @@ enum InputState
     NOTE;
     DRUM;
     PERFORM;
+}
+
+enum BrowserState
+{
+    SEQ;
+    INST;
 }

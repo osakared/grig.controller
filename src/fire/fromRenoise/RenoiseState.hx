@@ -21,6 +21,7 @@
 
 package fire.fromRenoise;
 
+import fire.util.Math;
 import renoise.song.SongPos;
 import renoise.Renoise;
 import fire.util.Signal1;
@@ -29,7 +30,7 @@ class RenoiseState
 {
     public var trackColumn (default, null) : Signal1<TrackColumn>;
     public var trackIndex (get, null) : Int;
-    public var instrumentIndex (get, null) : Int;
+    public var instrumentIndex (get, set) : Int;
     public var currentPos (get, null) : SongPos;
     public var isPlaying (get, null) : Bool;
     public var isRecording (get, null) : Bool;
@@ -42,7 +43,6 @@ class RenoiseState
 
     private function setTrack() : Void
     {
-        var trackIndex = Renoise.song().selectedTrackIndex;
         var track = Renoise.song().selectedNoteColumnIndex != 0
             ? TrackNote(Renoise.song().selectedNoteColumnIndex)
             : TrackEffect(Renoise.song().selectedEffectColumnIndex);
@@ -57,6 +57,13 @@ class RenoiseState
     private inline function get_instrumentIndex() : Int
     {
         return Renoise.song().selectedInstrumentIndex;
+    }
+
+    private function set_instrumentIndex(index :Int) : Int
+    {
+        var instIndex = Math.clamp(index, 1, Renoise.song().instruments.length);
+        Renoise.song().selectedInstrumentIndex = instIndex;
+        return instIndex;
     }
 
     private function get_currentPos() : SongPos

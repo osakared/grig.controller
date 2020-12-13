@@ -22,6 +22,7 @@
 package renoise.song;
 
 import lua.Table;
+import renoise.ds.ReadOnlyTableArray;
 
 extern class Song
 {
@@ -98,7 +99,7 @@ extern class Song
     /**
      * Instrument, Pattern, and Track arrays
      */
-    public var instruments (default, null) : Table<Int, Instrument>;
+    public var instruments (default, null) : ReadOnlyTableArray<Instrument>;
 
     @:native("instruments_observable")
     public var instrumentsObservable (default, null) : Observable;
