@@ -26,62 +26,62 @@ import fire.util.Signal1ReadOnly;
 
 class Hack
 {
-    public var cuor (get, never):Signal1ReadOnly<Cursor>;
+    public var cursor (get, never):Signal1ReadOnly<Cursor>;
 
     public function new() : Void
     {
-        _cuor = new Signal1(NOTE);
+        _cursor = new Signal1(NOTE);
         this.init();
     }
 
     public function moveCursorLeft() : Void
     {
-        switch _cuor.value {
+        switch _cursor.value {
             case NOTE:
                 if(Renoise.song().selectedNoteColumnIndex > 1) {
                     Renoise.song().selectedNoteColumnIndex -= 1;
-                    _cuor.value = VOL;
+                    _cursor.value = VOL;
                 }
             case INST:
-                _cuor.value = NOTE;
+                _cursor.value = NOTE;
             case VOL:
-                _cuor.value = INST;
+                _cursor.value = INST;
             case FX_NUM:
                 if(Renoise.song().selectedEffectColumnIndex > 1) {
                     Renoise.song().selectedEffectColumnIndex -= 1;
-                    _cuor.value = FX_AMOUNT;
+                    _cursor.value = FX_AMOUNT;
                 }
                 else {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    _cuor.value = VOL;
+                    _cursor.value = VOL;
                 }
             case FX_AMOUNT:
-                _cuor.value = FX_NUM;
+                _cursor.value = FX_NUM;
         }
     }
 
     public function moveCursorRight() : Void
     {
-        switch _cuor.value {
+        switch _cursor.value {
             case NOTE:
-                _cuor.value = INST;
+                _cursor.value = INST;
             case INST:
-                _cuor.value = VOL;
+                _cursor.value = VOL;
             case VOL:
                 if(Renoise.song().selectedNoteColumnIndex < Renoise.song().selectedTrack.visibleNoteColumns) {
                     Renoise.song().selectedNoteColumnIndex += 1;
-                    _cuor.value = NOTE;
+                    _cursor.value = NOTE;
                 }
                 else if(Renoise.song().selectedTrack.visibleEffectColumns != 0) {
                     Renoise.song().selectedEffectColumnIndex = 1;
-                    _cuor.value = FX_NUM;
+                    _cursor.value = FX_NUM;
                 }
             case FX_NUM:
-                _cuor.value = FX_AMOUNT;
+                _cursor.value = FX_AMOUNT;
             case FX_AMOUNT:
                 if(Renoise.song().selectedEffectColumnIndex < Renoise.song().selectedTrack.visibleEffectColumns) {
                     Renoise.song().selectedEffectColumnIndex += 1;
-                    _cuor.value = FX_NUM;
+                    _cursor.value = FX_NUM;
                 }
         }
     }
@@ -100,10 +100,10 @@ class Hack
     private function setTrackCursor() : Void
     {
         if(Renoise.song().selectedNoteColumnIndex != 0) {
-            _cuor.value = NOTE;
+            _cursor.value = NOTE;
         }
         else {
-            _cuor.value = FX_NUM;
+            _cursor.value = FX_NUM;
         }
     }
 
@@ -112,15 +112,15 @@ class Hack
             if(Renoise.song().selectedTrack.visibleEffectColumns == 0) {
                 if(Renoise.song().selectedNoteColumnIndex == 0) {
                     Renoise.song().selectedNoteColumnIndex = Renoise.song().selectedTrack.visibleNoteColumns;
-                    _cuor.value = NOTE;
+                    _cursor.value = NOTE;
                 }
             }
             else {
-                _cuor.value = _cuor.value;
+                _cursor.value = _cursor.value;
             }
         }
         function note() {
-            _cuor.value = _cuor.value;
+            _cursor.value = _cursor.value;
         }
         var track = Renoise.song().selectedTrack;
 
@@ -132,12 +132,12 @@ class Hack
         };
     }
 
-    private inline function get_cuor() : Signal1ReadOnly<Cursor>
+    private inline function get_cursor() : Signal1ReadOnly<Cursor>
     {
-        return _cuor;
+        return _cursor;
     }
 
-    private var _cuor :Signal1<Cursor>;
+    private var _cursor :Signal1<Cursor>;
 }
 
 @:enum

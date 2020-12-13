@@ -55,7 +55,7 @@ class Fireout
         lineObserver.register(0, () -> {
             draw(controllerState, renoiseState);
         });
-        Renoise.hack().cuor.addListener((_) -> {
+        Renoise.hack().cursor.addListener((_) -> {
             draw(controllerState, renoiseState);
         });
         controllerState.input.addListener((_) -> {

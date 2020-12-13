@@ -115,31 +115,31 @@ class Tracker
 
     private static inline function drawNote(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cuor.value == NOTE && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cursor.value == NOTE && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.noteString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawInst(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cuor.value == INST && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cursor.value == INST && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.instrumentString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawVol(display :Display, noteColumn:NoteColumn, noteColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cuor.value == VOL && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
+        var willHighlight = Renoise.hack().cursor.value == VOL && isMiddle && noteColumnIndex == Renoise.song().selectedNoteColumnIndex;
         return display.drawText(noteColumn.volumeString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXNumber(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cuor.value == FX_NUM && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = Renoise.hack().cursor.value == FX_NUM && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.numberString, x, 8 * row, false, willHighlight);
     }
 
     private static inline function drawFXAmount(display :Display, effectColumn:EffectColumn, effectColumnIndex :Int, x :Int, row :Int, isMiddle :Bool) : Int
     {
-        var willHighlight = Renoise.hack().cuor.value == FX_AMOUNT && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
+        var willHighlight = Renoise.hack().cursor.value == FX_AMOUNT && isMiddle && effectColumnIndex == Renoise.song().selectedEffectColumnIndex;
         return display.drawText(effectColumn.amountString, x, 8 * row, false, willHighlight);
     }
 
