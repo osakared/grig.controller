@@ -33,6 +33,7 @@ import fire.fromFire.ControllerStateReadOnly;
 import fire.toFire.view.display.Tracker;
 import fire.toFire.view.display.Instruments;
 import fire.toFire.view.display.Settings;
+import fire.toFire.view.display.List;
 import fire.toFire.view.grid.Step;
 import fire.toFire.view.grid.Piano;
 using lua.PairTools;
@@ -83,6 +84,8 @@ class Fireout
             case PERFORM:
         }
         switch controllerState.browser.value {
+            case LIST(item):
+                List.draw(controllerState, _outputDevice, _display, item);
             case SEQ:
                 Tracker.draw(controllerState, _outputDevice, _display, padIndex);
             case INST:

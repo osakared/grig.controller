@@ -33,13 +33,14 @@ class Select
     public static function handle(isLeft: Bool, softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         switch controllerState.browser.value {
+            case LIST(item):
             case SETTINGS: {
-                if(controllerState.buttons.isDown(ALT)) {
+                if(controllerState.buttons.isDown(SELECT)) {
                     settingsAlt(controllerState, renoiseState, isLeft);
                 }
             }
             case SEQ: {
-                if(controllerState.buttons.isDown(ALT)) {
+                if(controllerState.buttons.isDown(SELECT)) {
                     seqAlt(isLeft);
                 }
                 else {

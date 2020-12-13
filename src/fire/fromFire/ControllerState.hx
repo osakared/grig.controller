@@ -39,7 +39,7 @@ class ControllerState
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
-        this.browser = new Signal1(SEQ);
+        this.browser = new Signal1(LIST(B_SEQ));
         this.settingSelection = new Signal1(EDIT_STEP);
         this.grid = new Grid();
         this.buttons = new Buttons();
@@ -69,9 +69,9 @@ class ControllerState
 
     private function handleSelect(isLeft :Bool) : Void
     {
-        if(this.buttons.isDown(ALT)) return;
         switch this.browser.value {
             case SETTINGS: {
+                if(this.buttons.isDown(SELECT)) return;
                 switch [this.settingSelection.value, isLeft] {
                     case [EDIT_STEP, true]:
                     case [BPM, true]: 
@@ -81,6 +81,19 @@ class ControllerState
                     case [BPM, false]:
                 }
             }
+            case LIST(item):
+                switch [item, isLeft] {
+                    case [B_SEQ, false]:
+                        this.browser.value = LIST(B_INST);
+                    case [B_INST, false]:
+                        this.browser.value = LIST(B_SETTINGS);
+                    case [B_SETTINGS, false]:
+                    case [B_SEQ, true]:
+                    case [B_INST, true]:
+                        this.browser.value = LIST(B_SEQ);
+                    case [B_SETTINGS, true]:
+                        this.browser.value = LIST(B_INST);
+                }
             case _:
         }
     }
@@ -97,14 +110,17 @@ class ControllerState
             case PERFORM:
                 this.input.value = PERFORM;
             case BROWSER:
-                switch this.browser.value {
-                    case SEQ:
-                        this.browser.value = INST;
-                    case INST:
-                        this.browser.value = SETTINGS;
-                    case SETTINGS:
-                        this.browser.value = SEQ;
+                this.browser.value = switch this.browser.value {
+                    case LIST(item): switch item {
+                        case B_SEQ: SEQ;
+                        case B_INST: INST;
+                        case B_SETTINGS: SETTINGS;
+                    }
+                    case SEQ: LIST(B_SEQ);
+                    case INST: LIST(B_SEQ);
+                    case SETTINGS: LIST(B_SEQ);
                 }
+                // this.browser.value = LIST(B_SEQ);
             case _:
         }
     }
@@ -120,9 +136,17 @@ enum InputState
 
 enum BrowserState
 {
+    LIST(item :BrowsterListItem);
     SEQ;
     INST;
     SETTINGS;
+}
+
+enum BrowsterListItem
+{
+    B_SEQ;
+    B_INST;
+    B_SETTINGS;
 }
 
 enum SettingSelection
