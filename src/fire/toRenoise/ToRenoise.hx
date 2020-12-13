@@ -52,7 +52,7 @@ class ToRenoise
             RECORD => Record.handle
         ];
 
-        _dialBehaviou = [
+        _dialBehaviours = [
             SELECT => SelectDial.handle
         ];
 
@@ -73,13 +73,13 @@ class ToRenoise
         });
 
         controllerState.dials.onLeft.addListener((to) -> {
-            if(_dialBehaviou.exists(to)) {
-                _dialBehaviou.get(to)(true, softkeys, controllerState, renoiseState);
+            if(_dialBehaviours.exists(to)) {
+                _dialBehaviours.get(to)(true, softkeys, controllerState, renoiseState);
             }
         });
         controllerState.dials.onRight.addListener((to) -> {
-            if(_dialBehaviou.exists(to)) {
-                _dialBehaviou.get(to)(false, softkeys, controllerState, renoiseState);
+            if(_dialBehaviours.exists(to)) {
+                _dialBehaviours.get(to)(false, softkeys, controllerState, renoiseState);
             }
         });
 
@@ -94,5 +94,5 @@ class ToRenoise
 
     private var _grid :Grid;
     private var _buttonBehaviou : Map<ButtonType, Behavior>;
-    private var _dialBehaviou : Map<DialType, Behavior>;
+    private var _dialBehaviours : Map<DialType, Behavior>;
 }

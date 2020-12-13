@@ -34,10 +34,8 @@ class Tracker
     public static function draw(controllerState :ControllerStateReadOnly, outputDevice :MidiOutputDevice, display :Display, padIndex :Int) : Void
     {
         display.clear();
-        var utilInfo = Renoise.song().transport.editStep + "|" + Renoise.song().transport.bpm;
-        var x = display.drawText(utilInfo, 0, 0, false, true);
         var titleInfo = Renoise.song().selectedTrack.name;
-        display.drawText(titleInfo, x, 0, false, false);
+        var x = display.drawText(titleInfo, 0, 0, false, false);
         var visibleNoteColumns = Renoise.song().selectedTrack.visibleNoteColumns;
         var visibleEffectColumns = Renoise.song().selectedTrack.visibleEffectColumns;
 

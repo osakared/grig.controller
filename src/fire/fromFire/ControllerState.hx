@@ -32,6 +32,7 @@ class ControllerState
     public var dials (default, null) : Dials;
     public var input (default, null):Signal1<InputState>;
     public var browser (default, null):Signal1<BrowserState>;
+    public var settingSelection (default, null):Signal1<SettingSelection>;
     public var grid (default, null):Grid;
     public var buttons (default, null):Buttons;
 
@@ -39,6 +40,7 @@ class ControllerState
         this.dials = new Dials();
         this.input = new Signal1(STEP);
         this.browser = new Signal1(SEQ);
+        this.settingSelection = new Signal1(EDIT_STEP);
         this.grid = new Grid();
         this.buttons = new Buttons();
         initInput();
@@ -49,6 +51,38 @@ class ControllerState
         this.buttons.onDown.addListener(type -> {
             handleButtonDown(type);
         });
+        this.dials.onLeft.addListener((to) -> {
+            switch to {
+                case SELECT:
+                    handleSelect(true);
+                case _:
+            }
+        });
+        this.dials.onRight.addListener((to) -> {
+            switch to {
+                case SELECT:
+                    handleSelect(false);
+                case _:
+            }
+        });
+    }
+
+    private function handleSelect(isLeft :Bool) : Void
+    {
+        if(this.buttons.isDown(ALT)) return;
+        switch this.browser.value {
+            case SETTINGS: {
+                switch [this.settingSelection.value, isLeft] {
+                    case [EDIT_STEP, true]:
+                    case [BPM, true]: 
+                        this.settingSelection.value = EDIT_STEP;
+                    case [EDIT_STEP, false]:
+                        this.settingSelection.value = BPM;
+                    case [BPM, false]:
+                }
+            }
+            case _:
+        }
     }
 
     private function handleButtonDown(type :ButtonType) : Void
@@ -67,6 +101,8 @@ class ControllerState
                     case SEQ:
                         this.browser.value = INST;
                     case INST:
+                        this.browser.value = SETTINGS;
+                    case SETTINGS:
                         this.browser.value = SEQ;
                 }
             case _:
@@ -86,4 +122,11 @@ enum BrowserState
 {
     SEQ;
     INST;
+    SETTINGS;
+}
+
+enum SettingSelection
+{
+    EDIT_STEP;
+    BPM;
 }

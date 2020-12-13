@@ -30,14 +30,16 @@ class GridLeft
     public static function handle(isDown: Bool, softKeys :SoftKeys, state :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
         if(isDown) {
-            // onDown();
+            onDown(renoiseState);
         }
         else {
-            onUp(state);
+            // onUp(state);
         }
     }
 
-    private static function onUp(state :ControllerStateReadOnly) : Void
+    private static function onDown(renoiseState :RenoiseState) : Void
     {
+        var curIndex = renoiseState.trackIndex;
+        renoiseState.trackIndex = curIndex - 1;
     }
 }

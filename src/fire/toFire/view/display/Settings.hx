@@ -21,50 +21,37 @@
 
 package fire.toFire.view.display;
 
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
-import renoise.Renoise;
 
-class Instruments
+class Settings
 {
-    public static function draw(controllerState :ControllerStateReadOnly, outputDevice :MidiOutputDevice, display :Display) : Void
+    public static function draw(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, outputDevice :MidiOutputDevice, display :Display) : Void
     {
         display.clear();
-        instruments(display);
+        settings(controllerState, renoiseState, display);
         display.render(outputDevice);
     }
 
-    private static function lineString(line :Int) : String
+    private static function settings(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, display :Display) : Void
     {
-        var lineStr = "" + line;
-        return lineStr.length == 1
-            ? "0" + lineStr
-            : lineStr;
+        display.drawText("Settings", 0, 0, false, false);
+        editStep(controllerState, renoiseState, display);
+        bpm(controllerState, renoiseState, display);
     }
 
-    private static function instName(name :String) : String
+    private static inline function editStep(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, display :Display) : Void
     {
-        return (name == null || name.length == 0)
-            ? "                  "
-            : name;
+        var editStep = renoiseState.editStep;
+        var x = display.drawText('Edit Step:', 0, 8, false, false);
+        display.drawText('${editStep}', x, 8, false, controllerState.settingSelection.value == EDIT_STEP);
     }
 
-    private static function instruments(display :Display) : Void
+    private static inline function bpm(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, display :Display) : Void
     {
-        var instruments = Renoise.song().instruments;
-        var activeIndex = Renoise.song().selectedInstrumentIndex;
-        var length = instruments.length;
-        display.drawText("Instuments", 0, 0, false, false);
-        var y = 8;
-        for(i in 0...length) {
-            var index = i + 1;
-            var inst = instruments[index];
-            var x = 0;
-            var isActive = activeIndex == index;
-            x = display.drawText('${lineString(index)}', x, y, false, false);
-            x = display.drawText(':', x, y, false, false);
-            display.drawText(instName(inst.name), x, y, false, isActive);
-            y += 8;
-        }
+        var bpm = renoiseState.bpm;
+        var x = display.drawText('BPM:', 0, 16, false, false);
+        display.drawText('${bpm}', x, 16, false, controllerState.settingSelection.value == BPM);
     }
 }

@@ -26,6 +26,7 @@ import fire.fromFire.grid.GridReadOnly;
 import fire.fromFire.dial.DialsReadOnly;
 import fire.fromFire.ControllerState.InputState;
 import fire.fromFire.ControllerState.BrowserState;
+import fire.fromFire.ControllerState.SettingSelection;
 import fire.util.Signal1ReadOnly;
 
 abstract ControllerStateReadOnly(ControllerState) from ControllerState
@@ -33,6 +34,7 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     public var dials (get, never) : DialsReadOnly;
     public var input (get, never) : Signal1ReadOnly<InputState>;
     public var browser (get, never) : Signal1ReadOnly<BrowserState>;
+    public var settingSelection (get, never) : Signal1ReadOnly<SettingSelection>;
     public var grid (get, never) : GridReadOnly;
     public var buttons (get, never) : ButtonsReadOnly;
 
@@ -49,6 +51,11 @@ abstract ControllerStateReadOnly(ControllerState) from ControllerState
     private inline function get_browser() : Signal1ReadOnly<BrowserState>
     {
         return this.browser;
+    }
+
+    private inline function get_settingSelection() : Signal1ReadOnly<SettingSelection>
+    {
+        return this.settingSelection;
     }
 
     private inline function get_grid() : GridReadOnly

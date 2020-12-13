@@ -29,12 +29,13 @@ import fire.util.Signal1;
 class RenoiseState
 {
     public var trackColumn (default, null) : Signal1<TrackColumn>;
-    public var trackIndex (get, null) : Int;
+    public var trackIndex (get, set) : Int;
     public var instrumentIndex (get, set) : Int;
     public var currentPos (get, null) : SongPos;
     public var isPlaying (get, null) : Bool;
     public var isRecording (get, null) : Bool;
-    public var editStep (get, null) : Int;
+    public var editStep (get, set) : Int;
+    public var bpm (get, set) : Int;
 
     public function new() : Void
     {
@@ -52,6 +53,13 @@ class RenoiseState
     private inline function get_trackIndex() : Int
     {
         return Renoise.song().selectedTrackIndex;
+    }
+
+    private inline function set_trackIndex(index :Int) : Int
+    {
+        var trackIndex = Math.clamp(index, 1, Renoise.song().tracks.length);
+        Renoise.song().selectedTrackIndex = trackIndex;
+        return trackIndex;
     }
 
     private inline function get_instrumentIndex() : Int
@@ -87,6 +95,25 @@ class RenoiseState
     private inline function get_editStep() : Int
     {
         return Renoise.song().transport.editStep;
+    }
+
+    private function set_editStep(step :Int) : Int
+    {
+        var step = Math.clamp(step, 0, 64);
+        Renoise.song().transport.editStep = step;
+        return step;
+    }
+
+    private inline function get_bpm() : Int
+    {
+        return Renoise.song().transport.bpm;
+    }
+
+    private function set_bpm(bpm :Int) : Int
+    {
+        var bpm = Math.clamp(bpm, 32, 999);
+        Renoise.song().transport.bpm = bpm;
+        return bpm;
     }
 }
 

@@ -30,15 +30,20 @@ using fire.util.Math;
 
 class Select
 {
-    public static function handle(isLeft: Bool, softkeys :SoftKeys, state :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
+    public static function handle(isLeft: Bool, softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
     {
-        switch state.browser.value {
+        switch controllerState.browser.value {
+            case SETTINGS: {
+                if(controllerState.buttons.isDown(ALT)) {
+                    settingsAlt(controllerState, renoiseState, isLeft);
+                }
+            }
             case SEQ: {
-                if(state.buttons.isDown(ALT)) {
+                if(controllerState.buttons.isDown(ALT)) {
                     seqAlt(isLeft);
                 }
                 else {
-                    seqNormal(softkeys, state, renoiseState, isLeft);
+                    seqNormal(softkeys, controllerState, renoiseState, isLeft);
                 }
             }
             case INST: {
@@ -46,6 +51,17 @@ class Select
             }
         }
         
+    }
+
+    private static function settingsAlt(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, isLeft :Bool) : Void
+    {
+        var amount = isLeft ? -1 : 1;
+        switch controllerState.settingSelection.value {
+            case EDIT_STEP:
+                renoiseState.editStep = renoiseState.editStep + amount;
+            case BPM:
+                renoiseState.bpm = renoiseState.bpm + amount;
+        }
     }
 
     private static function inst(renoiseState :RenoiseState, isLeft :Bool) : Void
@@ -62,7 +78,9 @@ class Select
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        moveNote(softkeys, amount, renoiseState);
+                        if(renoiseState.isRecording) {
+                            moveNote(softkeys, amount, renoiseState);
+                        }
                     case false:
                         RenoiseUtil.lineMoveBy(amount);
                 }

@@ -96,26 +96,17 @@ extern class Song
     @:native("send_track_count")
      public var sendTrackCount (default, null) : Int;
 
-    /**
-     * Instrument, Pattern, and Track arrays
-     */
     public var instruments (default, null) : ReadOnlyTableArray<Instrument>;
 
     @:native("instruments_observable")
     public var instrumentsObservable (default, null) : Observable;
 
-    /**
-     * Instrument, Pattern, and Track arrays
-     */
     public var patterns (default, null) : Table<Int, Pattern>;
 
     @:native("patterns_observable")
     public var patternsObservable (default, null) : Observable;
 
-    /**
-     * Instrument, Pattern, and Track arrays
-     */
-    public var tracks (default, null) : Table<Int, Track>;
+    public var tracks (default, null) : ReadOnlyTableArray<Track>;
 
     @:native("tracks_observable")
     public var tracksObservable (default, null) : Observable;
