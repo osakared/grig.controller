@@ -187,14 +187,14 @@ extern class Tool
      * @param ms 
      */
     @:native("add_timer")
-    public function add_timer(cb : Void -> Void, ms :Int) : Void;
+    public function addTimer(cb : Void -> Void, ms :Int) : Void;
 
     /**
      * Remove a previously registered timer.
      * @param cb 
      */
     @:native("remove_timer")
-    public function remove_timer(cb : Void -> Void) : Void;
+    public function removeTimer(cb : Void -> Void) : Void;
 }
 
 abstract MenuEntry(lua.Table<String, Dynamic>) to lua.Table<String, Dynamic>

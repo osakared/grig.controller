@@ -32,6 +32,12 @@ extern class Instrument
     public var nameObservable :Observable;
 
     /**
+     * Global trigger options (quantization and scaling options). See renoise.InstrumentTriggerOptions for more info.
+     */
+    @:native("trigger_options")
+    public var triggerOptions : InstrumentTriggerOptions;
+
+    /**
      * Reset, clear all settings and all samples.
      */
     public function clear() : Void;

@@ -21,7 +21,36 @@
 
 package renoise.song;
 
+import renoise.ds.ReadOnlyTableArray;
+
 extern class InstrumentTriggerOptions
 {
-    
+    // renoise.InstrumentTriggerOptions.QUANTIZE_NONE 
+    // renoise.InstrumentTriggerOptions.QUANTIZE_LINE
+    // renoise.InstrumentTriggerOptions.QUANTIZE_BEAT
+    // renoise.InstrumentTriggerOptions.QUANTIZE_BAR
+
+    /**
+     * List of all available scale modes.
+     */
+    @:native("available_scale_modes")
+    public var availableScaleModes : ReadOnlyTableArray<String>;
+
+    @:native("scale_mode")
+    public var scaleMode : String;
+
+    /**
+     * Scale to use when transposing. One of 'available_scales'.
+     */
+    @:native("scale_mode_observable")
+    public var scaleModeObservable : Observable;
+
+    /**
+     * Scale-key to use when transposing (1=C, 2=C#, 3=D, ...)
+     */
+    @:native("scale_key")
+    public var scaleKey : Int;
+
+    @:native("scale_key_observable")
+    public var scaleKeyObservable : Int;
 }

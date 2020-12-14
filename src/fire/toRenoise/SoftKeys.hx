@@ -21,7 +21,7 @@
 
 package fire.toRenoise;
 
-import fire.fromRenoise.RenoiseState;
+import lua.Os;
 import renoise.Socket;
 import renoise.Socket.SocketClient;
 import renoise.Renoise;
@@ -34,15 +34,35 @@ class SoftKeys
         var host = "localhost";
         var port = 8000;
         _client = Socket.createClient(host, port, UDP);
+        _lastTime = Os.time();
+
+        Renoise.tool().appIdleObservable.addNotifier(() -> {
+            var time = Os.time();
+            var elapsed = time - _lastTime;
+            if(elapsed > 1) {
+                disposeLast();
+            }
+        });
     }
 
-    public function playNote(isOn :Bool, note :Int, renoiseState :RenoiseState) : Void
+    public function sampleNote(note :Int, instrumentIndex :Int, trackIndex :Int) : Void
+    {
+        this.disposeLast();
+        _lastTime = Os.time();
+
+        this.playNote(true, note, instrumentIndex, trackIndex);
+        _lastSampleDisposer = () -> {
+            this.playNote(false, note, instrumentIndex, trackIndex);
+        }
+    }
+
+    public function playNote(isOn :Bool, note :Int, instrumentIndex :Int, trackIndex :Int) : Void
     {
         var velocity = 127;
 
         var oscVa = OscArgs.create();
-        oscVa.addTagValue("i", renoiseState.instrumentIndex);
-        oscVa.addTagValue("i", renoiseState.trackIndex);
+        oscVa.addTagValue("i", instrumentIndex);
+        oscVa.addTagValue("i", trackIndex);
         oscVa.addTagValue("i", note);
         if(isOn) {
             oscVa.addTagValue("i", velocity);
@@ -54,5 +74,15 @@ class SoftKeys
         _client.send(oscMsg);
     }
 
+    private function disposeLast() : Void
+    {
+        if(_lastSampleDisposer != null) {
+            _lastSampleDisposer();
+            _lastSampleDisposer = null;
+        }
+    }
+
     private var _client :SocketClient;
+    private var _lastSampleDisposer : Null<Void -> Void> = null;
+    private var _lastTime : lua.Time;
 }

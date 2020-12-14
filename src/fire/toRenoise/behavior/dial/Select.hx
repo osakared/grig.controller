@@ -34,6 +34,7 @@ class Select
     {
         switch controllerState.browser.value {
             case LIST(item):
+            case TRIGGER_OPTIONS:
             case SETTINGS: {
                 if(controllerState.buttons.isDown(SELECT)) {
                     settingsAlt(controllerState, renoiseState, isLeft);
@@ -79,9 +80,7 @@ class Select
             case STEP:
                 switch controllerState.grid.hasDown {
                     case true:
-                        if(renoiseState.isRecording) {
-                            moveNote(softkeys, amount, renoiseState);
-                        }
+                        moveNote(softkeys, amount, renoiseState, renoiseState.isRecording);
                     case false:
                         RenoiseUtil.lineMoveBy(amount);
                 }
@@ -104,7 +103,7 @@ class Select
         }
     }
 
-    private static function moveNote(softkeys :SoftKeys, amount :Int, renoiseState :RenoiseState) : Void
+    private static function moveNote(softkeys :SoftKeys, amount :Int, renoiseState :RenoiseState, isRecording :Bool) : Void
     {
         var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
         var newValue = switch oldValue {
@@ -116,7 +115,11 @@ class Select
                 (Renoise.song().selectedLine.noteColumn(1).noteValue + amount).clamp(0, 119);
         }
         var noteColumn = Renoise.song().selectedNoteColumnIndex;
-        Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = newValue;
+        if(isRecording) {
+            Renoise.song().selectedLine.noteColumn(noteColumn).noteValue = newValue;
+        }
+
+        softkeys.sampleNote(newValue, renoiseState.instrumentIndex, renoiseState.trackIndex);
     }
 }
 

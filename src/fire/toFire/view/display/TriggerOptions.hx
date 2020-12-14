@@ -21,33 +21,34 @@
 
 package fire.toFire.view.display;
 
-import fire.fromFire.ControllerState.BrowsterListItem;
+import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import renoise.midi.Midi.MidiOutputDevice;
 import renoise.Renoise;
 
-class List
+class TriggerOptions
 {
-    public static function draw(controllerState :ControllerStateReadOnly, outputDevice :MidiOutputDevice, display :Display, item :BrowsterListItem) : Void
+    public static function draw(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, outputDevice :MidiOutputDevice, display :Display) : Void
     {
         display.clear();
-        settings(controllerState, display, item);
+        options(controllerState, renoiseState, display);
         display.render(outputDevice);
     }
 
-    private static function settings(controllerState :ControllerStateReadOnly, display :Display, item :BrowsterListItem) : Void
+    private static function options(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, display :Display) : Void
     {
-        display.drawText("Selection", 0, 0, false, false);
-        var x = display.drawText("1:", 0, 8, false, false);
-        display.drawText("Sequencer", x, 8, false, item == B_SEQ);
-
-        var x = display.drawText("2:", 0, 16, false, false);
-        display.drawText("Instruments", x, 16, false, item == B_INST);
-
-        var x = display.drawText("3:", 0, 24, false, false);
-        display.drawText("Settings", x, 24, false, item == B_SETTINGS);
-
-        var x = display.drawText("4:", 0, 32, false, false);
-        display.drawText("Trigger Options", x, 32, false, item == B_TRIGGER_OPTIONS);
+        display.drawText("Trigger Options", 0, 0, false, false);
+        var triggerOptions = Renoise.song().selectedInstrument.triggerOptions;
+        var currentScale = triggerOptions.scaleMode;
+        var availableScales = triggerOptions.availableScaleModes;
+        var y = 8;
+        for(i in 0...availableScales.length) {
+            var realIndex = i + 1;
+            var scale = availableScales[realIndex];
+            var isSelected = scale == currentScale;
+            var x = display.drawText('${realIndex}:', 0, y, false, false);
+            display.drawText(availableScales[realIndex], x, y, false, isSelected);
+            y += 8;
+        }
     }
 }

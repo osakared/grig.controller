@@ -54,7 +54,7 @@ class Grid
         switch controllerState.input.value {
             case STEP: {
                 var oldValue = Renoise.song().selectedLine.noteColumn(1).noteValue;
-                _softKeys.playNote(false, oldValue, renoiseState);
+                _softKeys.playNote(false, oldValue, renoiseState.instrumentIndex, renoiseState.trackIndex);
             }
             case NOTE: {
                 hitNote(pad, false, renoiseState);
@@ -68,7 +68,7 @@ class Grid
     {
         var note = PadNote.getNote(pad);
         if(note != -1) {
-            _softKeys.playNote(isDown, note, renoiseState);
+            _softKeys.playNote(isDown, note, renoiseState.instrumentIndex, renoiseState.trackIndex);
 
             if(!isDown && RenoiseUtil.isRecording()) {
                 RenoiseUtil.lineMoveBy(renoiseState.editStep);

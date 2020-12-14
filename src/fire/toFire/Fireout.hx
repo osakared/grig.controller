@@ -28,11 +28,11 @@ import renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.Display;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;
-import renoise.LineChangeObserver;
 import fire.fromFire.ControllerStateReadOnly;
 import fire.toFire.view.display.Tracker;
 import fire.toFire.view.display.Instruments;
 import fire.toFire.view.display.Settings;
+import fire.toFire.view.display.TriggerOptions;
 import fire.toFire.view.display.List;
 import fire.toFire.view.grid.Step;
 import fire.toFire.view.grid.Piano;
@@ -47,29 +47,8 @@ class Fireout
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
         _transport = new Buttons(buttonLights, controllerState, renoiseState, _outputDevice);
-        this.initializeListene(controllerState, renoiseState);
+        Renoise.tool().appIdleObservable.addNotifier(draw.bind(controllerState, renoiseState));
         draw(controllerState, renoiseState);
-    }
-
-    private function initializeListene(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
-    {
-        var lineObserver = new LineChangeObserver();
-        lineObserver.register(0, () -> {
-            draw(controllerState, renoiseState);
-        });
-        Renoise.hack().cursor.addListener((_) -> {
-            draw(controllerState, renoiseState);
-        });
-        controllerState.input.addListener((_) -> {
-            draw(controllerState, renoiseState);
-        });
-        controllerState.browser.addListener((_) -> {
-            draw(controllerState, renoiseState);
-        });
-        controllerState.grid.fire.addListener(draw.bind(controllerState, renoiseState));
-        controllerState.dials.fire.addListener(draw.bind(controllerState, renoiseState));
-        Renoise.song().selectedPatternTrackObservable.addNotifier(draw.bind(controllerState, renoiseState));
-        Renoise.song().selectedInstrumentIndexObservable.addNotifier(draw.bind(controllerState, renoiseState));
     }
 
     private function draw(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState) : Void
@@ -92,6 +71,8 @@ class Fireout
                 Instruments.draw(controllerState, _outputDevice, _display);
             case SETTINGS:
                 Settings.draw(controllerState, renoiseState, _outputDevice, _display);
+            case TRIGGER_OPTIONS:
+                TriggerOptions.draw(controllerState, renoiseState, _outputDevice, _display);
         }
     }  
 

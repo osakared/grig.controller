@@ -39,7 +39,7 @@ class ControllerState
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
-        this.browser = new Signal1(LIST(B_SEQ));
+        this.browser = new Signal1(SEQ);
         this.settingSelection = new Signal1(EDIT_STEP);
         this.grid = new Grid();
         this.buttons = new Buttons();
@@ -88,11 +88,15 @@ class ControllerState
                     case [B_INST, false]:
                         this.browser.value = LIST(B_SETTINGS);
                     case [B_SETTINGS, false]:
+                        this.browser.value = LIST(B_TRIGGER_OPTIONS);
+                    case [B_TRIGGER_OPTIONS, false]:
                     case [B_SEQ, true]:
                     case [B_INST, true]:
                         this.browser.value = LIST(B_SEQ);
                     case [B_SETTINGS, true]:
                         this.browser.value = LIST(B_INST);
+                    case [B_TRIGGER_OPTIONS, true]:
+                        this.browser.value = LIST(B_SETTINGS);
                 }
             case _:
         }
@@ -115,10 +119,12 @@ class ControllerState
                         case B_SEQ: SEQ;
                         case B_INST: INST;
                         case B_SETTINGS: SETTINGS;
+                        case B_TRIGGER_OPTIONS: TRIGGER_OPTIONS;
                     }
                     case SEQ: LIST(B_SEQ);
                     case INST: LIST(B_SEQ);
                     case SETTINGS: LIST(B_SEQ);
+                    case TRIGGER_OPTIONS: LIST(B_SEQ);
                 }
                 // this.browser.value = LIST(B_SEQ);
             case _:
@@ -140,6 +146,7 @@ enum BrowserState
     SEQ;
     INST;
     SETTINGS;
+    TRIGGER_OPTIONS;
 }
 
 enum BrowsterListItem
@@ -147,6 +154,7 @@ enum BrowsterListItem
     B_SEQ;
     B_INST;
     B_SETTINGS;
+    B_TRIGGER_OPTIONS;
 }
 
 enum SettingSelection
