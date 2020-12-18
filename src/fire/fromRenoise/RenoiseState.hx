@@ -28,6 +28,7 @@ import fire.util.Signal1;
 
 class RenoiseState
 {
+    public var scaleMode (default, null) : ScaleMode;
     public var trackColumn (default, null) : Signal1<TrackColumn>;
     public var trackIndex (get, set) : Int;
     public var instrumentIndex (get, set) : Int;
@@ -39,6 +40,7 @@ class RenoiseState
 
     public function new() : Void
     {
+        this.scaleMode = new ScaleMode();
         setTrack();
     }
 

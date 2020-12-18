@@ -35,6 +35,7 @@ class Select
         switch controllerState.browser.value {
             case LIST(item):
             case TRIGGER_OPTIONS:
+                trigger(renoiseState, isLeft);
             case SETTINGS: {
                 if(controllerState.buttons.isDown(SELECT)) {
                     settingsAlt(controllerState, renoiseState, isLeft);
@@ -49,7 +50,7 @@ class Select
                 }
             }
             case INST: {
-                inst(renoiseState, isLeft);
+                inst(softkeys, renoiseState, isLeft);
             }
         }
         
@@ -66,11 +67,22 @@ class Select
         }
     }
 
-    private static function inst(renoiseState :RenoiseState, isLeft :Bool) : Void
+    private static function inst(softkeys :SoftKeys, renoiseState :RenoiseState, isLeft :Bool) : Void
     {
         var amount = isLeft ? -1 : 1;
         var curInstIndex = renoiseState.instrumentIndex;
         renoiseState.instrumentIndex = curInstIndex + amount;
+        softkeys.sampleNote(60, renoiseState.instrumentIndex, renoiseState.trackIndex);
+    }
+
+    private static function trigger(renoiseState :RenoiseState, isLeft :Bool) : Void
+    {
+        if(isLeft) {
+            renoiseState.scaleMode.prev();
+        }
+        else {
+            renoiseState.scaleMode.next();
+        }
     }
 
     private static function seqNormal(softkeys :SoftKeys, controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, isLeft :Bool) : Void

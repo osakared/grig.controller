@@ -39,7 +39,7 @@ class ControllerState
     public function new() {
         this.dials = new Dials();
         this.input = new Signal1(STEP);
-        this.browser = new Signal1(SEQ);
+        this.browser = new Signal1(TRIGGER_OPTIONS);
         this.settingSelection = new Signal1(EDIT_STEP);
         this.grid = new Grid();
         this.buttons = new Buttons();

@@ -38,16 +38,12 @@ class TriggerOptions
     private static function options(controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, display :Display) : Void
     {
         display.drawText("Trigger Options", 0, 0, false, false);
-        var triggerOptions = Renoise.song().selectedInstrument.triggerOptions;
-        var currentScale = triggerOptions.scaleMode;
-        var availableScales = triggerOptions.availableScaleModes;
         var y = 8;
-        for(i in 0...availableScales.length) {
+        for(i in 0...renoiseState.scaleMode.available.length) {
             var realIndex = i + 1;
-            var scale = availableScales[realIndex];
-            var isSelected = scale == currentScale;
+            var isSelected = realIndex == renoiseState.scaleMode.index.value;
             var x = display.drawText('${realIndex}:', 0, y, false, false);
-            display.drawText(availableScales[realIndex], x, y, false, isSelected);
+            display.drawText(renoiseState.scaleMode.available[realIndex], x, y, false, isSelected);
             y += 8;
         }
     }
