@@ -22,7 +22,7 @@
 package renoise.song;
 
 import lua.Table;
-import renoise.ds.ReadOnlyTableArray;
+import lady.ReadOnlyLArray;
 
 extern class Song
 {
@@ -96,7 +96,7 @@ extern class Song
     @:native("send_track_count")
      public var sendTrackCount (default, null) : Int;
 
-    public var instruments (default, null) : ReadOnlyTableArray<Instrument>;
+    public var instruments (default, null) : ReadOnlyLArray<Instrument>;
 
     @:native("instruments_observable")
     public var instrumentsObservable (default, null) : Observable;
@@ -106,7 +106,7 @@ extern class Song
     @:native("patterns_observable")
     public var patternsObservable (default, null) : Observable;
 
-    public var tracks (default, null) : ReadOnlyTableArray<Track>;
+    public var tracks (default, null) : ReadOnlyLArray<Track>;
 
     @:native("tracks_observable")
     public var tracksObservable (default, null) : Observable;

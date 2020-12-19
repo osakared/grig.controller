@@ -19,11 +19,11 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.ds;
+package lady;
 
 import lua.Table;
 
-abstract ReadOnlyTableArray<T>(Table<Int, T>) to Table<Int, T> from Table<Int, T>
+abstract LArray<T>(Table<Int, T>)
 {
     public var length (get, never) : Int;
 
@@ -32,8 +32,21 @@ abstract ReadOnlyTableArray<T>(Table<Int, T>) to Table<Int, T> from Table<Int, T
         this = Table.create();
     }
 
+    public inline function push(item :T) : Void
+    {
+        Table.insert(this, item);
+    }
+
+    public function pop() : Null<T>
+    {
+        var index :Int = untyped _hx_length(this);
+        var item = this[index];
+        Table.remove(this);
+        return item;
+    }
+
     @:arrayAccess
-    public inline function get(key :Int) {
+    private inline function get(key :Int) {
         return this[key];
     }
 

@@ -23,12 +23,12 @@ package fire.fromRenoise;
 
 import renoise.Renoise;
 import fire.util.Signal1;
-import renoise.ds.ReadOnlyTableArray;
+import lady.ReadOnlyLArray;
 
 class ScaleMode
 {
     public var index : Signal1<Int>;
-    public var available : ReadOnlyTableArray<String>;
+    public var available : ReadOnlyLArray<String>;
 
     public function new() : Void
     {

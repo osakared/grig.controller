@@ -19,38 +19,13 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package renoise.song;
+package lady;
 
-import lady.ReadOnlyLArray;
-
-extern class InstrumentTriggerOptions
+@:forward(length)
+abstract ReadOnlyLArray<T>(LArray<T>)
 {
-    // renoise.InstrumentTriggerOptions.QUANTIZE_NONE 
-    // renoise.InstrumentTriggerOptions.QUANTIZE_LINE
-    // renoise.InstrumentTriggerOptions.QUANTIZE_BEAT
-    // renoise.InstrumentTriggerOptions.QUANTIZE_BAR
-
-    /**
-     * List of all available scale modes.
-     */
-    @:native("available_scale_modes")
-    public var availableScaleModes : ReadOnlyLArray<String>;
-
-    @:native("scale_mode")
-    public var scaleMode : String;
-
-    /**
-     * Scale to use when transposing. One of 'available_scales'.
-     */
-    @:native("scale_mode_observable")
-    public var scaleModeObservable : Observable;
-
-    /**
-     * Scale-key to use when transposing (1=C, 2=C#, 3=D, ...)
-     */
-    @:native("scale_key")
-    public var scaleKey : Int;
-
-    @:native("scale_key_observable")
-    public var scaleKeyObservable : Int;
+    @:arrayAccess
+    private inline function get(key :Int) {
+        return this[key];
+    }
 }
