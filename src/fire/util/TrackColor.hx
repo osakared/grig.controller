@@ -1,6 +1,6 @@
 package fire.util;
 
-import renoise.Renoise;
+import lady.renoise.Renoise;
 
 class TrackColor
 {

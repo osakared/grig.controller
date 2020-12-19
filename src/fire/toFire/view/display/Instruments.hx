@@ -22,8 +22,8 @@
 package fire.toFire.view.display;
 
 import fire.fromFire.ControllerStateReadOnly;
-import renoise.midi.Midi.MidiOutputDevice;
-import renoise.Renoise;
+import lady.renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.Renoise;
 
 class Instruments
 {

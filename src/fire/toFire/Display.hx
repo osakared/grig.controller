@@ -22,7 +22,7 @@
 package fire.toFire;
 
 import lady.LArray;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 
 class Display
 {

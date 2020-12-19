@@ -21,7 +21,7 @@
 
 package fire.util;
 
-import renoise.song.TrackColor;
+import lady.renoise.song.TrackColor;
 
 class Color
 {

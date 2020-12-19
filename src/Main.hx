@@ -21,9 +21,9 @@
 
 import fire.fromRenoise.RenoiseState;
 import fire.toRenoise.ToRenoise;
-import renoise.Renoise;
-import renoise.midi.Midi;
-import renoise.tool.Tool.MenuEntry;
+import lady.renoise.Renoise;
+import lady.renoise.midi.Midi;
+import lady.renoise.tool.Tool.MenuEntry;
 import fire.fromFire.ControllerState;
 import fire.fromFire.dial.DialType;
 import fire.fromFire.button.ButtonType;

@@ -21,8 +21,8 @@
 
 package fire.toRenoise.behavior.button;
 
-import renoise.song.NoteColumn;
-import renoise.Renoise;
+import lady.renoise.song.NoteColumn;
+import lady.renoise.Renoise;
 import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 

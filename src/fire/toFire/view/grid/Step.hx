@@ -22,10 +22,10 @@
 package fire.toFire.view.grid;
 
 import fire.util.TrackColor;
-import renoise.song.NoteColumn;
+import lady.renoise.song.NoteColumn;
 import fire.util.Color;
-import renoise.midi.Midi.MidiOutputDevice;
-import renoise.Renoise;
+import lady.renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.Renoise;
 import fire.toFire.Grid;
 using lua.PairTools;
 

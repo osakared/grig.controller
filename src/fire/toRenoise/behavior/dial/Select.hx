@@ -22,9 +22,9 @@
 package fire.toRenoise.behavior.dial;
 
 import fire.fromRenoise.RenoiseState;
-import renoise.song.NoteColumn;
+import lady.renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;
-import renoise.Renoise;
+import lady.renoise.Renoise;
 import fire.util.RenoiseUtil;
 using fire.util.Math;
 

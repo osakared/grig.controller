@@ -22,7 +22,7 @@
 package fire.toFire.button;
 
 import lady.LArray;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import fire.fromFire.button.ButtonType;
 
 abstract ButtonLight(ButtonType) from Int

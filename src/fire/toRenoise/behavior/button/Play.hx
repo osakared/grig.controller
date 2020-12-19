@@ -21,7 +21,7 @@
 
 package fire.toRenoise.behavior.button;
 
-import renoise.Renoise;
+import lady.renoise.Renoise;
 import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 

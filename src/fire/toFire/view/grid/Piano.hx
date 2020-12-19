@@ -24,12 +24,12 @@ package fire.toFire.view.grid;
 import fire.util.TrackColor;
 import fire.fromRenoise.RenoiseState;
 import fire.util.Color;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
 import fire.util.PadNote;
-import renoise.song.EffectColumn;
-import renoise.Renoise;
-import renoise.song.NoteColumn;
+import lady.renoise.song.EffectColumn;
+import lady.renoise.Renoise;
+import lady.renoise.song.NoteColumn;
 import fire.fromFire.ControllerStateReadOnly;
 using lua.PairTools;
 

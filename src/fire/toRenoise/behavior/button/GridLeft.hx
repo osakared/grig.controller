@@ -22,7 +22,7 @@
 package fire.toRenoise.behavior.button;
 
 import fire.fromRenoise.RenoiseState;
-import renoise.Renoise;
+import lady.renoise.Renoise;
 import fire.fromFire.ControllerStateReadOnly;
 
 class GridLeft

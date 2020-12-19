@@ -21,7 +21,7 @@
 
 package fire.fromRenoise;
 
-import renoise.Renoise;
+import lady.renoise.Renoise;
 import fire.util.Signal1;
 import lady.ReadOnlyLArray;
 

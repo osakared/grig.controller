@@ -22,8 +22,8 @@
 package fire.fromRenoise;
 
 import fire.util.Math;
-import renoise.song.SongPos;
-import renoise.Renoise;
+import lady.renoise.song.SongPos;
+import lady.renoise.Renoise;
 import fire.util.Signal1;
 
 class RenoiseState

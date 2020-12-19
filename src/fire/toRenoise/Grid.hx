@@ -22,8 +22,8 @@
 package fire.toRenoise;
 
 import fire.fromRenoise.RenoiseState;
-import renoise.song.NoteColumn;
-import renoise.Renoise;
+import lady.renoise.song.NoteColumn;
+import lady.renoise.Renoise;
 import fire.util.PadNote;
 import fire.util.RenoiseUtil;
 import fire.fromFire.ControllerStateReadOnly;

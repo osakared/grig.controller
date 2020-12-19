@@ -23,8 +23,8 @@ package fire.toFire;
 
 import fire.fromRenoise.RenoiseState;
 import fire.toFire.button.Buttons;
-import renoise.Renoise;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.Renoise;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.Display;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;

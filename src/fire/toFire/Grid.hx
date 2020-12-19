@@ -22,7 +22,7 @@
 package fire.toFire;
 
 import fire.util.Color;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import lady.LArray;
 
 class Grid

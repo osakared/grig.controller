@@ -23,6 +23,6 @@
 
 import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 
 typedef Behavior = (controllerState :ControllerStateReadOnly, renoiseState :RenoiseState, buttons :ButtonLights, outputDevice :MidiOutputDevice) -> Void

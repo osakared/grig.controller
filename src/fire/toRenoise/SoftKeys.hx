@@ -22,10 +22,10 @@
 package fire.toRenoise;
 
 import lua.Os;
-import renoise.Socket;
-import renoise.Socket.SocketClient;
-import renoise.Renoise;
-import renoise.Osc.OscArgs;
+import lady.renoise.Socket;
+import lady.renoise.Socket.SocketClient;
+import lady.renoise.Renoise;
+import lady.renoise.Osc.OscArgs;
 
 class SoftKeys
 {
@@ -70,7 +70,7 @@ class SoftKeys
         var header = isOn
             ? "/renoise/trigger/note_on"
             : "/renoise/trigger/note_off";
-        var oscMsg = renoise.Osc.createMessage(header,oscVa);
+        var oscMsg = lady.renoise.Osc.createMessage(header,oscVa);
         _client.send(oscMsg);
     }
 

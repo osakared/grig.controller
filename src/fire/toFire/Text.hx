@@ -21,7 +21,7 @@
 
 package fire.toFire;
 
-import renoise.Renoise;
+import lady.renoise.Renoise;
 
 class Text
 {

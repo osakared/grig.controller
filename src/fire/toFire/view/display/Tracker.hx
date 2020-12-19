@@ -22,11 +22,11 @@
 package fire.toFire.view.display;
 
 import fire.fromFire.ControllerStateReadOnly;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import fire.util.Math;
-import renoise.song.EffectColumn;
-import renoise.Renoise;
-import renoise.song.NoteColumn;
+import lady.renoise.song.EffectColumn;
+import lady.renoise.Renoise;
+import lady.renoise.song.NoteColumn;
 using lua.PairTools;
 
 class Tracker

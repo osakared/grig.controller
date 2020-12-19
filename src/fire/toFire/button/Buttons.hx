@@ -22,8 +22,8 @@
 package fire.toFire.button;
 
 import fire.fromRenoise.RenoiseState;
-import renoise.Renoise;
-import renoise.midi.Midi.MidiOutputDevice;
+import lady.renoise.Renoise;
+import lady.renoise.midi.Midi.MidiOutputDevice;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.button.behavior.*;
 import fire.fromFire.ControllerStateReadOnly;
