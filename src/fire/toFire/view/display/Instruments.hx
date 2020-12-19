@@ -21,6 +21,7 @@
 
 package fire.toFire.view.display;
 
+import fire.util.Math;
 import fire.fromFire.ControllerStateReadOnly;
 import lady.renoise.midi.Midi.MidiOutputDevice;
 import lady.renoise.Renoise;
@@ -57,7 +58,8 @@ class Instruments
         var length = instruments.length;
         display.drawText("Instuments", 0, 0, false, false);
         var y = 8;
-        for(i in 0...length) {
+        var startIndex = Math.clamp(activeIndex - 4, 0, length);
+        for(i in startIndex...length) {
             var index = i + 1;
             var inst = instruments[index];
             var x = 0;

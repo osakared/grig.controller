@@ -46,7 +46,7 @@ class Fireout
         _display = new Display();
         _pads = new Grid(_outputDevice);
         var buttonLights = new ButtonLights();
-        _transport = new Buttons(buttonLights, controllerState, renoiseState, _outputDevice);
+        new Buttons(buttonLights, controllerState, renoiseState, _outputDevice);
         Renoise.tool().appIdleObservable.addNotifier(draw.bind(controllerState, renoiseState));
         draw(controllerState, renoiseState);
     }
@@ -79,5 +79,4 @@ class Fireout
     private var _outputDevice :MidiOutputDevice;
     private var _display :Display;
     private var _pads :Grid;
-    private var _transport :Buttons;
 }

@@ -21,6 +21,7 @@
 
 package fire.toFire.view.display;
 
+import fire.util.Math;
 import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import lady.renoise.midi.Midi.MidiOutputDevice;
@@ -40,7 +41,8 @@ class TriggerOptions
     {
         display.drawText("Trigger Options", 0, 0, false, false);
         var y = 8;
-        for(i in 0...renoiseState.scaleMode.available.length) {
+        var startIndex = Math.clamp(renoiseState.scaleMode.index.value - 4, 0, renoiseState.scaleMode.available.length);
+        for(i in startIndex...renoiseState.scaleMode.available.length) {
             var realIndex = i + 1;
             var isSelected = realIndex == renoiseState.scaleMode.index.value;
             var x = display.drawText('${realIndex}:', 0, y, false, false);
