@@ -21,7 +21,7 @@
 
 package renoise.song;
 
-import lua.Table;
+import lady.LArray;
 import lady.ReadOnlyLArray;
 
 extern class Song
@@ -101,7 +101,7 @@ extern class Song
     @:native("instruments_observable")
     public var instrumentsObservable (default, null) : Observable;
 
-    public var patterns (default, null) : Table<Int, Pattern>;
+    public var patterns (default, null) : LArray<Pattern>;
 
     @:native("patterns_observable")
     public var patternsObservable (default, null) : Observable;
@@ -305,7 +305,7 @@ extern class Song
     public var selectedSubColumnType : SubColumn;
 
     @:native("selection_in_pattern")
-    public var selectionInPattern : Table<Int, Selection>;
+    public var selectionInPattern : LArray<Selection>;
 
     /**
      * same as 'selection_in_pattern' but for the currently selected phrase 
@@ -313,7 +313,7 @@ extern class Song
      * fields are valid.
      */
     @:native("selection_in_phrase")
-    public var selectionInPhrase : Table<Int, Selection>;
+    public var selectionInPhrase : LArray<Selection>;
 
     /**
      * Test if something in the song can be undone.

@@ -22,6 +22,7 @@
 package renoise.song;
 
 import renoise.song.TransportPlayMode;
+import lady.LArray;
 
 extern class Transport
 {
@@ -107,7 +108,7 @@ extern class Transport
     public var loopEnd (default, null) : SongPos;
 
     @:native("loop_range")
-    public var loopRange (default, null) : lua.Table<Int, SongPos>;
+    public var loopRange (default, null) : LArray<SongPos>;
 
     @:native("loop_start_beats")
     public var loopStartBeats (default, null) : Int;
@@ -116,7 +117,7 @@ extern class Transport
     public var loopEndBeats (default, null) : Int;
 
     @:native("loop_range_beats")
-    public var loopRangeBeats (default, null) : lua.Table<Int, Int>;
+    public var loopRangeBeats (default, null) : LArray<Int>;
 
     @:native("loop_sequence_start")
     public var loopSequenceStart (default, null) : Int;
@@ -125,7 +126,7 @@ extern class Transport
     public var loopSequenceEnd (default, null) : Int;
 
     @:native("loop_sequence_range")
-    public var loopSequenceRange (default, null) : lua.Table<Int, Int>;
+    public var loopSequenceRange (default, null) : LArray<Int>;
 
     @:native("loop_pattern")
     public var loopPattern : Bool;

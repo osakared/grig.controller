@@ -21,7 +21,7 @@
 
 package renoise.song;
 
-import lua.Table;
+import lady.LArray;
 
 extern class PatternLine
 {
@@ -29,10 +29,10 @@ extern class PatternLine
     public var isEmpty : Bool;
 
     @:native("note_columns")
-    public var noteColumns : Table<Int, NoteColumn>;
+    public var noteColumns : LArray<NoteColumn>;
 
     @:native("effect_columns")
-    public var effectColumns : Table<Int, EffectColumn>;
+    public var effectColumns : LArray<EffectColumn>;
 
     /**
      * Clear all note and effect columns.

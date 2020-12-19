@@ -22,7 +22,7 @@
 package renoise.song;
 
 import renoise.song.AutomationPlayMode;
-import lua.Table;
+import lady.LArray;
 
 extern class PatternTrackAutomation
 {
@@ -76,7 +76,7 @@ extern class PatternTrackAutomation
      * selection, if any, will be cleared.
      */
     @:native("selection_range")
-    public var selectionRange : Table<Int, Int>;
+    public var selectionRange : LArray<Int>;
 
     @:native("selection_range_observable")
     public var selectionRangeObservable : Observable;
@@ -88,7 +88,7 @@ extern class PatternTrackAutomation
      * will not do anything. Instead, change them via points = { something } 
      * instead.
      */
-    public var points : Table<Int, Int>;
+    public var points : LArray<Int>;
 
     @:native("points_observable")
     public var pointsObservable : Observable;

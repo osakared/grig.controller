@@ -22,14 +22,15 @@
 package lady;
 
 import lua.Table;
+import lua.PairTools;
 
 abstract LArray<T>(Table<Int, T>)
 {
     public var length (get, never) : Int;
 
-    inline public function new() : Void
+    public inline function new(?arr:Null<Array<T>>) : Void
     {
-        this = Table.create();
+        this = Table.create(arr);
     }
 
     public inline function push(item :T) : Void
@@ -45,9 +46,21 @@ abstract LArray<T>(Table<Int, T>)
         return item;
     }
 
+    public inline function ipairsEach(func:(Int, T) -> Void) : Void
+    {
+        PairTools.ipairsEach(this, func);
+    }
+
     @:arrayAccess
     private inline function get(key :Int) {
         return this[key];
+    }
+
+    @:arrayAccess
+    private inline function arrayWrite(k :Int, v :T) : T 
+    {
+        this[k] = v;
+        return v;
     }
 
     private inline function get_length() : Int

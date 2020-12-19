@@ -21,7 +21,7 @@
 
 package fire.toFire;
 
-import lua.Table;
+import lady.LArray;
 import renoise.midi.Midi.MidiOutputDevice;
 
 class Display
@@ -94,7 +94,7 @@ class Display
         return x + 6 * text.length;
     }
 
-    private inline function compactPixel(row :Table<Int, Int>, value :Int, position :Int) : Void
+    private inline function compactPixel(row :LArray<Int>, value :Int, position :Int) : Void
     {
         var arrayIndex = Math.floor(position / 7) + DATA_INDEX_START;
         if(row[arrayIndex] == null) {
@@ -110,14 +110,14 @@ class Display
         var hh = (ROW_LENGTH + 4) >> 7;
         var ll = (ROW_LENGTH + 4) & 0x7F;
         for(rowIndex in 0...8) {
-            var row :Table<Int, Int> = Table.create([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, rowIndex, 0x07, 0x00, 0x7F]);
+            var row :LArray<Int> = new LArray([0xF0, 0x47, 0x7F, 0x43, 0x0E, hh, ll, rowIndex, 0x07, 0x00, 0x7F]);
             for(_ in 0...ROW_LENGTH) {
-                Table.insert(row, 0);
+                row.push(0);
             }
-            Table.insert(row, 0xF7);
+            row.push(0xF7);
             _rows.push(row);
         }
     }
 
-    private var _rows :Array<Table<Int, Int>> = [];
+    private var _rows :Array<LArray<Int>> = [];
 }

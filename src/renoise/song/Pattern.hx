@@ -22,7 +22,8 @@
 package renoise.song;
 
 import renoise.song.Track;
-import lua.Table;
+import lady.LArray;
+
 
 typedef LineNotifier = {pattern :Pattern, track :Track, line :Int} -> Void;
 
@@ -41,7 +42,7 @@ extern class Pattern
     @:native("number_of_lines_observable")
     public var numberOfLinesObservable :Observable;
 
-    public var tracks :Table<Int, PatternTrack>;
+    public var tracks :LArray<PatternTrack>;
 
     /**
      * Deletes all lines & automation.

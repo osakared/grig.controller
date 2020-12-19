@@ -21,14 +21,14 @@
 
 package renoise.song;
 
-import lua.Table;
+import lady.LArray;
 
 extern class GroupTrack
 {
     /**
      * All member tracks of this group (including subgroups and their tracks).
      */
-    public var membe (default, null) : Table<Int, Track>;
+    public var membe (default, null) : LArray<Track>;
 
     /**
      * Collapsed/expanded visual appearance of whole group.

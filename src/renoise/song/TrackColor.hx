@@ -21,9 +21,9 @@
 
 package renoise.song;
 
-import lua.Table;
+import lady.LArray;
 
-abstract TrackColor(lua.Table<Int, Int>)
+abstract TrackColor(LArray<Int>)
 {
     //0-0xFF
     public var r (get, never):Int;

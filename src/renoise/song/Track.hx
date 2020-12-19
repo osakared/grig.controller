@@ -21,6 +21,8 @@
 
 package renoise.song;
 
+import lady.LArray;
+
 extern class Track
 {
     /**
@@ -95,7 +97,7 @@ extern class Track
      * Output routing.
      */
     @:native("available_output_routings")
-    public var availableOutputRoutings (default, null) : lua.Table<Int, String>;
+    public var availableOutputRoutings (default, null) : LArray<String>;
 
     @:native("output_routing")
     public var outputRouting : String;
@@ -167,7 +169,7 @@ extern class Track
      * Devices.
      */
     @:native("available_devices")
-    public var availableDevices (default, null) : lua.Table<Int, String>;
+    public var availableDevices (default, null) : LArray<String>;
 
     /**
      * Returns a list of tables containing more information about the devices. 
@@ -178,7 +180,7 @@ extern class Track
      * favorite is_bridged -- true if the device is a bridged plugin }
      */
     @:native("available_device_infos")
-    public var availableDeviceInfos (default, null) : lua.Table<Int, String>;
+    public var availableDeviceInfos (default, null) : LArray<String>;
 
     public var devices (default, null) : AudioDevice;
 

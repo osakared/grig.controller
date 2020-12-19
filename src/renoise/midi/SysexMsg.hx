@@ -21,8 +21,8 @@
 
 package renoise.midi;
 
-import lua.Table;
+import lady.LArray;
 
-abstract SysexMsg(Array<Table<Int, Int>>) 
+abstract SysexMsg(Array<LArray<Int>>) 
 {
 }

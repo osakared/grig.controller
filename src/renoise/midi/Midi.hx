@@ -21,6 +21,8 @@
 
 package renoise.midi;
 
+import lady.LArray;
+
 @:native("renoise.Midi")
 extern class Midi
 {
@@ -148,5 +150,5 @@ extern class MidiOutputDevice
      * be sent in one block, must start with 0xF0, and end with 0xF7.
      * @param msg 
      */
-    public function send(msg :lua.Table<Int, Int>) : Void;
+    public function send(msg :LArray<Int>) : Void;
 }

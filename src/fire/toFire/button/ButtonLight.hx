@@ -21,7 +21,7 @@
 
 package fire.toFire.button;
 
-import lua.Table;
+import lady.LArray;
 import renoise.midi.Midi.MidiOutputDevice;
 import fire.fromFire.button.ButtonType;
 
@@ -44,5 +44,5 @@ abstract ButtonLight(ButtonType) from Int
         output.send(lightMsg);
     }
 
-    private static var lightMsg :Table<Int, Int> = Table.create([0xB0]);
+    private static var lightMsg :LArray<Int> = new LArray<Int>([]);
 }

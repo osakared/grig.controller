@@ -21,7 +21,7 @@
 
 package renoise.song;
 
-import lua.Table;
+import lady.LArray;
 
 extern class PatternTrack
 {
@@ -44,9 +44,9 @@ extern class PatternTrack
     @:native("is_empty_observable")
     public var isEmptyObservable (default, null): Observable;
 
-    public var lines (default, null): Table<Int, PatternLine>;
+    public var lines (default, null): LArray<PatternLine>;
 
-    public var automation (default, null): Table<Int, PatternTrackAutomation>;
+    public var automation (default, null): LArray<PatternTrackAutomation>;
     
     @:native("automation_observable")
     public var automationObservable (default, null): Observable;
@@ -83,7 +83,7 @@ extern class PatternTrack
      * @return Table<Int, PatternLine>
      */
     @:native("lines_in_range")
-    public function linesInRange(from :Int, to :Int) : Table<Int, PatternLine>;
+    public function linesInRange(from :Int, to :Int) : LArray<PatternLine>;
 
     /**
      * Returns the automation for the given device parameter or nil when there is none.

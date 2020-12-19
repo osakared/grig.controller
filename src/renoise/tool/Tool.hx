@@ -21,7 +21,7 @@
 
 package renoise.tool;
 
-import lua.Table;
+import lady.LArray;
 
 extern class Tool
 {
@@ -201,6 +201,6 @@ abstract MenuEntry(lua.Table<String, Dynamic>) to lua.Table<String, Dynamic>
 {
     public inline function new(name :String, invoke :Void -> Void) : Void
     {
-        this = Table.create({name:name, invoke:invoke});
+        this = lua.Table.create({name:name, invoke:invoke});
     }    
 }
