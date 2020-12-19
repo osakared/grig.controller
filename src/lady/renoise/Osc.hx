@@ -23,6 +23,7 @@ package lady.renoise;
 
 import haxe.extern.EitherType;
 
+@:native("renoise.Osc")
 extern class Osc
 {
     /**

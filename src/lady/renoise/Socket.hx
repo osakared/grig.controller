@@ -25,6 +25,7 @@ import lady.renoise.Osc.Bundle;
 import lady.renoise.Osc.Message;
 import haxe.extern.EitherType;
 
+@:native("renoise.Socket")
 extern class Socket
 {
     /**
