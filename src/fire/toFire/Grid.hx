@@ -22,10 +22,8 @@
 package fire.toFire;
 
 import fire.util.Color;
-import renoise.song.TrackColor;
 import lua.Table;
 import renoise.midi.Midi.MidiOutputDevice;
-import fire.util.LuaArray;
 
 class Grid
 {
@@ -67,12 +65,12 @@ class Grid
     private function initializeData(output :MidiOutputDevice) : Void
     {
         for(rowIndex in 0...ROWS) {
-            var row :LuaArray<Int> = Table.create([0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, BYTE_LENGTH]);
+            var row :Table<Int, Int> = Table.create([0xF0, 0x47, 0x7F, 0x43, 0x65, 0x00, BYTE_LENGTH]);
             _rows.push(row);
             for(pad in 0...PADS) {
                 drawToPad(0, 127, 0, pad, rowIndex);
             }
-            row.push(0xF7);
+            Table.insert(row, 0xF7);
         }
         this.render(output);
     }
@@ -86,5 +84,5 @@ class Grid
         _rows[row][padIndex + 3] = b;
     }
 
-    private var _rows :Array<LuaArray<Int>>;
+    private var _rows :Array<Table<Int, Int>>;
 }
