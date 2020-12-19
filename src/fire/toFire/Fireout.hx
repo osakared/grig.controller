@@ -25,7 +25,7 @@ import fire.fromRenoise.RenoiseState;
 import fire.toFire.button.Buttons;
 import lady.renoise.Renoise;
 import lady.renoise.midi.Midi.MidiOutputDevice;
-import fire.toFire.Display;
+import lady.display.Display;
 import fire.toFire.button.ButtonLights;
 import fire.toFire.Grid;
 import fire.fromFire.ControllerStateReadOnly;

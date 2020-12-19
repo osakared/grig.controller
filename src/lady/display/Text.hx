@@ -19,7 +19,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fire.toFire;
+package lady.display;
 
 import lady.renoise.Renoise;
 

@@ -25,6 +25,7 @@ import fire.fromRenoise.RenoiseState;
 import fire.fromFire.ControllerStateReadOnly;
 import lady.renoise.midi.Midi.MidiOutputDevice;
 import lady.renoise.Renoise;
+import lady.display.Display;
 
 class TriggerOptions
 {

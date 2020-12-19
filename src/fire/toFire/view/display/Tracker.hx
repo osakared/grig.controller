@@ -27,6 +27,7 @@ import fire.util.Math;
 import lady.renoise.song.EffectColumn;
 import lady.renoise.Renoise;
 import lady.renoise.song.NoteColumn;
+import lady.display.Display;
 using lua.PairTools;
 
 class Tracker
