@@ -44,5 +44,5 @@ abstract ButtonLight(ButtonType) from Int
         output.send(lightMsg);
     }
 
-    private static var lightMsg :LArray<Int> = new LArray<Int>([]);
+    private static var lightMsg :LArray<Int> = new LArray<Int>([0xB0]);
 }
