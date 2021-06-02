@@ -1,0 +1,46 @@
+-D doc-gen
+# -java-lib /Users/pinkboi/.m2/repository/com/bitwig/extension-api/13/extension-api-13.jar
+# --macro include doesn't seem to work with classes extracted from jar files
+com.bitwig.extension.api.Host
+com.bitwig.extension.api.opensoundcontrol.OscMethod
+com.bitwig.extension.api.opensoundcontrol.OscNode
+com.bitwig.extension.api.opensoundcontrol.OscPacketSizeExceededException
+com.bitwig.extension.api.util.midi.ShortMidiMessage
+com.bitwig.extension.api.util.midi.SysexBuilder
+com.bitwig.extension.callback.BooleanValueChangedCallback
+com.bitwig.extension.callback.ClipLauncherSlotBankPlaybackStateChangedCallback
+com.bitwig.extension.callback.ColorValueChangedCallback
+com.bitwig.extension.callback.ConnectionEstablishedCallback
+com.bitwig.extension.callback.DataReceivedCallback
+com.bitwig.extension.callback.DirectParameterDisplayedValueChangedCallback
+com.bitwig.extension.callback.DirectParameterNameChangedCallback
+com.bitwig.extension.callback.DirectParameterNormalizedValueChangedCallback
+com.bitwig.extension.callback.DoubleValueChangedCallback
+com.bitwig.extension.callback.EnumValueChangedCallback
+com.bitwig.extension.callback.FloatValueChangedCallback
+com.bitwig.extension.callback.IndexedBooleanValueChangedCallback
+com.bitwig.extension.callback.IndexedColorValueChangedCallback
+com.bitwig.extension.callback.IndexedStringValueChangedCallback
+com.bitwig.extension.callback.IndexedValueChangedCallback
+com.bitwig.extension.callback.NoArgsCallback
+com.bitwig.extension.callback.NotePlaybackCallback
+com.bitwig.extension.callback.NoteStepChangedCallback
+com.bitwig.extension.callback.ObjectValueChangedCallback
+com.bitwig.extension.callback.ShortMidiDataReceivedCallback
+com.bitwig.extension.callback.ShortMidiMessageReceivedCallback
+com.bitwig.extension.callback.StepDataChangedCallback
+com.bitwig.extension.callback.StringArrayValueChangedCallback
+com.bitwig.extension.callback.StringValueChangedCallback
+com.bitwig.extension.callback.SysexMidiDataReceivedCallback
+com.bitwig.extension.controller.ControllerExtension
+com.bitwig.extension.controller.UsbDeviceMatcher
+--no-output
+-dce no
+--java dummy.java
+
+-xml bin/doc.xml
+
+maven.hxml
+
+
+# --cmd lix run dox -i bin/ -o dist/

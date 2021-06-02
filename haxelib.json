@@ -1,0 +1,18 @@
+{
+  "name": "grig.controller",
+  "url" : "https://grig.tech/",
+  "license": "MIT",
+  "tags": [
+    "audio",
+    "music",
+    "DAWs"
+  ],
+  "description": "Common abstraction layer for controller scripts for DAWs (Bitwig, Ableton, etc.)",
+  "classPath": "src",
+  "contributors": [
+    "thomasjwebb"
+  ],
+  "releasenote": "Initial version",
+  "version": "0.0.1",
+  "dependencies": {}
+}
