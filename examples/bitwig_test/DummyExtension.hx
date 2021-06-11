@@ -4,6 +4,7 @@ import com.bitwig.extension.controller.api.ControllerHost;
 import com.bitwig.extension.controller.api.Transport;
 import com.bitwig.extension.controller.ControllerExtension;
 
+@:keep
 class DummyExtension extends ControllerExtension
 {
     public function new(definition:DummyExtensionDefinition, host:ControllerHost)
@@ -17,14 +18,14 @@ class DummyExtension extends ControllerExtension
 
         // TODO: Perform your driver initialization here.
         // For now just show a popup notification for verification that it is running.
-        host.showPopupNotification("bitwigtest Initialized");
+        host.showPopupNotification("Dummy Initialized");
     }
 
     overload public function exit():Void
     {
         // TODO: Perform any cleanup once the driver exits
         // For now just show a popup notification for verification that it is no longer running.
-        getHost().showPopupNotification("bitwigtest Exited");
+        getHost().showPopupNotification("Dum Dum Exited");
     }
 
     overload public function flush():Void

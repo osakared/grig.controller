@@ -8,6 +8,7 @@ import com.bitwig.extension.controller.AutoDetectionMidiPortNamesList;
 import com.bitwig.extension.controller.ControllerExtensionDefinition;
 import com.bitwig.extension.controller.api.ControllerHost;
 
+@:keep
 class DummyExtensionDefinition extends ControllerExtensionDefinition
 {
     public function new()

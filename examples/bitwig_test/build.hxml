@@ -1,3 +1,4 @@
 DummyExtension
---java bin/dummy
+--jvm bin/dummy.jar
 maven.hxml
+--cmd jar uf bin/dummy.jar META-INF
