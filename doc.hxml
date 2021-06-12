@@ -34,6 +34,8 @@ com.bitwig.extension.callback.StringValueChangedCallback
 com.bitwig.extension.callback.SysexMidiDataReceivedCallback
 com.bitwig.extension.controller.ControllerExtension
 com.bitwig.extension.controller.UsbDeviceMatcher
+-cp src
+-lib grig.osc
 --no-output
 -dce no
 --java dummy.java

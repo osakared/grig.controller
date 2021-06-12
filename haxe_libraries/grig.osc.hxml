@@ -1,0 +1,5 @@
+# @install: lix --silent download "haxelib:/grig.osc#0.0.3" into grig.osc/0.0.3/haxelib
+-lib thx.core
+-lib tink_core
+-cp ${HAXE_LIBCACHE}/grig.osc/0.0.3/haxelib/src
+-D grig.osc=0.0.3
