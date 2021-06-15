@@ -1,0 +1,13 @@
+-cp ../../src
+-lib grig.osc
+MinimalExtension
+
+# -D GRIG_CONTROLLER_STANDALONE
+# -main MinimalExtension
+# -cpp bin/standalone
+
+-D GRIG_CONTROLLER_BITWIG
+--jvm bin/Minimal.jar
+# --java bin/Minimal
+maven.hxml
+--cmd jar uf bin/Minimal.jar META-INF

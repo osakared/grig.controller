@@ -1,5 +1,6 @@
 package grig.controller;
 
+@:autoBuild(grig.controller.Generator.build())
 interface Controller
 {
     /**
