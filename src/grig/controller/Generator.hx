@@ -19,6 +19,16 @@ class Generator
         }
     }
 
+    public static function extractMetadataValue(meta:MetadataEntry):Null<String>
+    {
+        if (meta.params == null || meta.params.length < 1) return null;
+        return switch (meta.params[0].expr) {
+            case EConst(CString(s)): return s;
+            case EConst(CInt(i)): return i;
+            default: null;
+        }
+    }
+
     public static function build():Array<Field>
     {
         var fields = Context.getBuildFields();
