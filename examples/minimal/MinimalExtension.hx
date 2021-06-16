@@ -6,6 +6,8 @@ import grig.controller.Host;
 @author("pinkboi")
 @version("0.0.1")
 @uuid("74987444-CC14-4157-AA93-A845A54DA8DF")
+@hardwareVendor("Acme")
+@hardwareModel("Minimizer")
 class MinimalExtension implements grig.controller.Controller
 {
     var host:Host;

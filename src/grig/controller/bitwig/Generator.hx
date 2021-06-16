@@ -1,8 +1,12 @@
 package grig.controller.bitwig;
 
-import haxe.macro.Expr;
+import haxe.io.Path;
+import haxe.macro.Compiler;
 import haxe.macro.Context;
+import haxe.macro.Expr;
 import haxe.macro.Type;
+import sys.io.File;
+import sys.FileSystem;
 
 class Generator
 {
@@ -87,8 +91,8 @@ class Generator
         var name:Null<String> = null;
         var author:Null<String> = null;
         var version:Null<String> = null;
-        var hardwareVendor:String = '';
-        var hardwareModel:String = '';
+        var hardwareVendor:Null<String> = null;
+        var hardwareModel:Null<String> = null;
         var numMidiInPorts:String = '0';
         var numMidiOutPorts:String = '0';
         var uuid:Null<String> = null;
@@ -117,6 +121,8 @@ class Generator
         checkMetadata(NAME, name);
         checkMetadata(AUTHOR, author);
         checkMetadata(VERSION, version);
+        checkMetadata(HARDWARE_VENDOR, hardwareVendor);
+        checkMetadata(HARDWARE_MODEL, hardwareModel);
         checkMetadata(UUID, uuid);
 
         // Now make the definition class
@@ -151,6 +157,19 @@ class Generator
         definitionClass.fields.push(getUuidField);
 
         Context.defineType(definitionClass);
+
+        // Now to generate the meta inf that goes into the final jar file
+        // to notify Bitwig of where the plugin lives
+        var pack = classType.pack.copy();
+        // If this is at root level, haxe will throw it in haxe.root
+        if (pack.length == 0) pack = ['haxe', 'root'];
+        pack.push(definitionName);
+        var packString = pack.join('.') + '\n';
+        var packDir = [Path.directory(Compiler.getOutput()), 'META-INF', 'services'];
+        FileSystem.createDirectory(Path.join(packDir));
+        packDir.push('com.bitwig.extension.ExtensionDefinition');
+        var packFile = Path.join(packDir);
+        File.saveContent(packFile, packString);
     }
 
 #end
