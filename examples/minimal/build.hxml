@@ -8,7 +8,6 @@ MinimalExtension
 
 -D GRIG_CONTROLLER_BITWIG
 --jvm bin/Minimal.jar
-# --java bin/Minimal
 maven.hxml
 --cmd jar uf bin/Minimal.jar -C bin META-INF
 --cmd mv bin/Minimal.jar bin/Minimal.bwextension

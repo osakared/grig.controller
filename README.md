@@ -12,3 +12,52 @@ haxe --run Maven.hx
 haxe doc.hxml
 lix run dox -i bin/ -o dist/
 ```
+
+### Planned support
+
+* Standalone/test
+* Bitwig (in progress)
+* Ableton Live (planned)
+* FL Studio (planned)
+* Reaper (planned)
+* Renoise (planned)
+
+### Metadata
+
+These metadata are supported (and, depending on the target, required) on controllers:
+
+`@name`
+
+Name of the controller
+
+`@author`
+
+Author's name (such as github username)
+
+`@version`
+
+Version number, such as `1.0`
+
+`@uuid`
+
+Unique uuid id for plugin.
+
+`@hardwareVendor`
+
+Brand name of controller
+
+`@hardwareModel`
+
+Model name of controller
+
+`@numMidiInPorts`
+
+Number of midi in ports. Defaults to 0.
+
+`@numMidiOutPorts`
+
+Number of midi out ports. Defualts to 0.
+
+`@deviceNamePairs`
+
+Array of 2-length arrays of strings representing other pairs of midi input/output hardware names. Used by Bitwig.

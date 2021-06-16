@@ -12,4 +12,9 @@ interface Controller
      * Called when plugin instance is shut down
      */
     public function shutdown():Void;
+
+    /**
+     * Called periodically for updating display of controller
+     */
+    public function flush():Void;
 }

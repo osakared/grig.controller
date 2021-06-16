@@ -27,4 +27,8 @@ class MinimalExtension implements grig.controller.Controller
     {
         host.showMessage('shutdown() called');
     }
+
+    public function flush()
+    {
+    }
 }

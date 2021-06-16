@@ -18,6 +18,7 @@ class Generator
     private static inline var NUM_MIDI_IN_PORTS = 'numMidiInPorts';
     private static inline var NUM_MIDI_OUT_PORTS = 'numMidiOutPorts';
     private static inline var UUID = 'uuid';
+    private static inline var DEVICE_NAME_PAIRS = 'deviceNamePairs';
 
     #if macro
 
@@ -56,6 +57,41 @@ class Generator
         return { pos: Context.currentPos(), name: name, kind: type, access: [APublic, AOverload] };
     }
 
+    public static function extractArrayOfPairs(meta:MetadataEntry):Array<Array<String>>
+    {
+        var arrays = new Array<Array<String>>();
+        if (meta.params == null || meta.params.length < 1) return null;
+        switch (meta.params[0].expr) {
+            case EArrayDecl(values):
+                var subArray = new Array<String>();
+                for (value in values) {
+                    switch (value.expr) {
+                        case EArrayDecl(subValues):
+                            for (subValue in subValues) {
+                                switch (subValue.expr) {
+                                    case EConst(CString(s)):
+                                        subArray.push(s);
+                                    default:
+                                        Context.warning('Array member not valid string in metadata', Context.currentPos());
+                                }
+                            }
+                        default:
+                            Context.warning('Malformed metadata array', Context.currentPos());
+                            return [];
+                    }
+                }
+                if (subArray.length != 2) {
+                    Context.warning('Array not length of 2 in metadata', Context.currentPos());
+                    return [];
+                }
+                arrays.push(subArray);
+            default:
+                Context.warning('Malformed metadata array', Context.currentPos());
+                return [];
+        }
+        return arrays;
+    }
+
     public static function generate(fields:Array<Field>):Void
     {
         var classType = Context.getLocalClass().get();
@@ -71,8 +107,17 @@ class Generator
             pack: classType.pack,
             name: wrapperTypeName
         }
+        var definitionName = classType.name + 'ExtensionDefinition';
+        var definitionClassPath:haxe.macro.TypePath = {
+            pack: classType.pack,
+            name: definitionName
+        }
+        var definitionComplexType = TPath(definitionClassPath);
         var extensionClass = macro class $wrapperTypeName extends com.bitwig.extension.controller.ControllerExtension {
             private var controller:$classComplexType;
+            public function new(definition:$definitionComplexType, host:com.bitwig.extension.controller.api.ControllerHost) {
+                super(definition, host);
+            }
             overload public function init():Void {
                 controller = new $classPath();
                 var controllerHost:com.bitwig.extension.controller.api.ControllerHost = getHost();
@@ -83,8 +128,10 @@ class Generator
                 controller.shutdown();
             }
             overload public function flush():Void {
+                controller.flush();
             }
         }
+        extensionClass.pack = classType.pack;
         Context.defineType(extensionClass);
 
         // Now get the metadata for populating the definition class
@@ -96,8 +143,15 @@ class Generator
         var numMidiInPorts:String = '0';
         var numMidiOutPorts:String = '0';
         var uuid:Null<String> = null;
+        // @deviceNamePairs([["APC Key 25"], ["APC Key 25"], ["APC Key 25 MIDI 1"], ["APC Key 25 MIDI 1"]])
+        var deviceNamePairs = new Array<Array<String>>();
         var metadata = classType.meta.get();
         for (metadatum in metadata) {
+            if (metadatum.name == DEVICE_NAME_PAIRS) {
+                deviceNamePairs = extractArrayOfPairs(metadatum);
+                continue;
+            }
+
             var val = grig.controller.Generator.extractMetadataValue(metadatum);
             if (val == null) continue;
             if (metadatum.name == NAME) {
@@ -126,7 +180,6 @@ class Generator
         checkMetadata(UUID, uuid);
 
         // Now make the definition class
-        var definitionName = classType.name + 'ExtensionDefinition';
         var definitionClass = macro class $definitionName extends com.bitwig.extension.controller.ControllerExtensionDefinition {
             overload public function getRequiredAPIVersion():Int {
                 return 13;
@@ -155,6 +208,7 @@ class Generator
         var getUuidType:FieldType = FFun(getUuidFn);
         var getUuidField = { pos: Context.currentPos(), name: 'getId', kind: getUuidType, access: [APublic, AOverload] };
         definitionClass.fields.push(getUuidField);
+        definitionClass.pack = classType.pack;
 
         Context.defineType(definitionClass);
 
