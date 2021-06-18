@@ -1,5 +1,6 @@
 package grig.controller.bitwig;
 
+import haxe.display.Display.Package;
 import haxe.io.Path;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
@@ -55,6 +56,52 @@ class Generator
         fn.expr = { pos: Context.currentPos(), expr: EReturn({pos: Context.currentPos(), expr: EConst(CInt(value))}) };
         var type:FieldType = FFun(fn);
         return { pos: Context.currentPos(), name: name, kind: type, access: [APublic, AOverload] };
+    }
+
+    private static function makeMidiPortNamesFunction(portNamePairs:Array<Array<String>>):Field
+    {
+        // Build args
+        var args = new Array<FunctionArg>();
+        args.push({name: 'list', type: TPath({
+            name: 'AutoDetectionMidiPortNamesList',
+            pack: ['com', 'bitwig', 'extension', 'controller']
+        })});
+        // platformType:com.bitwig.extension.api.PlatformType
+        args.push({name: 'platformType', type: TPath({
+            name: 'PlatformType',
+            pack: ['com', 'bitwig', 'extension', 'api']
+        })});
+
+        // Build fn body
+        var exprs = new Array<Expr>();
+        for (portNamePair in portNamePairs) {
+            if (portNamePair.length != 2) {
+                Context.error("This shouldn't happen: non-pair array", Context.currentPos());
+            }
+            trace(portNamePair);
+            var field = EField({ pos: Context.currentPos(), expr: EConst(CIdent('list'))}, 'add');
+            var params = new Array<Expr>();
+            for (i in 0...2) {
+                // java.NativeArray.make()
+                var makerField = EField({
+                    pos: Context.currentPos(),
+                    expr: EField({
+                        pos: Context.currentPos(),
+                        expr: EConst(CIdent('java'))
+                    }, 'NativeArray')
+                }, 'make');
+                var makerParam = { pos: Context.currentPos(), expr: EConst(CString(portNamePair[0])) };
+                var makerCall = ECall({ pos: Context.currentPos(), expr: makerField }, [makerParam]);
+                var param = { pos: Context.currentPos(), expr: makerCall };
+                params.push(param);
+            }
+            var call = ECall({ pos: Context.currentPos(), expr: field }, params);
+            exprs.push({ pos: Context.currentPos(), expr: call });
+        }
+
+        var fn:Function = { args: args, expr: { pos: Context.currentPos(), expr: EBlock(exprs) }};
+        var type:FieldType = FFun(fn);
+        return { pos: Context.currentPos(), name: 'listAutoDetectionMidiPortNames', kind: type, access: [APublic, AOverload] };
     }
 
     public static function extractArrayOfPairs(meta:MetadataEntry):Array<Array<String>>
@@ -143,7 +190,6 @@ class Generator
         var numMidiInPorts:String = '0';
         var numMidiOutPorts:String = '0';
         var uuid:Null<String> = null;
-        // @deviceNamePairs([["APC Key 25"], ["APC Key 25"], ["APC Key 25 MIDI 1"], ["APC Key 25 MIDI 1"]])
         var deviceNamePairs = new Array<Array<String>>();
         var metadata = classType.meta.get();
         for (metadatum in metadata) {
@@ -187,9 +233,6 @@ class Generator
             overload public function createInstance(host:com.bitwig.extension.controller.api.ControllerHost):com.bitwig.extension.controller.ControllerExtension {
                 return new $wrapperClassPath(this, host);
             }
-            overload public function listAutoDetectionMidiPortNames(list:com.bitwig.extension.controller.AutoDetectionMidiPortNamesList,
-                platformType:com.bitwig.extension.api.PlatformType):Void {
-            }
         }
 
         definitionClass.fields.push(makeReturnFunction('getName', name));
@@ -199,6 +242,7 @@ class Generator
         definitionClass.fields.push(makeReturnFunction('getHardwareModel', hardwareModel));
         definitionClass.fields.push(makeIntReturnFunction('getNumMidiInPorts', numMidiInPorts));
         definitionClass.fields.push(makeIntReturnFunction('getNumMidiOutPorts', numMidiOutPorts));
+        definitionClass.fields.push(makeMidiPortNamesFunction(deviceNamePairs));
 
         var getUuidFn:Function = { args: [] };
         var getUuidExpr = { pos: Context.currentPos(), expr: EConst(CString(uuid)) };
