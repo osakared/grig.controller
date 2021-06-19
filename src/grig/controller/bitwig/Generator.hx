@@ -78,7 +78,6 @@ class Generator
             if (portNamePair.length != 2) {
                 Context.error("This shouldn't happen: non-pair array", Context.currentPos());
             }
-            trace(portNamePair);
             var field = EField({ pos: Context.currentPos(), expr: EConst(CIdent('list'))}, 'add');
             var params = new Array<Expr>();
             for (i in 0...2) {

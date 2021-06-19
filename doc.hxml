@@ -36,6 +36,7 @@ com.bitwig.extension.controller.ControllerExtension
 com.bitwig.extension.controller.UsbDeviceMatcher
 -cp src
 -lib grig.osc
+-lib grig.midi
 --no-output
 -dce no
 --java dummy.java

@@ -1,5 +1,6 @@
 -cp ../../src
 -lib grig.osc
+-lib grig.midi
 MinimalExtension
 
 # -D GRIG_CONTROLLER_STANDALONE

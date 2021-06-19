@@ -13,6 +13,22 @@ interface Host
      * @param message message to log
      */
     public function logMessage(message:String):Void;
+    
+    /**
+     * Creates or gets the transport for the active project
+     */
+    public function getTransport():Transport;
+
+    /**
+     * Gets or receives a midi receiver
+     */
+    public function getMidiIn(port:Int):grig.midi.MidiReceiver;
+
+    /**
+     * Queries whether the host supports a clip launcher
+     * @return Bool
+     */
+    // public function hasClipLauncher():Bool;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;
