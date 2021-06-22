@@ -33,4 +33,9 @@ class Transport implements grig.controller.Transport
     {
         transport.togglePlay();
     }
+
+    public function tapTempo()
+    {
+        transport.tapTempo();
+    }
 }

@@ -7,4 +7,5 @@ interface Transport
     public function pause():Void;
     public function record():Void;
     public function playPause():Void;
+    public function tapTempo():Void;
 }
