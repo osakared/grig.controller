@@ -16,10 +16,9 @@ class MinimalExtension implements grig.controller.Controller
     {
     }
 
-    public function startup(host_:Host)
+    public function startup(host:Host)
     {
-        host = host_;
-
+        this.host = host;
         host.showMessage('startup() called');
     }
 

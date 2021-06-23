@@ -7,9 +7,9 @@ class MidiIn implements grig.midi.MidiReceiver implements com.bitwig.extension.c
     private var midiIn:com.bitwig.extension.controller.api.MidiIn;
     private var callback:(MidiMessage, Float)->Void = null;
 
-    public function new(midiIn_:com.bitwig.extension.controller.api.MidiIn)
+    public function new(midiIn:com.bitwig.extension.controller.api.MidiIn)
     {
-        midiIn = midiIn_;
+        this.midiIn = midiIn;
         midiIn.setMidiCallback(this);
     }
 
@@ -19,8 +19,8 @@ class MidiIn implements grig.midi.MidiReceiver implements com.bitwig.extension.c
         callback(MidiMessage.ofArray([status, data1, data2]), 0.0);
     }
 
-    public function setCallback(callback_:(MidiMessage, Float)->Void):Void
+    public function setCallback(callback:(MidiMessage, Float)->Void):Void
     {
-        callback = callback_;
+        this.callback = callback;
     }
 }

@@ -20,15 +20,32 @@ interface Host
     public function getTransport():Transport;
 
     /**
-     * Gets or receives a midi receiver
+     * Creates or gets a midi receiver
+     * @param port hardware midi port
+     * @return grig.midi.MidiReceiver
      */
     public function getMidiIn(port:Int):grig.midi.MidiReceiver;
+
+    /**
+     * Creates or gets a midi sender
+     * @param port hardware midi port
+     * @return grig.midi.MidiSender
+     */
+    public function getMidiOut(port:Int):grig.midi.MidiSender;
 
     /**
      * Queries whether the host supports a clip launcher
      * @return Bool
      */
-    // public function hasClipLauncher():Bool;
+    public function hasClipLauncher():Bool;
+
+    /**
+     * Creates a clip view
+     * @param width number of tracks
+     * @param height number of scenes
+     * @return ClipView
+     */
+    public function createClipView(width:Int, height:Int):ClipView;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;
