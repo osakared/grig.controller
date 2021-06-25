@@ -50,4 +50,14 @@ class ClipView implements grig.controller.ClipView
     {
         trackBank.sceneBank().canScrollForwards().addValueObserver(new BooleanChangedCallback(callback));
     }
+
+    public function stopAllClips():Void
+    {
+        trackBank.sceneBank().stop();
+    }
+
+    public function returnToArrangement():Void
+    {
+        trackBank.sceneBank().returnToArrangement();
+    }
 }
