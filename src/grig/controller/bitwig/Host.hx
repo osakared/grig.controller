@@ -1,6 +1,9 @@
 package grig.controller.bitwig;
 
 import com.bitwig.extension.controller.api.ControllerHost;
+import tink.core.Future;
+import tink.core.Promise;
+import tink.core.Outcome;
 
 class Host implements grig.controller.Host
 {
@@ -26,9 +29,9 @@ class Host implements grig.controller.Host
         controllerHost.println(message);
     }
 
-    public function getTransport():Transport
+    public function getTransport():Promise<grig.controller.Transport>
     {
-        return transport;
+        return Success(cast transport);
     }
 
     public function getMidiIn(port:Int):grig.midi.MidiReceiver

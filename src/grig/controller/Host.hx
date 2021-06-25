@@ -1,5 +1,7 @@
 package grig.controller;
 
+import tink.core.Promise;
+
 interface Host
 {
     /**
@@ -17,7 +19,7 @@ interface Host
     /**
      * Creates or gets the transport for the active project
      */
-    public function getTransport():Transport;
+    public function getTransport():Promise<Transport>;
 
     /**
      * Creates or gets a midi receiver
