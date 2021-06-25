@@ -18,15 +18,16 @@ interface Host
     
     /**
      * Creates or gets the transport for the active project
+     * @return Promise<Transport> which on success contains a Transport, failure if not available
      */
     public function getTransport():Promise<Transport>;
 
     /**
      * Creates or gets a midi receiver
      * @param port hardware midi port
-     * @return grig.midi.MidiReceiver
+     * @return Promise<grig.midi.MidiReceiver> failure if unavailable or can't open port
      */
-    public function getMidiIn(port:Int):grig.midi.MidiReceiver;
+    public function getMidiIn(port:Int):Promise<grig.midi.MidiReceiver>;
 
     /**
      * Creates or gets a midi sender
@@ -36,18 +37,12 @@ interface Host
     public function getMidiOut(port:Int):grig.midi.MidiSender;
 
     /**
-     * Queries whether the host supports a clip launcher
-     * @return Bool
-     */
-    public function hasClipLauncher():Bool;
-
-    /**
      * Creates a clip view
      * @param width number of tracks
      * @param height number of scenes
      * @return ClipView
      */
-    public function createClipView(width:Int, height:Int):ClipView;
+    public function createClipView(width:Int, height:Int):Promise<ClipView>;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;

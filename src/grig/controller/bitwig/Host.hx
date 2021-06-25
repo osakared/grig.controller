@@ -1,7 +1,7 @@
 package grig.controller.bitwig;
 
 import com.bitwig.extension.controller.api.ControllerHost;
-import tink.core.Future;
+import tink.core.Error;
 import tink.core.Promise;
 import tink.core.Outcome;
 
@@ -34,13 +34,17 @@ class Host implements grig.controller.Host
         return Success(cast transport);
     }
 
-    public function getMidiIn(port:Int):grig.midi.MidiReceiver
+    public function getMidiIn(port:Int):Promise<grig.midi.MidiReceiver>
     {
         if (midiIn == null) {
-            var bitwigMidiIn = controllerHost.getMidiInPort(port);
-            midiIn = new MidiIn(bitwigMidiIn);
+            try {
+                var bitwigMidiIn = controllerHost.getMidiInPort(port);
+                midiIn = new MidiIn(bitwigMidiIn);
+            } catch (e) {
+                return Failure(new Error(InternalError, e.message));
+            }
         }
-        return midiIn;
+        return Success(cast midiIn);
     }
 
     public function getMidiOut(port:Int):grig.midi.MidiSender
@@ -52,14 +56,10 @@ class Host implements grig.controller.Host
         return midiOut;
     }
 
-    public function hasClipLauncher():Bool
-    {
-        return true;
-    }
-
-    public function createClipView(width:Int, height:Int):ClipView
+    public function createClipView(width:Int, height:Int):Promise<grig.controller.ClipView>
     {
         var trackBank = controllerHost.createTrackBank(width, 0, height);
-        return new ClipView(trackBank);
+        var clipView:grig.controller.ClipView = new ClipView(trackBank);
+        return Success(clipView);
     }
 }
