@@ -25,6 +25,12 @@ interface ClipView extends Movable
     public function getNumScenes():Int;
 
     /**
+     * Plays given scene
+     * @param scene 
+     */
+    public function playScene(scene:Int):Void;
+
+    /**
      * Sets listener for updates to clip states
      * @param callback 
      */

@@ -104,6 +104,11 @@ class ClipView implements grig.controller.ClipView
         }
     }
 
+    public function playScene(scene:Int):Void
+    {
+        trackBank.sceneBank().launchScene(scene);
+    }
+
     public function setClipStateUpdateCallback(callback:ClipStateUpdateCallback):Void
     {
         this.callback = callback;
