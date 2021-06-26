@@ -79,6 +79,15 @@ class ClipView implements grig.controller.ClipView
         if (callback == null) return;
         hasSetupCallbacks = true;
 
+        var clips = new Array<Array<Clip>>();
+        for (i in 0...getNumTracks()) {
+            var clipRow = new Array<Clip>();
+            for (j in 0...getNumScenes()) {
+                clipRow.push(new Clip());
+            }
+            clips.push(clipRow);
+        }
+
         for (i in 0...getNumTracks()) {
             var track = trackBank.getItemAt(i);
             track.clipLauncherSlotBank().addPlaybackStateObserver(new PlaybackStateChangedCallback((idx:Int, state:PlaybackState, isQueued:Bool) -> {
@@ -95,11 +104,27 @@ class ClipView implements grig.controller.ClipView
                         case PlaybackState.Stopped: ClipState.Stopped;
                     }
                 }
-                callback(i, idx, clipState);
+                var clip = clips[i][idx];
+                clip.state = clipState;
+                callback(i, idx, clip.state);
+
+                // to get around a quirk in bitwig's api
+                if (clipState == ClipState.PlayingQueued) {
+                    for (j in 0...getNumScenes()) {
+                        if (j == idx) continue;
+                        var otherPlaying = clips[i][j];
+                        if (otherPlaying.state == ClipState.Playing) {
+                            otherPlaying.state = ClipState.StopQueued;
+                            callback(i, j, otherPlaying.state);
+                            break;
+                        }
+                    }
+                }
             }));
             track.clipLauncherSlotBank().addHasContentObserver(new IndexedBooleanChangedCallback((idx:Int, value:Bool) -> {
-                if (value) callback(i, idx, Stopped);
-                else callback(i, idx, Empty);
+                var clip = clips[i][idx];
+                clip.hasContent = value;
+                callback(i, idx, clip.state);
             }));
         }
     }
