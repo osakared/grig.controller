@@ -32,7 +32,7 @@ interface Host
     /**
      * Creates or gets a midi sender
      * @param port hardware midi port
-     * @return grig.midi.MidiSender
+     * @return Promise<grig.midi.MidiSender>
      */
     public function getMidiOut(port:Int):grig.midi.MidiSender;
 
@@ -40,9 +40,16 @@ interface Host
      * Creates a clip view
      * @param width number of tracks
      * @param height number of scenes
-     * @return ClipView
+     * @return Promise<ClipView>
      */
     public function createClipView(width:Int, height:Int):Promise<ClipView>;
+
+    /**
+     * Creates a track view
+     * @param width number of tracks
+     * @return Promise<TrackView>
+     */
+    public function createTrackView(width:Int):Promise<TrackView>;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;

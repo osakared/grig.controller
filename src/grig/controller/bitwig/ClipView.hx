@@ -8,8 +8,8 @@ class ClipView implements grig.controller.ClipView
     private var hasSetupCallbacks:Bool = false;
     private var clips = new Array<Array<Clip>>();
     // Add dummy callbacks to avoid dumb null checks
-    private var clipStateCallback:ClipStateUpdateCallback = (track:Int, scene:Int, state:ClipState) -> {};
-    private var sceneStateCallback:SceneStateUpdateCallback = (scene:Int, state:SceneState) -> {};
+    private var clipStateCallbacks = new Array<ClipStateUpdateCallback>();
+    private var sceneStateCallbacks = new Array<SceneStateUpdateCallback>();
 
     public function new(trackBank:com.bitwig.extension.controller.api.TrackBank)
     {
@@ -22,6 +22,11 @@ class ClipView implements grig.controller.ClipView
             }
             clips.push(clipRow);
         }
+    }
+
+    public function getTrackView():TrackView
+    {
+        return new TrackView(trackBank);
     }
 
     public function moveLeft():Void
@@ -108,7 +113,7 @@ class ClipView implements grig.controller.ClipView
         else if (allStopQueued) SceneState.StopQueued;
         else SceneState.Stopped;
 
-        sceneStateCallback(scene, sceneState);
+        for (sceneStateCallback in sceneStateCallbacks) sceneStateCallback(scene, sceneState);
     }
 
     private function onPlaybackStateChanged(track:Int, scene:Int, state:PlaybackState, isQueued:Bool)
@@ -128,7 +133,7 @@ class ClipView implements grig.controller.ClipView
         }
         var clip = clips[track][scene];
         clip.state = clipState;
-        clipStateCallback(track, scene, clip.state);
+        for (clipStateCallback in clipStateCallbacks) clipStateCallback(track, scene, clip.state);
         onSceneStateChanged(scene);
 
         // to get around a quirk in bitwig's api
@@ -138,7 +143,7 @@ class ClipView implements grig.controller.ClipView
                 var otherPlaying = clips[track][j];
                 if (otherPlaying.state == ClipState.Playing) {
                     otherPlaying.state = ClipState.StopQueued;
-                    clipStateCallback(track, j, otherPlaying.state);
+                    for (clipStateCallback in clipStateCallbacks) clipStateCallback(track, j, otherPlaying.state);
                     onSceneStateChanged(j);
                     break;
                 }
@@ -159,7 +164,7 @@ class ClipView implements grig.controller.ClipView
             track.clipLauncherSlotBank().addHasContentObserver(new IndexedBooleanChangedCallback((idx:Int, value:Bool) -> {
                 var clip = clips[i][idx];
                 clip.hasContent = value;
-                clipStateCallback(i, idx, clip.state);
+                for (clipStateCallback in clipStateCallbacks) clipStateCallback(i, idx, clip.state);
             }));
         }
     }
@@ -171,13 +176,13 @@ class ClipView implements grig.controller.ClipView
 
     public function setClipStateUpdateCallback(clipStateCallback:ClipStateUpdateCallback):Void
     {
-        this.clipStateCallback = clipStateCallback;
+        this.clipStateCallbacks.push(clipStateCallback);
         setupCallbacks();
     }
 
     public function setSceneUpdateCallback(sceneStateCallback:SceneStateUpdateCallback):Void
     {
-        this.sceneStateCallback = sceneStateCallback;
+        this.sceneStateCallbacks.push(sceneStateCallback);
         setupCallbacks();
     }
 }

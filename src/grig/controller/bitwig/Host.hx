@@ -62,4 +62,11 @@ class Host implements grig.controller.Host
         var clipView:grig.controller.ClipView = new ClipView(trackBank);
         return Success(clipView);
     }
+
+    public function createTrackView(width:Int):Promise<grig.controller.TrackView>
+    {
+        var trackBank = controllerHost.createTrackBank(width, 0, 0);
+        var trackView:grig.controller.TrackView = new TrackView(trackBank);
+        return Success(trackView);
+    }
 }

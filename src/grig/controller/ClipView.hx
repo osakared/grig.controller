@@ -3,6 +3,12 @@ package grig.controller;
 interface ClipView extends Movable
 {
     /**
+     * Gets associated TrackView
+     * @return TrackView
+     */
+    public function getTrackView():TrackView;
+
+    /**
      * Stops all playing clips
      */
     public function stopAllClips():Void;
@@ -41,4 +47,6 @@ interface ClipView extends Movable
      * @param callback 
      */
     public function setSceneUpdateCallback(callback:SceneStateUpdateCallback):Void;
+
+
 }
