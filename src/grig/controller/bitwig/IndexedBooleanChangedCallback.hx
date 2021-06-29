@@ -2,9 +2,9 @@ package grig.controller.bitwig;
 
 class IndexedBooleanChangedCallback implements com.bitwig.extension.callback.IndexedBooleanValueChangedCallback
 {
-    private var callback:IndexedBoolCallback;
+    private var callback:grig.controller.IndexedBoolCallback;
 
-    public function new(callback:IndexedBoolCallback)
+    public function new(callback:grig.controller.IndexedBoolCallback)
     {
         this.callback = callback;
     }
