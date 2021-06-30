@@ -7,9 +7,10 @@ class ClipView implements grig.controller.ClipView
     private var trackBank:com.bitwig.extension.controller.api.TrackBank;
     private var hasSetupCallbacks:Bool = false;
     private var clips = new Array<Array<Clip>>();
-    // Add dummy callbacks to avoid dumb null checks
     private var clipStateCallbacks = new Array<ClipStateUpdateCallback>();
     private var sceneStateCallbacks = new Array<SceneStateUpdateCallback>();
+    private var canMoveCallbacks = new Array<CanMoveChangedCallback>();
+    private var initializedCanMoveCallbacks = false;
 
     public function new(trackBank:com.bitwig.extension.controller.api.TrackBank)
     {
@@ -29,44 +30,42 @@ class ClipView implements grig.controller.ClipView
         return new TrackView(trackBank);
     }
 
-    public function moveLeft():Void
+    public function move(direction:Direction):Void
     {
-        trackBank.scrollBackwards();
+        switch direction {
+            case Up: trackBank.sceneBank().scrollBackwards();
+            case Down: trackBank.sceneBank().scrollForwards();
+            case Left: trackBank.scrollBackwards();
+            case Right: trackBank.scrollForwards();
+        }
     }
 
-    public function moveRight():Void
+    private function initializeCanMoveCallback():Void
     {
-        trackBank.scrollForwards();
+        if (initializedCanMoveCallbacks) return;
+        initializedCanMoveCallbacks = true;
+
+        trackBank.canScrollBackwards().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+            for (canMoveCallback in canMoveCallbacks) canMoveCallback(Left, value);
+        }));
+
+        trackBank.canScrollForwards().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+            for (canMoveCallback in canMoveCallbacks) canMoveCallback(Right, value);
+        }));
+
+        trackBank.sceneBank().canScrollBackwards().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+            for (canMoveCallback in canMoveCallbacks) canMoveCallback(Up, value);
+        }));
+
+        trackBank.sceneBank().canScrollForwards().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+            for (canMoveCallback in canMoveCallbacks) canMoveCallback(Down, value);
+        }));
     }
 
-    public function moveUp():Void
+    public function addCanMoveChangedCallback(callback:CanMoveChangedCallback):Void
     {
-        trackBank.sceneBank().scrollBackwards();
-    }
-
-    public function moveDown():Void
-    {
-        trackBank.sceneBank().scrollForwards();
-    }
-
-    public function onCanMoveLeftChanged(callback:BoolCallback):Void
-    {
-        trackBank.canScrollBackwards().addValueObserver(new BooleanChangedCallback(callback));
-    }
-
-    public function onCanMoveRightChanged(callback:BoolCallback):Void
-    {
-        trackBank.canScrollForwards().addValueObserver(new BooleanChangedCallback(callback));
-    }
-
-    public function onCanMoveUpChanged(callback:BoolCallback):Void
-    {
-        trackBank.sceneBank().canScrollBackwards().addValueObserver(new BooleanChangedCallback(callback));
-    }
-
-    public function onCanMoveDownChanged(callback:BoolCallback):Void
-    {
-        trackBank.sceneBank().canScrollForwards().addValueObserver(new BooleanChangedCallback(callback));
+        canMoveCallbacks.push(callback);
+        initializeCanMoveCallback();
     }
 
     public function stopAllClips():Void
@@ -174,15 +173,15 @@ class ClipView implements grig.controller.ClipView
         trackBank.sceneBank().launchScene(scene);
     }
 
-    public function setClipStateUpdateCallback(clipStateCallback:ClipStateUpdateCallback):Void
+    public function addClipStateUpdateCallback(clipStateCallback:ClipStateUpdateCallback):Void
     {
-        this.clipStateCallbacks.push(clipStateCallback);
+        clipStateCallbacks.push(clipStateCallback);
         setupCallbacks();
     }
 
-    public function setSceneUpdateCallback(sceneStateCallback:SceneStateUpdateCallback):Void
+    public function addSceneUpdateCallback(sceneStateCallback:SceneStateUpdateCallback):Void
     {
-        this.sceneStateCallbacks.push(sceneStateCallback);
+        sceneStateCallbacks.push(sceneStateCallback);
         setupCallbacks();
     }
 }

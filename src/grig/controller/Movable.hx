@@ -2,12 +2,6 @@ package grig.controller;
 
 interface Movable
 {
-    public function moveLeft():Void;
-    public function moveRight():Void;
-    public function moveUp():Void;
-    public function moveDown():Void;
-    public function onCanMoveLeftChanged(callback:BoolCallback):Void;
-    public function onCanMoveRightChanged(callback:BoolCallback):Void;
-    public function onCanMoveUpChanged(callback:BoolCallback):Void;
-    public function onCanMoveDownChanged(callback:BoolCallback):Void;
+    public function move(direction:Direction):Void;
+    public function addCanMoveChangedCallback(callback:CanMoveChangedCallback):Void;
 }

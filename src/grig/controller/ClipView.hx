@@ -40,13 +40,13 @@ interface ClipView extends Movable
      * Sets listener for updates to clip states
      * @param callback 
      */
-    public function setClipStateUpdateCallback(callback:ClipStateUpdateCallback):Void;
+    public function addClipStateUpdateCallback(callback:ClipStateUpdateCallback):Void;
     
     /**
      * Sets listener for updates to scene states
      * @param callback 
      */
-    public function setSceneUpdateCallback(callback:SceneStateUpdateCallback):Void;
+    public function addSceneUpdateCallback(callback:SceneStateUpdateCallback):Void;
 
 
 }
