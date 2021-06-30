@@ -30,12 +30,44 @@ interface ClipView extends Movable
      */
     public function getNumScenes():Int;
 
+    // It would be a nicer interface to be able to get clip objects and operate on them
+    // However, that would make implementing this in some DAWs complicated and perhaps also mean
+    // that api users are holding onto objects that are no longer valid.
+
     /**
      * Plays given clip
      * @param track 
      * @param scene 
      */
     public function playClip(track:Int, scene:Int):Void;
+
+    /**
+     * Stops given clip
+     * @param track 
+     * @param scene 
+     */
+    public function stopClip(track:Int, scene:Int):Void;
+
+    /**
+     * Selects given clip
+     * @param track 
+     * @param scene 
+     */
+    public function selectClip(track:Int, scene:Int):Void;
+
+    /**
+     * Records given clip
+     * @param track 
+     * @param scene 
+     */
+    public function recordClip(track:Int, scene:Int):Void;
+
+    /**
+     * Deletes given clip
+     * @param track 
+     * @param scene 
+     */
+    public function deleteClip(track:Int, scene:Int):Void;
 
     /**
      * Plays given scene

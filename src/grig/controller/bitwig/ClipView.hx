@@ -168,9 +168,37 @@ class ClipView implements grig.controller.ClipView
         }
     }
 
+    private function getClipLauncherSlot(track:Int, scene:Int):com.bitwig.extension.controller.api.ClipLauncherSlot
+    {
+        return trackBank.getItemAt(track).clipLauncherSlotBank().getItemAt(scene);
+    }
+
     public function playClip(track:Int, scene:Int):Void
     {
-        trackBank.getItemAt(track).clipLauncherSlotBank().getItemAt(scene).launch();
+        getClipLauncherSlot(track, scene).launch();
+    }
+
+    public function stopClip(track:Int, scene:Int):Void
+    {
+        var clip = getClipLauncherSlot(track, scene);
+        if (clip.isPlaying().get() || clip.isPlaybackQueued().get()) {
+            trackBank.getItemAt(track).stop();
+        }
+    }
+
+    public function selectClip(track:Int, scene:Int):Void
+    {
+        getClipLauncherSlot(track, scene).select();
+    }
+
+    public function recordClip(track:Int, scene:Int):Void
+    {
+        getClipLauncherSlot(track, scene).record();
+    }
+
+    public function deleteClip(track:Int, scene:Int):Void
+    {
+        getClipLauncherSlot(track, scene).deleteObject();
     }
 
     public function playScene(scene:Int):Void
