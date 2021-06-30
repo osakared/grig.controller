@@ -7,11 +7,16 @@ class TrackView implements grig.controller.TrackView
     private var selectTrackUpdateCallbacks = new Array<SelectTrackUpdateCallback>();
     private var isMutedCallbacks = new Array<IndexedBoolCallback>();
     private var isSoloedCallbacks = new Array<IndexedBoolCallback>();
+    private var isArmedCallbacks = new Array<IndexedBoolCallback>();
+    private var trackStateUpdateCallbacks = new Array<TrackStateUpdateCallback>();
+
     private var trackBank:TrackBank;
 
     private var initiatedSelectTrackUpdateCallback = false;
-    private var initiatedIsMutedCallbacks = false;
-    private var initiatedIsSoloedCallbacks = false;
+    private var initiatedIsMutedCallback = false;
+    private var initiatedIsSoloedCallback = false;
+    private var initiatedIsArmedCallback = false;
+    private var initiatedTrackStateUpdateCallback = false;
 
     public function new(trackBank:TrackBank)
     {
@@ -38,6 +43,16 @@ class TrackView implements grig.controller.TrackView
         trackBank.getItemAt(track).solo().toggle();
     }
 
+    public function armTrack(track:Int):Void
+    {
+        trackBank.getItemAt(track).arm().toggle();
+    }
+
+    public function stopTrack(track:Int):Void
+    {
+        trackBank.getItemAt(track).stop();
+    }
+
     private function initiateSelectTrackUpdateCallback():Void
     {
         if (initiatedSelectTrackUpdateCallback) return;
@@ -53,7 +68,7 @@ class TrackView implements grig.controller.TrackView
         }
     }
 
-    public function setSelectTrackUpdateCallback(selectTrackUpdateCallback:SelectTrackUpdateCallback):Void
+    public function addSelectTrackUpdateCallback(selectTrackUpdateCallback:SelectTrackUpdateCallback):Void
     {
         selectTrackUpdateCallbacks.push(selectTrackUpdateCallback);
         initiateSelectTrackUpdateCallback();
@@ -61,8 +76,8 @@ class TrackView implements grig.controller.TrackView
 
     private function initiateIsMutedCallback():Void
     {
-        if (initiatedIsMutedCallbacks) return;
-        initiatedIsMutedCallbacks = true;
+        if (initiatedIsMutedCallback) return;
+        initiatedIsMutedCallback = true;
 
         for (i in 0...getNumTracks()) {
             trackBank.getItemAt(i).mute().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
@@ -71,7 +86,7 @@ class TrackView implements grig.controller.TrackView
         }
     }
 
-    public function setIsMutedCallback(callback:IndexedBoolCallback):Void
+    public function addIsMutedCallback(callback:IndexedBoolCallback):Void
     {
         isMutedCallbacks.push(callback);
         initiateIsMutedCallback();
@@ -79,8 +94,8 @@ class TrackView implements grig.controller.TrackView
 
     private function initiateIsSoloedCallback():Void
     {
-        if (initiatedIsSoloedCallbacks) return;
-        initiatedIsSoloedCallbacks = true;
+        if (initiatedIsSoloedCallback) return;
+        initiatedIsSoloedCallback = true;
 
         for (i in 0...getNumTracks()) {
             trackBank.getItemAt(i).solo().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
@@ -89,9 +104,51 @@ class TrackView implements grig.controller.TrackView
         }
     }
 
-    public function setIsSoloedCallback(callback:IndexedBoolCallback):Void
+    public function addIsSoloedCallback(callback:IndexedBoolCallback):Void
     {
         isSoloedCallbacks.push(callback);
         initiateIsSoloedCallback();
+    }
+
+    private function initiateIsArmedCallback():Void
+    {
+        if (initiatedIsArmedCallback) return;
+        initiatedIsArmedCallback = true;
+
+        for (i in 0...getNumTracks()) {
+            trackBank.getItemAt(i).arm().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+                for (isArmedCallback in isArmedCallbacks) isArmedCallback(i, value);
+            }));
+        }
+    }
+
+    public function addIsArmedCallback(callback:IndexedBoolCallback):Void
+    {
+        isArmedCallbacks.push(callback);
+        initiateIsArmedCallback();
+    }
+
+    private function initiateTrackStateUpdateCallback():Void
+    {
+        if (initiatedTrackStateUpdateCallback) return;
+        initiatedTrackStateUpdateCallback = true;
+
+        for (i in 0...getNumTracks()) {
+            var track = trackBank.getItemAt(i);
+            track.isStopped().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+                var state = if (value) TrackState.Stopped else TrackState.Playing;
+                for (trackStateUpdateCallback in trackStateUpdateCallbacks) trackStateUpdateCallback(i, state);
+            }));
+            track.isQueuedForStop().addValueObserver(new BooleanChangedCallback((value:Bool) -> {
+                if (!value) return;
+                for (trackStateUpdateCallback in trackStateUpdateCallbacks) trackStateUpdateCallback(i, TrackState.StopQueued);
+            }));
+        }
+    }
+
+    public function addTrackStateUpdateCallback(callback:TrackStateUpdateCallback):Void
+    {
+        trackStateUpdateCallbacks.push(callback);
+        initiateTrackStateUpdateCallback();
     }
 }

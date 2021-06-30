@@ -15,32 +15,56 @@ interface TrackView
     public function selectTrack(track:Int):Void;
 
     /**
-     * Mutes given track
+     * Toggles mute state of given track
      * @param track 
      */
     public function muteTrack(track:Int):Void;
 
     /**
-     * Solos given track
+     * Toggles solo state of given track
      * @param track 
      */
     public function soloTrack(track:Int):Void;
 
     /**
+     * Stops given track
+     * @param track 
+     */
+    public function stopTrack(track:Int):Void;
+
+    /**
+     * Toggles arm state of current track
+     * @param track 
+     */
+    public function armTrack(track:Int):Void;
+
+    /**
      * Listen in on which track is selected, assuming mutual exclusivity
      * @param selectTrackUpdateCallback 
      */
-    public function setSelectTrackUpdateCallback(selectTrackUpdateCallback:SelectTrackUpdateCallback):Void;
+    public function addSelectTrackUpdateCallback(selectTrackUpdateCallback:SelectTrackUpdateCallback):Void;
 
     /**
      * Listens in on mute state of tracks in the view
      * @param callback 
      */
-    public function setIsMutedCallback(callback:IndexedBoolCallback):Void;
+    public function addIsMutedCallback(callback:IndexedBoolCallback):Void;
 
     /**
      * Listens in on the solo state of tracks in the view
      * @param callback 
      */
-    public function setIsSoloedCallback(callback:IndexedBoolCallback):Void;
+    public function addIsSoloedCallback(callback:IndexedBoolCallback):Void;
+
+    /**
+     * Listens in on the armed state of tracks in the view
+     * @param callback 
+     */
+    public function addIsArmedCallback(callback:IndexedBoolCallback):Void;
+
+    /**
+     * Listens in on the playback state of tracks in the view
+     * @param callback 
+     */
+    public function addTrackStateUpdateCallback(callback:TrackStateUpdateCallback):Void;
 }
