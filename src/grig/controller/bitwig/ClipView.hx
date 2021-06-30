@@ -168,6 +168,11 @@ class ClipView implements grig.controller.ClipView
         }
     }
 
+    public function playClip(track:Int, scene:Int):Void
+    {
+        trackBank.getItemAt(track).clipLauncherSlotBank().getItemAt(scene).launch();
+    }
+
     public function playScene(scene:Int):Void
     {
         trackBank.sceneBank().launchScene(scene);
