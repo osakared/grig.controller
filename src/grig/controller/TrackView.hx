@@ -3,6 +3,12 @@ package grig.controller;
 interface TrackView
 {
     /**
+     * Gets a send view, if available
+     * @return tink.core.Outcome<SendView, Error>
+     */
+    public function getSendView(track:Int):tink.core.Outcome<SendView, tink.core.Error>;
+
+    /**
      * Gets number of tracks in the view
      * @return Int
      */
@@ -31,6 +37,20 @@ interface TrackView
      * @param track 
      */
     public function stopTrack(track:Int):Void;
+
+    /**
+     * Sets volume on given track
+     * @param track 
+     * @param volume range 0.0 to 1.0
+     */
+    public function setVolume(track:Int, volume:Float):Void;
+
+    /**
+     * Sets panning on given track
+     * @param track 
+     * @param pan -1.0 for left 0.0 for center 1.0 for right
+     */
+    public function setPan(track:Int, pan:Float):Void;
 
     /**
      * Toggles arm state of current track

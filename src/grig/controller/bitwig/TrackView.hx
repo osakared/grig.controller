@@ -1,6 +1,9 @@
 package grig.controller.bitwig;
 
 import com.bitwig.extension.controller.api.TrackBank;
+import tink.core.Error;
+import tink.core.Promise;
+import tink.core.Outcome;
 
 class TrackView implements grig.controller.TrackView
 {
@@ -21,6 +24,12 @@ class TrackView implements grig.controller.TrackView
     public function new(trackBank:TrackBank)
     {
         this.trackBank = trackBank;
+    }
+
+    public function getSendView(track:Int):tink.core.Outcome<grig.controller.SendView, tink.core.Error>
+    {
+        var sendView:grig.controller.SendView = new SendView(trackBank.getItemAt(track).sendBank());
+        return Success(sendView);
     }
 
     public function getNumTracks():Int
@@ -51,6 +60,16 @@ class TrackView implements grig.controller.TrackView
     public function stopTrack(track:Int):Void
     {
         trackBank.getItemAt(track).stop();
+    }
+
+    public function setVolume(track:Int, volume:Float):Void
+    {
+        trackBank.getItemAt(track).volume().set(volume);
+    }
+
+    public function setPan(track:Int, pan:Float):Void
+    {
+        trackBank.getItemAt(track).pan().set(pan);
     }
 
     private function initiateSelectTrackUpdateCallback():Void

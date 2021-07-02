@@ -42,14 +42,14 @@ interface Host
      * @param height number of scenes
      * @return Promise<ClipView>
      */
-    public function createClipView(width:Int, height:Int):Promise<ClipView>;
+    public function createClipView(width:Int, height:Int, ?sends:Int):Promise<ClipView>;
 
     /**
      * Creates a track view
      * @param width number of tracks
      * @return Promise<TrackView>
      */
-    public function createTrackView(width:Int):Promise<TrackView>;
+    public function createTrackView(width:Int, ?height:Int, ?sends:Int):Promise<TrackView>;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;

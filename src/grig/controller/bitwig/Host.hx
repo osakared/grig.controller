@@ -56,16 +56,19 @@ class Host implements grig.controller.Host
         return midiOut;
     }
 
-    public function createClipView(width:Int, height:Int):Promise<grig.controller.ClipView>
+    public function createClipView(width:Int, height:Int, ?sends:Int):Promise<grig.controller.ClipView>
     {
-        var trackBank = controllerHost.createTrackBank(width, 0, height);
+        if (sends == null) sends = 0;
+        var trackBank = controllerHost.createTrackBank(width, sends, height);
         var clipView:grig.controller.ClipView = new ClipView(trackBank);
         return Success(clipView);
     }
 
-    public function createTrackView(width:Int):Promise<grig.controller.TrackView>
+    public function createTrackView(width:Int, ?height:Int, ?sends:Int):Promise<grig.controller.TrackView>
     {
-        var trackBank = controllerHost.createTrackBank(width, 0, 0);
+        if (height == null) height = 0;
+        if (sends == null) sends = 0;
+        var trackBank = controllerHost.createTrackBank(width, sends, height);
         var trackView:grig.controller.TrackView = new TrackView(trackBank);
         return Success(trackView);
     }
