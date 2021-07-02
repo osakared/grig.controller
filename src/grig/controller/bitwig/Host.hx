@@ -78,6 +78,9 @@ class Host implements grig.controller.Host
         var cursorTrack = controllerHost.createCursorTrack(0, 0);
         var cursorDevice = cursorTrack.createCursorDevice();
         var remoteControls = cursorDevice.createCursorRemoteControlsPage(width);
+        for (i in 0...width) {
+            remoteControls.getParameter(i).setIndication(true);
+        }
         var parameterView:grig.controller.ParameterView = new ParameterView(remoteControls);
         return Success(parameterView);
     }
