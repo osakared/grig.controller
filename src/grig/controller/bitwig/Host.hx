@@ -72,4 +72,13 @@ class Host implements grig.controller.Host
         var trackView:grig.controller.TrackView = new TrackView(trackBank);
         return Success(trackView);
     }
+
+    public function createParameterView(width:Int):Promise<grig.controller.ParameterView>
+    {
+        var cursorTrack = controllerHost.createCursorTrack(0, 0);
+        var cursorDevice = cursorTrack.createCursorDevice();
+        var remoteControls = cursorDevice.createCursorRemoteControlsPage(width);
+        var parameterView:grig.controller.ParameterView = new ParameterView(remoteControls);
+        return Success(parameterView);
+    }
 }

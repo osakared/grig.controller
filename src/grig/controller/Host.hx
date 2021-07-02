@@ -51,6 +51,13 @@ interface Host
      */
     public function createTrackView(width:Int, ?height:Int, ?sends:Int):Promise<TrackView>;
 
+    /**
+     * Creates a parameter view
+     * @param width number of parameters
+     * @return Promise<ParameterView>
+     */
+    public function createParameterView(width:Int):Promise<ParameterView>;
+
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;
     // // Also should return a promise
