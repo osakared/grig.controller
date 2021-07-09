@@ -23,18 +23,28 @@ interface Host
     public function getTransport():Promise<Transport>;
 
     /**
-     * Creates or gets a midi receiver
+     * Creates or gets a midi receiver to talk to the controller
      * @param port hardware midi port
      * @return Promise<grig.midi.MidiReceiver> failure if unavailable or can't open port
      */
     public function getMidiIn(port:Int):Promise<grig.midi.MidiReceiver>;
 
     /**
-     * Creates or gets a midi sender
+     * Creates or gets a midi sender to talk to the controller
      * @param port hardware midi port
      * @return Promise<grig.midi.MidiSender>
      */
-    public function getMidiOut(port:Int):grig.midi.MidiSender;
+    public function getMidiOut(port:Int):Promise<grig.midi.MidiSender>;
+
+    /**
+     * Creates a midi sender to send to the host
+     * @param name name to appear to user
+     * @param port hardware midi port
+     * @param channel restricts based on specified channel, if supplied
+     * @param type restricts based on specified type, if supplied
+     * @return Promise<grig.midi.MidiSender>
+     */
+    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<grig.midi.MidiSender>;
 
     /**
      * Creates a clip view

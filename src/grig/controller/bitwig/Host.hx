@@ -47,13 +47,42 @@ class Host implements grig.controller.Host
         return Success(cast midiIn);
     }
 
-    public function getMidiOut(port:Int):grig.midi.MidiSender
+    public function getMidiOut(port:Int):Promise<grig.midi.MidiSender>
     {
         if (midiOut == null) {
-            var bitwigMidiOut = controllerHost.getMidiOutPort(port);
-            midiOut = new MidiOut(bitwigMidiOut);
+            try {
+                var bitwigMidiOut = controllerHost.getMidiOutPort(port);
+                midiOut = new MidiOut(bitwigMidiOut);
+            } catch (e) {
+                return Failure(new Error(InternalError, e.message));
+            }
         }
-        return midiOut;
+        return Success(cast midiOut);
+    }
+
+    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<grig.midi.MidiSender>
+    {
+        var typeString = if (type != null) {
+            if (type & 0xf != 0) {
+                // Probably not supported in Bitwig anyway
+                return Failure(new Error(InternalError, 'Unsupported type: $type'));
+            }
+            StringTools.hex(type, 2).substr(0, 1);
+        } else '?';
+        var channelString = if (channel != null) {
+            if (channel < 0 || channel > 15) {
+                return Failure(new Error(InternalError, 'Unsupported channel: $channel'));
+            }
+            StringTools.hex(channel);
+        } else '?';
+        var matchString = typeString + channelString + '????';
+        try {
+            var noteOutput = controllerHost.getMidiInPort(port).createNoteInput(name, java.NativeArray.make(matchString));
+            var hostMidiOut:grig.midi.MidiSender = new HostMidiOut(noteOutput);
+            return Success(hostMidiOut);
+        } catch (e) {
+            return Failure(new Error(InternalError, e.message));
+        }
     }
 
     public function createClipView(width:Int, height:Int, ?sends:Int):Promise<grig.controller.ClipView>
