@@ -17,10 +17,10 @@ lix run dox -i bin/ -o dist/
 
 * Standalone/test
 * Bitwig (in progress)
-* Ableton Live (planned)
 * FL Studio (planned)
 * Reaper (planned)
 * Renoise (planned)
+* Ableton Live (planned, but technically unlikely to work)
 
 ### Metadata
 
