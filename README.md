@@ -13,6 +13,12 @@ haxe doc.hxml
 lix run dox -i bin/ -o dist/
 ```
 
+### Features
+
+| Daw           | Midi IO | OSC IO | Clip Launcher | Tracker |
+| ------------- | ------- | ------ | ------------- | ------- |
+| Bitwig        | X       |        | X             |         |
+
 ### Planned support
 
 * Standalone/test
@@ -24,7 +30,7 @@ lix run dox -i bin/ -o dist/
 
 ### Metadata
 
-These metadata are supported (and, depending on the target, required) on controllers:
+These metadata are supported (and, depending on the target, required) on controllers which implement `grig.controller.Controller`:
 
 `@name`
 
