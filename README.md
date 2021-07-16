@@ -21,7 +21,7 @@ lix run dox -i bin/ -o dist/
 
 ### Planned support
 
-* Standalone/test
+* Dummy/test
 * Bitwig (in progress)
 * FL Studio (planned)
 * Reaper (planned)

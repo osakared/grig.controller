@@ -78,6 +78,7 @@ class Host implements grig.controller.Host
         var matchString = typeString + channelString + '????';
         try {
             var noteOutput = controllerHost.getMidiInPort(port).createNoteInput(name, java.NativeArray.make(matchString));
+            noteOutput.setShouldConsumeEvents(false);
             var hostMidiOut:grig.midi.MidiSender = new HostMidiOut(noteOutput);
             return Success(hostMidiOut);
         } catch (e) {
