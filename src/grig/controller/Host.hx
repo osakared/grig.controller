@@ -67,6 +67,13 @@ interface Host
      * @return Promise<ParameterView>
      */
     public function createParameterView(width:Int):Promise<ParameterView>;
+    
+    /**
+     * Gets application-wide settings. Hosts without settings capability will allow this and simply return default values every time and silently fail to 
+     * save settings.
+     * @return Settings
+     */
+    public function createControllerSettings():Settings;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;

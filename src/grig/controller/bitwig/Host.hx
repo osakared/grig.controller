@@ -114,4 +114,10 @@ class Host implements grig.controller.Host
         var parameterView:grig.controller.ParameterView = new ParameterView(remoteControls);
         return Success(parameterView);
     }
+
+    public function createControllerSettings():grig.controller.Settings
+    {
+        var settings:grig.controller.Settings = new Settings(controllerHost.getPreferences());
+        return settings;
+    }
 }
