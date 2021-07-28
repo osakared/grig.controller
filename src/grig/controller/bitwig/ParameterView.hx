@@ -20,15 +20,14 @@ class ParameterView implements grig.controller.ParameterView
     public function move(direction:LateralDirection):Void
     {
         switch direction {
-            case Left: remoteControls.selectNext();
-            case Right: remoteControls.selectPrevious();
+            case Left: remoteControls.selectPrevious();
+            case Right: remoteControls.selectNext();
         }
     }
 
     public function cycle():Void
     {
-        if (remoteControls.hasNext().get()) remoteControls.selectNext();
-        else remoteControls.selectedPageIndex().set(0);
+        remoteControls.selectNextPage(true);
     }
 
     public function addCanMoveChangedCallback(callback:LateralCanMoveChangedCallback):Void

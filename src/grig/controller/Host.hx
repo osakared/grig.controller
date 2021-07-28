@@ -62,11 +62,10 @@ interface Host
     public function createTrackView(width:Int, ?height:Int, ?sends:Int):Promise<TrackView>;
 
     /**
-     * Creates a parameter view
-     * @param width number of parameters
-     * @return Promise<ParameterView>
+     * Creates a device view
+     * @return Promise<DeviceView>
      */
-    public function createParameterView(width:Int):Promise<ParameterView>;
+    public function createDeviceView():Promise<DeviceView>;
     
     /**
      * Gets application-wide settings. Hosts without settings capability will allow this and simply return default values every time and silently fail to 
