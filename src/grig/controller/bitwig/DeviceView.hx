@@ -6,11 +6,14 @@ import tink.core.Outcome;
 class DeviceView implements grig.controller.DeviceView
 {
     private var device:CursorDevice;
+    private var callbacks = new Array<LateralCanMoveChangedCallback>();
+    private var initializedCallbacks = false;
 
     public function new(device:CursorDevice)
     {
         this.device = device;
         device.hasNext().markInterested();
+        device.hasPrevious().markInterested();
     }
 
     public function move(direction:LateralDirection):Void
@@ -27,9 +30,26 @@ class DeviceView implements grig.controller.DeviceView
         else device.selectFirst();
     }
 
+    private function initializeCallbacks():Void
+    {
+        if (initializedCallbacks) return;
+        initializedCallbacks = true;
+        device.hasNext().addValueObserver(new BooleanChangedCallback((canMove:Bool) -> {
+            for (callback in callbacks) {
+                callback(Right, canMove);
+            }
+        }));
+        device.hasPrevious().addValueObserver(new BooleanChangedCallback((canMove:Bool) -> {
+            for (callback in callbacks) {
+                callback(Left, canMove);
+            }
+        }));
+    }
+
     public function addCanMoveChangedCallback(callback:LateralCanMoveChangedCallback):Void
     {
-
+        callbacks.push(callback);
+        initializeCallbacks();
     }
 
     public function createParameterView(width:Int):Outcome<grig.controller.ParameterView, tink.core.Error>
