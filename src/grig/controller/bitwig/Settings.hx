@@ -21,25 +21,25 @@ class Settings implements grig.controller.Settings
         this.preferences = preferences;
     }
 
-    public function createBoolSetting(name:String, category:String, defaultValue:Bool):grig.controller.BoolSetting
+    public function createBoolSetting(name:String, category:String, defaultValue:Bool):grig.controller.Setting<Bool>
     {
         var bitwigBoolSetting = preferences.getBooleanSetting(name, category, defaultValue);
-        var boolSetting:grig.controller.BoolSetting = new BoolSetting(bitwigBoolSetting);
+        var boolSetting:grig.controller.Setting<Bool> = new BoolSetting(bitwigBoolSetting);
         return boolSetting;
     }
 
-    public function createStringSetting(name:String, category:String, defaultValue:String):grig.controller.StringSetting
+    public function createStringSetting(name:String, category:String, defaultValue:String):grig.controller.Setting<String>
     {
         var bitwigStringSetting = preferences.getStringSetting(name, category, MAX_CHARS, defaultValue);
-        var stringSetting:grig.controller.StringSetting = new StringSetting(bitwigStringSetting);
+        var stringSetting:grig.controller.Setting<String> = new StringSetting(bitwigStringSetting);
         return stringSetting;
     }
 
-    public function createEnumSetting<T>(name:String, category:String, type:Enum<T>, defaultValue:T):grig.controller.EnumSetting<T>
+    public function createEnumSetting<T>(name:String, category:String, type:Enum<T>, defaultValue:T):grig.controller.Setting<T>
     {
         var optionStrings = [for (e in type.createAll()) Std.string(e)];
         var bitwigEnumSetting = preferences.getEnumSetting(name, category, Lib.nativeArray(optionStrings, true), Std.string(defaultValue));
-        var enumSetting:grig.controller.EnumSetting<T> = new EnumSetting<T>(bitwigEnumSetting, type);
+        var enumSetting:grig.controller.Setting<T> = new EnumSetting<T>(bitwigEnumSetting, type);
         return enumSetting;
     }
 }

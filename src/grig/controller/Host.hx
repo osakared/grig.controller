@@ -68,11 +68,10 @@ interface Host
     public function createDeviceView():Promise<DeviceView>;
     
     /**
-     * Gets application-wide settings. Hosts without settings capability will allow this and simply return default values every time and silently fail to 
-     * save settings.
-     * @return Settings
+     * Gets application-wide settings.
+     * @return Promise<Settings>
      */
-    public function createControllerSettings():Settings;
+    public function createControllerSettings():Promise<Settings>;
 
     // // Make these all return promises
     // public function createOscServer(port:Int):grig.osc.Server;

@@ -1,7 +1,8 @@
 package grig.controller;
 
-interface EnumSetting<T>
+interface Setting<T>
 {
     public function get():T;
     public function set(value:T):Void;
+    public function addValueCallback(callback:(value:T)->Void):Void;
 }

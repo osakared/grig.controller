@@ -111,9 +111,9 @@ class Host implements grig.controller.Host
         return Success(deviceView);
     }
 
-    public function createControllerSettings():grig.controller.Settings
+    public function createControllerSettings():Promise<grig.controller.Settings>
     {
         var settings:grig.controller.Settings = new Settings(controllerHost.getPreferences());
-        return settings;
+        return Success(settings);
     }
 }
