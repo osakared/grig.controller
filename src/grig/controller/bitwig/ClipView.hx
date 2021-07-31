@@ -1,7 +1,5 @@
 package grig.controller.bitwig;
 
-import grig.controller.BoolCallback;
-
 class ClipView implements grig.controller.ClipView
 {
     private var trackBank:com.bitwig.extension.controller.api.TrackBank;

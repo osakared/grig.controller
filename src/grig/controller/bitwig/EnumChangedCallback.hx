@@ -1,12 +1,12 @@
 package grig.controller.bitwig;
 
-import grig.controller.StringCallback;
+import grig.controller.ValueCallback;
 
 class EnumChangedCallback<T> implements com.bitwig.extension.callback.EnumValueChangedCallback
 {
-    private var callback:StringCallback;
+    private var callback:ValueCallback<String>;
 
-    public function new(callback:StringCallback)
+    public function new(callback:ValueCallback<String>)
     {
         this.callback = callback;
     }

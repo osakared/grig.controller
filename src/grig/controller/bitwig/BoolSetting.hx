@@ -1,13 +1,13 @@
 package grig.controller.bitwig;
 
 import com.bitwig.extension.controller.api.SettableBooleanValue;
-import grig.controller.BoolCallback;
+import grig.controller.ValueCallback;
 
 class BoolSetting implements grig.controller.Setting<Bool>
 {
     private var value:SettableBooleanValue;
     private var initializedCallbacks = false;
-    private var callbacks = new Array<BoolCallback>();
+    private var callbacks = new Array<ValueCallback<Bool>>();
 
     public function new(value:SettableBooleanValue)
     {
@@ -35,7 +35,7 @@ class BoolSetting implements grig.controller.Setting<Bool>
         }));
     }
 
-    public function addValueCallback(callback:BoolCallback):Void
+    public function addValueCallback(callback:ValueCallback<Bool>):Void
     {
         callbacks.push(callback);
         initializeCallbacks();
