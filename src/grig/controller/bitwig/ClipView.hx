@@ -179,9 +179,7 @@ class ClipView implements grig.controller.ClipView
     public function stopClip(track:Int, scene:Int):Void
     {
         var clip = getClipLauncherSlot(track, scene);
-        if (clip.isPlaying().get() || clip.isPlaybackQueued().get()) {
-            trackBank.getItemAt(track).stop();
-        }
+        trackBank.getItemAt(track).stop();
     }
 
     public function selectClip(track:Int, scene:Int):Void

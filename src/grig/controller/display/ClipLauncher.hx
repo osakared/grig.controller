@@ -2,10 +2,19 @@ package grig.controller.display;
 
 import grig.controller.ClipView;
 
+enum ShiftLauncherConfig
+{
+    Record;
+    Delete;
+    Stop;
+    Select;
+}
+
 class ClipLauncher implements GridWidget
 {
     public var midiDisplay(default, null):MidiDisplay;
     private var clipView:ClipView;
+    private var shiftLauncherConfig:ShiftLauncherConfig = Record;
 
     public function new(midiDisplay:MidiDisplay, displayTable:MidiDisplayTable, clipView:ClipView)
     {
@@ -26,6 +35,11 @@ class ClipLauncher implements GridWidget
         });
     }
 
+    public function setShiftLauncherConfig(shiftLauncherConfig:ShiftLauncherConfig)
+    {
+        this.shiftLauncherConfig = shiftLauncherConfig;
+    }
+
     public function getTitle():String
     {
         return 'Clip Launcher';
@@ -33,7 +47,14 @@ class ClipLauncher implements GridWidget
 
     public function pressButton(row:Int, column:Int, fnBtn:Bool):Void
     {
-        if (fnBtn) clipView.recordClip(column, row); // let's make this configurable!
+        if (fnBtn) {
+            switch shiftLauncherConfig {
+                case Record: clipView.recordClip(column, row);
+                case Delete: clipView.deleteClip(column, row);
+                case Stop: clipView.stopClip(column, row);
+                case Select: clipView.selectClip(column, row);
+            }
+        }
         else clipView.playClip(column, row);
     }
 
