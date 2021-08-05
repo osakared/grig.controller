@@ -60,7 +60,7 @@ class Host implements grig.controller.Host
         return Success(cast midiOut);
     }
 
-    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<grig.midi.MidiSender>
+    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<grig.controller.HostMidiOut>
     {
         var typeString = if (type != null) {
             if (type & 0xf != 0) {
@@ -79,7 +79,7 @@ class Host implements grig.controller.Host
         try {
             var noteOutput = controllerHost.getMidiInPort(port).createNoteInput(name, java.NativeArray.make(matchString));
             noteOutput.setShouldConsumeEvents(false);
-            var hostMidiOut:grig.midi.MidiSender = new HostMidiOut(noteOutput);
+            var hostMidiOut:grig.controller.HostMidiOut = new HostMidiOut(noteOutput);
             return Success(hostMidiOut);
         } catch (e) {
             return Failure(new Error(InternalError, e.message));

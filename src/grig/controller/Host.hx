@@ -44,7 +44,7 @@ interface Host
      * @param type restricts based on specified type, if supplied
      * @return Promise<grig.midi.MidiSender>
      */
-    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<grig.midi.MidiSender>;
+    public function getHostMidiOut(name:String, port:Int, ?channel:Int, ?type:grig.midi.MessageType):Promise<HostMidiOut>;
 
     /**
      * Creates a clip view
