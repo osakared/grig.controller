@@ -67,6 +67,11 @@ class TrackView implements grig.controller.TrackView
         trackBank.getItemAt(track).volume().set(volume);
     }
 
+    public function incrementVolume(track:Int, increment:Float):Void
+    {
+        trackBank.getItemAt(track).volume().inc(increment);
+    }
+
     public function setPan(track:Int, pan:Float):Void
     {
         trackBank.getItemAt(track).pan().set(pan);

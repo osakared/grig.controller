@@ -46,6 +46,13 @@ interface TrackView
     public function setVolume(track:Int, volume:Float):Void;
 
     /**
+     * Increments volume on given track
+     * @param track 
+     * @param volume range 0.0 to 1.0
+     */
+     public function incrementVolume(track:Int, increment:Float):Void;
+
+    /**
      * Sets panning on given track
      * @param track 
      * @param pan -1.0 for left 0.0 for center 1.0 for right
