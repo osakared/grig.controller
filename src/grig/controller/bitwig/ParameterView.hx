@@ -20,6 +20,11 @@ class ParameterView implements grig.controller.ParameterView
         remoteControls.getParameter(idx).set(value);
     }
 
+    public function incrementValue(idx:Int, increment:Float):Void
+    {
+        remoteControls.getParameter(idx).inc(increment);
+    }
+
     public function move(direction:LateralDirection):Void
     {
         switch direction {

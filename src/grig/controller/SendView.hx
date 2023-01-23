@@ -8,4 +8,11 @@ interface SendView extends LaterallyMovable
      * @param level between 0.0 and 1.0
      */
     public function setLevel(send:Int, level:Float):Void;
+
+    /**
+     * Increments level of send
+     * @param send 
+     * @param increment amount to add to send level
+     */
+    public function incrementLevel(send:Int, increment:Float):Void;
 }

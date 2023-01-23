@@ -35,4 +35,9 @@ class SendView implements grig.controller.SendView
     {
         sendBank.getItemAt(send).set(level);
     }
+
+    public function incrementLevel(send:Int, increment:Float):Void
+    {
+        sendBank.getItemAt(send).inc(increment);
+    }
 }

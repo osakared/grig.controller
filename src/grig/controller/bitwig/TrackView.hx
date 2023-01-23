@@ -77,6 +77,11 @@ class TrackView implements grig.controller.TrackView
         trackBank.getItemAt(track).pan().set(pan);
     }
 
+    public function incrementPan(track:Int, increment:Float):Void
+    {
+        trackBank.getItemAt(track).pan().inc(increment);
+    }
+
     private function initiateSelectTrackUpdateCallback():Void
     {
         if (initiatedSelectTrackUpdateCallback) return;
